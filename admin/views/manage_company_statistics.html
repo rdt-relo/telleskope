@@ -1,0 +1,672 @@
+   <style>
+        #myProgress {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+        }
+
+        .myBar {
+            height: 20px;
+            background-color: #418BBB;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            border-radius: 10px;
+        }
+        .download-stats {
+            position: absolute;
+            right: 0;
+            margin-right: 5px;
+        }
+        .dropdown-menu.dropdown-menu-right.show{
+            left: -155px !important;
+        }
+
+        .dropdown-toggle.fa.fa-ellipsis-v.fa-sm.no-after{
+          position: absolute;
+          right: 0px;
+          top: 4px;
+        }
+ 
+ 
+        .font-s {
+            font-size: x-large;
+            padding: 0 0 0 25px;
+        }
+
+        .cl {
+            float: right;
+            margin-top: 14px;
+        }
+
+        #slt {
+            display: none;
+            padding: 25px;
+        }
+
+        #slt-1 {
+            display: none;
+            padding: 25px;
+        }
+
+        #slt-2 {
+            display: none;
+            padding: 25px;
+        }
+
+        #slt-3 {
+            display: none;
+            padding: 25px;
+        }
+        .download-stats {
+            z-index: 9999;
+        }
+        .info-card {
+            -webkit-perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .front, .back {
+            background: #FFF;
+            transition: -webkit-transform 0.1s;
+            -webkit-backface-visibility: hidden;
+            border: .02em solid #ddd;
+            border-radius: 5px;
+        }
+
+        .front {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* .back {
+            -webkit-transform: rotateY(-180deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .info-card:hover .back {
+            -webkit-transform: rotateY(0);
+        }
+
+        .info-card:hover .front {
+            -webkit-transform: rotateY(180deg);
+        }  */
+
+        .info-card.toggleFlip .front {
+            /* -webkit-transform: rotateY(180deg); */
+            -webkit-transform: rotatex(180deg);
+            width: 100%;
+            height: 100%;
+        }
+        .dropdown-toggle.no-after:after {
+            display: none !important;
+        }
+        .top-div{
+            height: 70% !important;
+        }
+        .post{
+            height: 30% !important;
+        }
+        .all-text-color{
+            padding-top: 2% !important;
+        }
+        .counter{
+            padding-top: 10% !important;
+        }
+       
+        @media screen and (min-width: 1440px) {
+            .all-text-color{
+                padding-top: 5% !important;
+            }
+        }
+    </style>
+    <div class="tl-container-offset-lr col-md-offset-2 margin-top">
+    <div class="row mt-2">
+        <?php if ((time() - @$_SESSION['updated']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">               
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+                <?= UPDATED; ?>
+            </div>
+        <?php } elseif ((time() - @$_SESSION['added']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button> 
+                <?= ADDED; ?>
+            </div>
+        <?php } ?>
+    </div>
+
+    <?php if ($_USER->isCompanyAdmin()) { ?>
+    <div class="row">
+        <div class="col-lg-12 mt-1">
+            <h1 class="impact"><span><strong>Company Statistics <small>(as of <?= $companyStatsAsOf; ?>)</small></strong></span></h1>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Zones"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($number_of_zones); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3  aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($number_of_zones); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Zones</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="totalZones" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('totalZones','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_number_of_zones)?>','Company Zones');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Regions"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($totalRegions); ?>">
+                                <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($totalRegions); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Regions</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="totalRegions" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('totalRegions','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_totalRegions)?>','Company Regions');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Office Locations"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($totalBranches); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($totalBranches); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Office Locations</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="totalBranches" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('totalBranches','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_totalBranches)?>','Company Office Locations');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if (0) { // Hiding this to get two complete rows ?>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Departments"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($totalDepartments); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($totalDepartments); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Departments</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="totalDepartments" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('totalDepartments','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_totalDepartments)?>','Company Departments');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } // Hiding this to get two complete rows ?>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Global Admins"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($admin_global_level); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($admin_global_level); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Global Admins</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="admin_global_level" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('admin_global_level','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_admin_global_level)?>','Company Global Admins');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Zone Admins"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($admin_zone_level); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($admin_zone_level); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Zone Admins</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="admin_zone_level" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('admin_zone_level','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_admin_zone_level)?>','Company Zone Admins');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Users"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($user_total); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($user_total); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color">Total Users</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="user_total" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('user_total','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_user_total)?>','Company Users');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if (0) { /* commented out on 12/09/2024 */ ?>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Unique Members"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($user_member_unique); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($user_member_unique); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color"><?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Unique Members</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="user_member_unique" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('user_member_unique','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_user_member_unique)?>','<?= $_COMPANY->getAppCustomization()["group"]["name-short"]; ?>s Unique Members');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+
+                <?php if (0) { /* commented out on 12/09/2024 */ ?>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget-simple-chart text-right card-box-one g-quotes">
+                        <div class="info-card" tabindex="0">
+                            <div class="front">
+                                <span aria-label="<?= sprintf(gettext("Total %s Members"), $_COMPANY->getAppCustomization()['group']["name-short"]); ?>  <?= $_USER->formatNumberForDisplay($user_member_total); ?>">
+                                    <!-- no content shown, but is a heading for screen reader Jaws Tool -->
+                                    </span>
+                                <div class="top-div">
+                                    <h3 aria-hidden="true" class="text-success counter"><?= $_USER->formatNumberForDisplay($user_member_total); ?></h3>
+                                </div>
+                                <div class="col-md-12 text-name post">
+                                    <h5 aria-hidden="true" class="all-text-color"><?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Total Members</h5>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <canvas id="user_member_total" width="260px" height="164"></canvas>
+                                <script>
+                                    createChart('user_member_total','<?= json_encode($companyTimeLabel)?>','<?= json_encode($c_user_member_total)?>','Company <?= $_COMPANY->getAppCustomization()["group"]["name-short"]; ?> Members');
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+
+    <?php if (0) { ?>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="widget-simple-chart card-box-one fixhight">
+                    <div class="col-md-12">
+                        <button class="additional-button" onclick="window.open('membership_reporting','_self',false)" id="">
+                            Additional Reporting
+                        </button>
+                        <h4 class="both-Group">Monthly Usage Graph</h4>
+
+                    </div>
+                    <div class="col-md-12">
+                        <!--div id="chartContainer" style="height: 300px; width: 100%;"></div-->
+                        <?php if (count($usage) > 0) { ?>
+                            <!-- <div id="container" style="width:100%; height: 300px; margin: 0 auto"></div> -->
+                            <canvas id="containerChartjs" style="width:100%; height: 300px; margin: 0 auto"></canvas>
+
+                        <?php } else { ?>
+                            <div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; ">No data</div>
+                        <?php } ?>
+                        <!-- <div id="containerChartjs" style="width:100%; height: 300px; margin: 0 auto"></div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <!-- Time Zone Setting -->
+    <?php
+    if (empty($_SESSION['timezone'])) {
+        if (empty($_USER->val('timezone'))) {
+            ?>
+
+            <div id="updateTZ" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Timezone</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>We could not detect your timezone. Please select a timezone that you would like
+                                        to be used as your default timezone. If you need to change your default timezone
+                                        in future you can update it from your profile settings.</p>
+                                    <p>&nbsp;</p>
+                                    <div class="form-group">
+                                        <label class="control-lable col-sm-4">Timezone</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" name="timezone" id="selected_timezone">
+                                                <?php echo getTimeZonesAsHtmlSelectOptions(''); ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-md-6 col-md-offset-2">
+                                <button type="button" onclick="updateTimeZone();" class="btn btn-primary">Update
+                                    Timezone
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                $(window).on('load', function () {
+                    $('#updateTZ').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                });
+            </script>
+        <?php
+        } else {
+        ?>
+            <div id="differentTZ" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New timezone found</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>We have detected that you are in a new timezone <strong><?= $_SESSION['tz_b']; ?></strong>
+                                        and your profile timezone is set to <strong><?= $_USER->val('timezone'); ?></strong>. Choose one
+                                        of the following options to continue. </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden">
+                            <select class="form-control" name="timezone" id="selected_timezone">
+                                <option value="<?= $_SESSION['tz_b']; ?>" selected></option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" onclick="useBrowserTimezone('<?= $_SESSION['tz_b']; ?>');"
+                                    class="btn btn-primary">Use my browsers timezone for this session
+                            </button>
+                            </br></br>
+                            <button type="button" onclick="updateTimeZone();" class="btn btn-primary">Update my profile
+                                with the new timezone
+                            </button>
+                            </br></br>
+                            <button type="button" class="btn btn-primary"
+                                    onclick="useProfileTimezone('<?= $_USER->val('timezone') ?>');">Use the timezone set in
+                                my profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(window).on('load', function () {
+                    $('#differentTZ').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                });
+            </script>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- Monthly Visitors Graph -->
+    <script>
+        var data = {
+            labels: [
+                <?php    if (count($usage) > 0) {
+                for ($m = 0; $m < count($usage); $m++) {
+                    echo "'" . date("M-Y", strtotime($usage[$m]['date'])) . "',";
+                }
+            }
+                ?>
+            ],
+            datasets: [
+                {
+                    label: "Monthly Interactions (Web & Email)",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "#317eac",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 4,
+                    data: [
+
+                        <?php    if (count($usage) > 0) {
+                        for ($d = 0; $d < count($usage); $d++) {
+                            echo (int)$usage[$d]['total'] . ",";
+                        }
+                    } else {
+                        echo "";
+                    } ?>
+
+
+                    ],
+                    spanGaps: false,
+                }
+            ]
+        };
+
+        new Chart("containerChartjs", {
+            type: 'line',
+            data: data,
+            options: {}
+        });
+    </script>
+
+    <?php if (0) { /* Commented out on 11/01/2020 */ ?>
+
+        <script>
+            var data = {
+                labels: [
+                    <?php    for($gc = 0;$gc < count($groups);$gc++){ ?>
+                    "<?= htmlspecialchars_decode($groups[$gc]['groupname']); ?>",
+                    <?php    } ?>
+                ],
+                datasets: [
+                    {
+                        backgroundColor: [
+                            <?php    for($gc = 0;$gc < count($groups);$gc++){ ?>
+                            '<?= $groups[$gc]['overlaycolor'];?>',
+                            <?php    } ?>
+                        ],
+                        data: [
+                            <?php    for($a = 0;$a < count($groups);$a++){ ?>
+                            <?= $groups[$a]['members']; ?>,
+                            <?php    }    ?>
+
+                        ],
+                        spanGaps: false,
+                    }
+                ]
+            };
+
+            var options = {
+                tooltips: {
+                    enabled: true
+                },
+                plugins: {
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let datasets = ctx.chart.data.datasets;
+
+                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = Math.round((value / sum) * 100) + '%';
+                                return percentage;
+                            } else {
+                                return percentage;
+                            }
+                        },
+                        color: '#fff',
+                    }
+                },
+
+            };
+
+            var ctx = document.getElementById("piechartJs").getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#togg").click(function () {
+                    $("#slt").toggle();
+                });
+            });
+            $(document).ready(function () {
+                $("#togg-1").click(function () {
+                    $("#slt-1").toggle();
+                });
+            });
+            $(document).ready(function () {
+                $("#togg-2").click(function () {
+                    $("#slt-2").toggle();
+                });
+            });
+            $(document).ready(function () {
+                $("#togg-3").click(function () {
+                    $("#slt-3").toggle();
+                });
+            });
+        </script>
+        <script type="text/javascript"
+                src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bxslider-4-4.2.12/jquery.bxslider.min.js"></script>
+        <script>
+            $('.bxslider').bxSlider({
+                pause: 10000,
+                auto: true,
+            });
+        </script>
+    <?php } ?>
+
+    <script>
+    $('.info-card').on('click', function (event) {
+        if ($(event.target).closest('.dropdown').length > 0) {
+            return; // Stop the event if the clicked element or its ancestor has the class "dropdown"
+        }
+        $(this).toggleClass('toggleFlip');
+    });
+    </script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    $(function(){
+        $(".info-card").keypress(function (e) {
+            if (e.keyCode == 13) {        
+                $(this).toggleClass("toggleFlip");
+            }
+        });
+    });
+</script>
+</div>
+</div>

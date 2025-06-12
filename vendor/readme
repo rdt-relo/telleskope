@@ -1,0 +1,6 @@
+This directory holds all 3rd party code with the following directory structure.
+- src: contains all 3rd party php code
+- js: contains all 3rd party javascript referenced directly by our code
+- css: contains all 3rd party css files referenced directly by our code
+- fonts: contains all 3rd party fonts referenced directly by our code
+All code in this directory is strictly drop in and no changes should be made to the original source

@@ -1,0 +1,790 @@
+<style>
+
+/* Style the element that is used to open and close the accordion class */
+p.accordion {
+ /*background-color: #eee;*/
+ color: #444;
+ cursor: pointer;
+ padding: 18px;
+ width: 100%;
+ text-align: left;
+ border: none;
+ outline: none;
+ transition: 0.4s;
+ margin-bottom:0px;
+ border-radius:2px;
+ border-bottom: 1px solid #ececec;
+ font-size:16px;
+}
+/* Add a background color to the accordion if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+p.accordion.active, p.accordion:hover {
+ background-color: #ddd;
+}
+/* Unicode character for "plus" sign (+) */
+p.accordion:after {
+ content: "\25BC";
+ font-size: 13px;
+ color: #418bbb;
+ float: right;
+ margin-left: 5px;
+}
+/* Unicode character for "minus" sign (-) */
+p.accordion.active:after {
+ content: "\25B2";
+}
+/* Style the element that is used for the panel class */
+div.panel {
+ padding: 0 18px;
+ background-color: white;
+ max-height: 0;
+ transition: 0.4s ease-in-out;
+ opacity: 0;
+ margin-bottom:0px;
+ display:none;
+}
+
+div.panel.show {
+ opacity: 1;
+ max-height: 100%;
+}
+
+.next{
+   display:none;
+}
+
+tr.trc:hover td.tdc .next{
+   display:block;
+}
+tr.trc:hover td.tdc p{
+    display:none;
+}
+
+.dyn-height {
+    max-width:100%;
+    max-height:300px;
+    overflow-y:auto;
+}
+
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+	border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #555555;
+    cursor: default;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #418bbb;
+    cursor: default;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    padding-top: 15px;margin-left: -1px;border-radius: 0px;
+}
+.nav-tabs > li > a{
+	color:#333;
+   
+    width: 200px;
+    height: 50px;
+	text-align: center;padding-top: 15px;
+}
+
+.nav-tabs > li > a:hover {
+   
+    width: 200px;
+    height: 50px;padding-top: 15px;
+}
+.tab-content{
+	margin-top:0px;
+}
+
+div#home { margin-top: 0px; opacity: 1;}
+#menu1 {
+    margin-top: 17px;
+}
+
+#menu2 {
+    margin-top: 17px;
+}
+.bg-all {
+    background-color: #fff;
+	border: 1px solid rgba(54, 64, 74, 0.08);
+    border-radius: 1px;
+    box-shadow: 0 4px 4px 0 #ccc;
+}
+
+.widget-simple-chart.card-box-one.top-no-border {
+    border-top: none;
+    border-radius: 0 5px 5px 5px;
+    padding: 10px 20px 10px 25px;
+}
+
+.btn-group {  
+    white-space: nowrap; 
+}
+.btn-group .btn {  
+    float: none;
+    display: inline-block;
+}
+.btn + .dropdown-toggle { 
+    margin-left: -4px;
+}
+.table-responsive {
+	overflow-x: initial;
+	display: block;
+	/* white-space: nowrap; */
+}
+
+#expenses_table_paginate{
+	padding:13px 0;
+}
+
+.drop-down-menu-list {
+    border: 1px solid gray;
+}
+.drop-down-menu-list .btn-list-item:hover {
+    background-color: #0077b5 !important;
+	color:#fff;
+}
+.form-control:focus {
+    outline: 3px solid !important;
+    color: #000 !important;
+}
+.select-budget-year{
+	background-color: #0077b5;
+	color:#fff;
+}
+.select-budget-year:focus{
+	background-color: #0077b5;
+	color:#fff !important;
+	border: #000 2px solid;
+	
+}
+.select-budget-year option:not(:checked) {
+  background-color: #fff;
+  color:#000;
+}
+
+</style>
+	<div class="container  col-md-offset-2 margin-top">
+
+<?php if($year){ ?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box-one py-3" id="main-budget-div">
+					<div class="col-sm-9">
+					<?php if($_USER->canManageZoneBudget()){ ?>
+						<div class="btn-group">
+							<button type="button" onclick="getCompanyBudgetYears();" class="btn btn-info">Manage Budget Years</button>
+						</div>
+                        &nbsp;
+						<div class="btn-group">
+							
+							<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+								Manage Budget
+							&nbsp;<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right drop-down-menu-list" role="menu">
+							<?php
+							foreach($budgetYears as $budgetYear){
+								if ($date <= $budgetYear['budget_year_end_date'] ){
+							?>
+									<li><button class="btn-list-item" onclick="updateYearlyBudget('<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>')"><?= htmlspecialchars($budgetYear['budget_year_title']) ?></button></li>
+							<?php
+								}
+							}
+							?>
+				
+							</ul>
+						</div>
+					<?php } else { echo "&nbsp;"; } ?>
+					</div>
+					<div class="col-sm-3">
+						<select id="set-budget-year" class="form-control select-budget-year" required onchange="setBudgetYear(this.value)" style="border-radius: 5px; height: 32px;">
+							<?php 
+								foreach($budgetYears as $budgetYear){
+									$sel = "";
+									if (isset(Session::GetInstance()->budget_year) ){
+										if (Session::GetInstance()->budget_year == $budgetYear['budget_year_id']){
+											$sel = "selected";
+										}
+									} else {
+										if (($date >= $budgetYear['budget_year_start_date'] && $date <= $budgetYear['budget_year_end_date'])){
+											$sel = "selected";
+										}
+									}
+									?>
+									<option value="<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>" <?= $sel; ?> ><?= htmlspecialchars($budgetYear['budget_year_title']) ?></option>
+							<?php
+								} ?>
+						</select>			
+					</div>
+				</div>
+				<div class="widget-simple-chart card-box-one" style="height:400px; display:none;" id="show-group-div">
+					
+				</div>
+			</div>
+		</div>
+		<div class="row spacing1">
+			<div class="col-md-4">
+				<div class="widget-simple-chart card-box-one" style="height:105px;">
+					<div class="col-sm-12">
+                        <h4 class="text-success counter text average">Total Budget<span class="budget-amount"><?= $_COMPANY->getCurrencySymbol();?><?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudget()) ?></span></h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="widget-simple-chart card-box-one" style="height:105px;">
+					<div class="col-sm-12">
+						<h4 class="text-success counter text average">Allocated <span class="budget-amount"><?= $_COMPANY->getCurrencySymbol();?><?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudgetAllocatedToSubAccounts()) ?></span> </h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="widget-simple-chart card-box-one" style="height:105px;">
+					<div class="col-sm-12">
+						<h4 class="text-success counter text average">Spent <span class="budget-amount"><?= $_COMPANY->getCurrencySymbol();?><?= $_USER->formatAmountForDisplay($companyBudget->getTotalExpensesInclChild()['spent_from_allocated_budget']) ?></span> </h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		 
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box-one fixhight">
+					<div class="col-md-12">
+					<?php if(count($groups)>0){ ?>
+						<canvas id="containerChartjs" style="width:100%; height: 300px; margin: 0 auto"></canvas>
+					<?php }else{ ?>
+						<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+					<?php } ?>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<!-- Expenses -->
+		<?php if($_COMPANY->getAppCustomization()['budgets']['enable_budget_expenses']){ ?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box-one fixhight">
+					<div class="col-md-12 m-2">
+					<?php if($_USER->canManageZoneBudget()){ ?>
+                        <button class="btn btn-primary pull-right" onclick="window.open('budget_charge_codes','_self',false)">Manage Budget Charge Codes</button>
+						<button class="btn btn-primary pull-right mr-1" onclick="window.open('manage_expense_types','_self',false)" id="">Manage Expense Types</button>
+					<?php } ?>
+						<h4 class="both-Group">Expenses</h4>
+					</div>
+					<div style="margin-top:60px">
+					<?php include(__DIR__ . '/expenses.template.html');?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+
+		<!-- Budget requests -->
+		<?php if($_COMPANY->getAppCustomization()['budgets']['enable_budget_requests']){ ?>
+		<div class="row">
+			<div class="col-md-12">
+                <div class="widget-simple-chart card-box-one fixhight">
+                    <div class="m-4">
+                        <h4 class="both-Group">Budget Requests </h4>
+                    </div>
+                    <ul class="nav nav-tabs budget-tab" style="margin-left:5px">
+                        <li class="nav-item"><a data-toggle="tab" id="tabHome" class="active auto-set-title" href="#home"> <?= $_COMPANY->getAppCustomization()['group']['name-short'] ?> Budget Requests</a></li>
+						<li class="nav-item tab-wh"><a id="tabChapterRequests"  class="auto-set-title" data-toggle="tab" href="#chapterRequests"><?= $_COMPANY->getAppCustomization()['chapter']['name-short'] ?> Budget Requests</a></li>
+                        <li class="nav-item tab-wh"><a id="tabAllrequests"   class="auto-set-title" data-toggle="tab" href="#allrequests">Past Budget Requests</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active show">
+                            <div class="row">
+                                <div class="col-md-12 cover-div">
+                                    <div class="widget-simple-chart card-box-one top-no-border" >
+                                        <div class="table-responsive " id="list-view">
+                                            <table id="budgetRequests" class="display table table-hover compact"  width="100%" summary="This table displays the list of budget requests">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="2%" scope="col"></th>
+                                                        <th width="15%" scope="col">Planned Use Date</th>
+                                                        <th width="15%" scope="col"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?></th>
+                                                        <th width="15%" scope="col">Requester</th>
+                                                        <th width="5%" scope="col">Requested</th>
+                                                        <th width="23%" scope="col">Purpose</th>
+                                                        <th width="10%" scope="col">Request Date</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  id="allrequests" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12 cover-div">
+                                    <div class="widget-simple-chart card-box-one top-no-border" >
+                                        <div class="table-responsive " id="list-view">
+                                            <table id="all-request" class="table table-hover display compact" width="100%" summary="This table displays the list of budget requests">
+                                                <thead>
+                                                    <tr>
+                                                        <th width='2%' scope="col"></th>
+                                                        <th width="15%" scope="col"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?></th>
+                                                        <th width="14%" scope="col">Requester</th>
+                                                        <th width="8%" scope="col">Date</th>
+                                                        <th width="25%" scope="col">Purpose</th>
+                                                        <th width="5%" scope="col">Requested</th>
+                                                        <th width="5%" scope="col">Approved</th>
+                                                        <th width="10%" scope="col">Status</th>
+                                                        <th width="14%" scope="col">Approver</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div id="chapterRequests" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12 cover-div">
+                                    <div class="widget-simple-chart card-box-one top-no-border" >
+                                        <div class="table-responsive " id="list-view">
+                                            <table id="chapter-request" class="table table-hover display compact" width="100%" summary="This table displays the list of chapter budget requests">
+                                                <thead>
+													<tr>
+                                                        <th width="2%" scope="col"></th>
+                                                        <th width="15%" scope="col">Planned Use Date</th>
+                                                        <th width="15%" scope="col"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?></th>
+														<th width="8%" scope="col"><?= $_COMPANY->getAppCustomization()['chapter']['name-short'] ?></th>
+                                                        <th width="15%" scope="col">Requester</th>
+                                                        <th width="5%" scope="col">Requested</th>
+                                                        <th width="15%" scope="col">Purpose</th>
+                                                        <th width="10%" scope="col">Request Date</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<?php } ?>
+			<!-- Budget Model modal -->
+			<div id="budgetModel" class="modal fade" role="dialog">
+				<div class="modal-dialog mod">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="request_modal_title">Approve Budget Request</h4>
+							<button type="button" id="btn_close" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
+							
+						</div>
+						<div class="modal-body">
+							<div class="container">
+								<form id="approve-budget-form" class="form-horizontal">
+									<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+									<div>
+										<div id="approve-input">
+										
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+
+<script>
+	var labVal= [];
+	var dataVal = [];
+	var bgVal = [];
+
+	<?php foreach ($groups as $g) { ?>
+			labVal.push("<?= addslashes(htmlspecialchars_decode($g['groupname_short'])) ?>");
+			dataVal.push(<?= Budget2::_GetTotalExpenses($year,$g['groupid'])['spent_from_allocated_budget']; ?>);
+			bgVal.push('<?= $g['overlaycolor'] ?>');
+	<?php } ?>
+
+	var data = { 
+				labels: labVal,
+				datasets:[
+					{
+					label: "Total spent",
+					backgroundColor: bgVal,
+					data: dataVal
+					}
+				]
+			};
+	var options =  {
+			title: {
+				display: true,
+				position: 'top',
+				text: ['Total Spend by <?= $_COMPANY->getAppCustomization()['group']['name'] ?>'],
+			},
+			legend: {
+				display: false,
+			},
+			maintainAspectRatio:false,
+		};
+
+	var ctx = document.getElementById("containerChartjs").getContext('2d');
+	new Chart(ctx, {
+		type: 'bar',
+		data: data,
+		options: options
+	});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+	
+	var acc = document.getElementsByClassName("accordion");
+	var panel = document.getElementsByClassName('panel');
+	
+	for (var i = 0; i < acc.length; i++) {
+		acc[i].onclick = function() {
+			var setClasses = !this.classList.contains('active');
+			setClass(acc, 'active', 'remove');
+			setClass(panel, 'show', 'remove');
+			if (setClasses) {
+				this.classList.toggle("active");
+				this.nextElementSibling.classList.toggle("show");
+			}
+		}
+	}
+	function setClass(els, className, fnName) {
+		for (var i = 0; i < els.length; i++) {
+			els[i].classList[fnName](className);
+		}
+	}
+});
+
+
+</script>
+
+<script>
+	$('#select_all').change(function() {
+		var checkboxes = $(this).closest('form').find(':checkbox');
+		if($(this).is(':checked')) {
+			checkboxes.prop('checked', true);
+		} else {
+			checkboxes.prop('checked', false);
+		}
+	});
+	$('#form_check').on('submit', function (e) {
+		
+		if ($("input[type=checkbox]:checked").length < 1) {
+			e.preventDefault();
+			swal.fire({title: 'Message',text:'It looks there are no need to send reminder.'});
+			$('#budgetreminder').modal('hide');
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+			return false;
+		}
+	});
+
+</script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		
+		// Active Budget Request Start
+		function format ( d ) {
+			return '<table summary="Display the extra fields of table" cellpadding="4" cellspacing="0" border="0" width="100%" style="padding-left:50px;text-align: left;">'+
+				'<tr >'+
+					'<td width="20%" >Description:</td>'+
+					'<td>'+d.description+'</td>'+
+				'</tr>'
+				+ window.tskp.custom_fields.renderBudgetRequestCustomFields(d.custom_fields || []) +
+			'</table>';
+		}
+
+		var dt = $('#budgetRequests').DataTable( {
+			"processing": true,
+			"serverSide": true,
+			"bInfo":false,
+			columnDefs: [
+						{ targets: [0,7], orderable: false }
+					],
+			language: {
+				searchPlaceholder: "...",
+				url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+			},
+			"ajax": {
+            "url": "ajax?getBudgetRequests=<?= $_COMPANY->encodeId($year);?>",
+            "type": "POST"
+        },
+			"columns": [
+				{
+					"class":          "details-control",
+					"orderable":      false,
+					"data":           null,
+					"defaultContent": ""
+				},
+                { "data": "needed_by" },
+				{ "data": "groupname" },
+				{ "data": "requested_by" },
+				{ "data": "requested_amount" },
+				{ "data": "purpose" },
+				{ "data": "request_date" },
+				{ "data": "action" }
+			],
+			"order": [[1, 'desc']]
+		} );
+		
+		var detailRows = [];
+	
+		$('#budgetRequests tbody').on( 'click', 'tr td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = dt.row( tr );
+			var idx = $.inArray( tr.attr('id'), detailRows );
+	
+			if ( row.child.isShown() ) {
+				tr.removeClass( 'details' );
+				row.child.hide();
+	
+				// Remove from the 'open' array
+				detailRows.splice( idx, 1 );
+			}
+			else {
+				tr.addClass( 'details' );
+				row.child( format( row.data() ) ).show();
+	
+				// Add to the 'open' array
+				if ( idx === -1 ) {
+					detailRows.push( tr.attr('id') );
+				}
+			}
+		} );
+	
+		// On each draw, loop over the `detailRows` array and show any child rows
+		dt.on( 'draw', function () {
+			$.each( detailRows, function ( i, id ) {
+				$('#'+id+' td.details-control').trigger( 'click' );
+			} );
+		} );
+		
+		// Active Budget requests end
+		// All budget Request Started
+		function allFormat ( d ) {
+			return '<table summary="Display the extra fields of table" cellpadding="4" cellspacing="0" border="0" width="100%" style="padding-left:50px;text-align: left;">'+
+				'<tr >'+
+					'<td width="20%" >Request Description:</td>'+
+					'<td>'+d.description+'</td>'+
+				'</tr>'+
+				'<tr >'+
+					'<td width="20%" >Processing Date:</td>'+
+					'<td>'+d.approved_date+'</td>'+
+				'</tr>'+
+				'<tr >'+
+					'<td width="20%" >Approver Comment:</td>'+
+					'<td>'+d.approver_comment+'</td>'+
+				'</tr>'
+				+ window.tskp.custom_fields.renderBudgetRequestCustomFields(d.custom_fields || []) +
+			'</table>';
+		}
+
+		var adt = $('#all-request').DataTable( {
+			"processing": true,
+			"serverSide": true,
+			"bInfo":false,
+			columnDefs: [
+						{ targets: [0,9], orderable: false }
+					],
+			language: {
+			searchPlaceholder: "Type anything..",
+			url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+		},
+			"ajax": {
+            "url": "ajax?getAllBudgetRequests=<?= $_COMPANY->encodeId($year);?>",
+            "type": "POST"
+		},
+			"columns": [
+				{
+					"class":          "details-control",
+					"orderable":      false,
+					"data":           null,
+					"defaultContent": ""
+				},
+				{ "data": "groupname" },
+				{ "data": "requested_by" },
+				{ "data": "request_date" },
+				{ "data": "purpose" },
+				{ "data": "requested_amount" },
+				{ "data": "amount_approved" },
+				{ "data": "status" },
+				{ "data": "approved_by" },
+				{ "data": "action" }
+			],
+			"order": [[1, 'desc']]
+		} );
+		
+		var detailRows = [];
+	
+		$('#all-request tbody').on( 'click', 'tr td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = adt.row( tr );
+			var idx = $.inArray( tr.attr('id'), detailRows );
+	
+			if ( row.child.isShown() ) {
+				tr.removeClass( 'details' );
+				row.child.hide();
+	
+				// Remove from the 'open' array
+				detailRows.splice( idx, 1 );
+			}
+			else {
+				tr.addClass( 'details' );
+				row.child( allFormat( row.data() ) ).show();
+	
+				// Add to the 'open' array
+				if ( idx === -1 ) {
+					detailRows.push( tr.attr('id') );
+				}
+			}
+		} );
+	
+		// On each draw, loop over the `detailRows` array and show any child rows
+		adt.on( 'draw', function () {
+			$.each( detailRows, function ( i, id ) {
+				$('#'+id+' td.details-control').trigger( 'click' );
+			} );
+		} );
+	
+		// All budget Requests End
+
+		var cdt = $('#chapter-request').DataTable( {
+			"processing": true,
+			"serverSide": true,
+			"bInfo":false,
+			columnDefs: [
+						{ targets: [0,8], orderable: false }
+					],
+					language: {
+					searchPlaceholder: "Type anything..",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+				},
+			"ajax": {
+            "url": "ajax?getChapterBudgetRequests=<?= $_COMPANY->encodeId($year);?>",
+            "type": "POST"
+        },
+			"columns": [
+				{
+					"class":          "details-control",
+					"orderable":      false,
+					"data":           null,
+					"defaultContent": ""
+				},
+                { "data": "needed_by" },
+				{ "data": "groupname" },
+				{ "data": "chaptername" },
+				{ "data": "requested_by" },
+				{ "data": "requested_amount" },
+				{ "data": "purpose" },
+				{ "data": "request_date" },
+				{ "data": "action" }
+			],
+			"order": [[1, 'desc']]
+		} );
+		
+		var detailRows = [];
+
+		$('#chapter-request tbody').on( 'click', 'tr td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = cdt.row( tr );
+			var idx = $.inArray( tr.attr('id'), detailRows );
+	
+			if ( row.child.isShown() ) {
+				tr.removeClass( 'details' );
+				row.child.hide();
+	
+				// Remove from the 'open' array
+				detailRows.splice( idx, 1 );
+			}
+			else {
+				tr.addClass( 'details' );
+				row.child( format( row.data() ) ).show();
+	
+				// Add to the 'open' array
+				if ( idx === -1 ) {
+					detailRows.push( tr.attr('id') );
+				}
+			}
+		} );
+	
+		// On each draw, loop over the `detailRows` array and show any child rows
+		cdt.on( 'draw', function () {
+			$.each( detailRows, function ( i, id ) {
+				$('#'+id+' td.details-control').trigger( 'click' );
+			} );
+		} );
+
+	} );
+</script>
+
+<?php } else {?>
+	<script>
+		swal.fire({title: 'Error',text:"No budget year found for todays date. Please update or add budget years.",confirmButtonText: "Manage Budget Years"}).then(function(result) {
+			getCompanyBudgetYears();
+		});	
+	</script>
+<?php } ?>
+
+<!-- Update yearly budget -->
+<div id="yearlyBudget"></div>
+
+</div>	
+</div>
+
+<script>
+	$('#budgetModel').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})	
+	
+	$(document).ready(function() {
+		$('#tabChapterRequests').on('click', function (e) {			
+			setTimeout(() => {
+			    $('#chapter-request tr').find('th').eq(1).trigger('click');				
+			}, 500)						
+		});
+		$('#tabAllrequests').on('click', function (e) {
+			setTimeout(() => {
+			    $('#all-request tr').find('th').eq(1).trigger('click');				
+			}, 500)							
+		});		
+	});
+</script>
+	</body>
+</html>

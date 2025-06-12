@@ -1,0 +1,521 @@
+<script>
+<?php if(count($groups)){ ?>
+	var	colors = [	
+		<?php 	for($gc=0;$gc<count($groups);$gc++){ ?>
+					'<?= $groups[$gc]['overlaycolor'];?>',
+		<?php	} ?>'#636262'
+		]
+			
+<?php } ?>
+
+</script>
+
+<style>
+	.fa-ellipsis-v:after {
+		display: none;
+	}
+</style>
+<div tabindex="-1" id="theGraphModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">  
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="rsvp_report_title"><?= gettext("Quick View Report");?>  <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?= gettext('All the numbers below are in real time, and any real time changes will take place immediately in this report.'); ?>"></i></h4>
+                        <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">			
+<div class="container">
+	<div class="row">  
+	<?php if(!empty($budgetYears)){ ?>            
+		<div class="col-md-12">
+		<div class="widget-simple-chart card-box">
+			<div class="col-md-6"><h6><?= $pagetitle; ?></h6></div>
+				<div class="col-md-6">
+					<div class="col-md-6 pull-right">
+                        <?php if (count($groupCategoryRows)) { ?>
+						<select class="form-control col-md-12" id="group_category" onchange="filterBudgetData()"  >
+						    <?php foreach ($groupCategoryRows as $groupCategoryRow) { ?>
+								<option value="<?= $groupCategoryRow['categoryid']; ?>" <?= $group_category_id == $groupCategoryRow['categoryid'] ? 'selected' : ''; ?> ><?= $groupCategoryRow['category_name']; ?></option>
+						    <?php  } ?>
+						</select>
+                        <?php } else { ?>
+                            &nbsp;
+                        <?php } ?>
+					</div>
+					<div class="pull-right col-md-6 ">
+						<select id="year_filter" class="form-control" onchange="filterBudgetDataByYear()">
+					<?php 
+						$d = date("Y-m-d",strtotime($_COMPANY->val('createdon')));
+						foreach($budgetYears as $budgetYear){
+							$sel = "";
+							if ($yearId == $budgetYear['budget_year_id'] ){
+								$sel = "selected";
+							} ?>
+							<option value="<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>" <?= $sel; ?> ><?= htmlspecialchars($budgetYear['budget_year_title']) ?></option>
+				<?php 	}  ?>
+						</select> 
+					</div>
+				</div>	
+
+		<div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+		<div class="clearfix"></div>
+	<div>
+  
+<div class="tab-content">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="percentPerErg" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+		<?php if(count($groups)>0){ ?>
+				<canvas id="chartjs2" ></canvas>
+				<script>
+					var labVal = [];
+					var dataVal = [];
+					var bgVal = [];
+					<?php 	foreach ($groups as $g) { ?>
+						labVal.push("<?= addslashes(htmlspecialchars_decode($g['groupname_short'])); ?>");
+						dataVal.push(<?= (int)round($g['percent'],0); ?>);
+						bgVal.push('<?= $g['overlaycolor']; ?>');
+					<?php	} ?>
+					
+					
+					var data = {
+						labels: labVal,							
+						datasets: [
+								{	
+								backgroundColor: bgVal,
+								data: dataVal,
+								spanGaps: false,
+							}
+						]
+					};	
+					
+					var options = {
+						title: {
+								display: true,
+								position: 'top',
+								text: ['Percent of budget per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+							},
+						legend: {
+							display: true,
+							position: 'bottom'
+						},
+						tooltips: {
+							enabled: true
+						},
+						plugins: {
+							datalabels: {
+								formatter: (value, ctx) => {
+									let datasets = ctx.chart.data.datasets;
+
+									if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+										let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+										let percentage = Math.round((value / sum) * 100)>0 ?  Math.round((value / sum) * 100)  + '%' : "";
+										return percentage;
+									} else {
+										return percentage;
+									}
+								},
+								color: '#fff',
+							}
+						},
+						maintainAspectRatio:false,
+					};
+				var ctx = document.getElementById("chartjs2").getContext('2d');
+				new Chart(ctx, {
+					type: 'doughnut',
+					data: data,
+					options: options
+				});
+
+				// EXPORT CSV
+				var percentPerErgLevel = JSON.parse(JSON.stringify(labVal));
+				var percentPerErgData = JSON.parse(JSON.stringify(dataVal));
+				$('#percentPerErg').on( "click", function() {
+					var sumValue = percentPerErgData.reduce((a, b) => a + b, 0);
+					for(let i=0;i<percentPerErgData.length;i++){
+						percentPerErgData[i] = Math.round((percentPerErgData[i] / sumValue) * 100)>0 ?  Math.round((percentPerErgData[i] / sumValue) * 100)  + '%' : "0%";
+					}
+					percentPerErgLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+					percentPerErgData.unshift('Percent')
+					var finalData = [];
+					var toObj = convertArraytoObject(percentPerErgData);
+					finalData[0] = toObj;
+					exportCSVFile(percentPerErgLevel,finalData,"Percent of budget per <?= $_COMPANY->getAppCustomization()['group']['name-short']; ?>");
+				});
+			</script>
+		<?php 	} else {?>
+				<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+		<?php	} ?>				
+			</div>
+		</div>
+	
+		<div class="col-md-6">
+			<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="percentPerRegion" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+			<?php if (count($groups)>0){ ?>
+
+				<canvas id="chartjs3" style="width:100%; height: 350px; margin: 0 auto"></canvas>
+				<script>
+
+					var labVal = [];
+					var dataVal = [];
+					var bgVal = [];
+					<?php 	for($bt=0;$bt<count($spentbyregion);$bt++){ ?>									
+						labVal.push('<?= $spentbyregion[$bt]['region']; ?>');
+						dataVal.push(<?= (int)round($spentbyregion[$bt]['percent'],0); ?>);
+						bgVal.push(colors['<?= $bt; ?>'])
+					<?php	} ?>
+					var data = {
+						labels: labVal,							
+						datasets: [
+								{	
+								backgroundColor: bgVal,
+								data: dataVal,
+								spanGaps: false,
+							}
+						]
+					};	
+					
+					var options = {
+						title: {
+								display: true,
+								position: 'top',
+								text: ['Percent of budget per region','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+							},
+						legend: {
+							display: true,
+							position: 'bottom'
+						},
+						tooltips: {
+							enabled: true
+						},
+						plugins: {
+							datalabels: {
+								formatter: (value, ctx) => {
+									let datasets = ctx.chart.data.datasets;
+
+									if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+										let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+										let percentage = Math.round((value / sum) * 100)>0 ?  Math.round((value / sum) * 100)  + '%' : "";
+										return percentage;
+									} else {
+										return percentage;
+									}
+								},
+								color: '#fff',
+							}
+						},
+						maintainAspectRatio:false,
+					};
+				var ctx = document.getElementById("chartjs3").getContext('2d');
+				new Chart(ctx, {
+					type: 'pie',
+					data: data,
+					options: options
+				});
+
+				// EXPORT CSV
+				var percentPerRegionLevel = JSON.parse(JSON.stringify(labVal));
+				var percentPerRegionData = JSON.parse(JSON.stringify(dataVal));
+				$('#percentPerRegion').on( "click", function() {
+					var sumValue = percentPerRegionData.reduce((a, b) => a + b, 0);
+					for(let i=0;i<percentPerRegionData.length;i++){
+						percentPerRegionData[i] = Math.round((percentPerRegionData[i] / sumValue) * 100)>0 ?  Math.round((percentPerRegionData[i] / sumValue) * 100)  + '%' : "0%";
+					}
+					percentPerRegionLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+					percentPerRegionData.unshift('Percent')
+					var finalData = [];
+					var toObj = convertArraytoObject(percentPerRegionData);
+					finalData[0] = toObj;
+					exportCSVFile(percentPerRegionLevel,finalData,"Percent of budget per region");
+				});
+
+			</script>
+
+			<?php } else {?>
+				<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+			<?php } ?>
+				
+			</div>
+		</div>
+
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="allocatedVsSpent" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+                <?php if (count($groups)>0){ ?>
+                    <canvas id="chartjs1"></canvas>
+
+                    <script>
+                        var labVal = [];
+                        var allocated = [];
+                        var spent = [];
+                        <?php foreach ($groups as $g) { ?>
+                        labVal.push("<?= addslashes(htmlspecialchars_decode($g['groupname_short'])); ?>");
+                        allocated.push(<?= $g['totalBudget']; ?>);
+                        spent.push(<?= $g['totalExpenses']; ?>);
+                        <?php	} ?>
+                        var data = {
+                            labels: labVal,
+                            datasets: [
+                                {
+                                    label: "Allocated",
+                                    backgroundColor: "#00bfe8",
+                                    data: allocated
+                                }, {
+                                    label: "Spent",
+                                    backgroundColor: "#ff9800",
+                                    data: spent
+                                }
+                            ]
+                        };
+                        var options = {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: ['Allocated Budget vs Spent Budget by <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            maintainAspectRatio:false,
+                        };
+
+                        var ctx = document.getElementById("chartjs1").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: data,
+                            options: options
+                        });
+
+						// EXPORT CSV
+						var allocatedVsSpentLevel = JSON.parse(JSON.stringify(labVal));
+						var allocatedData = JSON.parse(JSON.stringify(allocated));
+						var spentData = JSON.parse(JSON.stringify(spent));
+						$('#allocatedVsSpent').on( "click", function() {
+							var finalData = [];
+							allocatedVsSpentLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+							allocatedData.unshift('Allocated');
+							spentData.unshift('Spent');
+							finalData[0] = convertArraytoObject(allocatedData);
+							finalData[1] = convertArraytoObject(spentData);
+							exportCSVFile(allocatedVsSpentLevel,finalData,'Allocated Budget vs Spent Budget by <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+						});
+                    </script>
+                <?php } else {?>
+                    <div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+                <?php } ?>
+
+            </div>
+        </div>
+<?php if(0){ ?>
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+			<?php if(count($groups)>0){ ?>
+			
+				<canvas id="cartjs4" style="min-width: 193px; height: 400px; margin: 0 auto"></canvas>
+
+				<script>
+					var lavelVal = ['Jan-Mar', 'April-Jun', 'Jul-Sept', 'Oct-Dec'];
+					var dataVal = [];
+					var searies = [];
+					<?php 	for($qs=0;$qs<count($quarterlyspend);$qs++){ ?>
+								searies.push("<?= htmlspecialchars_decode($quarterlyspend[$qs]['groupname_short']); ?>");
+								dataVal.push([<?= (int)$quarterlyspend[$qs]['spend'][0]; ?>, <?= (int)$quarterlyspend[$qs]['spend'][1]; ?>, <?= (int)$quarterlyspend[$qs]['spend'][2]; ?>, <?= (int)$quarterlyspend[$qs]['spend'][3]; ?>]);
+					<?php	}	?>
+
+					var barChartData = {
+						"series": searies,
+						"labels": lavelVal,
+						"data": dataVal
+						};
+					
+					var datasets = [];
+					<?php 	for($gc=0;$gc<count($groups);$gc++){ ?>
+						datasets.push({
+							label: barChartData.series[<?= $gc; ?>],
+							backgroundColor: "<?= $groups[$gc]['overlaycolor'];?>",
+							borderColor: "<?= $groups[$gc]['overlaycolor'];?>",
+							data: barChartData.data[<?= $gc; ?>]
+						});
+
+				<?php	} ?>
+				
+					var stackedBarChartData = {
+						labels: barChartData.labels,
+						datasets: datasets
+						};
+					var configBarChart = {
+						type: 'bar',
+						data: stackedBarChartData,
+						options: {
+							title: {
+								display: true,
+								position: 'top',
+								text: ['Quarterly spend per ERG','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+							},
+							maintainAspectRatio: false,
+							tooltips: {
+							mode: 'label',
+							bodySpacing: 6,
+							titleMarginBottom: 10,
+							footerMarginTop: 8,
+							titleFontSize: 14,
+							bodyFontSize: 14,
+							footerFontSize: 14,
+							callbacks: {
+								footer: function(tooltipItem /*, data*/ ) {
+								var total = 0;
+								tooltipItem.forEach(function(element /*, index, array*/ ) {
+									total += element.yLabel;
+								});
+								return 'Total: ' + total;
+								}
+							}
+							},
+							scales: {
+								xAxes: [{
+									stacked: true,
+									ticks: {
+									maxRotation: 60,
+									autoSkip: false
+									},
+									barPercentage: 0.4,
+									gridLines: {
+									color: "rgba(0, 0, 0, 0.06)",
+									zeroLineColor: "rgba(0,0,0,0.1)"
+									}
+								}],
+								yAxes: [{
+									stacked: true,
+									gridLines: {
+									color: "rgba(0, 0, 0, 0.06)",
+									zeroLineColor: "rgba(0,0,0,0.1)"
+									},								
+									ticks: {
+										suggestedMin: 0,
+										beginAtZero: true,
+										userCallback: function(label, index, labels) {
+											// when the floored value is the same as the value we have a whole number
+											if (Math.floor(label) === label) {
+												return label;
+											}
+
+										},
+									}
+							
+								}]
+							},
+							legend: {
+								display: true,
+								position: 'bottom'
+							},
+							maintainAspectRatio:false,
+						}
+					};
+
+					var ctxBarChart = document.getElementById("cartjs4").getContext("2d");
+					new Chart(ctxBarChart, configBarChart);
+
+				</script>
+
+
+			<?php } else {?>
+				<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+			<?php } ?>
+				
+
+			</div>
+		</div>
+<?php } ?>
+	</div>	
+</div>
+</div>
+</div>
+		</div>
+	<?php } else { ?>
+		<script>
+			swal.fire({title: 'Error',text:"No budget year found. Please configure budget year from Budget page first.", confirmButtonText: "Go to Budget Page",}).then(function(result) {
+				window.location.href="budget";
+			});	
+	</script>
+	<?php } ?>
+	</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+	function filterBudgetData(){
+		var yearFilter = $("#year_filter").val();
+		var categoryFilter = $("#group_category").val();
+		$.ajax({
+		url: 'ajax.php?budgetGraphReportModal',
+		type: "GET",
+		data: {filter:categoryFilter,d:yearFilter},
+			success : function(data) {
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					backdrop: false,
+					keyboard: false
+				});
+			}
+		});
+	}
+
+	function filterBudgetDataByYear(){
+		var yearFilter = $("#year_filter").val();
+		var categoryFilter = $("#group_category").val();
+		$.ajax({
+		url: 'ajax.php?budgetGraphReportModal',
+		type: "GET",
+		data: {filter:categoryFilter,d:yearFilter},
+			success : function(data) {
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					backdrop: false,
+					keyboard: false
+				});
+			}
+		});
+	}
+</script> 
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+	$('.dropdown-toggle').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+    
+    $('#theGraphModal').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})
+
+	retainFocus('#theGraphModal');
+</script>
+</body>
+
+</html>

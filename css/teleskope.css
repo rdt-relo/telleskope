@@ -1,0 +1,184 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url('../vendor/fonts/Lato/Lato-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato-Regular';
+    position: relative;
+    margin: 0;
+    padding-right:0!important;
+    min-height: 100%;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+.sv-container-modern__title{
+    padding-top:20px !important;
+    /*color: rgb(80, 80, 80) !important;*/
+}
+.sv-header__text h5 {
+    padding-top:10px !important;
+    padding-left:3px !important;
+}
+.sv-header__text h5 span {
+    /*color: rgb(80, 80, 80) !important;*/
+}
+
+.sv-page__title {
+    /*color: rgb(80, 80, 80) !important;*/
+}
+
+.sv-page__description {
+    color: rgb(80, 80, 80) !important;
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
+}
+
+/* style for add ... to the end of string if text went out of container width */
+.ellipsis{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* for all survey buttons */
+.sv-footer__prev-btn:focus, .sv-footer__next-btn:focus, .sv-footer__complete-btn:focus{
+    outline: 2px solid #000;
+}
+
+
+/* sweet alert colored toasts */
+.colored-toast.swal2-icon-success {
+    background-color: #008000 !important;
+    color: #ffffff !important;
+}
+
+.colored-toast.swal2-icon-error {
+    background-color: #c00000 !important;
+}
+
+.colored-toast.swal2-icon-warning {
+    background-color: #f08000 !important;
+}
+
+.colored-toast.swal2-icon-info {
+    background-color: #00a0a0 !important;
+}
+
+.colored-toast.swal2-icon-question {
+    background-color: #5f7c86 !important;
+}
+
+.colored-toast > .swal2-content {
+    color: #ffffff !important;
+    padding-left: 10px;
+}
+
+.colored-toast.swal2-title {
+    color: #ffffff;
+}
+
+.colored-toast.swal2-close {
+    color: #ffffff;
+}
+
+/* HTML: <sup class="left-ribbon">Your text content</sup> */
+
+.left-ribbon {
+
+    --f: .3em; /* control the folded part*/
+    --r: .5em; /* control the ribbon shape */
+
+    /*position: relative;*/
+    /*top: 20px;*/
+    /*right: calc(-1*var(--f));*/
+    font-size: 10px;
+    color: #fff;
+    display: inline-block;
+    padding-inline: .4em;
+    line-height: 1.2;
+    background: black;
+    border-bottom: var(--f) solid #FFFFFF;
+    border-left: var(--r) solid #0000;
+    clip-path:
+            polygon(var(--r) 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
+            calc(100% - var(--f)) calc(100% - var(--f)),var(--r) calc(100% - var(--f)),
+            0 calc(50% - var(--f)/2));
+}
+.ribbon-purple {
+    background: purple;
+}
+.ribbon-red {
+    background: darkred;
+}
+.ribbon-orange {
+    background: darkorange;
+}
+.ribbon-cyan {
+    background: darkcyan;
+}
+
+.sv-boolean__slider{
+    margin-left: 0px !important;
+}
+.sv-question__form-group {
+    padding-top: 20px;
+    font-size: var(--sjs-font-size, 16px);
+    margin-top: calc(2 * (var(--sjs-base-unit, var(--base-unit, 8px))));
+    display: flex;
+    flex-direction: column;
+    gap: var(--sjs-base-unit, var(--base-unit, 8px));
+    color: var(--sjs-general-forecolor, var(--foreground, #161616));
+    white-space: normal;
+    clear: both;
+}
+.sv-question__form-group textarea {
+    padding: calc(1.5 * (var(--sjs-base-unit, var(--base-unit, 8px)))) calc(2 * (var(--sjs-base-unit, var(--base-unit, 8px))));
+    line-height: calc(1.5 * (var(--sjs-internal-font-editorfont-size)));
+    color: var(--sjs-font-editorfont-color, var(--sjs-general-forecolor, rgba(0, 0, 0, 0.91)));  
+    background-color: var(--sjs-editorpanel-backcolor, var(--sjs-editor-background, var(--sjs-general-backcolor-dim-light, var(--background-dim-light, #f9f9f9))));   
+    border-radius: var(--sjs-editorpanel-cornerRadius, var(--sjs-corner-radius, 4px));
+    text-align: start;
+    box-shadow: var(--sjs-shadow-inner, inset 0px 1px 2px 0px rgba(0, 0, 0, 0.15)), 0 0 0 0px var(--sjs-primary-backcolor, var(--primary, #19b394));
+    transition: box-shadow var(--sjs-transition-duration, 150ms);
+}
+
+.dark-background {
+    background-color: #6c7379;
+    color: #fff;
+}
+.dark-background a {
+    color: white !important;
+}
+.dark-background a:visited {
+    color: white !important;
+}
+.dark-background a:hover {
+    color: #fffff0 !important;
+}
+/* Overwrite survey css */
+.sd-body.sd-completedpage:before, .sd-body.sd-completedpage:after{
+    height: auto!important;
+}
+.sd-body.sd-completedpage h3 {
+    font-weight: 400 !important;
+    font-size: 1.5rem !important;
+    padding: 25px 10px;
+}
+ /* Overwrite survey's backgroud color */
+ .sv-components-row .sv-components-column.sv-components-column--expandable{
+    background: #fff;
+}

@@ -1,0 +1,68 @@
+<div class="modal" id="budgetYearsModal" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Manage Budget Years</h5>
+        <button class="btn btn-primary pull-right" onclick="openNewBudetYearModal('<?= $_COMPANY->encodeId(0);?>')" id="newbudget_modal">+ New Budget Year</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="budget_year_table" class="table table-hover display compact" style="width:100%;table-layout: fixed;" summary="This table display the list of event expenses">
+                        <thead>
+                            <tr>
+                                <th width="30%" scope="col">Title</th>
+                                <th width="15%" scope="col">Start Date</th>
+                                <th width="15%" scope="col">End Date</th>
+                                <th width="40%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($budgetYears as $budgetYear){ ?>
+                            <tr id="<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>">
+                                <td><?= htmlspecialchars($budgetYear['budget_year_title']); ?></td>
+                                <td><?= $budgetYear['budget_year_start_date']; ?></td>
+                                <td><?= $budgetYear['budget_year_end_date']; ?></td>
+                                <td>
+                                  <button class="btn btn-primary" onclick="manageBudgetCurrenciesModal('<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>')">Manage Currencies</button>&nbsp;
+                                  <button class="btn btn-primary" onclick="openNewBudetYearModal('<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>')">Edit</button>&nbsp;
+                                  <button class="btn btn-primary deluser" title="Are you sure to delete this?" onclick="deleteCompanyBudgetYear('<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>')">Delete</button></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="location.reload()" data-dismiss="modal"><?= gettext("Close")?></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#budget_year_table').DataTable( {
+            "order": [],
+            "bPaginate": true,
+            "bInfo" : false,
+            columnDefs: [
+						  { targets: [3], orderable: false }
+					  ],
+            language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+          },
+            
+        } );
+    } );
+
+    $('#budgetYearsModal').on('shown.bs.modal', function () {
+				$('#newbudget_modal').trigger('focus');
+			});
+</script>

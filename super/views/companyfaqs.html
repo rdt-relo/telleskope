@@ -1,0 +1,124 @@
+<?php if (isset($_GET['add']) || isset($_GET['edit'])) { ?>
+
+	<div class="container-offset-lr mt-5">
+		<div class="row">
+			<div class="col-12">
+				<div class="card p-4 mt-2">
+					<div class="col-12"><h1>Add Company Admin Panel FAQ</h1></div>
+					<form method="post" action="companyfaqs.php">
+						<input type="hidden" name="faqid" value="<?php if(isset($_GET['edit'])){ echo $_GET['edit']; } ?>">
+						<div class="mb-3 row">
+							<label class="col-sm-2 col-form-label text-sm-end required">Question</label>
+							<div class="col-sm-6">
+								<input class="form-control" placeholder="Question" name="question" value="<?php if(isset($_GET['edit'])){ echo $edit[0]['question']; } ?>" type="text" required>
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label class="col-sm-2 col-form-label text-sm-end required">Answer</label>
+							<div class="col-sm-6">
+								<textarea class="form-control textareahight min-h-25" placeholder="Answer" name="answer" required id="textArea"><?php if(isset($_GET['edit'])){ echo $edit[0]['answer']; } ?></textarea>
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<div class="offset-sm-2 col-sm-6">
+								<a href="companyfaqs.php" class="btn btn-secondary">Cancel</a>
+								<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<?php } else { ?>
+	
+	<div class="container-offset-lr mt-5">
+		<div class="row">
+			<div class="col-12">
+				<div class="card p-4 mt-2">
+					<div class="row">
+						<div class="col-md-6"><h1 >Company Admin Panel FAQs</h1></div>
+						<div class="col-md-6 text-end">
+							<a href="companyfaqs.php?add" class="btn btn-outline-primary">+ Add FAQ</a>
+						</div>
+					</div>
+					<div class="clearfix mb-3"></div>
+	
+					<?php if (isset($_GET['s']) || isset($_GET['u']) || isset($_GET['d'])){ ?>
+						<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+							<?php if(isset($_GET['s'])){ echo "FAQ added successfully"; }
+								  elseif(isset($_GET['u'])){ echo "FAQ updated successfully"; }
+								  elseif(isset($_GET['d'])){ echo "FAQ deleted successfully"; } ?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php } ?>
+	
+					<?php if (isset($_GET['e'])){ ?>
+						<div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+							<?= "Something went wrong! Please try again!"; ?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php } ?>
+	
+					<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+						<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+							<?= UPDATED; ?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php } elseif((time()- @$_SESSION['added']) < 5) { ?>
+						<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+							<?= ADDED; ?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php } ?>
+	
+					<div class="table-responsive">
+						<table id="faq" class="table table-hover table-sm display compact">
+							<thead style="height:30px;">
+								<tr>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php if(count($rows)>0 ){
+									for($i=0;$i<count($rows);$i++){ ?>
+								<tr id="<?= ($i+1); ?>">
+									<td width="80%"><span>Q: <?= $rows[$i]['question']?></span> A: <?= $rows[$i]['answer']; ?></td>
+									<td><a class="btn btn-primary btn-sm" href="companyfaqs.php?edit=<?= base64_encode($rows[$i]['faqid']); ?>">EDIT</a></td>
+									<td><a class="btn btn-danger btn-sm deluser" onclick="deleteAdminFAQs(<?= ($i+1).",".$rows[$i]['faqid']; ?>);" title="<b>Are you sure to delete!</b>">DELETE</a></td>
+								</tr>
+								<?php } } ?>
+							</tbody>
+						</table>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<?php } ?>
+	
+	<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#faq').DataTable({
+				"order": [],
+				"bPaginate": true,
+				"bInfo": false
+			});
+		});
+	</script>
+	<script>
+		jQuery("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			jQuery("#wrapper").toggleClass("toggled");
+		});
+	</script>
+	<script>
+		$("#sidebar-wrapper ul li:nth-child(4)").addClass("myactive");
+	</script>
+	

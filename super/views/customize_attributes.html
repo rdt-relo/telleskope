@@ -1,0 +1,40 @@
+    <div class="container-offset-lr mt-4">
+        <div class="row">              
+            <div class="col-12"> 
+                <div class="card">
+                    <div class="card-header border-bottom mb-3">
+                        <h1 class="mb-0 text-light-brown">Customization</h1>
+                    </div>
+    
+                    <div class="card-body">
+                        <p>Example Customization String</p>
+                        <p><code><?= $example_json_string ?></code></p>
+    
+                        <?php if ((time() - @$_SESSION['error']) < 5) { ?>
+                            <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?= "Invalid Json format entered!"; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php } ?>
+                        <form method="post" action="" class="mt-2">
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Customization<span class="text-danger">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" name="customization" rows="18" placeholder="Customization object here. e.g. format [{....}]"><?= stripslashes(json_encode(Arr::Json2Array($data[0]['customization']), JSON_PRETTY_PRINT)); ?></textarea>
+                                </div>
+                            </div>
+    
+                            <div class="text-center">
+                                <a class="btn cancel_template btn-secondary" href="login_method_list">Cancel</a> &emsp;
+                                <button type="submit" name="submit" class="btn create_template btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    </script>
+    

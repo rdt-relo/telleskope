@@ -1,0 +1,56 @@
+<div class="container-offset-lr mt-4"> 
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3">
+                <?php if (isset($_GET['msg'])){
+                    if (base64_decode($_GET['msg'])==5){?>
+                        <div id="hidemesage" class="col-12">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?php echo "<font color='ff0000'>".getmsg(base64_decode($_GET['msg']))."</font>"; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    <?php }else{?>
+                        <div id="hidemesage" class="col-12">    
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                <?php echo getmsg(base64_decode($_GET['msg']));?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                <?php } } ?>
+
+                <div class="col-12"><h1 >Company Information :</h1></div>
+                <div class="clearfix"></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th width="20%">Company Name</th>
+                                <th width="20%">Company Admin</th>
+                                <th width="20%">Company Address</th>
+                                <th width="20%">Contact Number</th>
+                                <th width="20%">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?php echo $row[0]['companyname']; ?></td>
+                                <td><?php echo $row[0]['contactperson']; ?></td>
+                                <td><?php echo $row[0]['address']." ".$row[0]['city']."<br />".$row[0]['state']."-".$row[0]['zipcode']."<br />".$row[0]['country']; ?></td>
+                                <td><?php echo $row[0]['contact']; ?></td>
+                                <td><?php echo $row[0]['email']; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  $("#sidebar-wrapper ul li:nth-child(2)").addClass("myactive");
+</script>
+</body>
+</html>

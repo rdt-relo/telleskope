@@ -1,0 +1,82 @@
+<!-- teleskope -->
+<style type="text/css">
+    #post-inner figure {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #post-inner figcaption {
+        padding: 5px 5px 5px 5px !important;
+        text-align: center !important;
+        font-size: 12px !important;
+        color: #808080 !important;
+    }
+    #post-inner img {
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    #post-inner a {
+        color: #0077b5 !important;
+    }
+    #post-inner a:hover {
+        text-decoration: underline;
+        color: #0077b5 !important ;
+    }
+    #post-inner ol {
+        list-style-type: decimal !important;
+        padding-left: 0 !important;
+        padding-top: 0 !important;
+        margin-left: 30px !important;
+        margin-top: 5px !important;
+        color: #505050 !important;
+        line-height: 1.5em !important;
+    }
+    #post-inner ul {
+        list-style-type: disc !important;
+        padding-left: 0 !important;
+        padding-top: 0 !important;
+        margin-left: 30px !important;
+        margin-top: 5px !important;
+        color: #505050 !important;
+        line-height: 1.5em !important;
+    }
+    #post-inner hr {
+        width: 100% !important;
+        border-top: 1px solid #505050 !important;
+        height: 0 !important;
+    }
+    #post-inner p {
+        margin: 1em 0 !important;
+        color: #505050 !important;
+        line-height: 1.5em !important;
+        overflow-wrap: break-word !important;
+    }
+    #post-inner blockquote {
+        font-style: italic !important;
+        background: #f9f9f9 !important;
+        border-left: 10px solid #ccc !important;
+        margin: 1.5em 10px !important;
+        padding: 0.5em 10px !important;
+        line-height: 1.5em !important;
+    }
+    #post-inner blockquote p {
+        display: inline !important;
+    }
+    td img {
+        max-width: 600px !important;
+    }
+    .link-in-button { color: #ffffff !important;}
+    a.link-in-button:link, a.link-in-button:visited, a.link-in-button:active {color: #ffffff !important;}
+    a.link-in-button:hover {color: #ffffcc !important;}
+</style>
+<!--[if (gte mso 9) | (IE)]>
+<style type="text/css">
+    figcaption {
+        text-align: center  !important;
+        font-size: 12px !important;
+        color: #808080  !important;
+    }
+</style>
+<![endif]-->
+<!-- end of teleskope -->
+</head>

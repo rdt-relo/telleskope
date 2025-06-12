@@ -1,0 +1,57 @@
+<?php
+  $pointsTriggerLabels = [
+    'DAILY_EARNINGS' => ['title' => 'Daily Earnings', 'help_text' => gettext('Members receive point(s) each day they are a member of a group')],
+    'NEW_COMMENT' => ['title' => 'New Comment', 'help_text' => gettext('Any comment added to an Announcement, Event, Newsletter, album entry, etc.')],
+    'EVENT_RSVP_YES' => ['title' => 'Event RSVP', 'help_text' => gettext('When an event is RSVPed to.')],
+    'EVENT_CHECK_IN' => ['title' => 'Event Check-In', 'help_text' => gettext('When a member checks in to a virtual or in-person event.')],
+    'COMMENT_LIKE' => ['title' => 'Comment Like', 'help_text' => gettext('When the comment emoji feature is used for Announcements, Events, Newsletters, etc.')],
+    'RECOGNITION_GIVEN' => ['title' => 'Recognition given', 'help_text' => gettext('When the member recognizes a colleague through the Recognition module.')],
+    'RECOGNITION_RECEIVED' => ['title' => 'Recognition received', 'help_text' => gettext('When the member receives a recognition through the Recognition module.')],
+    'VOLUNTEERING_SIGN_UP' => ['title' => 'Volunteering Sign Up', 'help_text' => gettext('Answering the call to action to volunteer for an event.')],
+    'ON_GROUP_JOIN' => ['title' => 'On Group Join', 'help_text' => gettext('When a user becomes a member of a group.')],
+    'ON_SURVEY_RESPONSE' => ['title' => 'On Survey Response', 'help_text' => gettext('For responding to any survey.')],
+  ];
+?>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="widget-simple-chart card-box">
+                <?php if(isset($_GET['msg'])){?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                            <?= $_GET['msg']; ?>                      
+                     </div>
+                     <?php }?>
+				<div class="col-sm-12 divider"><h6><?= gettext("Member Points Configuration");?></h6></div>
+				
+				<form id="member_points_configuration" class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                    <?php foreach ($memberPointsConfiguration as $config) { ?>                       
+					<div class="form-group">
+						<div>  
+                            <label for="<?= $config['points_trigger_key']; ?>" class="col-sm-2">
+                              <?= $pointsTriggerLabels[$config['points_trigger_key']]['title'] ?>:
+                              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" aria-label="<?= $pointsTriggerLabels[$config['points_trigger_key']]['help_text'] ?>" title="<?= $pointsTriggerLabels[$config['points_trigger_key']]['help_text'] ?>"></i>
+                            </label>
+                            <input id="<?= $config['points_trigger_key']; ?>" class="form-control col-md-4" type="number" step="any" name="<?= $config['points_trigger_key']; ?>" value="<?= $config['points_earned']; ?>" required>                                                        
+						</div>
+					</div>
+					<?php } ?>
+					<div class="form-group col-sm-6">
+						<div class="" style="margin-left:220px;">
+                            <input type="submit" class="btn btn-primary" value="Update">
+							<a href="points.php" class="btn btn-primary">Back</a>
+						</div>
+					</div>
+				</form>
+			</div>           
+		</div>
+	</div>
+</div>
+
+<script>  
+   updatePageTitle('<?= addslashes($pageTitle); ?>');
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

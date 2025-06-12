@@ -1,0 +1,110 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<style>
+  .btn-block {
+    background: #418bbb9c;
+  }
+</style>
+
+<div class="tl-container-offset-lr">
+  <div class="row">
+    <div class="col-12">
+      <div class="card p-3">
+        <div class="mb-3">
+          <h1 class="h4"><?= $pagetitle; ?></h1>
+          <hr class="my-2">
+        </div>
+
+        <!-- Flash Messages -->
+        <?php if((time()- ($_SESSION['updated'] ?? 0)) < 5){ ?>
+          <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+            <?= UPDATED; ?>.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php } elseif((time()- ($_SESSION['added'] ?? 0)) < 5) { ?>
+          <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+            <?= ADDED; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php } elseif((time()- ($_SESSION['error'] ?? 0)) < 5){ ?>
+          <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= ERROR; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php } elseif((time()- ($_SESSION['error_msg_time'] ?? 0)) < 5){ ?>
+          <div id="hide_groupname_mesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php if(isset($_GET['msg'])){ echo $_GET['msg']; } ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php } ?> 
+
+        <!-- Form -->
+        <div class="row">
+          <div class="col-12">
+            <form method="post" action="">
+              <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+
+              <div class="container">
+                <div class="row">
+                  <!-- Available Regions -->
+                  <div class="col-md-5 mb-3 mt-3">
+                    <label class="fw-bold mb-1">Available Regions</label>
+                    <select aria-label="Available Regions" name="availableRegions[]" id="multiselect" class="form-select" size="20" multiple>
+                      <?php if (!empty($availableRegions)){ ?>
+                        <?php foreach($availableRegions as $region){
+                          $sel = "";
+                          $disabled = '';
+                          if (in_array($region['regionid'],$usedRegionidsArray)){
+                            $disabled ="disabled"; 
+                          }
+                          if (in_array($region['regionid'],$zoneRegionidsArray)){
+                            $sel = "selected"; 
+                          }
+                        ?>
+                          <option value="<?=$_COMPANY->encodeId($region['regionid'])?>" <?= $disabled; ?> <?=$sel; ?>><?= $region['region']; ?></option>
+                        <?php } ?>
+                      <?php } else { ?>
+                        <option value="0">No regions available</option>									
+                      <?php } ?>
+                    </select>
+                  </div>
+
+                  <!-- Arrow Buttons -->
+                  <div class="col-md-2 text-center my-auto">
+                    <div class="d-grid gap-2">
+                      <button aria-label="right select" type="button" id="multiselect_rightSelected" class="btn btn-primary btn-block border-0"><i class="fa fa-chevron-right"></i></button>
+                      <button aria-label="left select" type="button" id="multiselect_leftSelected" class="btn btn-primary btn-block border-0"><i class="fa fa-chevron-left"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- Zone Regions -->
+                  <div class="col-md-5 mb-3 mt-3">
+                    <label class="fw-bold mb-1"><?= $_ZONE->val('zonename'); ?> Regions</label>
+                    <select aria-label="<?= $_ZONE->val('zonename'); ?> Regions" name="homeRegions[]" id="multiselect_to" class="form-select" size="20" multiple></select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="text-center">
+                <input type="submit" class="btn btn-primary" name="submit" value="Update" />
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/js/bootstrap-colorpicker.min.js"></script>
+<script src="js/custom_multi_select.js"></script>
+<script>
+  $(function() { 
+    $('#cp2').colorpicker({ format: 'rgb' });
+    setTimeout(function() {
+      $("#multiselect_rightSelected").trigger('click');
+    }, 10);
+  });
+</script>

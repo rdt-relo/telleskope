@@ -1,0 +1,61 @@
+<div tabindex="-1" id="dynamicListUsers" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?= $modalTitle; ?></h5>
+                <button type="button" id="btn_close" class="close" aria-label="close" data-dismiss="modal">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                        <div id="filterInfo" style="position:absolute; z-index:-9999;" role="status" aria-live="polite"></div>
+                        <table id="userslistTable" class="table table-hover display compact" width="100%" aria-label="This table displays the list of users">
+                            <thead>
+                            <tr>
+                                <th width="35%" scope="col"><?= gettext("Name");?></th>
+                                <th width="35%" scope="col"><?= gettext("Email");?></th>
+                                <th width="30%" scope="col"><?= gettext("Title");?></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                        <?php
+                            foreach ($usersList as $u) { ?>
+                                <tr>
+                                    <td><?= $u['firstname'].' '. $u['lastname']; ?></td>
+                                    <td><?= $u['email']; ?></td>
+                                    <td><?= $u['jobtitle']?:'-'; ?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><?= gettext("Close");?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#userslistTable').DataTable({
+            "order": [],
+            "bPaginate": true,
+            "bInfo": false,
+            language: {
+                url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+            },
+        });
+       
+    });
+
+    $('#dynamicListUsers').on('shown.bs.modal', function () {
+		$('#btn_close').trigger('focus');
+	});
+</script>

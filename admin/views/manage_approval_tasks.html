@@ -1,0 +1,258 @@
+<style>
+.switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 22px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 13px;
+        width: 13px;
+        left: 7px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #0077B5;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #0077B5;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(13px);
+        -ms-transform: translateX(13px);
+        transform: translateX(13px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 17px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                    <a aria-label="Add Approval Task" class="add-plus-circle-icon" href="add_approval_task?topicType=<?=$topicType?>&approval_stage=<?=$_COMPANY->encodeId($stage)?>&approval_config_id=<?=$_COMPANY->encodeId($configId)?>">
+                        <i class="fa fa-plus-circle fa-lg ml-2" title="Add Stage Task" aria-hidden="true" style="margin-top:margin-top: 14px;"></i>
+                    </a>
+                </div>
+                
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= ADDED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= $_SESSION['error_msg']; ?>
+                    </div>
+            <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                        <table id="approvalTasks" class="table table-hover display compact" summary="This table displays the list of approval tasks">
+                            <thead>
+                                <tr>
+                                    <th width="20%" scope="col">Task Name</th>
+                                    <th width="50%" scope="col">Task Details</th>
+                                    <th width="10%" scope="col">Is Required</th>
+                                    <th width="10%" scope="col">Is Proof Required</th>
+                                    <th width="10%" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php if(count($allTasks)>0){
+                                $totalFields = count($allTasks);
+                                for($i=0;$i<$totalFields;$i++){
+                                    $encodedId = $_COMPANY->encodeId($allTasks[$i]['approval_config_taskid']);
+                        ?>
+                                <tr id="<?= $encodedId; ?>" <?= ($allTasks[$i]['isactive'] != 1) ? 'style="background-color: rgb(255, 255, 206);"' : '' ?> >
+                                    <td><?= $allTasks[$i]['approval_task_name']; ?></td>
+                                    <td><?= strip_tags(html_entity_decode($allTasks[$i]['approval_task_details'])); ?></td>
+                                    <td>
+                                        <?= ($allTasks[$i]['isrequired']) ? 'Yes' : 'No' ?>
+                                    </td>
+                                    <td>
+                                        <?= ($allTasks[$i]['proof_isrequired']) ? 'Yes' : 'No' ?>
+                                    </td>
+                                        <td>
+
+                                            <?php if($allTasks[$i]['isactive'] == 2){ ?>
+                                                <!-- Delete or Activate the Inactive Task -->
+                                                <button aria-label="Activate" class="btn btn-no-style deluser" onclick="changeTaskStatus('<?=$encodedId;?>',1,this)" title="<strong>Are you sure to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>&nbsp;
+
+                                                <button aria-label="delete"  class="btn btn-no-style deluser" onclick="changeTaskStatus('<?=$encodedId;?>',0,this)" title="<strong>Are you sure to Delete!</strong>"><i class="fa fa-trash" title="Delete" aria-hidden="true"></i></button>&nbsp;
+
+                                                <a class="btn" href="add_approval_task?topicType=<?=$topicType?>&edit=<?=$encodedId?>&approval_config_id=<?=$_COMPANY->encodeId($configId)?>&approval_stage=<?=$_COMPANY->encodeId($stage)?>"><i class="fa fa-edit" title="Edit"></i></a>
+
+                                            <?php } elseif($allTasks[$i]['isactive'] == 1){ ?>
+                                                <!-- Inactive the Active Task -->
+                                                <button aria-label="DeActivate" class="btn btn-no-style deluser" onclick="changeTaskStatus('<?=$encodedId;?>',2,this)" title="<strong>Are you sure to Deactivate!</strong>"><i class="fa fa-lock" title="DeActivate" aria-hidden="true"></i></button>&nbsp;
+
+                                            <?php } else{ ?>
+                                                <button aria-label="Undo delete" class="btn btn-no-style deluser" onclick="changeTaskStatus('<?=$encodedId;?>',2,this)" title="<strong>Are you sure to Undo Delete!</strong>"><i class="fa fa-undo" title="Undo delete" aria-hidden="true"></i></button>&nbsp;
+                                            <?php }?>
+                                        </td>
+                                </tr>
+                        <?php	} ?>
+                                
+                    <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a  class="btn btn-info btn-sm" href="<?= $topic_config_redirect ?>" >Back to Approval Configuration</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#approvalTasks').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "stateSave": true,
+        "columnDefs": [
+            { targets: [-1], orderable: false }
+		],	
+        "drawCallback": function( settings ) {
+            $(".deluser").popConfirm({content: ''});
+        },
+        language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+          }
+    } );
+
+    // Sorting logic
+    var fixHelperModified = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+            $(this).width($originals.eq(index).width())
+        });
+        return $helper;
+    };
+
+    //Make diagnosis table sortable
+    $("#approvalTasks tbody").sortable({
+        helper: fixHelperModified,
+        stop: function(event,ui) {renumber_table('#approvalTasks')}
+    }).disableSelection();
+        //Renumber table rows
+    function renumber_table(tableID) {
+        var task_ids = [];
+        $(tableID + " tr").each(function() {
+            var id = $(this).closest('tr').attr('id');
+            if (id){
+                task_ids.push(id);
+            }
+        });
+        if(task_ids.length > 0){
+            updateTaskSortingOrder(task_ids);
+        }
+    }
+
+    function updateTaskSortingOrder(task_id){
+        var finalData  = new FormData();
+        // finalData.append("sort_order",sort_order);
+        finalData.append("task_id",task_id);
+        $.ajax({
+            url: 'ajax.php?updateTaskSortingOrder=1',
+            type: "POST",
+            data: finalData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+            }
+        });
+        
+    }
+
+    function deleteTask(approval_task_id) {
+        let approvalStage = '<?= $_COMPANY->encodeId($stage) ?>';
+        $.ajax({
+            url: 'ajax.php?deleteApprovalTask',
+            method: 'POST',
+            data: { approval_task_id: approval_task_id },
+            success: function(data) {
+                let jsonData = JSON.parse(data);
+				swal.fire({title:jsonData.title,text:jsonData.message}).then(function(result) {
+					location.reload();
+                });
+            },
+            error: function() {
+				swal.fire({title:'Error',text:'An error occurred. Please try again later'});
+            }
+        });
+    }
+
+    // function confirmationInput(approval_task_id, checkboxElement){
+    //     let ischecked = 0;
+    //     let checkboxType = $(checkboxElement).attr('id');
+    //     if ($(checkboxElement).is(':checked')) {
+    //         ischecked = 1;
+    //     }
+    //     console.log(approval_task_id);
+    //     $.ajax({
+    //         url: 'ajax.php?changeTaskRequired',
+    //         method: 'POST',
+    //         data: { approval_task_id: approval_task_id, checkboxType: checkboxType, ischecked: ischecked },
+    //         success: function(data) {
+	// 				location.reload();
+    //         },
+    //         error: function() {
+	// 			swal.fire({title:'Error',text:'An error occurred. Please try again later'});
+    //         }
+    //     });
+
+    // }
+
+</script>
+</body>
+</html>

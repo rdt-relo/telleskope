@@ -1,0 +1,46 @@
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card p-4">
+                <div class="border-bottom mb-3">
+                    <h1><?=$pagetitle;?></h1>
+                </div>
+                
+                <div class="clearfix"></div>
+                <div class="table-responsive" id="list-view">
+            
+                    <table id="table" class="table table-hover display compact" summary="User guides list">
+                        <thead>
+                            <tr>
+                                <th width="15%" scope="col">S.No.</th>
+                                <th width="75%" scope="col">Title</th>
+                                <th width="10%" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr >	
+                                <td>1</td>
+                                <td>Affinities Quick Start Guide</td>
+                                <td><a aria-label="<?=gettext('Download');?>" class="btn btn-primary btn-sm" href="https://<?= S3_BUCKET ?>.s3.amazonaws.com/teleskope/guides/quick_start_guide.pdf" target="_blank" rel="noreferrer noopener">Download</a></td>
+                            </tr> 
+                            <tr >	
+                                <td>2</td>
+                                <td>Affinities Group Leader Guide</td>
+                                <td><a aria-label="<?=gettext('Download');?>" class="btn btn-primary btn-sm" href="https://<?= S3_BUCKET ?>.s3.amazonaws.com/teleskope/guides/group_lead_guide.pdf" target="_blank" rel="noreferrer noopener">Download</a></td>
+                            </tr>
+                            <tr >	
+                                <td>4</td>
+                                <td>D&I Admin Panel Guide</td>
+                                <td><a aria-label="<?=gettext('Download');?>" class="btn btn-primary btn-sm" href="https://<?= S3_BUCKET ?>.s3.amazonaws.com/teleskope/guides/admin_guide.pdf" target="_blank" rel="noreferrer noopener">Download</a></td>
+                            </tr> 
+                                          
+                        </tbody>
+                    </table>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

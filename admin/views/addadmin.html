@@ -1,0 +1,83 @@
+
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3">
+                <div class="col-12 border-bottom mb-3">
+                    <h1><?= $pagetitle; ?></h1>
+                </div>
+
+                <?php if (isset($break)){ ?>
+                <div id="hidemesage" class="col-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo $break; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                <?php }elseif(isset($error)){ ?>
+                <div id="hidemesage" class="col-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo $error; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                <?php } ?>
+
+                <div class="col-12">
+                    <form class="row g-3" id="search-user" method="post" action="">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <div class="col-12">
+                            <p>Note: Only existing users can be assigned the Administrator privileges. Search a user from the list below and assign the desired privileges. If user you are searching for is not found in the search list, then it means the user has not yet joined the platform, in that case please ask the user to signup first.</p>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 col-form-label">Search User<span class="text-danger">*</span></label>
+                            <div class="col-md-8 bs-searchbox">
+                                <input class="form-control search" autocomplete="off" onkeyup="searchUsers(this.value)"
+                                       placeholder="Search user" type="text" required>
+                                <div id="show_dropdown"></div>
+                            </div>
+                        </div>
+
+                        <?php if ($_GET['context'] == 'zone'){ ?>
+                            <div class="row mb-3">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-8 form-check">
+                                    <input class="form-check-input" type="checkbox" name="manageZoneBudget" value="1" id="budgetCheck">
+                                    <label class="form-check-label" for="budgetCheck">Can Manage Zone Budget</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-8 form-check">
+                                    <input class="form-check-input" type="checkbox" name="manageZoneSpeaker" value="1" id="approverCheck">
+                                    <label class="form-check-label" for="approverCheck">Can Manage Zone Approvers</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-8 form-check">
+                                    <input class="form-check-input" type="checkbox" name="can_view_reports" value="1" id="reportCheck">
+                                    <label class="form-check-label" for="reportCheck">Can View Reports</label>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+                        <div class="col-12 text-center mt-4">
+                            <a href="<?=($_GET['context'] == 'zone') ? 'manageZoneAdmin' : 'manageadmin'?>" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" name="adminassign" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('#search-user').submit(function(event) {
+    if($.trim($('#user_search').val()) == ''){
+        swal.fire({title: 'Error!',text:"No user selected. Please try again!."});
+        event.preventDefault();
+   }
+});
+</script>

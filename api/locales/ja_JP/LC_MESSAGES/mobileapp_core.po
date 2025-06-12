@@ -1,0 +1,3882 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-05-09 20:33+0530\n"
+"PO-Revision-Date: 2025-05-09 20:33+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: index_v3_4.php:29 index_v3_4.php:35 index_v3_4.php:54
+msgid "Authentication Token is Invalid"
+msgstr "認証トークンが無効です"
+
+#: index_v3_4.php:40
+msgid "Session not found"
+msgstr "セッションが見つかりません"
+
+#: index_v3_4.php:49 index_v3_4.php:94 index_v3_4.php:372 index_v3_4.php:596
+#: index_v3_4.php:1073 index_v3_4.php:1272 index_v3_4.php:1748
+#: index_v3_4.php:1817 index_v3_4.php:1855 index_v3_4.php:1929
+#: index_v3_4.php:1979 index_v3_4.php:2327 index_v3_4.php:2421
+#: index_v3_4.php:2480 index_v3_4.php:2557 index_v3_4.php:2955
+#: index_v3_4.php:3073 index_v3_4.php:3151 index_v3_4.php:3184
+#: index_v3_4.php:3235 index_v3_4.php:3272 index_v3_4.php:3299
+#: index_v3_4.php:3331 index_v3_4.php:3422 index_v3_4.php:3441
+#: index_v3_4.php:3487 index_v3_4.php:3532 index_v3_4.php:3551
+#: index_v3_4.php:3597 index_v3_4.php:3624 index_v3_4.php:3706
+#: index_v3_4.php:3779 index_v3_4.php:3828 index_v3_4.php:3924
+#: index_v3_4.php:3951 index_v3_4.php:4023 index_v3_4.php:4139
+#: index_v3_4.php:4227 index_v3_4.php:4277 index_v3_4.php:4303
+#: index_v3_4.php:4335 index_v3_4.php:4368 index_v3_4.php:4408
+#: index_v3_4.php:4489 index_v3_4.php:4551 index_v3_4.php:4578
+#: index_v3_4.php:4619 index_v3_4.php:4665 index_v3_4.php:4699
+#: index_v3_4.php:4734 index_v3_4.php:4763 index_v3_4.php:4796
+#: index_v3_4.php:4826 index_v3_4.php:4880 index_v3_4.php:4906
+#: index_v3_4.php:4939 index_v3_4.php:5033 index_v3_4.php:5062
+#: index_v3_4.php:5120 index_v3_4.php:5239 index_v3_4.php:5450
+#: index_v3_4.php:5477 index_v3_4.php:5512 index_v3_4.php:5537
+#: index_v3_4.php:5590 index_v3_4.php:5611 index_v3_4.php:5670
+#: index_v3_4.php:5732 index_v3_4.php:5806 index_v3_4.php:5924
+#: index_v3_4.php:5960 index_v3_4.php:6075 index_v3_4.php:6102
+#: index_v3_4.php:6152 index_v3_4.php:6178 index_v3_4.php:6209
+#: index_v3_4.php:6563 index_v3_4.php:6746 index_v3_4.php:6947
+#: index_v3_4.php:6995 index_v3_4.php:7056 index_v3_4.php:7103
+#: index_v3_4.php:7184 index_v3_4.php:7258 index_v3_4.php:7338
+#: index_v3_4.php:7400 index_v3_4.php:7447 index_v3_4.php:7492
+#: index_v3_4.php:7591 index_v3_4.php:7658 index_v3_4.php:7699
+#: index_v3_4.php:7740 index_v3_4.php:7943 index_v3_4.php:7987
+#: index_v3_4.php:8029 index_v3_4.php:8121 index_v3_4.php:8232
+#: index_v3_4.php:8329 index_v3_4.php:8391 index_v3_4.php:8417
+#: index_v3_4.php:8468 index_v3_4.php:8521 index_v3_4.php:8556
+#: index_v3_4.php:8604 index_v3_4.php:8635 index_v3_4.php:8665
+#: index_v3_4.php:8694 index_v3_4.php:8728 index_v3_4.php:8875
+#: index_v3_4.php:8900 index_v3_4.php:9099 index_v3_4.php:9162
+#: index_v3_4.php:9212 index_v3_4.php:9253 index_v3_4.php:9309
+#: index_v3_4.php:9335 index_v3_4.php:9367 index_v3_4.php:9418
+#: index_v3_4.php:9464 index_v3_4.php:9528 index_v3_4.php:9564
+#: index_v3_4.php:9631 index_v3_4.php:9659 index_v3_4.php:9684
+#: index_v3_4.php:9708 index_v3_4.php:9772
+#, php-format
+msgid "%s can't be empty"
+msgstr "%sを空にすることはできません"
+
+#: index_v3_4.php:64
+msgid "Invalid or Expired Authentication Token"
+msgstr "無効または期限切れの認証トークン"
+
+#: index_v3_4.php:88
+msgid ""
+"Unable to assign a zone, please sign in into web application to complete "
+"your account setup."
+msgstr ""
+"ゾーンを割り当てることができません。ウェブ アプリケーションにサインインして、"
+"アカウントのセットアップを完了してください。"
+
+#: index_v3_4.php:101
+msgid "Welcome! You have signed in successfully."
+msgstr "いらっしゃいませ！サインインに成功しました。"
+
+#: index_v3_4.php:103
+msgid "Your mobile application session has expired. Please sign in again."
+msgstr ""
+"モバイル アプリケーション セッションの有効期限が切れています。もう一度サイン"
+"インしてください。"
+
+#: index_v3_4.php:114
+msgid "Method not exist"
+msgstr "メソッドが存在しません"
+
+#: index_v3_4.php:117
+msgid "Please select a method"
+msgstr "方法を選択してください"
+
+#: index_v3_4.php:139 index_v3_4.php:307 index_v3_4.php:329 index_v3_4.php:355
+#: index_v3_4.php:366 index_v3_4.php:416 index_v3_4.php:461 index_v3_4.php:590
+#: index_v3_4.php:621 index_v3_4.php:1067 index_v3_4.php:1090
+#: index_v3_4.php:1266 index_v3_4.php:1703 index_v3_4.php:1742
+#: index_v3_4.php:1811 index_v3_4.php:1849 index_v3_4.php:1923
+#: index_v3_4.php:1973 index_v3_4.php:2320 index_v3_4.php:2334
+#: index_v3_4.php:2414 index_v3_4.php:2427 index_v3_4.php:2474
+#: index_v3_4.php:2526 index_v3_4.php:2551 index_v3_4.php:2564
+#: index_v3_4.php:2948 index_v3_4.php:2995 index_v3_4.php:3067
+#: index_v3_4.php:3123 index_v3_4.php:3145 index_v3_4.php:3178
+#: index_v3_4.php:3210 index_v3_4.php:3229 index_v3_4.php:3266
+#: index_v3_4.php:3293 index_v3_4.php:3325 index_v3_4.php:3416
+#: index_v3_4.php:3435 index_v3_4.php:3481 index_v3_4.php:3525
+#: index_v3_4.php:3545 index_v3_4.php:3591 index_v3_4.php:3618
+#: index_v3_4.php:3700 index_v3_4.php:3773 index_v3_4.php:3820
+#: index_v3_4.php:3917 index_v3_4.php:3945 index_v3_4.php:4017
+#: index_v3_4.php:4132 index_v3_4.php:4145 index_v3_4.php:4221
+#: index_v3_4.php:4271 index_v3_4.php:4297 index_v3_4.php:4329
+#: index_v3_4.php:4362 index_v3_4.php:4378 index_v3_4.php:4402
+#: index_v3_4.php:4483 index_v3_4.php:4508 index_v3_4.php:4545
+#: index_v3_4.php:4572 index_v3_4.php:4613 index_v3_4.php:4659
+#: index_v3_4.php:4693 index_v3_4.php:4728 index_v3_4.php:4757
+#: index_v3_4.php:4790 index_v3_4.php:4820 index_v3_4.php:4874
+#: index_v3_4.php:4900 index_v3_4.php:4933 index_v3_4.php:5023
+#: index_v3_4.php:5056 index_v3_4.php:5087 index_v3_4.php:5114
+#: index_v3_4.php:5138 index_v3_4.php:5233 index_v3_4.php:5422
+#: index_v3_4.php:5441 index_v3_4.php:5471 index_v3_4.php:5484
+#: index_v3_4.php:5506 index_v3_4.php:5531 index_v3_4.php:5584
+#: index_v3_4.php:5605 index_v3_4.php:5664 index_v3_4.php:5726
+#: index_v3_4.php:5782 index_v3_4.php:5800 index_v3_4.php:5918
+#: index_v3_4.php:5953 index_v3_4.php:5966 index_v3_4.php:6069
+#: index_v3_4.php:6096 index_v3_4.php:6146 index_v3_4.php:6172
+#: index_v3_4.php:6203 index_v3_4.php:6236 index_v3_4.php:6258
+#: index_v3_4.php:6557 index_v3_4.php:6569 index_v3_4.php:6740
+#: index_v3_4.php:6752 index_v3_4.php:6941 index_v3_4.php:6953
+#: index_v3_4.php:6989 index_v3_4.php:7001 index_v3_4.php:7050
+#: index_v3_4.php:7062 index_v3_4.php:7097 index_v3_4.php:7109
+#: index_v3_4.php:7178 index_v3_4.php:7190 index_v3_4.php:7252
+#: index_v3_4.php:7264 index_v3_4.php:7332 index_v3_4.php:7354
+#: index_v3_4.php:7360 index_v3_4.php:7394 index_v3_4.php:7416
+#: index_v3_4.php:7441 index_v3_4.php:7461 index_v3_4.php:7486
+#: index_v3_4.php:7566 index_v3_4.php:7585 index_v3_4.php:7608
+#: index_v3_4.php:7652 index_v3_4.php:7664 index_v3_4.php:7693
+#: index_v3_4.php:7705 index_v3_4.php:7734 index_v3_4.php:7746
+#: index_v3_4.php:7936 index_v3_4.php:7949 index_v3_4.php:7980
+#: index_v3_4.php:7993 index_v3_4.php:8022 index_v3_4.php:8035
+#: index_v3_4.php:8114 index_v3_4.php:8127 index_v3_4.php:8226
+#: index_v3_4.php:8323 index_v3_4.php:8335 index_v3_4.php:8346
+#: index_v3_4.php:8385 index_v3_4.php:8411 index_v3_4.php:8427
+#: index_v3_4.php:8451 index_v3_4.php:8462 index_v3_4.php:8474
+#: index_v3_4.php:8514 index_v3_4.php:8550 index_v3_4.php:8598
+#: index_v3_4.php:8629 index_v3_4.php:8659 index_v3_4.php:8688
+#: index_v3_4.php:8722 index_v3_4.php:8869 index_v3_4.php:8894
+#: index_v3_4.php:8906 index_v3_4.php:9093 index_v3_4.php:9106
+#: index_v3_4.php:9156 index_v3_4.php:9169 index_v3_4.php:9206
+#: index_v3_4.php:9219 index_v3_4.php:9247 index_v3_4.php:9259
+#: index_v3_4.php:9303 index_v3_4.php:9329 index_v3_4.php:9360
+#: index_v3_4.php:9412 index_v3_4.php:9458 index_v3_4.php:9522
+#: index_v3_4.php:9558 index_v3_4.php:9625 index_v3_4.php:9653
+#: index_v3_4.php:9678 index_v3_4.php:9702 index_v3_4.php:9734
+#: index_v3_4.php:9766
+msgid "Bad request"
+msgstr "間違ったリクエスト"
+
+#: index_v3_4.php:183
+msgid "Profile data"
+msgstr "プロファイルデータ"
+
+#: index_v3_4.php:311
+msgid "You are now signed out. See you later"
+msgstr "これでサインアウトしました。また後で"
+
+#: index_v3_4.php:314 index_v3_4.php:439 index_v3_4.php:3733
+#: index_v3_4.php:3756 index_v3_4.php:4389 index_v3_4.php:5127
+#: index_v3_4.php:5429 index_v3_4.php:9512 index_v3_4.php:9547
+#: index_v3_4.php:9642 index_v3_4.php:9667 index_v3_4.php:9692
+#: index_v3_4.php:9794
+msgid "Something went wrong. Please try again."
+msgstr "何かがうまくいかなかった。もう一度やり直してください。"
+
+#: index_v3_4.php:335
+msgid "Notifications are OFF now."
+msgstr "通知は現在オフになっています。"
+
+#: index_v3_4.php:339
+msgid "Notifications are ON now."
+msgstr "現在、通知がオンになっています。"
+
+#: index_v3_4.php:358
+msgid "All branches list"
+msgstr "すべてのブランチリスト"
+
+#: index_v3_4.php:397
+msgid "Profile picture uploaded successfully"
+msgstr "プロフィール写真が正常にアップロードされました"
+
+#: index_v3_4.php:400
+msgid "Uploading error! Please try again"
+msgstr "アップロードエラー！もう一度やり直してください"
+
+#: index_v3_4.php:403
+msgid "Maximum allowed size of profile picture is 2MB"
+msgstr "プロフィール写真の最大許容サイズは2MBです"
+
+#: index_v3_4.php:406
+msgid "Only .jpg,.jpeg,.png files are allowed"
+msgstr ".jpg、.jpeg、.png ファイルのみ許可されます"
+
+#: index_v3_4.php:437
+msgid "Profile updated successfully"
+msgstr "プロフィールを更新しました"
+
+#: index_v3_4.php:511
+#, php-format
+msgid "Click on any %s tile to join!"
+msgstr "参加するには、%sタイルをクリックしてください。"
+
+#: index_v3_4.php:520
+msgid "All groups"
+msgstr "すべてのグループ"
+
+#: index_v3_4.php:522
+msgid "No groups found"
+msgstr "コミュニティが見つかりません"
+
+#: index_v3_4.php:655 index_v3_4.php:1134
+#: locales/source/app_locales_strings.php:270
+msgid "Manage Registration"
+msgstr "登録の管理"
+
+#: index_v3_4.php:655 index_v3_4.php:1134 index_v3_4.php:8823
+#: locales/source/app_locales_strings.php:368
+msgid "Register"
+msgstr "登録"
+
+#: index_v3_4.php:678 index_v3_4.php:1253
+msgid "Group detail"
+msgstr "グループの詳細"
+
+#: index_v3_4.php:680 index_v3_4.php:1255 index_v3_4.php:1727
+#: index_v3_4.php:1796 index_v3_4.php:1835 index_v3_4.php:1908
+msgid "Group not found"
+msgstr "グループが見つかりません"
+
+#: index_v3_4.php:762
+msgid "Group events"
+msgstr "グループイベント"
+
+#: index_v3_4.php:764 index_v3_4.php:1052 index_v3_4.php:1414
+#: index_v3_4.php:1667 index_v3_4.php:3054 index_v3_4.php:5221
+#: index_v3_4.php:5224
+msgid "No events"
+msgstr "表示するイベントはありません"
+
+#: index_v3_4.php:804 index_v3_4.php:1454
+msgid "Group members"
+msgstr "グループの人（仲間）たち"
+
+#: index_v3_4.php:857
+msgid "About us"
+msgstr "私達について"
+
+#: index_v3_4.php:910 index_v3_4.php:1511
+msgid "Group newsletters"
+msgstr "グループニュースレター"
+
+#: index_v3_4.php:912 index_v3_4.php:1513
+msgid "No newsletters"
+msgstr "ニュースレターはありません"
+
+#: index_v3_4.php:991 index_v3_4.php:1599
+msgid "Discussions list"
+msgstr "ディスカッションリスト"
+
+#: index_v3_4.php:1050 index_v3_4.php:1665
+msgid "Group past events"
+msgstr "過去のイベントをグループ化する"
+
+#: index_v3_4.php:1057 index_v3_4.php:1672
+msgid "Please select a section"
+msgstr "セクションを選択してください"
+
+#: index_v3_4.php:1158 index_v3_4.php:1290 index_v3_4.php:2360
+#: index_v3_4.php:2449 index_v3_4.php:2573 index_v3_4.php:4163
+#: index_v3_4.php:4497 index_v3_4.php:5681 index_v3_4.php:5740
+#, php-format
+msgid "This is a private %1$s. Only members can view the content."
+msgstr "これは非公開の %1$s です。メンバーのみがコンテンツを閲覧できます。"
+
+#: index_v3_4.php:1158
+#, php-format
+msgid ""
+" If you recently joined, your access might take a few moments. Try reloading "
+"the page after a few seconds to see the content."
+msgstr ""
+"最近参加された場合は、アクセスに少し時間がかかることがあります。コンテンツを"
+"表示するには、数秒後にページを再読み込みしてみてください。"
+
+#: index_v3_4.php:1163 locales/source/app_locales_strings.php:47
+msgid "About Us"
+msgstr "私達について"
+
+#: index_v3_4.php:1171
+msgid "Donations"
+msgstr "寄付金"
+
+#: index_v3_4.php:1189 locales/source/app_locales_strings.php:44
+msgid "Events"
+msgstr "イベント"
+
+#: index_v3_4.php:1197 locales/source/app_locales_strings.php:45
+msgid "Newsletters"
+msgstr "ニュースレター"
+
+#: index_v3_4.php:1205 locales/source/app_locales_strings.php:184
+msgid "Resources"
+msgstr "資料"
+
+#: index_v3_4.php:1213 locales/source/app_locales_strings.php:134
+msgid "Albums"
+msgstr "アルバム"
+
+#: index_v3_4.php:1222
+#, php-format
+msgid "My %s"
+msgstr "じぶんの%s"
+
+#: index_v3_4.php:1231 locales/source/app_locales_strings.php:154
+msgid "Discussions"
+msgstr "ディスカッション"
+
+#: index_v3_4.php:1317
+msgid "Announcements list"
+msgstr "お知らせ一覧"
+
+#: index_v3_4.php:1319
+msgid "No announcements"
+msgstr "アナウンスなし"
+
+#: index_v3_4.php:1412
+msgid "Events lists"
+msgstr "イベントリスト"
+
+#: index_v3_4.php:1709
+msgid " can't be empty"
+msgstr "メールアドレスを入力してください"
+
+#: index_v3_4.php:1722
+msgid "About chapter"
+msgstr "章について"
+
+#: index_v3_4.php:1724
+msgid "Chapter not found"
+msgstr "章が見つかりません"
+
+#: index_v3_4.php:1791
+msgid "Chapter members list."
+msgstr "チャプターメンバーリスト。"
+
+#: index_v3_4.php:1793
+msgid "Chapter members listing not allowed"
+msgstr "チャプターメンバーのリストは許可されていません"
+
+#: index_v3_4.php:1830
+msgid "About channel"
+msgstr "チャンネルについて"
+
+#: index_v3_4.php:1832
+msgid "Channel not found"
+msgstr "チャンネルが見つかりません"
+
+#: index_v3_4.php:1903
+msgid "Channel members list."
+msgstr "チャネルメンバーリスト。"
+
+#: index_v3_4.php:1905
+msgid "Channel members listing not allowed"
+msgstr "チャネルメンバーのリストは許可されていません"
+
+#: index_v3_4.php:1956
+msgid "Joined groups"
+msgstr "参加グループ"
+
+#: index_v3_4.php:1958 index_v3_4.php:9757
+msgid "No groups joined"
+msgstr "参加したグループはありません"
+
+#: index_v3_4.php:2007
+msgid "No content available"
+msgstr "コンテンツがありません"
+
+#: index_v3_4.php:2301
+msgid "All feeds"
+msgstr "すべてのフィード"
+
+#: index_v3_4.php:2339
+#, php-format
+msgid ""
+"Access denied. The %s feature is disabled. Please contact your administrator."
+msgstr ""
+"アクセスが拒否されました。 %s 機能は無効になっています。管理者に連絡してくだ"
+"さい。"
+
+#: index_v3_4.php:2396
+msgid "Post detail"
+msgstr "投稿の詳細"
+
+#: index_v3_4.php:2398 index_v3_4.php:2511
+msgid "It seems this announcement has been removed."
+msgstr "この発表は削除されたようです。"
+
+#: index_v3_4.php:2432
+msgid ""
+"Access denied. The newsletter feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"アクセスが拒否されました。ニュースレター機能は無効になっています。管理者に連"
+"絡してください。"
+
+#: index_v3_4.php:2458
+msgid "Newsletter detail"
+msgstr "ニュースレターの詳細"
+
+#: index_v3_4.php:2460
+msgid "It seems this newsletter has been removed."
+msgstr "このニュースレターは削除されたようです。"
+
+#: index_v3_4.php:2498 index_v3_4.php:2505 index_v3_4.php:4246
+#: index_v3_4.php:4253 index_v3_4.php:4847 index_v3_4.php:4854
+#: index_v3_4.php:6121 index_v3_4.php:6128 index_v3_4.php:8362
+#: index_v3_4.php:8369 index_v3_4.php:8574 index_v3_4.php:8581
+#: index_v3_4.php:9283 index_v3_4.php:9290
+msgid "Comment added"
+msgstr "コメントが追加されました"
+
+#: index_v3_4.php:2500 index_v3_4.php:2507 index_v3_4.php:4005
+#: index_v3_4.php:4248 index_v3_4.php:4255 index_v3_4.php:4849
+#: index_v3_4.php:4856 index_v3_4.php:6123 index_v3_4.php:6130
+#: index_v3_4.php:8364 index_v3_4.php:8371 index_v3_4.php:8576
+#: index_v3_4.php:8583 index_v3_4.php:9285 index_v3_4.php:9292
+msgid "Something went wrong! Please try again."
+msgstr "何かがうまくいかなかった！もう一度やり直してください。"
+
+#: index_v3_4.php:2538
+msgid "All departments"
+msgstr "すべての部門"
+
+#: index_v3_4.php:2655 locales/source/app_locales_strings.php:325
+msgid "This event is over"
+msgstr "このイベントは終了しました"
+
+#: index_v3_4.php:2657
+msgid ""
+"Sorry, this Event RSVP has closed. We are no longer accepting RSVP updates "
+"for this event."
+msgstr ""
+"申し訳ございませんが、このイベントへの RSVP は終了しました。このイベントへの "
+"RSVP の更新は受け付けておりません。"
+
+#: index_v3_4.php:2737
+msgid "Please confirm!"
+msgstr "認証してください"
+
+#: index_v3_4.php:2738
+msgid "Are you sure your want to sign up for this role?"
+msgstr "この役割にサインアップしてもよろしいですか？"
+
+#: index_v3_4.php:2749
+msgid ""
+"Note: If you sign up for a role, your RSVP for this event will be "
+"automatically added."
+msgstr ""
+"注: 役割にサインアップすると、このイベントの RSVP が自動的に追加されます。"
+
+#: index_v3_4.php:2778 index_v3_4.php:2798
+msgid "Update"
+msgstr "アップデート"
+
+#: index_v3_4.php:2779
+msgid "Post event survey responses"
+msgstr "イベント後のアンケート回答"
+
+#: index_v3_4.php:2781
+msgid "Respond"
+msgstr "返信"
+
+#: index_v3_4.php:2782
+msgid "Post event survey is available"
+msgstr "イベント後のアンケートもご利用いただけます"
+
+#: index_v3_4.php:2797
+msgid "Pre event survey responses"
+msgstr "イベント前のアンケート回答"
+
+#: index_v3_4.php:2828
+msgid ""
+"Before accepting the waiver, please read the disclaimer. Click the "
+"disclaimer title to see the full details."
+msgstr ""
+"権利放棄に同意する前に、免責事項をお読みください。免責事項のタイトルをクリッ"
+"クすると、詳細がすべて表示されます。"
+
+#: index_v3_4.php:2844
+#, php-format
+msgid "By typing in <strong><i>%s</i></strong> below, I provide my consent"
+msgstr "以下に<strong><i>%s</i></strong>を入力することで同意したことになります"
+
+#: index_v3_4.php:2844
+msgid "I Agree"
+msgstr "同意"
+
+#: index_v3_4.php:2850
+msgid "In order to RSVP for this Event please accept the Event Waivers above."
+msgstr ""
+"このイベントへの参加を表明するには、上記のイベント免責事項に同意してくださ"
+"い。"
+
+#: index_v3_4.php:2863
+msgid "RSVPs are not required for this event."
+msgstr "このイベントには事前の返信は必要ありません。"
+
+#: index_v3_4.php:2868 locales/source/app_locales_strings.php:74
+msgid "Event Detail"
+msgstr "営業詳細"
+
+#: index_v3_4.php:2870 index_v3_4.php:2980 index_v3_4.php:3282
+#: index_v3_4.php:8587 index_v3_4.php:8619 index_v3_4.php:8649
+msgid "It seems this event has been removed."
+msgstr "このイベントは削除されたようです。"
+
+#: index_v3_4.php:2936
+msgid "Deprecated method"
+msgstr "非推奨のメソッド"
+
+#: index_v3_4.php:2968 locales/source/app_locales_strings.php:459
+#, php-format
+msgid ""
+"Thank you for RSVPing %s to this event. Your RSVP has been recorded, and you "
+"will receive an email with a corresponding calendar hold."
+msgstr ""
+"このイベントへのご返信（%s）ありがとうございます。ご返信は記録され、対応する"
+"カレンダーの保留情報を記載したメールが送信されます。"
+
+#: index_v3_4.php:2970
+msgid "Thank you for RSVPing \""
+msgstr "ご返信ありがとうございます。"
+
+#: index_v3_4.php:2974
+msgid "Something went wrong! Please try again"
+msgstr "何かがうまくいかなかった！もう一度やり直してください"
+
+#: index_v3_4.php:2977 index_v3_4.php:3760
+msgid "Not a valid type"
+msgstr "有効なタイプではありません"
+
+#: index_v3_4.php:3000 index_v3_4.php:5143
+msgid "Event feature is disabled"
+msgstr "イベント機能が無効になっています"
+
+#: index_v3_4.php:3013
+msgid "Past events"
+msgstr "過去のイベント"
+
+#: index_v3_4.php:3024
+msgid "Upcoming events"
+msgstr "開催予定のイベント"
+
+#: index_v3_4.php:3107
+msgid "All notifications"
+msgstr "すべての通知"
+
+#: index_v3_4.php:3109
+msgid "No notifications"
+msgstr "通知なし"
+
+#: index_v3_4.php:3133
+msgid "Unread count"
+msgstr "未読数"
+
+#: index_v3_4.php:3157
+msgid "All viewed"
+msgstr "すべて表示"
+
+#: index_v3_4.php:3163
+msgid "Notification viewed"
+msgstr "通知を表示"
+
+#: index_v3_4.php:3189
+msgid "All notification cleared"
+msgstr "すべての通知がクリアされました"
+
+#: index_v3_4.php:3195
+msgid "Notification cleared"
+msgstr "通知がクリアされました"
+
+#: index_v3_4.php:3216 index_v3_4.php:4604 index_v3_4.php:4647
+#: index_v3_4.php:4680 index_v3_4.php:4716 index_v3_4.php:4744
+#: index_v3_4.php:4778 index_v3_4.php:4808 index_v3_4.php:5075
+#: locales/source/app_locales_strings.php:174
+msgid "Done"
+msgstr "完了"
+
+#: index_v3_4.php:3249 index_v3_4.php:4348 index_v3_4.php:4952
+#: index_v3_4.php:6084 index_v3_4.php:7465 index_v3_4.php:8647
+msgid "Updated successfully"
+msgstr "更新成功"
+
+#: index_v3_4.php:3251
+msgid "It seems this post has been removed."
+msgstr "この投稿は削除されたようです。"
+
+#: index_v3_4.php:3280
+msgid "Check-in Successful."
+msgstr "チェックインに成功しました。"
+
+#: index_v3_4.php:3313
+msgid "Chapters list"
+msgstr "チャプターリスト"
+
+#: index_v3_4.php:3315 index_v3_4.php:3347 index_v3_4.php:3690
+#: index_v3_4.php:3763
+msgid "It seems this group has been removed."
+msgstr "このグループは削除されたようです。"
+
+#: index_v3_4.php:3345
+msgid "Channels list"
+msgstr "チャンネルリスト"
+
+#: index_v3_4.php:3361
+msgid "Event Highlights details"
+msgstr "イベントハイライトの詳細"
+
+#: index_v3_4.php:3384
+msgid "Event highlight detail"
+msgstr "イベントハイライトの詳細"
+
+#: index_v3_4.php:3396
+msgid "Disliked successfully"
+msgstr "嫌われた"
+
+#: index_v3_4.php:3408
+msgid "Comment added successfully"
+msgstr "コメントが正常に追加されました"
+
+#: index_v3_4.php:3426
+msgid "Link generated successfully"
+msgstr "リンクが正常に生成されました"
+
+#: index_v3_4.php:3457 index_v3_4.php:3473 index_v3_4.php:4315
+#: index_v3_4.php:4917 index_v3_4.php:6190 index_v3_4.php:8437
+#: index_v3_4.php:8676 index_v3_4.php:9347
+msgid "Comment deleted successfully"
+msgstr "コメントの削除に成功しました"
+
+#: index_v3_4.php:3459 index_v3_4.php:3608 index_v3_4.php:4287
+#: index_v3_4.php:4317 index_v3_4.php:4890 index_v3_4.php:4919
+#: index_v3_4.php:6162 index_v3_4.php:6192 index_v3_4.php:8401
+#: index_v3_4.php:8439 index_v3_4.php:8616 index_v3_4.php:8678
+#: index_v3_4.php:9319 index_v3_4.php:9349
+msgid "Comment not found"
+msgstr "コメントが見つかりません"
+
+#: index_v3_4.php:3492 index_v3_4.php:3496
+msgid "Invalid checkin url."
+msgstr "チェックインURLが無効です。"
+
+#: index_v3_4.php:3501 index_v3_4.php:8699 index_v3_4.php:8733
+#: index_v3_4.php:9779
+msgid "Event not found"
+msgstr "イベントが見つかりません"
+
+#: index_v3_4.php:3504
+msgid "You are too late. Checkin has ended"
+msgstr "あなたは遅れすぎだ。チェックインが終了しました"
+
+#: index_v3_4.php:3506
+msgid "You are too early. Checkin is not open yet"
+msgstr "あなたは早すぎます。チェックインはまだ開いていません"
+
+#: index_v3_4.php:3510
+msgid "You are checked in successfully"
+msgstr "チェックインに成功しました"
+
+#: index_v3_4.php:3582
+msgid "System messages"
+msgstr "システムメッセージ"
+
+#: index_v3_4.php:3606 index_v3_4.php:3812 index_v3_4.php:4285
+#: index_v3_4.php:4888 index_v3_4.php:6160 index_v3_4.php:8399
+#: index_v3_4.php:8614 index_v3_4.php:9317
+msgid "Comment updated successfully"
+msgstr "コメントが正常に更新されました"
+
+#: index_v3_4.php:3664
+msgid "Manage your membership"
+msgstr "メンバーシップを管理する"
+
+#: index_v3_4.php:3677
+msgid "As per your office location you have been auto assigned "
+msgstr "あなたのオフィスの場所に従って、あなたは自動割り当てされています"
+
+#: index_v3_4.php:3731
+msgid "Joined successfully"
+msgstr "正常に参加しました"
+
+#: index_v3_4.php:3736
+msgid "You can't join this group."
+msgstr "このグループに参加することはできません。"
+
+#: index_v3_4.php:3742
+msgid "Leader cannot leave membership."
+msgstr "リーダーはメンバーシップを脱退できません。"
+
+#: index_v3_4.php:3754
+msgid "Left successfully"
+msgstr "正常に去った"
+
+#: index_v3_4.php:3784
+msgid "New password can't be the same as old password"
+msgstr "新しいパスワードを古いパスワードと同じにすることはできません"
+
+#: index_v3_4.php:3793
+msgid "Password changed successfully"
+msgstr "パスワードは正常に変更されました"
+
+#: index_v3_4.php:3795
+msgid "Incorrect old password provided! Please try again"
+msgstr "間違った古いパスワードが提供されました！もう一度やり直してください"
+
+#: index_v3_4.php:3798
+msgid ""
+"New password must be minimum 8 characters long and must contain an uppercase "
+"letter, a lowercase letter, a number and a special character."
+msgstr ""
+"新しいパスワードは8文字以上で、大文字、小文字、数字、特殊文字を含める必要があ"
+"ります。"
+
+#: index_v3_4.php:3872
+msgid "Survey Link"
+msgstr "調査リンク"
+
+#: index_v3_4.php:3874
+msgid "No survey found"
+msgstr "調査は見つかりませんでした"
+
+#: index_v3_4.php:3883 locales/source/app_locales_strings.php:462
+#, php-format
+msgid "This is a collaborative event between %s"
+msgstr "これは%sの共同イベントです"
+
+#: index_v3_4.php:3934
+msgid "Translated strings"
+msgstr "翻訳された文字列"
+
+#: index_v3_4.php:3936
+msgid "Translation not available"
+msgstr "翻訳は利用できません"
+
+#: index_v3_4.php:3956
+msgid "This feature is not available"
+msgstr "この機能は利用できません"
+
+#: index_v3_4.php:3960 index_v3_4.php:9121
+msgid "You are already a member"
+msgstr "あなたはすでにメンバーです"
+
+#: index_v3_4.php:3965
+msgid "Your request canceled successfully."
+msgstr "リクエストは正常にキャンセルされました。"
+
+#: index_v3_4.php:4003
+#, php-format
+msgid "%s join request sent successfully."
+msgstr "%s参加リクエストが正常に送信されました。"
+
+#: index_v3_4.php:4029
+msgid "Hashtag does not exist."
+msgstr "ハッシュタグは存在しません。"
+
+#: index_v3_4.php:4101
+#, php-format
+msgid "Feeds related to %s tag."
+msgstr "%sタグに関連するフィード。"
+
+#: index_v3_4.php:4150
+msgid ""
+"Access denied. The discussion feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"アクセスが拒否されました。ディスカッション機能は無効になっています。管理者に"
+"連絡してください。"
+
+#: index_v3_4.php:4209
+msgid "Discussion detail"
+msgstr "ディスカッションの詳細"
+
+#: index_v3_4.php:4211
+msgid "It seems this discussioin has been removed."
+msgstr "このディスカッションは削除されたようです。"
+
+#: index_v3_4.php:4260 index_v3_4.php:4350 index_v3_4.php:4392
+msgid "It seems this discussion has been removed."
+msgstr "この議論は削除されたようです。"
+
+#: index_v3_4.php:4383 index_v3_4.php:4741 index_v3_4.php:6223
+msgid "Permission denied"
+msgstr "アクセス拒否"
+
+#: index_v3_4.php:4387
+msgid "Discussion deleted successfully"
+msgstr "ディスカッションが正常に削除されました"
+
+#: index_v3_4.php:4454
+msgid "Albums list"
+msgstr "アルバムリスト"
+
+#: index_v3_4.php:4530
+msgid "Media lists"
+msgstr "メディアリスト"
+
+#: index_v3_4.php:4532
+msgid "Media not exist."
+msgstr "メディアが存在しません。"
+
+#: index_v3_4.php:4536
+msgid "Album not exist"
+msgstr "アルバムが存在しません"
+
+#: index_v3_4.php:4559
+msgid "Media like and commens"
+msgstr "好きなメディアとコメン"
+
+#: index_v3_4.php:4562
+msgid "Album does not exist"
+msgstr "アルバムが存在しません"
+
+#: index_v3_4.php:4597 index_v3_4.php:4637
+#, php-format
+msgid "Please select a %s scope"
+msgstr "%s スコープを選択してください"
+
+#: index_v3_4.php:4599 index_v3_4.php:4639 index_v3_4.php:9401
+#: index_v3_4.php:9785
+msgid "Access denied"
+msgstr "アクセスが拒否されました"
+
+#: index_v3_4.php:4649 index_v3_4.php:4683 index_v3_4.php:4718
+#: index_v3_4.php:4746 index_v3_4.php:4780 index_v3_4.php:4810
+#: index_v3_4.php:4863 index_v3_4.php:4957 index_v3_4.php:5077
+msgid "It seems this album has been removed."
+msgstr "このアルバムは削除されたようです。"
+
+#: index_v3_4.php:4677
+msgid "Deletion failed because album is not empty."
+msgstr "アルバムが空ではないため、削除に失敗しました。"
+
+#: index_v3_4.php:4711
+msgid "No such media exist"
+msgstr "そのようなメディアは存在しません"
+
+#: index_v3_4.php:4860 index_v3_4.php:4954
+msgid "It seems this album media has been removed."
+msgstr "このアルバムメディアは削除されたようです。"
+
+#: index_v3_4.php:5044
+msgid "Allowed"
+msgstr "許可"
+
+#: index_v3_4.php:5046
+msgid "Not allowed."
+msgstr "許可された試行回数"
+
+#: index_v3_4.php:5106
+msgid "List of zones"
+msgstr "ゾーン一覧"
+
+#: index_v3_4.php:5125
+msgid "Zone switched successfully"
+msgstr "ゾーンが正常に切り替えられました"
+
+#: index_v3_4.php:5245
+msgid "Invalid url"
+msgstr "無効なURL"
+
+#: index_v3_4.php:5411
+msgid "Callback data"
+msgstr "コールバック データ"
+
+#: index_v3_4.php:5413
+msgid "Invalid urls"
+msgstr "無効な URL"
+
+#: index_v3_4.php:5427
+msgid ""
+"Your account has been marked for deletion and will be permanently deleted, "
+"including all information, after thirty days."
+msgstr ""
+"あなたのアカウントは削除対象としてマークされており、30 日後にすべての情報を含"
+"めて完全に削除されます。"
+
+#: index_v3_4.php:5432
+msgid ""
+"Please type 'Delete' in text box to provide your consent to delete your "
+"account"
+msgstr ""
+"アカウントの削除に同意するには、テキスト ボックスに「Delete」と入力してくださ"
+"い"
+
+#: index_v3_4.php:5444
+msgid "Inbox Feature is not active for you"
+msgstr "受信トレイ機能が有効になっていません"
+
+#: index_v3_4.php:5459
+msgid "Messages list."
+msgstr "メッセージリスト。"
+
+#: index_v3_4.php:5461
+msgid "No messages found"
+msgstr "メッセージはありません"
+
+#: index_v3_4.php:5490
+msgid "Unable to load message as it might be deleted."
+msgstr "削除された可能性があるため、メッセージを読み込めません。"
+
+#: index_v3_4.php:5497
+msgid "Message detail."
+msgstr "メッセージの詳細。"
+
+#: index_v3_4.php:5519
+msgid "Deleted Successfully."
+msgstr "正常に削除されました。"
+
+#: index_v3_4.php:5521
+msgid "Unable to delete. Please try again later."
+msgstr "削除できません。後でもう一度やり直してください。"
+
+#: index_v3_4.php:5547
+msgid "You already signed up as a volunteer"
+msgstr "あなたはすでにボランティアとしてサインアップしています"
+
+#: index_v3_4.php:5552
+msgid "Event Volunteer request capacity has been met"
+msgstr "イベントボランティアの募集定員に達しました"
+
+#: index_v3_4.php:5572 locales/source/app_locales_strings.php:447
+msgid "Volunteer role signup successfully"
+msgstr "ボランティアの役割のサインアップに成功しました"
+
+#: index_v3_4.php:5574
+msgid "Something went wrong. Please try again"
+msgstr "何か問題が発生しました。もう一度お試しください"
+
+#: index_v3_4.php:5595 locales/source/app_locales_strings.php:446
+msgid "Volunteer role declined successfully"
+msgstr "ボランティアの役割は正常に辞退しました"
+
+#: index_v3_4.php:5651 index_v3_4.php:5714
+msgid "Resource list."
+msgstr "リソース リスト。"
+
+#: index_v3_4.php:5654 index_v3_4.php:5717
+msgid "No resource found"
+msgstr "リソースが見つかりません"
+
+#: index_v3_4.php:5751
+msgid "The requested resource is no longer available"
+msgstr "要求されたリソースは利用できなくなりました"
+
+#: index_v3_4.php:5772
+msgid "Resource you are looking for does not exist."
+msgstr "お探しのリソースは存在しません。"
+
+#: index_v3_4.php:5791
+msgid "Recognition types list."
+msgstr "認識タイプのリスト。"
+
+#: index_v3_4.php:5910
+msgid "Filtered recognitions list"
+msgstr "フィルタリングされた認識リスト"
+
+#: index_v3_4.php:5931 index_v3_4.php:5935
+msgid "Incorrect Topic Type."
+msgstr "トピックタイプが正しくありません。"
+
+#: index_v3_4.php:5939
+msgid "Likers Details"
+msgstr "いいね！の詳細"
+
+#: index_v3_4.php:5971
+msgid ""
+"Access denied. The Recognition feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"アクセスが拒否されました。認識機能は無効になっています。管理者にお問い合わせ"
+"ください。"
+
+#: index_v3_4.php:6051
+msgid "Recognition detail"
+msgstr "認識の詳細"
+
+#: index_v3_4.php:6053 index_v3_4.php:6086 index_v3_4.php:6135
+msgid "It seems this recognition has been removed."
+msgstr "この認識は削除されたようです。"
+
+#: index_v3_4.php:6217
+msgid "Recognition found"
+msgstr "認識が見つかりました"
+
+#: index_v3_4.php:6227
+msgid "Recognition deleted successfully"
+msgstr "認識が正常に削除されました"
+
+#: index_v3_4.php:6250
+msgid "Web view auth token generated"
+msgstr "Webビュー認証トークンが生成されました"
+
+#: index_v3_4.php:6266
+msgid "Profile picture deleted successfully"
+msgstr "プロフィール写真が正常に削除されました"
+
+#: index_v3_4.php:6448
+#, php-format
+msgid "%s Leaders"
+msgstr "%s リーダー"
+
+#: index_v3_4.php:6577
+#, php-format
+msgid ""
+"This %1$s is not yet configured to use the %2$s feature. Please contact your "
+"administrator."
+msgstr ""
+"この %1$s は、%2$s 機能を使用するようにまだ構成されていません。管理者に連絡し"
+"てください。"
+
+#: index_v3_4.php:6581
+#, php-format
+msgid ""
+"No role types have yet been configured in this %1$s. Please contact your "
+"administrator."
+msgstr ""
+"この %1$s にはロール タイプがまだ構成されていません。管理者に連絡してくださ"
+"い。"
+
+#: index_v3_4.php:6615
+#, php-format
+msgid ""
+"No Individual Development %s role type found. You should contact your "
+"administrator to get help creating the new role."
+msgstr ""
+"個人開発 %s 役割タイプが見つかりません。新しい役割の作成については、管理者に"
+"連絡して支援を受ける必要があります。"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:492
+#, php-format
+msgid "You have not started the %s program yet. Please start now."
+msgstr "%s プログラムはまだ開始されていません。今すぐ開始してください。"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:490
+msgid "Start Now"
+msgstr "今すぐ開始"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:491
+#, php-format
+msgid "Are you sure you want to start %s program?"
+msgstr "%s プログラムを起動してもよろしいですか?"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:493
+msgid "Individual Development not started yet"
+msgstr "個人の成長はまだ始まっていない"
+
+#: index_v3_4.php:6633
+#, php-format
+msgid ""
+"%1$s page is available only to the members of %2$s %3$s, please join  %2$s "
+"%3$s as a member first. "
+msgstr ""
+"%1$s ページは、%2$s %3$s のメンバーのみが利用できます。まず、%2$s %3$s にメン"
+"バーとして参加してください。"
+
+#: index_v3_4.php:6638 index_v3_4.php:6830
+msgid "In-active"
+msgstr "非活性"
+
+#: index_v3_4.php:6639 index_v3_4.php:6831
+msgid "Active"
+msgstr "アクティブ"
+
+#: index_v3_4.php:6640 index_v3_4.php:6832
+msgid "Draft"
+msgstr "下書き"
+
+#: index_v3_4.php:6641 index_v3_4.php:6833
+#: locales/source/app_locales_strings.php:58
+msgid "Delete"
+msgstr "削除"
+
+#: index_v3_4.php:6642 index_v3_4.php:6834
+#: locales/source/app_locales_strings.php:388
+msgid "Complete"
+msgstr "完了"
+
+#: index_v3_4.php:6643 index_v3_4.php:6835
+#: locales/source/app_locales_strings.php:389
+msgid "Incomplete"
+msgstr "未完了"
+
+#: index_v3_4.php:6644 index_v3_4.php:6836
+msgid "Paused"
+msgstr "一時停止されました"
+
+#: index_v3_4.php:6677
+msgid "Available Slots"
+msgstr "利用可能なスロット"
+
+#: index_v3_4.php:6721
+msgid "My teams lists"
+msgstr "私のチームリスト"
+
+#: index_v3_4.php:6724 index_v3_4.php:6925 index_v3_4.php:6973
+#: index_v3_4.php:7034 index_v3_4.php:7081 index_v3_4.php:7162
+#: index_v3_4.php:7236 index_v3_4.php:7316 index_v3_4.php:7378
+#: index_v3_4.php:7425 index_v3_4.php:7470 index_v3_4.php:7569
+#: index_v3_4.php:7635 index_v3_4.php:7677 index_v3_4.php:7718
+#: index_v3_4.php:7787 index_v3_4.php:7964 index_v3_4.php:8006
+#: index_v3_4.php:8097 index_v3_4.php:8215 index_v3_4.php:8375
+#: index_v3_4.php:8442 index_v3_4.php:9083 index_v3_4.php:9231
+#: index_v3_4.php:9268
+#, php-format
+msgid "%s not found"
+msgstr "%s が見つかりません"
+
+#: index_v3_4.php:6762
+#, php-format
+msgid "Access denied. The %s is not active. Please contact your adminstroator"
+msgstr ""
+"アクセスが拒否されました。 %s はアクティブではありません。管理者に連絡してく"
+"ださい"
+
+#: index_v3_4.php:6766
+#, php-format
+msgid ""
+"Access denied. The %s feature is disabled. Please contact your adminstroator"
+msgstr ""
+"アクセスが拒否されました。 %s 機能は無効になっています。管理者に連絡してくだ"
+"さい"
+
+#: index_v3_4.php:6770
+#, php-format
+msgid "This %s is currently inactive"
+msgstr "この %s は現在非アクティブです"
+
+#: index_v3_4.php:6775
+#, php-format
+msgid "Access denied. You are not currently a member of this %s"
+msgstr "アクセスが拒否されました。あなたは現在この %s のメンバーではありません"
+
+#: index_v3_4.php:6801 locales/source/app_locales_strings.php:484
+#, php-format
+msgid "Join %1$s as %2$s"
+msgstr "%1$s を %2$s として参加します"
+
+#: index_v3_4.php:6803
+#, php-format
+msgid "You are already joined this %s"
+msgstr "あなたはすでにこの %s に参加しています"
+
+#: index_v3_4.php:6806 index_v3_4.php:9045
+#, php-format
+msgid "Are you sure you want to join this %s?"
+msgstr "この %s に参加してもよろしいですか?"
+
+#: index_v3_4.php:6809 index_v3_4.php:8837 index_v3_4.php:9040
+#, php-format
+msgid ""
+"Registration is now closed, and we are no longer accepting new requests for "
+"this role."
+msgstr ""
+"登録は終了しており、この役職への新規のリクエストは受け付けておりません。"
+
+#: index_v3_4.php:6812 locales/source/app_locales_strings.php:358
+msgid "Are you sure you want to join this circle?"
+msgstr "このサークルに参加してもよろしいですか?"
+
+#: index_v3_4.php:6815
+msgid "All slots are filled"
+msgstr "すべてのスロットが埋まっています"
+
+#: index_v3_4.php:6857 locales/source/app_locales_strings.php:481
+#, php-format
+msgid "Are you sure to remove this member from %s?"
+msgstr "このメンバーを %s から削除してもよろしいですか?"
+
+#: index_v3_4.php:6858
+msgid "Remove"
+msgstr "削除する"
+
+#: index_v3_4.php:6913
+#, php-format
+msgid "Are you sure you want to leave this %s?"
+msgstr "この %s を終了してもよろしいですか?"
+
+#: index_v3_4.php:6914 locales/source/app_locales_strings.php:41
+msgid "Leave"
+msgstr "脱退"
+
+#: index_v3_4.php:6922
+msgid "Teams detail"
+msgstr "チームの詳細"
+
+#: index_v3_4.php:6970
+msgid "Action item list"
+msgstr "実施項目リスト"
+
+#: index_v3_4.php:7031
+msgid "Touch points item list"
+msgstr "タッチポイント項目一覧"
+
+#: index_v3_4.php:7079
+msgid "Feedbacks list"
+msgstr "フィードバック一覧"
+
+#: index_v3_4.php:7159
+msgid "Action item detail"
+msgstr "アクションアイテムの詳細"
+
+#: index_v3_4.php:7233
+msgid "Touchpoint detail"
+msgstr "タッチポイントの詳細"
+
+#: index_v3_4.php:7313
+msgid "Feedback detail"
+msgstr "フィードバックの詳細"
+
+#: index_v3_4.php:7344 index_v3_4.php:7406 index_v3_4.php:7453
+#: index_v3_4.php:7498 index_v3_4.php:7597
+msgid "Bad requestS"
+msgstr "不正なリクエスト"
+
+#: index_v3_4.php:7373
+msgid "Status updated successfully"
+msgstr "ステータスが正常に更新されました"
+
+#: index_v3_4.php:7375 index_v3_4.php:7422
+msgid "Something went wrong while updating status."
+msgstr "ステータスの更新中に問題が発生しました。"
+
+#: index_v3_4.php:7420
+msgid "Deleted successfully"
+msgstr "正常に削除されました"
+
+#: index_v3_4.php:7467 index_v3_4.php:7715
+msgid "Something went wrong while updating."
+msgstr "更新中に問題が発生しました。"
+
+#: index_v3_4.php:7515 locales/source/app_locales_strings.php:473
+#, php-format
+msgid ""
+"This %s cannot be reactivated because the maximum number of concurrent "
+"programs supported for one member has been reached."
+msgstr ""
+"1 人のメンバーでサポートされる同時プログラムの最大数に達したため、この %s を"
+"再アクティブ化できません。"
+
+#: index_v3_4.php:7526
+msgid "Development program started successfully"
+msgstr "開発プログラムは正常に開始されました"
+
+#: index_v3_4.php:7528 locales/source/app_locales_strings.php:474
+#, php-format
+msgid "%1$s %2$s activated successfully."
+msgstr "%1$s %2$s は正常にアクティブ化されました。"
+
+#: index_v3_4.php:7531
+#, php-format
+msgid "%1$s %2$s Error"
+msgstr "%1$s %2$s エラー"
+
+#: index_v3_4.php:7535 locales/source/app_locales_strings.php:475
+#, php-format
+msgid "%1$s %2$s deactivated successfully."
+msgstr "%1$s %2$s が正常に非アクティブ化されました。"
+
+#: index_v3_4.php:7541 locales/source/app_locales_strings.php:266
+msgid "Action Items"
+msgstr "アクションアイテム"
+
+#: index_v3_4.php:7542 locales/source/app_locales_strings.php:267
+msgid "Touch Points"
+msgstr "タッチポイント"
+
+#: index_v3_4.php:7543
+msgid "and"
+msgstr "と"
+
+#: index_v3_4.php:7545 locales/source/app_locales_strings.php:476
+#, php-format
+msgid ""
+"You have not completed all required %1$s, so the %2$s cannot be marked as "
+"complete"
+msgstr "必要な%1$sをすべて完了していないため、%2$sを完了としてマークできません"
+
+#: index_v3_4.php:7549 locales/source/app_locales_strings.php:477
+#, php-format
+msgid "%1$s %2$s completed successfully."
+msgstr "%1$s %2$s は正常に完了しました。"
+
+#: index_v3_4.php:7553 locales/source/app_locales_strings.php:478
+#, php-format
+msgid "%1$s %2$s closed as incomplete successfully."
+msgstr "%1$s %2$s は未完了として正常にクローズされました。"
+
+#: index_v3_4.php:7557 locales/source/app_locales_strings.php:472
+#, php-format
+msgid "%1$s %2$s is paused successfully."
+msgstr "%1$s %2$s が正常に一時停止されました。"
+
+#: index_v3_4.php:7561 locales/source/app_locales_strings.php:479
+#, php-format
+msgid "%1$s %2$s deleted successfully."
+msgstr "%1$s %2$s は正常に削除されました。"
+
+#: index_v3_4.php:7563
+msgid "Update Failed."
+msgstr "アップデートに失敗しました。"
+
+#: index_v3_4.php:7623
+msgid "New touch point linked successfully"
+msgstr "新しいタッチポイントが正常にリンクされました"
+
+#: index_v3_4.php:7628
+msgid "New task linked successfully"
+msgstr "新しいタスクが正常にリンクされました"
+
+#: index_v3_4.php:7632
+msgid "Something went wrong while linking content"
+msgstr "コンテンツのリンク中に問題が発生しました"
+
+#: index_v3_4.php:7672
+msgid "Manage roles requests"
+msgstr "役割リクエストの管理"
+
+#: index_v3_4.php:7674 locales/source/app_locales_strings.php:274
+msgid "No role are available to request"
+msgstr "リクエストできる役割はありません"
+
+#: index_v3_4.php:7713 locales/source/app_locales_strings.php:271
+msgid "Registration canceled successfully"
+msgstr "登録は正常にキャンセルされました"
+
+#: index_v3_4.php:7775 locales/source/app_locales_strings.php:469
+#, php-format
+msgid ""
+"The Discover feature relies on matching criteria. Please request your %1$s "
+"leaders to complete the setup process."
+msgstr ""
+"Discover機能はマッチング基準に依存します。%1$sリーダーにセットアッププロセス"
+"を完了するよう依頼してください。"
+
+#: index_v3_4.php:7776
+#, php-format
+msgid "%1$s setup is not complete"
+msgstr "%1$s のセットアップが完了していません"
+
+#: index_v3_4.php:7782
+msgid "Discover suggessions"
+msgstr "提案を見つける"
+
+#: index_v3_4.php:7784 locales/source/app_locales_strings.php:470
+msgid "To Discover your matches, please Register for a role"
+msgstr "一致するものを見つけるには、役割に登録してください"
+
+#: index_v3_4.php:7812
+#, php-format
+msgid ""
+"You can't send a request to this user as you've reached your maximum "
+"available capacity limit. This limit is based on the number of %1$s you're "
+"already in and any outstanding %2$s join requests"
+msgstr ""
+"利用可能な最大容量制限に達しているため、このユーザーにリクエストを送信できま"
+"せん。この制限は、すでに参加している %1$s の数と未処理の %2$s 参加リクエスト"
+"の数に基づいています"
+
+#: index_v3_4.php:7814
+msgid "Invite user"
+msgstr "ユーザーを招待する"
+
+#: index_v3_4.php:7820 locales/source/app_locales_strings.php:468
+#, php-format
+msgid ""
+"In addition to the following recommendations, you can also directly invite "
+"users to join the %s"
+msgstr "次の推奨事項に加えて、ユーザーを %s に直接招待することもできます。"
+
+#: index_v3_4.php:7822
+#, php-format
+msgid ""
+"You've reached the maximum number of %1$s you can participate in as a %2$s. "
+"Therefore, you can't send requests or invite users to form new %1$s where "
+"you take on the %2$s role."
+msgstr ""
+"%2$s として参加できる %1$s の最大数に達しました。したがって、リクエストを送信"
+"したり、%2$s ロールを引き受ける新しい %1$s を形成するようにユーザーを招待した"
+"りすることはできません。"
+
+#: index_v3_4.php:7860
+msgid "Accepting New Requests"
+msgstr "新しいリクエストの受け入れ"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spot available"
+msgstr "%s 個のスポットが利用可能"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spots available"
+msgstr "%s 個のスポットが利用可能"
+
+#: index_v3_4.php:7865
+msgid "Not Accepting New Requests"
+msgstr "新しいリクエストは受け付けていません"
+
+#: index_v3_4.php:7866
+msgid "No spots available"
+msgstr "利用可能なスポットはありません"
+
+#: index_v3_4.php:7867
+msgid ""
+"You cannot send request as user's maximum outstanding requests have been "
+"reached."
+msgstr ""
+"ユーザーの未処理リクエストの最大数に達したため、リクエストを送信できません。"
+
+#: index_v3_4.php:7872
+msgid "Are you sure you want to send this request?"
+msgstr "このリクエストを送信してもよろしいですか?"
+
+#: index_v3_4.php:7873 locales/source/app_locales_strings.php:307
+msgid "Send Request"
+msgstr "リクエストを送信"
+
+#: index_v3_4.php:7877 index_v3_4.php:8060 index_v3_4.php:9598
+#: locales/source/app_locales_strings.php:465
+#: locales/source/app_locales_strings.php:480
+msgid "Are you sure you want to delete this request?"
+msgstr "このリクエストを削除してもよろしいですか？"
+
+#: index_v3_4.php:7878 locales/source/app_locales_strings.php:306
+msgid "Delete Request"
+msgstr "削除リクエスト"
+
+#: index_v3_4.php:7906 locales/source/app_locales_strings.php:467
+#, php-format
+msgid ""
+"Based on your registration information here are the %s matches recommended "
+"for you to connect with:"
+msgstr ""
+"登録情報に基づいて、接続するために推奨される %s 件の一致は次のとおりです。"
+
+#: index_v3_4.php:7959 index_v3_4.php:9640
+#: locales/source/app_locales_strings.php:466
+msgid "Invite sent successfully"
+msgstr "招待が正常に送信されました"
+
+#: index_v3_4.php:7961
+msgid "Something went wrong while sending ."
+msgstr "の送信中に問題が発生しました。"
+
+#: index_v3_4.php:8001 index_v3_4.php:9690
+msgid "Request deleted successfully"
+msgstr "リクエストは正常に削除されました"
+
+#: index_v3_4.php:8003
+msgid "Something went wrong while deleting invite"
+msgstr "招待の削除中に問題が発生しました"
+
+#: index_v3_4.php:8055 locales/source/app_locales_strings.php:301
+msgid "Are you sure you want to accept this request?"
+msgstr "このリクエストを受け入れてもよろしいですか？"
+
+#: index_v3_4.php:8056 locales/source/app_locales_strings.php:302
+msgid "Are you sure you want to reject this request?"
+msgstr "このリクエストを拒否してもよろしいですか?"
+
+#: index_v3_4.php:8092
+msgid "Recived requests list"
+msgstr "受け付けたリクエスト一覧"
+
+#: index_v3_4.php:8094
+msgid "No invites found"
+msgstr "招待状が見つかりませんでした"
+
+#: index_v3_4.php:8137
+msgid "Bad request--"
+msgstr "要求の形式が正しくありません - "
+
+#: index_v3_4.php:8147
+msgid ""
+"Unable to process your request because maximum capacity for active matches "
+"has been reached!"
+msgstr "アクティブなマッチの最大容量に達したため、リクエストを処理できません。"
+
+#: index_v3_4.php:8150
+msgid ""
+"This person has already matched with someone else and no longer has "
+"availability. Please decline their request under the Action button."
+msgstr ""
+"この人はすでに他の人とマッチングしており、空きがありません。 [アクション] ボ"
+"タンでリクエストを拒否してください。"
+
+#: index_v3_4.php:8184
+msgid "Request accepted successfully."
+msgstr "リクエストは正常に受け入れられました。"
+
+#: index_v3_4.php:8186
+msgid "Request rejected successfully"
+msgstr "リクエストは正常に拒否されました"
+
+#: index_v3_4.php:8206
+msgid "Request rejected successfully."
+msgstr "リクエストは正常に拒否されました。"
+
+#: index_v3_4.php:8209
+msgid "Something went wrong, please try again."
+msgstr "何かが間違っていました。もう一度やり直してください。"
+
+#: index_v3_4.php:8212
+msgid "Request not found."
+msgstr "リクエストが見つかりません。"
+
+#: index_v3_4.php:8309
+msgid "View match details"
+msgstr "試合の詳細を見る"
+
+#: index_v3_4.php:8312
+msgid "The request does not exist anymore."
+msgstr "リクエストはもう存在しません。"
+
+#: index_v3_4.php:8453
+msgid "Available hooks"
+msgstr "利用可能なフック"
+
+#: index_v3_4.php:8498
+msgid "Available disclaimer"
+msgstr "利用可能な免責条項"
+
+#: index_v3_4.php:8502 index_v3_4.php:8535
+msgid "No disclaimer available"
+msgstr "免責事項はありません"
+
+#: index_v3_4.php:8504
+msgid "Invalid disclaimer hook provided"
+msgstr "無効な免責事項フックが提供されました"
+
+#: index_v3_4.php:8532
+msgid "Consent saved successfully"
+msgstr "同意は正常に保存されました"
+
+#: index_v3_4.php:8703
+msgid "No recording link found for this event yet. Please check later."
+msgstr "このイベントの録画リンクはまだ見つかりません。後ほどご確認ください。"
+
+#: index_v3_4.php:8712
+msgid "Event recording link."
+msgstr "イベント記録リンク。"
+
+#: index_v3_4.php:8740 locales/source/app_locales_strings.php:448
+msgid "You can mark your attendance 30 minutes after watching the recording"
+msgstr "録画を視聴してから 30 分後に出席をマークできます"
+
+#: index_v3_4.php:8744 locales/source/app_locales_strings.php:449
+msgid "Successfully marked attendance"
+msgstr "出席を正常にマークしました"
+
+#: index_v3_4.php:8746 locales/source/app_locales_strings.php:450
+msgid "Unable to mark your attendance at this time, please try again later"
+msgstr "現時点では出席をマークできません。後でもう一度お試しください。"
+
+#: index_v3_4.php:8791 locales/source/app_locales_strings.php:340
+msgid "Update Registration"
+msgstr "登録の更新"
+
+#: index_v3_4.php:8792 locales/source/app_locales_strings.php:461
+msgid "Cancel Registration"
+msgstr "登録の取り消し"
+
+#: index_v3_4.php:8793
+#, php-format
+msgid ""
+"Are you sure you want to cancel your registration? You can still access your "
+"existing %1$s in 'My %1$s,'. However your profile won't be shown in new "
+"matches until you register again"
+msgstr ""
+"登録をキャンセルしてもよろしいですか? 「My %1$s」で既存の %1$s に引き続きアク"
+"セスできます。ただし、再度登録するまで、あなたのプロフィールは新しい試合に表"
+"示されません"
+
+#: index_v3_4.php:8798
+msgid "Pause Registration"
+msgstr "登録の一時停止"
+
+#: index_v3_4.php:8799
+msgid ""
+"Pause registration? You'll be hidden from searches, but can resume anytime."
+msgstr ""
+"登録を一時停止しますか?検索からは非表示になりますが、いつでも再開できます。"
+
+#: index_v3_4.php:8801
+msgid "Resume Registration"
+msgstr "登録を再開する"
+
+#: index_v3_4.php:8802
+msgid "Ready to be seen again? Resume your registration to get matched"
+msgstr ""
+"もう一度見られる準備はできていますか？マッチングするには登録を再開してくださ"
+"い"
+
+#: index_v3_4.php:8815
+#, php-format
+msgid "Registration Closed - Maximum Registrations Reached"
+msgstr "登録は終了しました - 登録人数の上限に達しました"
+
+#: index_v3_4.php:8818
+#, php-format
+msgid ""
+"You cannot register for this role because %1$s settings only allow users to "
+"register for only one role at a time"
+msgstr ""
+"%1$s 設定ではユーザーが一度に 1 つの役割しか登録できないため、この役割には登"
+"録できません"
+
+#: index_v3_4.php:8820
+#, php-format
+msgid ""
+"You're already assigned to a %1$s for this role. But you can still register "
+"to join other %1$s for future assignments."
+msgstr ""
+"あなたはすでにこの役割の %1$s に割り当てられています。ただし、将来の割り当て"
+"のために他の %1$s に参加するために登録することはできます。"
+
+#: index_v3_4.php:8832 index_v3_4.php:9474
+#, php-format
+msgid "Registration is currently unavailable. Please check back after %s"
+msgstr "現在登録はできません。 %s 後にもう一度確認してください"
+
+#: index_v3_4.php:8882
+msgid "Request updated successfully"
+msgstr "リクエストは正常に更新されました"
+
+#: index_v3_4.php:8884 index_v3_4.php:9117 index_v3_4.php:9146
+#: index_v3_4.php:9181 index_v3_4.php:9197
+msgid "Something went wrong while updating your request. Please try again."
+msgstr "リクエストの更新中に問題が発生しました。もう一度試してください。"
+
+#: index_v3_4.php:8952 locales/source/app_locales_strings.php:392
+msgid ""
+"Your search criteria did not return any matching result. Please change your "
+"search criteria and try again."
+msgstr ""
+"検索条件に一致する結果は返されませんでした。検索条件を変更して再試行してくだ"
+"さい。"
+
+#: index_v3_4.php:8989 index_v3_4.php:8993
+#: locales/source/app_locales_strings.php:488
+#, php-format
+msgid "%s spots available!"
+msgstr "%s 個のスポットが利用可能です!"
+
+#: index_v3_4.php:8991 locales/source/app_locales_strings.php:489
+#, php-format
+msgid "%s spot available!"
+msgstr "%s 個のスポットが利用可能です!"
+
+#: index_v3_4.php:9020
+msgid "You Joined"
+msgstr "参加しました"
+
+#: index_v3_4.php:9023 index_v3_4.php:9027 index_v3_4.php:9039
+#: index_v3_4.php:9044 index_v3_4.php:9049 index_v3_4.php:9055
+#, php-format
+msgid "Join %s"
+msgstr "%s に参加"
+
+#: index_v3_4.php:9024
+#, php-format
+msgid "You are already part of this %s"
+msgstr "あなたはすでにこの %s の一員です"
+
+#: index_v3_4.php:9028
+#, php-format
+msgid ""
+"You have reached the maximum number of %s you can participate in with this "
+"role."
+msgstr "この役割で参加できる %s の最大数に達しました。"
+
+#: index_v3_4.php:9050
+msgid "You do not meet the role registration restrictions criteria"
+msgstr "ロール登録制限の基準を満たしていません"
+
+#: index_v3_4.php:9056
+msgid "All roles are filled"
+msgstr "すべての役割が満たされています"
+
+#: index_v3_4.php:9078
+msgid "Available circles list"
+msgstr "利用可能なサークル一覧"
+
+#: index_v3_4.php:9080
+msgid "No circles are avaiable for now. Stay tuned"
+msgstr "現在利用可能なサークルはありません。乞うご期待"
+
+#: index_v3_4.php:9126 locales/source/app_locales_strings.php:485
+msgid "Maximum allowed members limit reached for selected role!"
+msgstr "選択したロールで許可されるメンバーの最大制限に達しました!"
+
+#: index_v3_4.php:9130 locales/source/app_locales_strings.php:486
+msgid ""
+"You cannot join this role because the maximum requested capacity for this "
+"role has been reached."
+msgstr ""
+"このロールに要求された最大容量に達しているため、このロールに参加できません。"
+
+#: index_v3_4.php:9139
+msgid "Unable to update Registration."
+msgstr "登録を更新できません。"
+
+#: index_v3_4.php:9144 locales/source/app_locales_strings.php:487
+msgid "You have successfully joined this circle."
+msgstr "無事にこのサークルに参加することができました。"
+
+#: index_v3_4.php:9192 locales/source/app_locales_strings.php:482
+#, php-format
+msgid "Member removed from this %s"
+msgstr "この %s からメンバーが削除されました"
+
+#: index_v3_4.php:9194 locales/source/app_locales_strings.php:483
+#, php-format
+msgid "%s left successfully"
+msgstr "%s は正常に出発しました"
+
+#: index_v3_4.php:9237 locales/source/app_locales_strings.php:363
+msgid "Messages"
+msgstr "メッセージ"
+
+#: index_v3_4.php:9396
+msgid "Available primary attributes fetched successfully"
+msgstr "利用可能なプライマリ属性が正常にフェッチされました"
+
+#: index_v3_4.php:9398
+msgid "No primary attributes are available"
+msgstr "使用可能な主属性がありません"
+
+#: index_v3_4.php:9448
+msgid "Primary attribute values fetched successfully"
+msgstr "プライマリ属性値が正常にフェッチされました"
+
+#: index_v3_4.php:9477
+msgid "Registration is now closed for this role."
+msgstr "この役割への登録は現在終了しています。"
+
+#: index_v3_4.php:9483
+#, php-format
+msgid ""
+"Users can only have one %1$s role in this %2$s. This role is unavailable"
+msgstr ""
+"ユーザーは、この %2$s 内で %1$s ロールを 1 つだけ持つことができます。この役割"
+"は利用できません"
+
+#: index_v3_4.php:9488
+#, php-format
+msgid "You've reached the limit for %s with this role."
+msgstr "このロールの %s の制限に達しました。"
+
+#: index_v3_4.php:9503
+msgid "User cannot join more programs with this role."
+msgstr ""
+"ユーザーは、この役割を使用して他のプログラムに参加することはできません。"
+
+#: index_v3_4.php:9509 locales/source/app_locales_strings.php:471
+msgid "Invite sent!"
+msgstr "招待状を送信しました!"
+
+#: index_v3_4.php:9542
+msgid "Users found!"
+msgstr "ユーザーが見つかりました！"
+
+#: index_v3_4.php:9544
+msgid "No users were found matching the keyword you searched"
+msgstr "検索したキーワードに一致するユーザーは見つかりませんでした"
+
+#: index_v3_4.php:9593 locales/source/app_locales_strings.php:463
+msgid "Are you sure you want to resend request?"
+msgstr "リクエストを再送信してもよろしいですか?"
+
+#: index_v3_4.php:9594 locales/source/app_locales_strings.php:464
+msgid "Are you sure you want to cancel this request?"
+msgstr "このリクエストをキャンセルしてもよろしいですか?"
+
+#: index_v3_4.php:9612
+msgid "Invited list"
+msgstr "招待者リスト"
+
+#: index_v3_4.php:9614
+msgid "No invites founds"
+msgstr "招待状が見つかりません"
+
+#: index_v3_4.php:9665
+msgid "request canceled successfully"
+msgstr "リクエストは正常にキャンセルされました"
+
+#: index_v3_4.php:9714 index_v3_4.php:9722
+msgid "Attachment you are looking for does not exist."
+msgstr "探している添付ファイルは存在しません。"
+
+#: index_v3_4.php:9755
+msgid "All globally joined groups"
+msgstr "全世界の参加グループ"
+
+#: index_v3_4.php:9792
+msgid "Event deleted successfully."
+msgstr "イベントは正常に削除されました。"
+
+#: locales/source/app_locales_strings.php:2
+msgid "Home"
+msgstr "トップページ"
+
+#: locales/source/app_locales_strings.php:3
+msgid "Profile"
+msgstr "プロフィール"
+
+#: locales/source/app_locales_strings.php:4
+msgid "Check-in"
+msgstr "チェックイン"
+
+#: locales/source/app_locales_strings.php:5
+msgid "Settings"
+msgstr "設定"
+
+#: locales/source/app_locales_strings.php:6
+msgid "Log Out"
+msgstr "ログアウト"
+
+#: locales/source/app_locales_strings.php:7
+msgid "Calendar"
+msgstr "カレンダー"
+
+#: locales/source/app_locales_strings.php:8
+msgid "Discover"
+msgstr "ディスカバー"
+
+#: locales/source/app_locales_strings.php:9
+msgid "Event"
+msgstr "イベント"
+
+#: locales/source/app_locales_strings.php:10
+msgid "Newsletter"
+msgstr "ニュースレター"
+
+#: locales/source/app_locales_strings.php:11
+msgid "Announcement"
+msgstr "お知らせ"
+
+#: locales/source/app_locales_strings.php:12
+msgid "First name"
+msgstr "名"
+
+#: locales/source/app_locales_strings.php:13
+msgid "Last name"
+msgstr "姓"
+
+#: locales/source/app_locales_strings.php:14
+msgid "Email"
+msgstr "メールアドレス"
+
+#: locales/source/app_locales_strings.php:15
+msgid "Job title"
+msgstr "タイトル"
+
+#: locales/source/app_locales_strings.php:16
+msgid "Office Location"
+msgstr "オフィス所在地"
+
+#: locales/source/app_locales_strings.php:17
+msgid "Department"
+msgstr "部署"
+
+#: locales/source/app_locales_strings.php:18
+msgid "Select Image"
+msgstr "画像を選択"
+
+#: locales/source/app_locales_strings.php:19
+msgid "Select picture from camera"
+msgstr "カメラから写真を選ぶ"
+
+#: locales/source/app_locales_strings.php:20
+msgid "Select picture from gallery"
+msgstr "ギャラリーから画像を選択"
+
+#: locales/source/app_locales_strings.php:21
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: locales/source/app_locales_strings.php:22
+msgid "Scan yours events QR code to check-in"
+msgstr "イベントQRコードを読み取ってチェックイン"
+
+#: locales/source/app_locales_strings.php:23
+msgid "Password"
+msgstr "パスワード"
+
+#: locales/source/app_locales_strings.php:24
+msgid "Old Password"
+msgstr "現在のパスワード"
+
+#: locales/source/app_locales_strings.php:25
+msgid "New Password"
+msgstr "新しいパスワード"
+
+#: locales/source/app_locales_strings.php:26
+msgid "Confirm Password"
+msgstr "パスワードを確認"
+
+#: locales/source/app_locales_strings.php:27
+msgid "Change Password"
+msgstr "パスワードの変更"
+
+#: locales/source/app_locales_strings.php:28
+msgid "Select Language"
+msgstr "言語を選択"
+
+#: locales/source/app_locales_strings.php:29
+msgid "Join Us"
+msgstr "会員登録はこちらから"
+
+#: locales/source/app_locales_strings.php:30
+msgid "Select a"
+msgstr "を選択します。"
+
+#: locales/source/app_locales_strings.php:31
+msgid "Part of"
+msgstr "の部分です。"
+
+#: locales/source/app_locales_strings.php:32
+msgid "Manage Membership"
+msgstr "会員管理"
+
+#: locales/source/app_locales_strings.php:33
+msgid "Note"
+msgstr "備考"
+
+#: locales/source/app_locales_strings.php:34
+msgid "When you join any Chapter/Channel of the"
+msgstr "のいずれかの支部・チャネルに参加すると"
+
+#: locales/source/app_locales_strings.php:35
+msgid "you will also added as a member of the"
+msgstr "のメンバーとして追加されます。"
+
+#: locales/source/app_locales_strings.php:36
+msgid ""
+"If there is not a chapter in your location, click join to be added to the"
+msgstr ""
+"お住まいの地域にチャプターがない場合は、「参加」をクリックしてください。"
+
+#: locales/source/app_locales_strings.php:37
+msgid "Close"
+msgstr "閉じる"
+
+#: locales/source/app_locales_strings.php:38
+msgid "Closing"
+msgstr "終了"
+
+#: locales/source/app_locales_strings.php:39
+msgid "Join"
+msgstr "参加する"
+
+#: locales/source/app_locales_strings.php:40
+msgid "Joining"
+msgstr "結合"
+
+#: locales/source/app_locales_strings.php:42
+msgid "Leaving"
+msgstr "去る"
+
+#: locales/source/app_locales_strings.php:43
+msgid "Update Membership"
+msgstr "メンバーシップを更新する"
+
+#: locales/source/app_locales_strings.php:46
+msgid "Highlights"
+msgstr "ハイライト"
+
+#: locales/source/app_locales_strings.php:48
+msgid "please wait.."
+msgstr "お待ちください。"
+
+#: locales/source/app_locales_strings.php:49
+msgid "Leads"
+msgstr "リード"
+
+#: locales/source/app_locales_strings.php:50
+msgid "Leaders"
+msgstr "リーダー"
+
+#: locales/source/app_locales_strings.php:51
+msgid "Could not launch url"
+msgstr "urlを起動できませんでした。"
+
+#: locales/source/app_locales_strings.php:52
+msgid "Looks like there isn't any group data yet"
+msgstr "グループデータはまだないようです"
+
+#: locales/source/app_locales_strings.php:53
+msgid "Like"
+msgstr "いいね"
+
+#: locales/source/app_locales_strings.php:54
+msgid "reply"
+msgstr "コメント"
+
+#: locales/source/app_locales_strings.php:55
+msgid "Comments"
+msgstr "コメント"
+
+#: locales/source/app_locales_strings.php:56
+msgid "Leave a comment"
+msgstr "コメントを残す"
+
+#: locales/source/app_locales_strings.php:57
+msgid "Edit"
+msgstr "編集"
+
+#: locales/source/app_locales_strings.php:59
+msgid "No"
+msgstr "いいえ"
+
+#: locales/source/app_locales_strings.php:60
+msgid "Yes"
+msgstr "はい"
+
+#: locales/source/app_locales_strings.php:61
+msgid "Delete Comment"
+msgstr "コメントを削除"
+
+#: locales/source/app_locales_strings.php:62
+msgid "Are you sure you want to delete this comment?"
+msgstr "このコメントを削除してもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:63
+msgid "Deleting..."
+msgstr "削除中･･･"
+
+#: locales/source/app_locales_strings.php:64
+msgid "Something went wrong! %s%. Please try again"
+msgstr "何かがうまくいかなかった！ %s%。もう一度やり直してください"
+
+#: locales/source/app_locales_strings.php:65
+msgid "Published on"
+msgstr "投稿日"
+
+#: locales/source/app_locales_strings.php:66
+msgid "Group"
+msgstr "グループ"
+
+#: locales/source/app_locales_strings.php:67
+msgid "people going"
+msgstr "行く人"
+
+#: locales/source/app_locales_strings.php:68
+msgid "Are you sure you want to join this?"
+msgstr "本当にこれに参加してもいいのか？"
+
+#: locales/source/app_locales_strings.php:69
+msgid ""
+"If you continue you will join the ERG and Chapter(s) will be assigned to you"
+msgstr ""
+"続けるとERGに参加することになり、あなたにチャプターが割り当てられます。"
+
+#: locales/source/app_locales_strings.php:70
+msgid "Please Confirm!"
+msgstr "認証してください"
+
+#: locales/source/app_locales_strings.php:71
+msgid "in"
+msgstr "イン"
+
+#: locales/source/app_locales_strings.php:72
+msgid "Auto assigned"
+msgstr "オートアサイン"
+
+#: locales/source/app_locales_strings.php:73
+msgid "Not assigned"
+msgstr "割り当てられていない"
+
+#: locales/source/app_locales_strings.php:75
+msgid "Virtual Meeting"
+msgstr "バーチャルミーティング"
+
+#: locales/source/app_locales_strings.php:76
+msgid "Already selected"
+msgstr "すでに選択されています"
+
+#: locales/source/app_locales_strings.php:77
+msgid "Select home office"
+msgstr "ホームオフィスを選択"
+
+#: locales/source/app_locales_strings.php:78
+msgid "Please enter your first name"
+msgstr "名前を入力してください"
+
+#: locales/source/app_locales_strings.php:79
+msgid "Please enter your last name"
+msgstr "姓を入力してください"
+
+#: locales/source/app_locales_strings.php:80
+msgid "Search notification"
+msgstr "通知を検索"
+
+#: locales/source/app_locales_strings.php:81
+msgid "Notifications"
+msgstr "通知"
+
+#: locales/source/app_locales_strings.php:82
+msgid "Back"
+msgstr "戻る"
+
+#: locales/source/app_locales_strings.php:83
+msgid "Loading newsletter"
+msgstr "ニュースレターの読み込み"
+
+#: locales/source/app_locales_strings.php:84
+msgid "Alert"
+msgstr "アラート"
+
+#: locales/source/app_locales_strings.php:85
+msgid "uploading"
+msgstr "アップロード"
+
+#: locales/source/app_locales_strings.php:86
+msgid "Profile picture updated successfully"
+msgstr "プロフィール画像の更新に成功"
+
+#: locales/source/app_locales_strings.php:87
+msgid "Please enter old password"
+msgstr "旧パスワードを入力してください。"
+
+#: locales/source/app_locales_strings.php:88
+msgid "Please enter new password"
+msgstr "新しいパスワードを入力してください"
+
+#: locales/source/app_locales_strings.php:89
+msgid "Password must be at least 6 characters"
+msgstr "パスワードは少なくとも6文字でなければなりません"
+
+#: locales/source/app_locales_strings.php:90
+msgid "Please enter valid confirm password"
+msgstr "有効な確認用パスワードを入力してください。"
+
+#: locales/source/app_locales_strings.php:91
+msgid "Edit Comment"
+msgstr "コメントを編集"
+
+#: locales/source/app_locales_strings.php:92
+msgid "Processing"
+msgstr "処理中"
+
+#: locales/source/app_locales_strings.php:93
+msgid "Please enter comment"
+msgstr "必須項目をすべて入力してください。"
+
+#: locales/source/app_locales_strings.php:94
+msgid "Uh Oh"
+msgstr "アーアーアー"
+
+#: locales/source/app_locales_strings.php:95
+msgid "Looks like there is no content to display"
+msgstr "表示するコンテンツがないように見える"
+
+#: locales/source/app_locales_strings.php:96
+msgid "Whoops"
+msgstr "フープス"
+
+#: locales/source/app_locales_strings.php:97
+msgid ""
+"Looks like you don't have any notifications,head over to your group pages to "
+"participate in discussions and join events"
+msgstr "グループページでディスカッションやイベントに参加することができます。"
+
+#: locales/source/app_locales_strings.php:98
+msgid "Checking"
+msgstr "チェック中"
+
+#: locales/source/app_locales_strings.php:99
+msgid "Retry"
+msgstr "再試行"
+
+#: locales/source/app_locales_strings.php:100
+msgid "Invalid QR code! please try again"
+msgstr "QRコードが無効です！もう一度お試しください。"
+
+#: locales/source/app_locales_strings.php:101
+msgid "month"
+msgstr "月"
+
+#: locales/source/app_locales_strings.php:102
+msgid "years"
+msgstr "年間"
+
+#: locales/source/app_locales_strings.php:103
+msgid "year"
+msgstr "年"
+
+#: locales/source/app_locales_strings.php:104
+msgid "day"
+msgstr "日"
+
+#: locales/source/app_locales_strings.php:105
+msgid "hour"
+msgstr "時間"
+
+#: locales/source/app_locales_strings.php:106
+msgid "minutes"
+msgstr "分"
+
+#: locales/source/app_locales_strings.php:107
+msgid "just now"
+msgstr "たった今"
+
+#: locales/source/app_locales_strings.php:108
+msgid "Are you going?"
+msgstr "行くのか？"
+
+#: locales/source/app_locales_strings.php:109
+msgid "Replying to"
+msgstr "に返信します。"
+
+#: locales/source/app_locales_strings.php:110
+msgid "yesterday"
+msgstr "昨日"
+
+#: locales/source/app_locales_strings.php:111
+msgid "ago"
+msgstr "前"
+
+#: locales/source/app_locales_strings.php:112
+msgid "New Update Available"
+msgstr "新しいアップデートが利用可能"
+
+#: locales/source/app_locales_strings.php:113
+msgid "There is a newer version of app available please update it now."
+msgstr ""
+"新しいバージョンのアプリがありますので、今すぐアップデートしてください。"
+
+#: locales/source/app_locales_strings.php:114
+msgid "Update Now"
+msgstr "今すぐ更新"
+
+#: locales/source/app_locales_strings.php:115
+msgid "OK"
+msgstr "はい"
+
+#: locales/source/app_locales_strings.php:116
+msgid "Warning"
+msgstr "警告"
+
+#: locales/source/app_locales_strings.php:117
+msgid "days"
+msgstr "日"
+
+#: locales/source/app_locales_strings.php:118
+msgid "week"
+msgstr "週"
+
+#: locales/source/app_locales_strings.php:119
+msgid "weeks"
+msgstr "週間"
+
+#: locales/source/app_locales_strings.php:120
+msgid "hours"
+msgstr "時間"
+
+#: locales/source/app_locales_strings.php:121
+msgid "minute"
+msgstr "分"
+
+#: locales/source/app_locales_strings.php:122
+msgid "deleted"
+msgstr "削除済み"
+
+#: locales/source/app_locales_strings.php:123
+msgid "Undo"
+msgstr "取り消し"
+
+#: locales/source/app_locales_strings.php:124
+msgid "Stay tuned for Announcements to be posted"
+msgstr "今後掲載されるお知らせをお楽しみに"
+
+#: locales/source/app_locales_strings.php:125
+msgid "Stay tuned for upcoming Events to be scheduled"
+msgstr "今後予定されているイベントにご期待ください。"
+
+#: locales/source/app_locales_strings.php:126
+msgid "Stay tuned for Newsletter to be posted"
+msgstr "ニュースレターの掲載をお待ちください"
+
+#: locales/source/app_locales_strings.php:127
+msgid "Stay tuned for Discussion to be posted"
+msgstr "ディスカッションの掲載を予定しています。"
+
+#: locales/source/app_locales_strings.php:128
+msgid "Stay tuned for photos & videos to be added"
+msgstr "写真と動画は追加予定です。"
+
+#: locales/source/app_locales_strings.php:129
+msgid "Comment can't be empty"
+msgstr "コメントを空にすることはできません"
+
+#: locales/source/app_locales_strings.php:130
+msgid "ON"
+msgstr "オン"
+
+#: locales/source/app_locales_strings.php:131
+msgid "OFF"
+msgstr "オフ"
+
+#: locales/source/app_locales_strings.php:132
+msgid "Cover Photo"
+msgstr "カバー画像"
+
+#: locales/source/app_locales_strings.php:133
+msgid "Create new Album"
+msgstr "新規アルバム作成"
+
+#: locales/source/app_locales_strings.php:135
+msgid "Update Album"
+msgstr "アルバムを更新"
+
+#: locales/source/app_locales_strings.php:136
+msgid "Album Title"
+msgstr "アルバムタイトル"
+
+#: locales/source/app_locales_strings.php:137
+msgid "Create Album"
+msgstr "アルバムを作成する"
+
+#: locales/source/app_locales_strings.php:138
+msgid "Upload Media"
+msgstr "メディアをアップロードする"
+
+#: locales/source/app_locales_strings.php:139
+msgid "Add photos and videos to upload"
+msgstr "写真やビデオを追加してアップロードする"
+
+#: locales/source/app_locales_strings.php:140
+msgid "item"
+msgstr "アイテム"
+
+#: locales/source/app_locales_strings.php:141
+msgid "items"
+msgstr "アイテム"
+
+#: locales/source/app_locales_strings.php:142
+msgid "You can select only one channel"
+msgstr "1チャンネルのみ選択可能"
+
+#: locales/source/app_locales_strings.php:143
+msgid "Error"
+msgstr "エラー"
+
+#: locales/source/app_locales_strings.php:144
+msgid "Title is a required field"
+msgstr "タイトルは必須項目です"
+
+#: locales/source/app_locales_strings.php:145
+msgid "Are you sure want to delete Album"
+msgstr "本当にアルバムを削除しますか？"
+
+#: locales/source/app_locales_strings.php:146
+msgid "Upload New"
+msgstr "新規アップロード"
+
+#: locales/source/app_locales_strings.php:147
+msgid "Image"
+msgstr "画像"
+
+#: locales/source/app_locales_strings.php:148
+msgid "Update Discussion"
+msgstr "アップデートディスカッション"
+
+#: locales/source/app_locales_strings.php:149
+msgid "Submit"
+msgstr "送信"
+
+#: locales/source/app_locales_strings.php:150
+msgid "Discussion"
+msgstr "ディスカッション"
+
+#: locales/source/app_locales_strings.php:151
+msgid "Create Discussion"
+msgstr "クリエイトディスカッション"
+
+#: locales/source/app_locales_strings.php:152
+msgid "Are you sure want to delete discussion?"
+msgstr "本当にディスカッションを削除しますか？"
+
+#: locales/source/app_locales_strings.php:153
+msgid "Load more..."
+msgstr "もっと読む..."
+
+#: locales/source/app_locales_strings.php:155
+msgid "You must have atleast one or more chapters to join"
+msgstr "参加するには、少なくとも1つ以上のチャプターを持つ必要があります。"
+
+#: locales/source/app_locales_strings.php:156
+msgid "Join Request Processed Succesfully"
+msgstr "参加要求が正常に処理された"
+
+#: locales/source/app_locales_strings.php:157
+msgid "Your request has been processed successfully!"
+msgstr "リクエストは正常に処理されました。"
+
+#: locales/source/app_locales_strings.php:158
+msgid "Are you sure to clear all notifications?"
+msgstr "すべての通知を消去していますか？"
+
+#: locales/source/app_locales_strings.php:159
+msgid "Are you sure to clear this notification?"
+msgstr "この通知を消去してもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:160
+msgid "RSVP'ed Successfully"
+msgstr "正常に出欠確認"
+
+#: locales/source/app_locales_strings.php:161
+msgid "Support"
+msgstr "サポート"
+
+#: locales/source/app_locales_strings.php:162
+msgid "Upcoming"
+msgstr "今後の"
+
+#: locales/source/app_locales_strings.php:163
+msgid "Past"
+msgstr "過去"
+
+#: locales/source/app_locales_strings.php:164
+msgid "Show all"
+msgstr "すべて表示する"
+
+#: locales/source/app_locales_strings.php:165
+msgid "months"
+msgstr "月"
+
+#: locales/source/app_locales_strings.php:166
+msgid "Cancel Join Request"
+msgstr "参加申請のキャンセル"
+
+#: locales/source/app_locales_strings.php:167
+msgid "Success"
+msgstr "成功"
+
+#: locales/source/app_locales_strings.php:168
+msgid "Announcements and Events related to"
+msgstr "関連するお知らせとイベント"
+
+#: locales/source/app_locales_strings.php:169
+msgid "Stay tuned for announcements, events and newsletters"
+msgstr "お知らせ、イベント、ニュースレターにご期待ください"
+
+#: locales/source/app_locales_strings.php:170
+msgid "New Album"
+msgstr "新しいアルバム"
+
+#: locales/source/app_locales_strings.php:171
+msgid "Cover Image is set"
+msgstr "表紙画像を設定"
+
+#: locales/source/app_locales_strings.php:172
+msgid "Creating new discussion"
+msgstr "新しいディスカッションの作成"
+
+#: locales/source/app_locales_strings.php:173
+msgid "Exporting video"
+msgstr "ビデオのエクスポート"
+
+#: locales/source/app_locales_strings.php:175
+msgid "Are you sure want to set it as cover image?"
+msgstr "カバー画像として設定してもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:176
+msgid "Discussion Detail"
+msgstr "ディスカッションの詳細"
+
+#: locales/source/app_locales_strings.php:177
+msgid "Creating new album"
+msgstr "新しいアルバムを作成する"
+
+#: locales/source/app_locales_strings.php:178
+msgid "Posted on"
+msgstr "ポストする"
+
+#: locales/source/app_locales_strings.php:179
+msgid ""
+"I understand and agree that all information related to my account will be "
+"permanently lost after 30 days and I provide my consent to delete my "
+"account. Type 'Delete' below to provide your consent"
+msgstr ""
+"私は、自分のアカウントに関連するすべての情報が 30 日後に永久に失われることを"
+"理解し、これに同意し、自分のアカウントを削除することに同意します。以下に"
+"「Delete」と入力して同意を示します"
+
+#: locales/source/app_locales_strings.php:180
+msgid "Delete my account"
+msgstr "アカウントを削除します"
+
+#: locales/source/app_locales_strings.php:181
+msgid ""
+"I no longer wish to use this platform anymore, and I would like to delete my "
+"account along with my personal information"
+msgstr ""
+"もうこのプラットフォームを使用したくありません。個人情報とともにアカウントを"
+"削除したいです"
+
+#: locales/source/app_locales_strings.php:182
+msgid "Modified"
+msgstr "更新日"
+
+#: locales/source/app_locales_strings.php:183
+msgid "Download"
+msgstr "ダウンロード"
+
+#: locales/source/app_locales_strings.php:185
+msgid "Stay tuned for resources to be added!"
+msgstr "リソースの追加にご期待ください。"
+
+#: locales/source/app_locales_strings.php:186
+msgid "Inbox"
+msgstr "お知らせBOX"
+
+#: locales/source/app_locales_strings.php:187
+msgid "Trash"
+msgstr "ゴミ箱"
+
+#: locales/source/app_locales_strings.php:188
+msgid "Nothing in the trash"
+msgstr "ゴミ箱には何もありません"
+
+#: locales/source/app_locales_strings.php:189
+msgid "Nothing in the inbox"
+msgstr "受信トレイに何もありません"
+
+#: locales/source/app_locales_strings.php:190
+msgid "Bin"
+msgstr "置き場"
+
+#: locales/source/app_locales_strings.php:191
+msgid "From"
+msgstr "から"
+
+#: locales/source/app_locales_strings.php:192
+msgid "Date"
+msgstr "日にち"
+
+#: locales/source/app_locales_strings.php:193
+msgid "Volunteers needed"
+msgstr "ボランティアが必要"
+
+#: locales/source/app_locales_strings.php:194
+msgid "Volunteers as"
+msgstr "ボランティアとして"
+
+#: locales/source/app_locales_strings.php:195
+msgid "Successfully Assigned Event Volunteer"
+msgstr "イベント ボランティアの割り当てが完了しました"
+
+#: locales/source/app_locales_strings.php:196
+msgid "Are you sure you want to register for this role?"
+msgstr "この役割に登録してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:197
+msgid "Volunteer role successfully decline"
+msgstr "ボランティアの役割は正常に辞退します"
+
+#: locales/source/app_locales_strings.php:198
+msgid ""
+"You already registered for this role.You can deregister yourself from this "
+"role."
+msgstr ""
+"このロールにはすでに登録されています。このロールから登録を解除できます。"
+
+#: locales/source/app_locales_strings.php:199
+msgid "Volunteer application capacity has been filled."
+msgstr "ボランティア募集は定員に達しました。"
+
+#: locales/source/app_locales_strings.php:200
+msgid "You need to select atleast one or more Chapter to join."
+msgstr ""
+"参加するには、少なくとも 1 つ以上のチャプターを選択する必要があります。"
+
+#: locales/source/app_locales_strings.php:201
+msgid "Your leave request has been processed successfully."
+msgstr "休暇申請は正常に処理されました。"
+
+#: locales/source/app_locales_strings.php:202
+msgid ""
+"Are you sure you want to join this ERG? If you continue you will join the "
+"ERG and a Chapter will be assigned to you!"
+msgstr ""
+"この ERG に参加してもよろしいですか?続行すると、ERG に参加し、チャプターが割"
+"り当てられます!"
+
+#: locales/source/app_locales_strings.php:203
+msgid "Stay tuned for past Events to be scheduled"
+msgstr "過去のイベントも随時開催予定ですのでお楽しみに"
+
+#: locales/source/app_locales_strings.php:204
+msgid "Blog"
+msgstr "ブログ"
+
+#: locales/source/app_locales_strings.php:205
+msgid "Detail"
+msgstr "詳細"
+
+#: locales/source/app_locales_strings.php:206
+msgid "Stay tuned for Blog to be posted."
+msgstr "ブログ掲載までしばらくお待ちください。"
+
+#: locales/source/app_locales_strings.php:207
+msgid "Global Calendar"
+msgstr "グローバルカレンダー"
+
+#: locales/source/app_locales_strings.php:208
+msgid "My Calendar"
+msgstr "マイカレンダー"
+
+#: locales/source/app_locales_strings.php:209
+msgid ""
+"You are accessing a link that is in a different zone than your current zone. "
+"In order to allow access we have switched your zone. You can switch zones "
+"from zone dropdown available in drawer menu"
+msgstr ""
+"現在のゾーンとは異なるゾーンにあるリンクにアクセスしています。アクセスを許可"
+"するために、ゾーンを切り替えました。ドロワーメニューのゾーンドロップダウンか"
+"らゾーンを切り替えることができます"
+
+#: locales/source/app_locales_strings.php:210
+msgid "Characters left"
+msgstr "残りの文字"
+
+#: locales/source/app_locales_strings.php:211
+msgid "Only 1000 characters allowed"
+msgstr "1000 文字のみ使用可能"
+
+#: locales/source/app_locales_strings.php:212
+msgid "Zone"
+msgstr "ゾーン"
+
+#: locales/source/app_locales_strings.php:213
+msgid "My"
+msgstr "じぶんの"
+
+#: locales/source/app_locales_strings.php:214
+msgid "You have not joined any %s%  yet"
+msgstr "あなたはまだ %s% に参加していません"
+
+#: locales/source/app_locales_strings.php:215
+msgid "Are you sure to remove profile picture?"
+msgstr "プロフィール写真を削除してもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:216
+msgid "Pronouns"
+msgstr "代名詞"
+
+#: locales/source/app_locales_strings.php:217
+msgid "Joined"
+msgstr "登録日"
+
+#: locales/source/app_locales_strings.php:218
+msgid "Home Zone"
+msgstr "ホームゾーン"
+
+#: locales/source/app_locales_strings.php:219
+msgid "to me"
+msgstr "私に"
+
+#: locales/source/app_locales_strings.php:220
+msgid "Map"
+msgstr "マップ"
+
+#: locales/source/app_locales_strings.php:221
+msgid "Required to join atleast one or more chapters"
+msgstr "少なくとも 1 つ以上のチャプターに参加する必要があります"
+
+#: locales/source/app_locales_strings.php:222
+msgid "You need to select exactly one Chapter to join."
+msgstr "参加するチャプターを 1 つだけ選択する必要があります。"
+
+#: locales/source/app_locales_strings.php:223
+msgid "Acts of Inclusion"
+msgstr "インクルージョンの行為"
+
+#: locales/source/app_locales_strings.php:224
+msgid "About the"
+msgstr "関して"
+
+#: locales/source/app_locales_strings.php:225
+msgid "No image preview"
+msgstr "画像プレビューがありません"
+
+#: locales/source/app_locales_strings.php:226
+msgid "Recognition Detail"
+msgstr "認識の詳細"
+
+#: locales/source/app_locales_strings.php:227
+msgid "Yourself"
+msgstr "自分自身"
+
+#: locales/source/app_locales_strings.php:228
+msgid "Recognize a Colleague"
+msgstr "同僚を認識する"
+
+#: locales/source/app_locales_strings.php:229
+msgid "Recognize My Self"
+msgstr "自分自身を認識する"
+
+#: locales/source/app_locales_strings.php:230
+msgid "Recognition Feeds"
+msgstr "認識フィード"
+
+#: locales/source/app_locales_strings.php:231
+msgid "Recognition Given"
+msgstr "与えられた評価"
+
+#: locales/source/app_locales_strings.php:232
+msgid "Recognition Received"
+msgstr "承認を受け取りました"
+
+#: locales/source/app_locales_strings.php:233
+msgid "Create new recognition"
+msgstr "新しい認識を生み出す"
+
+#: locales/source/app_locales_strings.php:234
+msgid "Looks like there aren't any recognitions yet!"
+msgstr "まだ認識されていないようです。"
+
+#: locales/source/app_locales_strings.php:235
+msgid "There is no past events yet!"
+msgstr "過去のイベントはまだありません！"
+
+#: locales/source/app_locales_strings.php:236
+msgid "Remove Profile Picture"
+msgstr "プロフィール写真を削除する"
+
+#: locales/source/app_locales_strings.php:237
+msgid "Already signed up"
+msgstr "すでにサインアップしています"
+
+#: locales/source/app_locales_strings.php:238
+msgid "Would you like to volunteer for one of these roles?"
+msgstr "これらの役割のいずれかにボランティアとして参加してみませんか?"
+
+#: locales/source/app_locales_strings.php:239
+msgid "Register for role"
+msgstr "役割を登録する"
+
+#: locales/source/app_locales_strings.php:240
+msgid "Delete Album"
+msgstr "アルバムを削除する"
+
+#: locales/source/app_locales_strings.php:241
+msgid "Set cover image"
+msgstr "カバー画像を設定する"
+
+#: locales/source/app_locales_strings.php:242
+msgid "Delete media"
+msgstr "メディアの削除"
+
+#: locales/source/app_locales_strings.php:243
+msgid "Are you sure want to delete this media?"
+msgstr "このメディアを削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:244
+msgid "Delete Discussion"
+msgstr "ディスカッションの削除"
+
+#: locales/source/app_locales_strings.php:245
+msgid "Delete Recognition"
+msgstr "認識の削除"
+
+#: locales/source/app_locales_strings.php:246
+msgid "Are you sure you want to delete this recognition?"
+msgstr "この認識を削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:247
+msgid "Recognized by"
+msgstr "で認識"
+
+#: locales/source/app_locales_strings.php:248
+msgid "of this"
+msgstr "これの"
+
+#: locales/source/app_locales_strings.php:249
+msgid "or"
+msgstr "または"
+
+#: locales/source/app_locales_strings.php:250
+msgid "Are you sure want to open the file?"
+msgstr "ファイルを開きますか?"
+
+#: locales/source/app_locales_strings.php:251
+msgid "Open"
+msgstr "開く"
+
+#: locales/source/app_locales_strings.php:252
+msgid "Do you want to join this %s% anonymously?"
+msgstr "この %s% に匿名で参加しますか?"
+
+#: locales/source/app_locales_strings.php:253
+msgid ""
+"Please be mindful that this does not guarantee your full anonymity.%s% would "
+"still be able to technically identify you if need be."
+msgstr ""
+"これはあなたの完全な匿名性を保証するものではないことに注意してください。%s% "
+"は、必要に応じて技術的にあなたを識別することができます。"
+
+#: locales/source/app_locales_strings.php:254
+msgid "Yes, I want to join anonymously"
+msgstr "はい、匿名で参加したいです"
+
+#: locales/source/app_locales_strings.php:255
+msgid "Proceed"
+msgstr "続行"
+
+#: locales/source/app_locales_strings.php:256
+#, no-php-format
+msgid "By typing in %s% below, I provide my consent."
+msgstr "以下に「%s%」と入力すると、同意したことになります。"
+
+#: locales/source/app_locales_strings.php:257
+msgid "New Touch Point"
+msgstr "新しいタッチポイント"
+
+#: locales/source/app_locales_strings.php:258
+msgid "Due date"
+msgstr "期限"
+
+#: locales/source/app_locales_strings.php:259
+msgid "Update Touch Point"
+msgstr "タッチポイントの更新"
+
+#: locales/source/app_locales_strings.php:260
+msgid "Update Status"
+msgstr "最新状況"
+
+#: locales/source/app_locales_strings.php:261
+msgid "Created by"
+msgstr "作成者"
+
+#: locales/source/app_locales_strings.php:262
+msgid "Looks like there is no touch point yet!"
+msgstr "まだタッチポイントがないようです！"
+
+#: locales/source/app_locales_strings.php:263
+msgid "Are you sure you want to delete this touch point?"
+msgstr "このタッチポイントを削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:264
+msgid "Delete Touch Point"
+msgstr "タッチポイントの削除"
+
+#: locales/source/app_locales_strings.php:265
+msgid "Team Detail"
+msgstr "チームの詳細"
+
+#: locales/source/app_locales_strings.php:268
+msgid "Feedback"
+msgstr "フィードバック"
+
+#: locales/source/app_locales_strings.php:269
+msgid "My Teams"
+msgstr "私のチーム"
+
+#: locales/source/app_locales_strings.php:272
+msgid "Thank you for your interest in joining in a %s% role!"
+msgstr "%s% の役割への参加にご興味をお持ちいただきありがとうございます。"
+
+#: locales/source/app_locales_strings.php:273
+msgid "No role available"
+msgstr "利用可能な役割がありません"
+
+#: locales/source/app_locales_strings.php:275
+msgid "Manage Request"
+msgstr "リクエストの管理"
+
+#: locales/source/app_locales_strings.php:276
+msgid "Request to join"
+msgstr "参加のリクエスト"
+
+#: locales/source/app_locales_strings.php:277
+msgid "Your join request is being processed."
+msgstr "あなたの参加リクエストは処理中です。"
+
+#: locales/source/app_locales_strings.php:278
+msgid "Looks like you have not joined any Team yet!"
+msgstr "まだどのチームにも参加していないようです。"
+
+#: locales/source/app_locales_strings.php:279
+msgid "more"
+msgstr "もっと"
+
+#: locales/source/app_locales_strings.php:280
+msgid "New Feedback"
+msgstr "新しいフィードバック"
+
+#: locales/source/app_locales_strings.php:281
+msgid "Update Feedback"
+msgstr "フィードバックを更新する"
+
+#: locales/source/app_locales_strings.php:282
+msgid "Add to Action Items"
+msgstr "アクションアイテムに追加"
+
+#: locales/source/app_locales_strings.php:283
+msgid "For"
+msgstr "対象"
+
+#: locales/source/app_locales_strings.php:284
+msgid "Looks like there is no feedback yet!"
+msgstr "まだフィードバックはないようです。"
+
+#: locales/source/app_locales_strings.php:285
+msgid "Are you sure you want to delete this feedback?"
+msgstr "このフィードバックを削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:286
+msgid "Delete Feedback"
+msgstr "フィードバックを削除"
+
+#: locales/source/app_locales_strings.php:287
+msgid "New task created successfully"
+msgstr "新しいタスクが正常に作成されました"
+
+#: locales/source/app_locales_strings.php:288
+msgid "completed on"
+msgstr "に完了"
+
+#: locales/source/app_locales_strings.php:289
+msgid "due on"
+msgstr "期限"
+
+#: locales/source/app_locales_strings.php:290
+msgid "New Action Item"
+msgstr "新しいアクションアイテム"
+
+#: locales/source/app_locales_strings.php:291
+msgid "Update Action Item"
+msgstr "アクションアイテムを更新"
+
+#: locales/source/app_locales_strings.php:292
+msgid "Add to touch point"
+msgstr "タッチポイントに追加"
+
+#: locales/source/app_locales_strings.php:293
+msgid "Assignee"
+msgstr "譲受人"
+
+#: locales/source/app_locales_strings.php:294
+msgid "Looks like there is no action items yet!"
+msgstr "まだアクションアイテムがないようです。"
+
+#: locales/source/app_locales_strings.php:295
+msgid "Are you sure you want to delete this action item?"
+msgstr "このアクションアイテムを削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:296
+msgid "Delete action item"
+msgstr "アクションアイテムを削除する"
+
+#: locales/source/app_locales_strings.php:297
+msgid "New touch point created successfully"
+msgstr "新しいタッチポイントが正常に作成されました"
+
+#: locales/source/app_locales_strings.php:298
+msgid "Accept Request"
+msgstr "要請を受け入れます"
+
+#: locales/source/app_locales_strings.php:299
+msgid "Reject Request"
+msgstr "リクエストを拒否する"
+
+#: locales/source/app_locales_strings.php:300
+msgid "Looks like there is no requests"
+msgstr "リクエストはないようです"
+
+#: locales/source/app_locales_strings.php:303
+msgid "Requests Received"
+msgstr "受信したリクエスト"
+
+#: locales/source/app_locales_strings.php:304
+msgid "Looks like you have not joined any role yet!"
+msgstr "まだどの役割にも参加していないようです。"
+
+#: locales/source/app_locales_strings.php:305
+msgid "Match"
+msgstr "マッチ"
+
+#: locales/source/app_locales_strings.php:308
+msgid "No matches found for %s% role"
+msgstr "%s% 役割に一致するものが見つかりませんでした"
+
+#: locales/source/app_locales_strings.php:309
+msgid "Action Item detail"
+msgstr "アクションアイテムの詳細"
+
+#: locales/source/app_locales_strings.php:310
+msgid "No due date set"
+msgstr "期限は設定されていません"
+
+#: locales/source/app_locales_strings.php:311
+msgid "Related touchpoints:"
+msgstr "関連するタッチポイント:"
+
+#: locales/source/app_locales_strings.php:312
+msgid "Feedback Detail"
+msgstr "フィードバックの詳細"
+
+#: locales/source/app_locales_strings.php:313
+msgid "Related tasks:"
+msgstr "関連タスク:"
+
+#: locales/source/app_locales_strings.php:314
+msgid "TouchPoint Detail"
+msgstr "タッチポイントの詳細"
+
+#: locales/source/app_locales_strings.php:315
+msgid "About %s%"
+msgstr "%s%について"
+
+#: locales/source/app_locales_strings.php:316
+msgid "Version"
+msgstr "バージョン"
+
+#: locales/source/app_locales_strings.php:317
+msgid "Licences"
+msgstr "ライセンス"
+
+#: locales/source/app_locales_strings.php:318
+msgid "Open Source Licences"
+msgstr "オープンソースライセンス"
+
+#: locales/source/app_locales_strings.php:319
+msgid "Continue"
+msgstr "続ける"
+
+#: locales/source/app_locales_strings.php:320
+msgid "Please contact your administrator"
+msgstr "管理者に連絡してください"
+
+#: locales/source/app_locales_strings.php:321
+msgid "Please try later"
+msgstr "後でお試しください"
+
+#: locales/source/app_locales_strings.php:322
+msgid ""
+"If you couldn't make it to the live event, don't worry! Just click on the "
+"recording link, and once you have finished viewing it, mark your attendance."
+msgstr ""
+"ライブイベントに行けなかった方もご心配なく！録画リンクをクリックするだけで、"
+"視聴が終了したら出席をマークします。"
+
+#: locales/source/app_locales_strings.php:323
+msgid ""
+"I have finished watching the event recording video, please mark my attendance"
+msgstr "イベント録画ビデオを見終えました。出席をマークしてください"
+
+#: locales/source/app_locales_strings.php:324
+msgid "View Event Recording"
+msgstr "イベント記録の表示"
+
+#: locales/source/app_locales_strings.php:326
+msgid "Mark as watched"
+msgstr "視聴済みとしてマークする"
+
+#: locales/source/app_locales_strings.php:327
+msgid "Post Event Follow-up Note"
+msgstr "イベント後のフォローアップノート"
+
+#: locales/source/app_locales_strings.php:328
+msgid "Attendance Confirmation"
+msgstr "出席確認"
+
+#: locales/source/app_locales_strings.php:329
+msgid "Team Registration"
+msgstr "チーム登録"
+
+#: locales/source/app_locales_strings.php:330
+msgid "Confirm Pause"
+msgstr "一時停止の確認"
+
+#: locales/source/app_locales_strings.php:331
+msgid "Confirm Resume"
+msgstr "履歴書の確認"
+
+#: locales/source/app_locales_strings.php:332
+msgid "Are you sure to resume?"
+msgstr "本当に再開しますか?"
+
+#: locales/source/app_locales_strings.php:333
+msgid "Are you sure to pause?"
+msgstr "本当に一時停止しますか?"
+
+#: locales/source/app_locales_strings.php:334
+msgid "Request Processed Successfully"
+msgstr "リクエストは正常に処理されました"
+
+#: locales/source/app_locales_strings.php:335
+msgid "on"
+msgstr "オン"
+
+#: locales/source/app_locales_strings.php:336
+msgid "You have not registered for any roles yet!"
+msgstr "まだ役割に登録していません。"
+
+#: locales/source/app_locales_strings.php:337
+msgid ""
+"Your join request is being processed. Stay tuned for updates.You can manage "
+"your request by clicking the Manage Join Requests button."
+msgstr ""
+"あなたの参加リクエストは処理中です。最新情報をお待ちください。「参加リクエス"
+"トの管理」ボタンをクリックすると、リクエストを管理できます。"
+
+#: locales/source/app_locales_strings.php:338
+msgid "Confirm Cancel Registration"
+msgstr "確認 登録のキャンセル"
+
+#: locales/source/app_locales_strings.php:339
+msgid "Are you sure to cancel your registration?"
+msgstr "登録をキャンセルしてもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:341
+msgid "Confirm Delete Request"
+msgstr "削除リクエストの確認"
+
+#: locales/source/app_locales_strings.php:342
+msgid "Confirm Send Request"
+msgstr "送信リクエストの確認"
+
+#: locales/source/app_locales_strings.php:343
+msgid "Are you sure to delete this request?"
+msgstr "このリクエストを削除してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:344
+msgid "Are you sure to send this request?"
+msgstr "このリクエストを送信してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:345
+msgid "Team Members"
+msgstr "チームメンバー"
+
+#: locales/source/app_locales_strings.php:346
+msgid "Your team is in processing state"
+msgstr "チームは処理中状態です"
+
+#: locales/source/app_locales_strings.php:347
+msgid ""
+"Action Items, Touchpoints, and Feedback tabs are disabled from the "
+"configuration settings. Please contact your administrator to resolve this "
+"issue."
+msgstr ""
+"アクション項目、タッチポイント、フィードバック タブは構成設定から無効になって"
+"います。この問題を解決するには、管理者に問い合わせてください。"
+
+#: locales/source/app_locales_strings.php:348
+msgid "Looks like there is no member yet!"
+msgstr "まだメンバーがいないみたいですね！"
+
+#: locales/source/app_locales_strings.php:349
+msgid "Discover Circles"
+msgstr "サークルを発見する"
+
+#: locales/source/app_locales_strings.php:350
+msgid ""
+"It appears that there are no circles available at this time. Please stay "
+"tuned for updates."
+msgstr "現在募集中のサークルはないようです。続報をお待ちください。"
+
+#: locales/source/app_locales_strings.php:351
+msgid "Are you sure want to complete this?"
+msgstr "本当にこれを完了してもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:352
+msgid "There is no description"
+msgstr "説明はありません"
+
+#: locales/source/app_locales_strings.php:353
+msgid "Start A Circle"
+msgstr "サークルを始める"
+
+#: locales/source/app_locales_strings.php:354
+msgid "Create New Circle"
+msgstr "新しいサークルを作成する"
+
+#: locales/source/app_locales_strings.php:355
+msgid "Update Circle"
+msgstr "アップデートサークル"
+
+#: locales/source/app_locales_strings.php:356
+msgid "Confirm Leave Circle"
+msgstr "サークルからの退出を確認する"
+
+#: locales/source/app_locales_strings.php:357
+msgid "Confirm Join Circle"
+msgstr "サークルへの参加を確認する"
+
+#: locales/source/app_locales_strings.php:359
+msgid ""
+"You have successfully joined this circle.You can find it now in the 'My "
+"Circle' tab."
+msgstr ""
+"このサークルに正常に参加しました。このサークルは [マイ サークル] タブに表示さ"
+"れます。"
+
+#: locales/source/app_locales_strings.php:360
+msgid "Edit Message"
+msgstr "メッセージの変更"
+
+#: locales/source/app_locales_strings.php:361
+msgid "Please enter message"
+msgstr "メッセージを入力してください"
+
+#: locales/source/app_locales_strings.php:362
+msgid "Confirm Below"
+msgstr "以下を確認してください"
+
+#: locales/source/app_locales_strings.php:364
+msgid "No Messages"
+msgstr "メッセージはありません"
+
+#: locales/source/app_locales_strings.php:365
+msgid "Be the first to Message"
+msgstr "最初にメッセージを送信してください"
+
+#: locales/source/app_locales_strings.php:366
+msgid "Delete Message"
+msgstr "メッセージを削除"
+
+#: locales/source/app_locales_strings.php:367
+msgid "Are you sure you want to delete this message?"
+msgstr "このメッセージを削除してもよろしいですか？"
+
+#: locales/source/app_locales_strings.php:369
+msgid "My Circles"
+msgstr "私のサークル"
+
+#: locales/source/app_locales_strings.php:370
+msgid "Select Filter"
+msgstr "フィルターを選択"
+
+#: locales/source/app_locales_strings.php:371
+msgid "Clear"
+msgstr "クリア"
+
+#: locales/source/app_locales_strings.php:372
+msgid "Loading"
+msgstr "読み込み中"
+
+#: locales/source/app_locales_strings.php:373
+msgid "Filter by Circle leader"
+msgstr "サークルリーダーで絞り込む"
+
+#: locales/source/app_locales_strings.php:374
+msgid "Filter"
+msgstr "フィルター"
+
+#: locales/source/app_locales_strings.php:375
+msgid "Filter by first name or last name"
+msgstr "名または姓でフィルタリングする"
+
+#: locales/source/app_locales_strings.php:376
+msgid "Invite User"
+msgstr "ユーザーを招待"
+
+#: locales/source/app_locales_strings.php:377
+msgid "Search user to join the Team"
+msgstr "チームに参加するユーザーを検索する"
+
+#: locales/source/app_locales_strings.php:378
+msgid "Search user to invite"
+msgstr "招待するユーザーを検索"
+
+#: locales/source/app_locales_strings.php:379
+msgid "Search User"
+msgstr "利用者 検索"
+
+#: locales/source/app_locales_strings.php:380
+msgid "Search Results"
+msgstr "検索結果"
+
+#: locales/source/app_locales_strings.php:381
+msgid "Requests Sent"
+msgstr "送信したリクエスト"
+
+#: locales/source/app_locales_strings.php:382
+msgid "Resend Invite"
+msgstr "招待状の再送"
+
+#: locales/source/app_locales_strings.php:383
+msgid "Delete Invite"
+msgstr "招待の削除"
+
+#: locales/source/app_locales_strings.php:384
+msgid "Create Touch Point"
+msgstr "タッチポイントの作成"
+
+#: locales/source/app_locales_strings.php:385
+msgid "Apply"
+msgstr "適用"
+
+#: locales/source/app_locales_strings.php:386
+msgid "Select an option"
+msgstr "選択肢一つを選択してください"
+
+#: locales/source/app_locales_strings.php:387
+msgid "Join a Circle from the Discover Circles tab or start a new Circle"
+msgstr ""
+"「サークルを探す」タブからサークルに参加するか、新しいサークルを開始します"
+
+#: locales/source/app_locales_strings.php:390
+msgid "Leave a message"
+msgstr "初めての方や久しぶりの方は、具体的な症状などをお書き下さい。"
+
+#: locales/source/app_locales_strings.php:391
+msgid ""
+"Before accepting this request, you need to send a role join request. Press "
+"the Ok button to access the role join request option."
+msgstr ""
+"このリクエストを受け入れる前に、ロール参加リクエストを送信する必要がありま"
+"す。 [OK] ボタンを押して、ロール参加リクエスト オプションにアクセスします。"
+
+#: locales/source/app_locales_strings.php:393
+msgid "Resend Request"
+msgstr "リクエストを再送信"
+
+#: locales/source/app_locales_strings.php:394
+msgid "Cancel Request"
+msgstr "リクエストのキャンセル"
+
+#: locales/source/app_locales_strings.php:395
+msgid "Show Only Available Circles"
+msgstr "利用可能なサークルのみを表示"
+
+#: locales/source/app_locales_strings.php:396
+msgid "Check the box to send email notification"
+msgstr "メール通知を送信するにはチェックボックスをオンにしてください"
+
+#: locales/source/app_locales_strings.php:397
+msgid "Disclaimer"
+msgstr "免責事項"
+
+#: locales/source/app_locales_strings.php:398
+msgid "Show More"
+msgstr "さらに表示"
+
+#: locales/source/app_locales_strings.php:399
+msgid "Show Less"
+msgstr "表示を閉じる"
+
+#: locales/source/app_locales_strings.php:400
+msgid "Download Successful"
+msgstr "ダウンロードに成功しました"
+
+#: locales/source/app_locales_strings.php:401
+msgid "File saved in %s%"
+msgstr "ファイルは %s% に保存されました"
+
+#: locales/source/app_locales_strings.php:402
+msgid "Inbox feature is not enabled for you. Please contact your administrator"
+msgstr "受信トレイ機能が有効になっていません。管理者にお問い合わせください"
+
+#: locales/source/app_locales_strings.php:403
+msgid "Be the first to comment"
+msgstr "最初のコメントを頂けますか"
+
+#: locales/source/app_locales_strings.php:404
+msgid "Trim"
+msgstr "削除"
+
+#: locales/source/app_locales_strings.php:405
+msgid "Filter by Circles Name"
+msgstr "サークル名でフィルタリング"
+
+#: locales/source/app_locales_strings.php:406
+msgid "No Comments"
+msgstr "コメントはまだありません"
+
+#: locales/source/app_locales_strings.php:407
+msgid "Create action item"
+msgstr "アクションアイテムを作成する"
+
+#: locales/source/app_locales_strings.php:408
+msgid "Show Only with Available Capacity"
+msgstr "利用可能な容量のみ表示"
+
+#: locales/source/app_locales_strings.php:409
+msgid "Matches"
+msgstr "試合"
+
+#: locales/source/app_locales_strings.php:410
+msgid "Found %s% matches"
+msgstr "%s%件の一致が見つかりました"
+
+#: locales/source/app_locales_strings.php:411
+msgid "View Match"
+msgstr "ビューの一致"
+
+#: locales/source/app_locales_strings.php:412
+msgid "Matching Detail for the %s% Role"
+msgstr "%s% ロールの一致する詳細"
+
+#: locales/source/app_locales_strings.php:413
+msgid "Parameter"
+msgstr "パラメータ"
+
+#: locales/source/app_locales_strings.php:414
+msgid "Matching%"
+msgstr "マッチング％"
+
+#: locales/source/app_locales_strings.php:415
+msgid "Description"
+msgstr "説明"
+
+#: locales/source/app_locales_strings.php:416
+msgid "Are you sure want to pause this?"
+msgstr "本当に一時停止しますか?"
+
+#: locales/source/app_locales_strings.php:417
+msgid "Are you sure want to Incomplete this?"
+msgstr "これを不完全にしてもよろしいですか?"
+
+#: locales/source/app_locales_strings.php:418
+msgid "Leave Group"
+msgstr "グループを脱退"
+
+#: locales/source/app_locales_strings.php:419
+msgid "Are you sure you want to leave this %s%"
+msgstr "この%s%を離れてもよいですか？"
+
+#: locales/source/app_locales_strings.php:420
+msgid "Registration"
+msgstr "登録"
+
+#: locales/source/app_locales_strings.php:421
+msgid "Update Survey"
+msgstr "アンケートの更新"
+
+#: locales/source/app_locales_strings.php:422
+msgid "Pre-event Survey"
+msgstr "イベント前アンケート"
+
+#: locales/source/app_locales_strings.php:423
+msgid "Likes"
+msgstr "いいね"
+
+#: locales/source/app_locales_strings.php:424
+msgid "Collaboration between:"
+msgstr "コラボレーション:"
+
+#: locales/source/app_locales_strings.php:425
+msgid "View or edit Profile Photo"
+msgstr "プロフィール写真を表示または編集する"
+
+#: locales/source/app_locales_strings.php:426
+msgid "Profile Photo"
+msgstr "プロフィール写真"
+
+#: locales/source/app_locales_strings.php:427
+msgid "Add Photo"
+msgstr "画像を追加"
+
+#: locales/source/app_locales_strings.php:428
+msgid "Take a photo"
+msgstr "写真を撮る"
+
+#: locales/source/app_locales_strings.php:429
+msgid "Upload from Photos"
+msgstr "写真からアップロード"
+
+#: locales/source/app_locales_strings.php:430
+msgid "Request rejection reason"
+msgstr "リクエスト拒否の理由"
+
+#: locales/source/app_locales_strings.php:431
+msgid "Enter request rejection reason"
+msgstr "リクエスト拒否の理由を入力してください"
+
+#: locales/source/app_locales_strings.php:432
+msgid "Please enter the reason for the request rejection"
+msgstr "リクエスト拒否の理由を入力してください"
+
+#: locales/source/app_locales_strings.php:433
+msgid "Event Waivers"
+msgstr "イベント免除"
+
+#: locales/source/app_locales_strings.php:434
+msgid "Event RSVPs options"
+msgstr "イベントRSVPオプション"
+
+#: locales/source/app_locales_strings.php:435
+msgid "Event volunteer options"
+msgstr "イベントボランティアのオプション"
+
+#: locales/source/app_locales_strings.php:436
+msgid "Recognized Date"
+msgstr "認定日"
+
+#: locales/source/app_locales_strings.php:437
+msgid "YES"
+msgstr "はい"
+
+#: locales/source/app_locales_strings.php:438
+msgid "TENTATIVE"
+msgstr "仮の"
+
+#: locales/source/app_locales_strings.php:439
+msgid "DECLINE"
+msgstr "却下"
+
+#: locales/source/app_locales_strings.php:440
+msgid "ATTEND IN PERSON"
+msgstr "直接参加する"
+
+#: locales/source/app_locales_strings.php:441
+msgid "ADD TO WAITLIST (In Person)"
+msgstr "ウェイティングリストに追加（対面）"
+
+#: locales/source/app_locales_strings.php:442
+msgid "ATTEND ONLINE"
+msgstr "オンラインで参加する"
+
+#: locales/source/app_locales_strings.php:443
+msgid "ADD TO WAITLIST (Online)"
+msgstr "順番待ちリストに追加（オンライン）"
+
+#: locales/source/app_locales_strings.php:444
+msgid "CANCEL WAITLIST (In Person)"
+msgstr "キャンセル待ちリスト（直接）"
+
+#: locales/source/app_locales_strings.php:445
+msgid "CANCEL WAITLIST (Online)"
+msgstr "キャンセル待ちリスト（オンライン）"
+
+#: locales/source/app_locales_strings.php:451
+msgid "This event is not active and cannot be accessed."
+msgstr "このイベントはアクティブではないため、アクセスできません。"
+
+#: locales/source/app_locales_strings.php:452
+msgid ""
+"Access denied. The event feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"アクセスが拒否されました。イベント機能は無効になっています。管理者に問い合わ"
+"せてください。"
+
+#: locales/source/app_locales_strings.php:453
+msgid "New Touch Point Event"
+msgstr "新しいタッチポイントイベント"
+
+#: locales/source/app_locales_strings.php:454
+msgid "Create Event"
+msgstr "イベントの作成"
+
+#: locales/source/app_locales_strings.php:455
+msgid "Update Event"
+msgstr "イベントの更新"
+
+#: locales/source/app_locales_strings.php:456
+msgid "This touch point does not have an associated event"
+msgstr "このタッチポイントには関連するイベントがありません"
+
+#: locales/source/app_locales_strings.php:457
+msgid "Event cancellation reason"
+msgstr "イベントキャンセル理由"
+
+#: locales/source/app_locales_strings.php:458
+#, php-format
+msgid ""
+"You have requested to join a %s. Please cancel join requests before leaving "
+"the %s"
+msgstr ""
+"%sへの参加をリクエストしました。%sを退出する前に、参加リクエストをキャンセル"
+"してください。"
+
+#: locales/source/app_locales_strings.php:460
+msgid "Recognitions"
+msgstr "表彰"
+
+#: locales/source/app_locales_strings.php:494
+msgid "Add more photos and videos to the album"
+msgstr "アルバムに写真やビデオを追加する"
+
+#: locales/source/app_locales_strings.php:495
+msgid ""
+"Note: channel selection disabled. You need to select a Chapter to enable it."
+msgstr ""
+"注: チャンネル選択は無効です。有効にするにはチャプターを選択する必要がありま"
+"す。"
+
+#: locales/source/app_locales_strings.php:496
+msgid "Downloading"
+msgstr "ダウンロード中"
+
+#: locales/source/app_locales_strings.php:497
+msgid "Update Recognition"
+msgstr "アップデート認識"
+
+#: locales/source/app_locales_strings.php:498
+#, no-php-format
+msgid "You and %s% others"
+msgstr "あなたと他の%s%人"
+
+#: locales/source/app_locales_strings.php:499
+msgid "%s% Like"
+msgstr "%s%いいね"
+
+#: locales/source/app_locales_strings.php:500
+msgid "No Reactions"
+msgstr "反応なし"
+
+#: locales/source/app_locales_strings.php:501
+msgid "Reactions"
+msgstr "リアクション"
+
+#: locales/source/app_locales_strings.php:502
+msgid "All"
+msgstr "全て"
+
+#, php-format
+#~ msgid "Are you sure to leave this %s?"
+#~ msgstr "この %s を残してもよろしいですか?"
+
+#~ msgid "Request accepted successfully"
+#~ msgstr "リクエストは正常に受け入れられました"
+
+#~ msgid "Members"
+#~ msgstr "メンバー"
+
+#~ msgid "Chapters"
+#~ msgstr "チャプター"
+
+#~ msgid "Channels"
+#~ msgstr "チャンネル"
+
+#~ msgid "Join/Leave Chapter"
+#~ msgstr "チャプターへの参加/離脱"
+
+#~ msgid "Join or Leave Chapter of this ERG"
+#~ msgstr "このERGのチャプターへの参加または離脱"
+
+#~ msgid "Join or Leave Channel of this ERG"
+#~ msgstr "このERGのチャンネルへの参加・離脱"
+
+#~ msgid "Your Upcoming Events"
+#~ msgstr "今後のイベント情報"
+
+#~ msgid "Looks like there aren't events scheduled yet"
+#~ msgstr "まだイベントの予定はないようです"
+
+#~ msgid "Looks like there aren't any newsletters yet"
+#~ msgstr "ニュースレターはまだないようです"
+
+#~ msgid "Looks like there aren't any announcements yet"
+#~ msgstr "まだ発表がないようです"
+
+#~ msgid "Looks like you don't have any upcoming events"
+#~ msgstr "今後のイベントはないようです"
+
+#~ msgid "photo"
+#~ msgstr "写真"
+
+#~ msgid "photos"
+#~ msgstr "写真"
+
+#~ msgid "Select chapter"
+#~ msgstr "チャプターの選択"
+
+#~ msgid "Select channel"
+#~ msgstr "チャンネル選択"
+
+#~ msgid "Announcement Detail"
+#~ msgstr "お知らせ詳細\t"
+
+#~ msgid "Are you sure to clear this notifications?"
+#~ msgstr "この通知を解除しても大丈夫ですか？"
+
+#~ msgid "Please enter title here"
+#~ msgstr "タイトルを入力してください。"
+
+#~ msgid "Please enter text"
+#~ msgstr "テキストを入力してください"
+
+#~ msgid "seconds"
+#~ msgstr "秒"
+
+#~ msgid "later"
+#~ msgstr "あとで"
+
+#~ msgid "second"
+#~ msgstr "秒"
+
+#~ msgid "Comment"
+#~ msgstr "コメント"
+
+#~ msgid "Undefined"
+#~ msgstr "不明"
+
+#~ msgid "Acceptable file formats"
+#~ msgstr "使用可能なファイル形式"
+
+#~ msgid "Name"
+#~ msgstr "名前"
+
+#~ msgid "Size"
+#~ msgstr "サイズ"
+
+#~ msgid "Upload"
+#~ msgstr "アップロード"
+
+#~ msgid "Video"
+#~ msgstr "動画"
+
+#~ msgid "New Discussion"
+#~ msgstr "新しいディスカッション"
+
+#~ msgid "Discussion title"
+#~ msgstr "ディスカッションタイトル"
+
+#~ msgid "Description is a required field"
+#~ msgstr "説明は必須フィールドです"
+
+#~ msgid "You need to select atleast one or more chapter to join"
+#~ msgstr ""
+#~ "参加するには、少なくとも1つ以上のチャプターを選択する必要があります。"
+
+#~ msgid "Announcement and Events related to"
+#~ msgstr "関連するお知らせ・イベント"
+
+#~ msgid "Show ERG level only"
+#~ msgstr "ERGレベルのみを表示"
+
+#~ msgid ""
+#~ "Your account has been marked for deletion and will be permanently "
+#~ "deleted, including all information, after thirty days"
+#~ msgstr ""
+#~ "あなたのアカウントは削除対象としてマークされており、30 日後にすべての情報"
+#~ "を含めて完全に削除されます"
+
+#~ msgid "Decline"
+#~ msgstr "拒否"
+
+#~ msgid ""
+#~ "Your search criteria did not return any matching result. Please change "
+#~ "your search criteria and try again. "
+#~ msgstr ""
+#~ "検索条件に一致する結果は返されませんでした。検索条件を変更して再試行してく"
+#~ "ださい。"
+
+#~ msgid "Pending"
+#~ msgstr "保留中"
+
+#~ msgid "Accepted"
+#~ msgstr "承認済み"
+
+#~ msgid "Rejected"
+#~ msgstr "拒否されました"
+
+#~ msgid "Invite deleted successfully"
+#~ msgstr "招待が正常に削除されました"
+
+#~ msgid "Are you sure you want to resend invite?"
+#~ msgstr "招待を再送信してもよろしいですか?"
+
+#~ msgid "Are you sure you want to delete this invite?"
+#~ msgstr "この招待を削除してもよろしいですか?"
+
+#~ msgid "Total Participants Allowed"
+#~ msgstr "許可される参加者の総数"
+
+#~ msgid "Discussion can't be empty"
+#~ msgstr "ディスカッションを空にすることはできません"
+
+#~ msgid ""
+#~ "The content contains links to external images which may not display "
+#~ "properly on all devices. Suggestion: Attach images from your local storage"
+#~ msgstr ""
+#~ "コンテンツには、すべてのデバイスで正しく表示されない可能性のある外部画像へ"
+#~ "のリンクが含まれています。提案：ローカルストレージから画像を添付する"
+
+#~ msgid "Discussion created successfully"
+#~ msgstr "ディスカッションが正常に作成されました"
+
+#~ msgid "Discussion updated successfully"
+#~ msgstr "ディスカッションが正常に更新されました"
+
+#~ msgid "Manage Join Requests"
+#~ msgstr "参加リクエストの管理"
+
+#~ msgid "Request to Join"
+#~ msgstr "参加リクエスト"
+
+#~ msgid "Please request a role to join."
+#~ msgstr "参加するにはロールをリクエストしてください。"
+
+#~ msgid "Team Membership"
+#~ msgstr "チームメンバーシップ"
+
+#~ msgid "You have not yet requested any roles to join a Team.!"
+#~ msgstr "チームに参加するための役割をまだリクエストしていません。!"
+
+#~ msgid ""
+#~ "The role is not configured correctly. Please contact your administrator "
+#~ "for assistance."
+#~ msgstr ""
+#~ "役割が正しく構成されていません。サポートが必要な場合は、管理者にお問い合わ"
+#~ "せください。"
+
+#~ msgid "No data found"
+#~ msgstr "何もデータが見つかりませんでした"
+
+#~ msgid "Custom fileds list"
+#~ msgstr "カスタム フィールド リスト"
+
+#~ msgid "Group data  notfound. Please try again."
+#~ msgstr "グループ データが見つかりません。もう一度やり直してください。"
+
+#~ msgid "No user matched with search keyword."
+#~ msgstr "検索キーワードに一致するユーザーはいません。"
+
+#~ msgid "Recognition updated successfully"
+#~ msgstr "認識が正常に更新されました"
+
+#, php-format
+#~ msgid "No %s joined yet"
+#~ msgstr "%s はまだ参加していません"
+
+#~ msgid "My Groups"
+#~ msgstr "自分のグループ"
+
+#~ msgid "Joined Groups"
+#~ msgstr "参加グループ"
+
+#~ msgid "Add Highlight"
+#~ msgstr "ハイライトの追加"
+
+#~ msgid "Ok"
+#~ msgstr "はい"
+
+#~ msgid "You were already checked in successfully"
+#~ msgstr "すでに正常にチェックインされています"
+
+#~ msgid "Something has gone wrong. Please try again later."
+#~ msgstr "何かがうまくいかなかった。後でもう一度やり直してください。"
+
+#~ msgid "Highlight uploaded"
+#~ msgstr "アップロードされたハイライト"
+
+#~ msgid "media can't be empty"
+#~ msgstr "メディアを空にすることはできません"
+
+#~ msgid "Liked successfully"
+#~ msgstr "正常に高く評価されました"
+
+#~ msgid "ok"
+#~ msgstr "まあまあ"
+
+#~ msgid "Upload your files"
+#~ msgstr "ファイルのアップロード"
+
+#~ msgid "Choose media type"
+#~ msgstr "メディアの種類を選ぶ"
+
+#~ msgid "News Letter"
+#~ msgstr "ニュースレター"

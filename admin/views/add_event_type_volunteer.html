@@ -1,0 +1,88 @@
+<div id="new_volunteer_request_form_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">  
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="form_title"><?=$form_title?></h4>
+                <button id="btn_close" aria-label="close" type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">               
+                <form class="form-horizontal" method="post" id="event_volunteer_request_form">
+                    <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                    <input type="hidden" name="encodedTypeId" value="<?= $_COMPANY->encodeId($eventTypeId); ?>">
+                        <div class="form-group">
+                            <label for="volunteer_type_select">Volunteer Type:</label>
+                            <select id="volunteer_type_select" name="volunteer_type_select" class="form-control">
+                                <option value="">Select an option</option>
+                                <?php foreach ($eventVolunteerTypes as $volunteerType) { ?>
+                                    <option value="<?= $volunteerType['volunteertypeid'] ?>" <?= $volunterTypeRequestdata ? ($volunterTypeRequestdata['volunteertypeid'] == $volunteerType['volunteertypeid'] ? 'selected' : 'disabled' ) : ''; ?>><?= htmlspecialchars($volunteerType['type']) ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volunteer_count_input">Number of Volunteers:</label>
+                            <input id="volunteer_count_input" name="volunteer_count_input" class="form-control" type="number" placeholder="Enter the number of volunteers" value="<?= $volunterTypeRequestdata ? $volunterTypeRequestdata['volunteer_needed_count'] : ''; ?>" >
+                        </div>
+
+                    <p>&nbsp;</p>                     
+                        <div class="form-group text-center mt-3">
+                            <a  href="manage_event_type_volunteer?event_type_id=<?= $_COMPANY->encodeId($eventTypeId); ?>" class="btn btn-primary">Cancel</a>
+                            <button type="button" onclick="submitEventTypeVolunteerForm()" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>	
+			</div>
+		</div>  
+	</div>
+</div>
+<script>
+    function submitEventTypeVolunteerForm() {
+        $(document).off('focusin.modal');
+    
+        let volunteerNeededCount = $("#volunteer_count_input").val();
+        let volunteerType = $("#volunteer_type_select").val();
+
+        if (volunteerType === '') {
+            swal.fire({ title: 'Error', text: "Please select a volunteer type", allowOutsideClick: false });
+        }  else if (volunteerNeededCount === '') {
+            swal.fire({ title: 'Error', text: "Please input volunteer needed count", allowOutsideClick: false });
+        } else {
+            // Prevent default form submission
+            event.preventDefault();
+    
+            let formData = $('#event_volunteer_request_form').serialize();
+            $.ajax({
+                url: 'ajax.php?submitEventTypeVolunteerForm=1',
+                type: "POST",
+                data: formData,
+                success: function (data) {
+                    // Parse the JSON response
+                    try {
+                        let jsonData = JSON.parse(data);
+
+                        if (jsonData.status === 1) {
+                            $('#new_volunteer_request_form_modal').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            swal.fire({ title: jsonData.title, text: jsonData.message, allowOutsideClick: false }).then(function (result) {
+                                // Reload the page or update the volunteer list
+                                location.reload();
+                            });
+                        } else {
+                            swal.fire({ title: 'Error', text: jsonData.message, allowOutsideClick: false });
+                        }
+                    } catch (e) {
+                        swal.fire({ title: 'Error', text: "Unknown error.", allowOutsideClick: false });
+                    }
+                },
+                error: function () {
+                    swal.fire({ title: 'Error', text: "Unknown error.", allowOutsideClick: false });
+                }
+            });
+        }
+    }
+
+    $('#new_volunteer_request_form_modal').on('shown.bs.modal', function () {
+		$('.close').trigger('focus');
+	});
+    </script>
+    

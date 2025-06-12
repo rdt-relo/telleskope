@@ -1,0 +1,398 @@
+<style>
+
+    /* Style the element that is used to open and close the accordion class */
+    p.accordion {
+     /*background-color: #eee;*/
+     color: #444;
+     cursor: pointer;
+     padding: 18px;
+     width: 100%;
+     text-align: left;
+     border: none;
+     outline: none;
+     transition: 0.4s;
+     margin-bottom:0px;
+     border-radius:2px;
+     border-bottom: 1px solid #ececec;
+     font-size:16px;
+    }
+    /* Add a background color to the accordion if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    p.accordion.active, p.accordion:hover {
+     background-color: #ddd;
+    }
+    /* Unicode character for "plus" sign (+) */
+    p.accordion:after {
+     content: "\25BC";
+     font-size: 13px;
+     color: #418bbb;
+     float: right;
+     margin-left: 5px;
+    }
+    /* Unicode character for "minus" sign (-) */
+    p.accordion.active:after {
+     content: "\25B2";
+    }
+    /* Style the element that is used for the panel class */
+    div.panel {
+     padding: 0 18px;
+     background-color: white;
+     max-height: 0;
+     transition: 0.4s ease-in-out;
+     opacity: 0;
+     margin-bottom:0px;
+     display:none;
+    }
+    
+    div.panel.show {
+     opacity: 1;
+     max-height: 100%;
+    }
+    
+    .next{
+       display:none;
+    }
+    
+    tr.trc:hover td.tdc .next{
+       display:block;
+    }
+    tr.trc:hover td.tdc p{
+        display:none;
+    }
+    
+    .dyn-height {
+        max-width:100%;
+        max-height:300px;
+        overflow-y:auto;
+    }
+    
+    
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #ffffff;
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+        color: #555555;
+        cursor: default;
+    }
+    
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #ffffff;
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+        color: #418bbb;
+        cursor: default;
+        width: 200px;
+        height: 50px;
+        text-align: center;
+        padding-top: 15px;margin-left: -1px;border-radius: 0px;
+    }
+    .nav-tabs > li > a{
+        color:#333;
+       
+        width: 200px;
+        height: 50px;
+        text-align: center;padding-top: 15px;
+    }
+    
+    .nav-tabs > li > a:hover {
+       
+        width: 200px;
+        height: 50px;padding-top: 15px;
+    }
+    .tab-content{
+        margin-top:0px;
+    }
+    
+    div#home { margin-top: 0px; opacity: 1;}
+    #menu1 {
+        margin-top: 17px;
+    }
+    
+    #menu2 {
+        margin-top: 17px;
+    }
+    .bg-all {
+        background-color: #fff;
+        border: 1px solid rgba(54, 64, 74, 0.08);
+        border-radius: 1px;
+        box-shadow: 0 4px 4px 0 #ccc;
+    }
+    
+    .widget-simple-chart.card-box-one.top-no-border {
+        border-top: none;
+        border-radius: 0 5px 5px 5px;
+        padding: 10px 20px 10px 25px;
+    }
+    
+    .btn-group {  
+        white-space: nowrap; 
+        overflow: scroll;
+    }
+    .btn-group .btn {  
+        float: none;
+        display: inline-block;
+    }
+    .btn + .dropdown-toggle { 
+        margin-left: -4px;
+    }
+    .table-responsive {
+        overflow-x: initial;
+        display: block;
+        /* white-space: nowrap; */
+    }
+    
+    #expenses_table_paginate{
+        padding:13px 0;
+    }
+    .nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+    
+    </style>
+        <div class="container  col-md-offset-2 margin-top">  
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-simple-chart card-box-one fixhight">
+                        
+                        <?php if(isset($_GET['msg'])){?>
+                        <div id="hidemesage" class="alert alert-info alert-dismissable">
+                                <?= $_GET['msg']; ?>                      
+                         </div>
+                         <?php }?>
+                         <div class="col-md-12 divider" style="margin-top:10px;">
+                            <div class="col-sm-3 nopadding">
+                            <h4 style="margin-top: 4px;float: left;">Point Program Listing</h4>
+                              <a aria-label="<?= gettext('create points program');?>" class="add-plus-circle-icon" style="display: inline-block; margin-left: 6px;" href="create_points_program">
+                                <i class="fa fa-plus-circle fa-lg mt-3 ml-2"  title="Points Programs " aria-hidden="true"></i>
+                            </a>
+                            </div>
+                            <div class="col-sm-9 nopadding">
+                              <form action="credit_points_to_members.php?members=1" method="POST">
+                                <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+                                <input id='pointsConfirmPopUp' type="submit" class="btn btn-primary" style="float:right; margin: 0 5px" value="Credit Accrued Points To Members">
+                              </form>
+                              <form action="credit_points_group_leads.php?groupLeads=1" method="POST">
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                <input id='pointsConfirmSubmitPopUp' type="submit" value="Credit Accrued Points To Group Leaders" class="btn btn-primary" style="float:right;">
+                              </form>
+                        </div>
+                        </div>
+                        <div style="margin-top:60px">
+                        <?php include(__DIR__ . '/points.template.html');?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="widget-simple-chart card-box-one fixhight">
+                        <div class="m-4">
+                            <div class="col-md-12 divider nopadding">
+                                <div class="col-sm-10 nopadding">
+                                    <h4 class="">Leaderboard - <img src="<?= $selectedProgram['points_image_url'] ?>"
+                                                                    style="height: 1em; margin: auto 10px; padding: 0 0 .2em 0; "><?= htmlspecialchars($selectedProgram['title']) ?>
+                                    </h4>
+                                </div>
+                                <div class="col-sm-2 nopadding">
+                                    <select class="form-control pull-right" required
+                                            onchange="setSelectedPointsProgram(this.value)"
+                                            style="background: #fff;color:#212529;border-radius: 5px; margin-bottom: 5px;">
+                                        <?php foreach ($programs as $program) { ?>
+                                            <option
+                                                    value="<?= $_COMPANY->encodeId($program['points_program_id']) ?>"
+                                                <?= $program['points_program_id'] === (int)$selectedProgram['points_program_id'] ? 'selected' : '' ?>
+                                            >
+                                                <?= htmlspecialchars($program['title']) ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-12 cover-div">
+                                        <div class="widget-simple-chart card-box-one top-no-border">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover display compact" width="100%"
+                                                       summary="This table displays the leaderboard for the selected program"
+                                                       id="leaderboard">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">User</th>
+                                                        <th scope="col">Points Balance</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($leaderboard as $user) { ?>
+                                                      <tr>
+                                                        <td><strong><?= ($user['user'] ? $user['user']->getFullName() : 'user not found') . "</strong><br>" . $user['user']?->val('email') ?></td>
+                                                        <td><?= $_USER->formatAmountForDisplay($user['points_balance']) ?></td>
+                                                        <td>
+                                                          <a
+                                                            role="button"
+                                                            href="javascript:void(0);"
+                                                            onclick="viewUserPointsBreakup(event)"
+                                                            data-points-program-id="<?= $_COMPANY->encodeId($selectedPointsProgramId ?? 0) ?>"
+                                                            data-userid="<?= $_COMPANY->encodeId($user['user_id']) ?>"
+                                                          >
+                                                            View breakup
+                                                          </a>
+                                                        </td>
+                                                      </tr>
+                                                    <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>	
+    </div>
+
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#leaderboard').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "pageLength": 10,
+        "columnDefs": [
+                       { targets: [-1], orderable: false }
+                    ],
+        language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+        },
+       
+    });
+        
+    $('#points_table').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "pageLength": 10,
+        "columnDefs": [
+			{ targets: [4,5,6,8], orderable: false }
+		],
+        language: {
+					searchPlaceholder: "...",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+				},
+        
+    } );
+    
+    $(document).ready(function(){
+        $('.initial').initial({
+            charCount: 2,
+            textColor: '#ffffff',
+            seed: 0,
+            height: 30,
+            width: 30,
+            fontSize: 15,
+            fontWeight: 300,
+            fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+            radius: 0
+        });
+    });
+</script>
+<script>
+// Full featured example
+$("#pointsConfirmPopUp").popConfirm({
+    title: "Are you sure you want to credit points to members?",
+    content: "",
+    placement: "left",
+    });
+
+$("#pointsConfirmSubmitPopUp").popConfirm({
+title: "Are you sure you want to credit points to Group Leaders?",
+content: "",
+placement: "left",
+});
+
+$('.js-pop-confirm').popConfirm({content: ''});
+
+function setSelectedPointsProgram(selectedPointsProgramId)
+{
+    window.location.search += '&selected_points_program_id='+selectedPointsProgramId;
+}
+
+function viewUserPointsBreakup(jsevent) {
+  var btn = $(jsevent.target);
+
+  var container_id = 'js-view-user-points-breakup-container';
+  var container = $('#' + container_id);
+  if (!container.length) {
+    $('#loadAnyModal').after(`<div id="${container_id}"></div>`);
+    container = $('#' + container_id);
+  }
+
+  $.ajax({
+    url: 'ajax_points.php?viewUserPointsBreakup=1',
+    type: 'GET',
+    data: {
+      userid: btn.data('userid'),
+      points_program_id: btn.data('points-program-id'),
+    },
+    tskp_submit_btn: btn,
+    success : function(data) {
+      container
+        .html(data)
+        .find('.modal')
+        .modal();
+    }
+  });
+}
+
+function refreshViewUserPointsBreakupResults(jsevent) {
+  jsevent.preventDefault();
+
+  var container_id = 'js-view-user-points-breakup-container';
+  var container = $('#' + container_id);
+  if (!container.length) {
+    $('#loadAnyModal').after(`<div id="${container_id}"></div>`);
+    container = $('#' + container_id);
+  }
+
+  var form = $(jsevent.target);
+  var tskp_submit_btn = form.find('button[type="submit"]');
+
+  $.ajax({
+    url: 'ajax_points.php?viewUserPointsBreakup=1',
+    type: 'GET',
+    data: form.serialize(),
+    tskp_submit_btn: tskp_submit_btn,
+    success : function(data) {
+      // Just refresh the container #js-view-user-points-breakup-results
+      var div = $('<div></div>').html(data);
+      container.find('#js-view-user-points-breakup-results').html(
+        div.find('#js-view-user-points-breakup-results').html()
+      );
+    }
+  });
+
+}
+
+</script>    
+</body>
+</html>

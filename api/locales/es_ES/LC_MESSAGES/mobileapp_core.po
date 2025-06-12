@@ -1,0 +1,3912 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-05-09 20:35+0530\n"
+"PO-Revision-Date: 2025-05-09 20:36+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: index_v3_4.php:29 index_v3_4.php:35 index_v3_4.php:54
+msgid "Authentication Token is Invalid"
+msgstr "El token de autenticación no es válido"
+
+#: index_v3_4.php:40
+msgid "Session not found"
+msgstr "Sesión no encontrada"
+
+#: index_v3_4.php:49 index_v3_4.php:94 index_v3_4.php:372 index_v3_4.php:596
+#: index_v3_4.php:1073 index_v3_4.php:1272 index_v3_4.php:1748
+#: index_v3_4.php:1817 index_v3_4.php:1855 index_v3_4.php:1929
+#: index_v3_4.php:1979 index_v3_4.php:2327 index_v3_4.php:2421
+#: index_v3_4.php:2480 index_v3_4.php:2557 index_v3_4.php:2955
+#: index_v3_4.php:3073 index_v3_4.php:3151 index_v3_4.php:3184
+#: index_v3_4.php:3235 index_v3_4.php:3272 index_v3_4.php:3299
+#: index_v3_4.php:3331 index_v3_4.php:3422 index_v3_4.php:3441
+#: index_v3_4.php:3487 index_v3_4.php:3532 index_v3_4.php:3551
+#: index_v3_4.php:3597 index_v3_4.php:3624 index_v3_4.php:3706
+#: index_v3_4.php:3779 index_v3_4.php:3828 index_v3_4.php:3924
+#: index_v3_4.php:3951 index_v3_4.php:4023 index_v3_4.php:4139
+#: index_v3_4.php:4227 index_v3_4.php:4277 index_v3_4.php:4303
+#: index_v3_4.php:4335 index_v3_4.php:4368 index_v3_4.php:4408
+#: index_v3_4.php:4489 index_v3_4.php:4551 index_v3_4.php:4578
+#: index_v3_4.php:4619 index_v3_4.php:4665 index_v3_4.php:4699
+#: index_v3_4.php:4734 index_v3_4.php:4763 index_v3_4.php:4796
+#: index_v3_4.php:4826 index_v3_4.php:4880 index_v3_4.php:4906
+#: index_v3_4.php:4939 index_v3_4.php:5033 index_v3_4.php:5062
+#: index_v3_4.php:5120 index_v3_4.php:5239 index_v3_4.php:5450
+#: index_v3_4.php:5477 index_v3_4.php:5512 index_v3_4.php:5537
+#: index_v3_4.php:5590 index_v3_4.php:5611 index_v3_4.php:5670
+#: index_v3_4.php:5732 index_v3_4.php:5806 index_v3_4.php:5924
+#: index_v3_4.php:5960 index_v3_4.php:6075 index_v3_4.php:6102
+#: index_v3_4.php:6152 index_v3_4.php:6178 index_v3_4.php:6209
+#: index_v3_4.php:6563 index_v3_4.php:6746 index_v3_4.php:6947
+#: index_v3_4.php:6995 index_v3_4.php:7056 index_v3_4.php:7103
+#: index_v3_4.php:7184 index_v3_4.php:7258 index_v3_4.php:7338
+#: index_v3_4.php:7400 index_v3_4.php:7447 index_v3_4.php:7492
+#: index_v3_4.php:7591 index_v3_4.php:7658 index_v3_4.php:7699
+#: index_v3_4.php:7740 index_v3_4.php:7943 index_v3_4.php:7987
+#: index_v3_4.php:8029 index_v3_4.php:8121 index_v3_4.php:8232
+#: index_v3_4.php:8329 index_v3_4.php:8391 index_v3_4.php:8417
+#: index_v3_4.php:8468 index_v3_4.php:8521 index_v3_4.php:8556
+#: index_v3_4.php:8604 index_v3_4.php:8635 index_v3_4.php:8665
+#: index_v3_4.php:8694 index_v3_4.php:8728 index_v3_4.php:8875
+#: index_v3_4.php:8900 index_v3_4.php:9099 index_v3_4.php:9162
+#: index_v3_4.php:9212 index_v3_4.php:9253 index_v3_4.php:9309
+#: index_v3_4.php:9335 index_v3_4.php:9367 index_v3_4.php:9418
+#: index_v3_4.php:9464 index_v3_4.php:9528 index_v3_4.php:9564
+#: index_v3_4.php:9631 index_v3_4.php:9659 index_v3_4.php:9684
+#: index_v3_4.php:9708 index_v3_4.php:9772
+#, php-format
+msgid "%s can't be empty"
+msgstr "%s no puede estar vacío"
+
+#: index_v3_4.php:64
+msgid "Invalid or Expired Authentication Token"
+msgstr "Token de autenticación no válido o caducado"
+
+#: index_v3_4.php:88
+msgid ""
+"Unable to assign a zone, please sign in into web application to complete "
+"your account setup."
+msgstr ""
+"No se puede asignar una zona, inicie sesión en la aplicación web para "
+"completar la configuración de su cuenta."
+
+#: index_v3_4.php:101
+msgid "Welcome! You have signed in successfully."
+msgstr "¡Bienvenidos! Has iniciado sesión correctamente."
+
+#: index_v3_4.php:103
+msgid "Your mobile application session has expired. Please sign in again."
+msgstr "Su sesión de aplicación móvil ha expirado. Inicie sesión de nuevo."
+
+#: index_v3_4.php:114
+msgid "Method not exist"
+msgstr "Método no existe"
+
+#: index_v3_4.php:117
+msgid "Please select a method"
+msgstr "Seleccione un método"
+
+#: index_v3_4.php:139 index_v3_4.php:307 index_v3_4.php:329 index_v3_4.php:355
+#: index_v3_4.php:366 index_v3_4.php:416 index_v3_4.php:461 index_v3_4.php:590
+#: index_v3_4.php:621 index_v3_4.php:1067 index_v3_4.php:1090
+#: index_v3_4.php:1266 index_v3_4.php:1703 index_v3_4.php:1742
+#: index_v3_4.php:1811 index_v3_4.php:1849 index_v3_4.php:1923
+#: index_v3_4.php:1973 index_v3_4.php:2320 index_v3_4.php:2334
+#: index_v3_4.php:2414 index_v3_4.php:2427 index_v3_4.php:2474
+#: index_v3_4.php:2526 index_v3_4.php:2551 index_v3_4.php:2564
+#: index_v3_4.php:2948 index_v3_4.php:2995 index_v3_4.php:3067
+#: index_v3_4.php:3123 index_v3_4.php:3145 index_v3_4.php:3178
+#: index_v3_4.php:3210 index_v3_4.php:3229 index_v3_4.php:3266
+#: index_v3_4.php:3293 index_v3_4.php:3325 index_v3_4.php:3416
+#: index_v3_4.php:3435 index_v3_4.php:3481 index_v3_4.php:3525
+#: index_v3_4.php:3545 index_v3_4.php:3591 index_v3_4.php:3618
+#: index_v3_4.php:3700 index_v3_4.php:3773 index_v3_4.php:3820
+#: index_v3_4.php:3917 index_v3_4.php:3945 index_v3_4.php:4017
+#: index_v3_4.php:4132 index_v3_4.php:4145 index_v3_4.php:4221
+#: index_v3_4.php:4271 index_v3_4.php:4297 index_v3_4.php:4329
+#: index_v3_4.php:4362 index_v3_4.php:4378 index_v3_4.php:4402
+#: index_v3_4.php:4483 index_v3_4.php:4508 index_v3_4.php:4545
+#: index_v3_4.php:4572 index_v3_4.php:4613 index_v3_4.php:4659
+#: index_v3_4.php:4693 index_v3_4.php:4728 index_v3_4.php:4757
+#: index_v3_4.php:4790 index_v3_4.php:4820 index_v3_4.php:4874
+#: index_v3_4.php:4900 index_v3_4.php:4933 index_v3_4.php:5023
+#: index_v3_4.php:5056 index_v3_4.php:5087 index_v3_4.php:5114
+#: index_v3_4.php:5138 index_v3_4.php:5233 index_v3_4.php:5422
+#: index_v3_4.php:5441 index_v3_4.php:5471 index_v3_4.php:5484
+#: index_v3_4.php:5506 index_v3_4.php:5531 index_v3_4.php:5584
+#: index_v3_4.php:5605 index_v3_4.php:5664 index_v3_4.php:5726
+#: index_v3_4.php:5782 index_v3_4.php:5800 index_v3_4.php:5918
+#: index_v3_4.php:5953 index_v3_4.php:5966 index_v3_4.php:6069
+#: index_v3_4.php:6096 index_v3_4.php:6146 index_v3_4.php:6172
+#: index_v3_4.php:6203 index_v3_4.php:6236 index_v3_4.php:6258
+#: index_v3_4.php:6557 index_v3_4.php:6569 index_v3_4.php:6740
+#: index_v3_4.php:6752 index_v3_4.php:6941 index_v3_4.php:6953
+#: index_v3_4.php:6989 index_v3_4.php:7001 index_v3_4.php:7050
+#: index_v3_4.php:7062 index_v3_4.php:7097 index_v3_4.php:7109
+#: index_v3_4.php:7178 index_v3_4.php:7190 index_v3_4.php:7252
+#: index_v3_4.php:7264 index_v3_4.php:7332 index_v3_4.php:7354
+#: index_v3_4.php:7360 index_v3_4.php:7394 index_v3_4.php:7416
+#: index_v3_4.php:7441 index_v3_4.php:7461 index_v3_4.php:7486
+#: index_v3_4.php:7566 index_v3_4.php:7585 index_v3_4.php:7608
+#: index_v3_4.php:7652 index_v3_4.php:7664 index_v3_4.php:7693
+#: index_v3_4.php:7705 index_v3_4.php:7734 index_v3_4.php:7746
+#: index_v3_4.php:7936 index_v3_4.php:7949 index_v3_4.php:7980
+#: index_v3_4.php:7993 index_v3_4.php:8022 index_v3_4.php:8035
+#: index_v3_4.php:8114 index_v3_4.php:8127 index_v3_4.php:8226
+#: index_v3_4.php:8323 index_v3_4.php:8335 index_v3_4.php:8346
+#: index_v3_4.php:8385 index_v3_4.php:8411 index_v3_4.php:8427
+#: index_v3_4.php:8451 index_v3_4.php:8462 index_v3_4.php:8474
+#: index_v3_4.php:8514 index_v3_4.php:8550 index_v3_4.php:8598
+#: index_v3_4.php:8629 index_v3_4.php:8659 index_v3_4.php:8688
+#: index_v3_4.php:8722 index_v3_4.php:8869 index_v3_4.php:8894
+#: index_v3_4.php:8906 index_v3_4.php:9093 index_v3_4.php:9106
+#: index_v3_4.php:9156 index_v3_4.php:9169 index_v3_4.php:9206
+#: index_v3_4.php:9219 index_v3_4.php:9247 index_v3_4.php:9259
+#: index_v3_4.php:9303 index_v3_4.php:9329 index_v3_4.php:9360
+#: index_v3_4.php:9412 index_v3_4.php:9458 index_v3_4.php:9522
+#: index_v3_4.php:9558 index_v3_4.php:9625 index_v3_4.php:9653
+#: index_v3_4.php:9678 index_v3_4.php:9702 index_v3_4.php:9734
+#: index_v3_4.php:9766
+msgid "Bad request"
+msgstr "Mal pedido"
+
+#: index_v3_4.php:183
+msgid "Profile data"
+msgstr "Datos de perfil"
+
+#: index_v3_4.php:311
+msgid "You are now signed out. See you later"
+msgstr "Ahora estás desconectado. Te veo luego"
+
+#: index_v3_4.php:314 index_v3_4.php:439 index_v3_4.php:3733
+#: index_v3_4.php:3756 index_v3_4.php:4389 index_v3_4.php:5127
+#: index_v3_4.php:5429 index_v3_4.php:9512 index_v3_4.php:9547
+#: index_v3_4.php:9642 index_v3_4.php:9667 index_v3_4.php:9692
+#: index_v3_4.php:9794
+msgid "Something went wrong. Please try again."
+msgstr "Algo salió mal. Inténtalo de nuevo."
+
+#: index_v3_4.php:335
+msgid "Notifications are OFF now."
+msgstr "Las notificaciones están DESACTIVADAS ahora."
+
+#: index_v3_4.php:339
+msgid "Notifications are ON now."
+msgstr "Las notificaciones están activadas ahora."
+
+#: index_v3_4.php:358
+msgid "All branches list"
+msgstr "Lista de todas las sucursales"
+
+#: index_v3_4.php:397
+msgid "Profile picture uploaded successfully"
+msgstr "Imagen de perfil cargada con éxito"
+
+#: index_v3_4.php:400
+msgid "Uploading error! Please try again"
+msgstr "¡Error de carga! Inténtalo de nuevo"
+
+#: index_v3_4.php:403
+msgid "Maximum allowed size of profile picture is 2MB"
+msgstr "El tamaño máximo permitido de la imagen de perfil es de 2 MB"
+
+#: index_v3_4.php:406
+msgid "Only .jpg,.jpeg,.png files are allowed"
+msgstr "Solo se permiten archivos .jpg, .jpeg, .png"
+
+#: index_v3_4.php:437
+msgid "Profile updated successfully"
+msgstr "Perfil actualizado correctamente"
+
+#: index_v3_4.php:511
+#, php-format
+msgid "Click on any %s tile to join!"
+msgstr "¡Haz clic en cualquier mosaico %s para unirte!"
+
+#: index_v3_4.php:520
+msgid "All groups"
+msgstr "Todos los grupos"
+
+#: index_v3_4.php:522
+msgid "No groups found"
+msgstr "No se encontraron grupos"
+
+#: index_v3_4.php:655 index_v3_4.php:1134
+#: locales/source/app_locales_strings.php:270
+msgid "Manage Registration"
+msgstr "Gestionar registro"
+
+#: index_v3_4.php:655 index_v3_4.php:1134 index_v3_4.php:8823
+#: locales/source/app_locales_strings.php:368
+msgid "Register"
+msgstr "Registrarse"
+
+#: index_v3_4.php:678 index_v3_4.php:1253
+msgid "Group detail"
+msgstr "Detalle del grupo"
+
+#: index_v3_4.php:680 index_v3_4.php:1255 index_v3_4.php:1727
+#: index_v3_4.php:1796 index_v3_4.php:1835 index_v3_4.php:1908
+msgid "Group not found"
+msgstr "Grupo no encontrado"
+
+#: index_v3_4.php:762
+msgid "Group events"
+msgstr "Eventos grupales"
+
+#: index_v3_4.php:764 index_v3_4.php:1052 index_v3_4.php:1414
+#: index_v3_4.php:1667 index_v3_4.php:3054 index_v3_4.php:5221
+#: index_v3_4.php:5224
+msgid "No events"
+msgstr "No hay eventos"
+
+#: index_v3_4.php:804 index_v3_4.php:1454
+msgid "Group members"
+msgstr "Miembros del grupo"
+
+#: index_v3_4.php:857
+msgid "About us"
+msgstr "Nosotros"
+
+#: index_v3_4.php:910 index_v3_4.php:1511
+msgid "Group newsletters"
+msgstr "Boletines de grupo"
+
+#: index_v3_4.php:912 index_v3_4.php:1513
+msgid "No newsletters"
+msgstr "sin boletines"
+
+#: index_v3_4.php:991 index_v3_4.php:1599
+msgid "Discussions list"
+msgstr "Lista de conversaciones"
+
+#: index_v3_4.php:1050 index_v3_4.php:1665
+msgid "Group past events"
+msgstr "Agrupar eventos pasados"
+
+#: index_v3_4.php:1057 index_v3_4.php:1672
+msgid "Please select a section"
+msgstr "Seleccione una sección"
+
+#: index_v3_4.php:1158 index_v3_4.php:1290 index_v3_4.php:2360
+#: index_v3_4.php:2449 index_v3_4.php:2573 index_v3_4.php:4163
+#: index_v3_4.php:4497 index_v3_4.php:5681 index_v3_4.php:5740
+#, php-format
+msgid "This is a private %1$s. Only members can view the content."
+msgstr "Este es un %1$s privado. Sólo los miembros pueden ver el contenido."
+
+#: index_v3_4.php:1158
+#, php-format
+msgid ""
+" If you recently joined, your access might take a few moments. Try reloading "
+"the page after a few seconds to see the content."
+msgstr ""
+"Si te has registrado recientemente, tu acceso puede tardar unos minutos. "
+"Intenta volver a cargar la página después de unos segundos para ver el "
+"contenido."
+
+#: index_v3_4.php:1163 locales/source/app_locales_strings.php:47
+msgid "About Us"
+msgstr "Sobre nosotros"
+
+#: index_v3_4.php:1171
+msgid "Donations"
+msgstr "Donaciones"
+
+#: index_v3_4.php:1189 locales/source/app_locales_strings.php:44
+msgid "Events"
+msgstr "Eventos"
+
+#: index_v3_4.php:1197 locales/source/app_locales_strings.php:45
+msgid "Newsletters"
+msgstr "Boletines"
+
+#: index_v3_4.php:1205 locales/source/app_locales_strings.php:184
+msgid "Resources"
+msgstr "Recursos"
+
+#: index_v3_4.php:1213 locales/source/app_locales_strings.php:134
+msgid "Albums"
+msgstr "Álbumes"
+
+#: index_v3_4.php:1222
+#, php-format
+msgid "My %s"
+msgstr "mi %s"
+
+#: index_v3_4.php:1231 locales/source/app_locales_strings.php:154
+msgid "Discussions"
+msgstr "Discusiones"
+
+#: index_v3_4.php:1317
+msgid "Announcements list"
+msgstr "Lista de anuncios"
+
+#: index_v3_4.php:1319
+msgid "No announcements"
+msgstr "Sin anuncios"
+
+#: index_v3_4.php:1412
+msgid "Events lists"
+msgstr "Listas de eventos"
+
+#: index_v3_4.php:1709
+msgid " can't be empty"
+msgstr "No puede estar vacío"
+
+#: index_v3_4.php:1722
+msgid "About chapter"
+msgstr "Acerca del capítulo"
+
+#: index_v3_4.php:1724
+msgid "Chapter not found"
+msgstr "Capítulo no encontrado"
+
+#: index_v3_4.php:1791
+msgid "Chapter members list."
+msgstr "Lista de miembros del capítulo."
+
+#: index_v3_4.php:1793
+msgid "Chapter members listing not allowed"
+msgstr "Listado de miembros del capítulo no permitido"
+
+#: index_v3_4.php:1830
+msgid "About channel"
+msgstr "Acerca del canal"
+
+#: index_v3_4.php:1832
+msgid "Channel not found"
+msgstr "Canal no encontrado"
+
+#: index_v3_4.php:1903
+msgid "Channel members list."
+msgstr "Lista de miembros del canal."
+
+#: index_v3_4.php:1905
+msgid "Channel members listing not allowed"
+msgstr "Listado de miembros del canal no permitido"
+
+#: index_v3_4.php:1956
+msgid "Joined groups"
+msgstr "Grupos unidos"
+
+#: index_v3_4.php:1958 index_v3_4.php:9757
+msgid "No groups joined"
+msgstr "Ningún grupo se unió"
+
+#: index_v3_4.php:2007
+msgid "No content available"
+msgstr "Contenido no disponible"
+
+#: index_v3_4.php:2301
+msgid "All feeds"
+msgstr "Todos los feeds"
+
+#: index_v3_4.php:2339
+#, php-format
+msgid ""
+"Access denied. The %s feature is disabled. Please contact your administrator."
+msgstr ""
+"Acceso denegado. La función %s está deshabilitada. Por favor contacte a su "
+"administrador."
+
+#: index_v3_4.php:2396
+msgid "Post detail"
+msgstr "Detalle de la publicación"
+
+#: index_v3_4.php:2398 index_v3_4.php:2511
+msgid "It seems this announcement has been removed."
+msgstr "Parece que este anuncio ha sido eliminado."
+
+#: index_v3_4.php:2432
+msgid ""
+"Access denied. The newsletter feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"Acceso denegado. La función de boletín está deshabilitada. Por favor "
+"contacte a su administrador."
+
+#: index_v3_4.php:2458
+msgid "Newsletter detail"
+msgstr "Detalle del boletín"
+
+#: index_v3_4.php:2460
+msgid "It seems this newsletter has been removed."
+msgstr "Parece que este boletín ha sido eliminado."
+
+#: index_v3_4.php:2498 index_v3_4.php:2505 index_v3_4.php:4246
+#: index_v3_4.php:4253 index_v3_4.php:4847 index_v3_4.php:4854
+#: index_v3_4.php:6121 index_v3_4.php:6128 index_v3_4.php:8362
+#: index_v3_4.php:8369 index_v3_4.php:8574 index_v3_4.php:8581
+#: index_v3_4.php:9283 index_v3_4.php:9290
+msgid "Comment added"
+msgstr "Comentario añadido"
+
+#: index_v3_4.php:2500 index_v3_4.php:2507 index_v3_4.php:4005
+#: index_v3_4.php:4248 index_v3_4.php:4255 index_v3_4.php:4849
+#: index_v3_4.php:4856 index_v3_4.php:6123 index_v3_4.php:6130
+#: index_v3_4.php:8364 index_v3_4.php:8371 index_v3_4.php:8576
+#: index_v3_4.php:8583 index_v3_4.php:9285 index_v3_4.php:9292
+msgid "Something went wrong! Please try again."
+msgstr "¡Algo salió mal! Inténtalo de nuevo."
+
+#: index_v3_4.php:2538
+msgid "All departments"
+msgstr "Todos los departamentos"
+
+#: index_v3_4.php:2655 locales/source/app_locales_strings.php:325
+msgid "This event is over"
+msgstr "este evento ha terminado"
+
+#: index_v3_4.php:2657
+msgid ""
+"Sorry, this Event RSVP has closed. We are no longer accepting RSVP updates "
+"for this event."
+msgstr ""
+"Lo sentimos, la confirmación de asistencia a este evento ha finalizado. Ya "
+"no aceptamos actualizaciones de confirmación de asistencia para este evento."
+
+#: index_v3_4.php:2737
+msgid "Please confirm!"
+msgstr "Por favor confirmar"
+
+#: index_v3_4.php:2738
+msgid "Are you sure your want to sign up for this role?"
+msgstr "¿Estás seguro de que quieres registrarte para este puesto?"
+
+#: index_v3_4.php:2749
+msgid ""
+"Note: If you sign up for a role, your RSVP for this event will be "
+"automatically added."
+msgstr ""
+"Nota: si se registra para un rol, su confirmación de asistencia para este "
+"evento se agregará automáticamente."
+
+#: index_v3_4.php:2778 index_v3_4.php:2798
+msgid "Update"
+msgstr "Actualizar"
+
+#: index_v3_4.php:2779
+msgid "Post event survey responses"
+msgstr "Respuestas a la encuesta posterior al evento"
+
+#: index_v3_4.php:2781
+msgid "Respond"
+msgstr "Responder"
+
+#: index_v3_4.php:2782
+msgid "Post event survey is available"
+msgstr "La encuesta posterior al evento está disponible"
+
+#: index_v3_4.php:2797
+msgid "Pre event survey responses"
+msgstr "Respuestas a la encuesta previa al evento"
+
+#: index_v3_4.php:2828
+msgid ""
+"Before accepting the waiver, please read the disclaimer. Click the "
+"disclaimer title to see the full details."
+msgstr ""
+"Antes de aceptar la exención de responsabilidad, lea el aviso legal. Haga "
+"clic en el título del aviso legal para ver todos los detalles."
+
+#: index_v3_4.php:2844
+#, php-format
+msgid "By typing in <strong><i>%s</i></strong> below, I provide my consent"
+msgstr ""
+"Al escribir <strong><i>%s</i></strong> a continuación, doy mi consentimiento"
+
+#: index_v3_4.php:2844
+msgid "I Agree"
+msgstr "Acepto"
+
+#: index_v3_4.php:2850
+msgid "In order to RSVP for this Event please accept the Event Waivers above."
+msgstr ""
+"Para confirmar su asistencia a este evento, acepte las exenciones de "
+"responsabilidad anteriores."
+
+#: index_v3_4.php:2863
+msgid "RSVPs are not required for this event."
+msgstr "No se requieren confirmaciones de asistencia para este evento."
+
+#: index_v3_4.php:2868 locales/source/app_locales_strings.php:74
+msgid "Event Detail"
+msgstr "Detalles"
+
+#: index_v3_4.php:2870 index_v3_4.php:2980 index_v3_4.php:3282
+#: index_v3_4.php:8587 index_v3_4.php:8619 index_v3_4.php:8649
+msgid "It seems this event has been removed."
+msgstr "Parece que este evento ha sido eliminado."
+
+#: index_v3_4.php:2936
+msgid "Deprecated method"
+msgstr "Método obsoleto"
+
+#: index_v3_4.php:2968 locales/source/app_locales_strings.php:459
+#, php-format
+msgid ""
+"Thank you for RSVPing %s to this event. Your RSVP has been recorded, and you "
+"will receive an email with a corresponding calendar hold."
+msgstr ""
+"Gracias por confirmar su asistencia a este evento (%s). Su confirmación de "
+"asistencia se ha registrado y recibirá un correo electrónico con la reserva "
+"de su calendario."
+
+#: index_v3_4.php:2970
+msgid "Thank you for RSVPing \""
+msgstr "Gracias por confirmar su asistencia \""
+
+#: index_v3_4.php:2974
+msgid "Something went wrong! Please try again"
+msgstr "¡Algo salió mal! Inténtalo de nuevo"
+
+#: index_v3_4.php:2977 index_v3_4.php:3760
+msgid "Not a valid type"
+msgstr "No es un tipo válido"
+
+#: index_v3_4.php:3000 index_v3_4.php:5143
+msgid "Event feature is disabled"
+msgstr "La función de evento está deshabilitada"
+
+#: index_v3_4.php:3013
+msgid "Past events"
+msgstr "Eventos pasados"
+
+#: index_v3_4.php:3024
+msgid "Upcoming events"
+msgstr "Próximos Eventos"
+
+#: index_v3_4.php:3107
+msgid "All notifications"
+msgstr "Todas las notificaciones"
+
+#: index_v3_4.php:3109
+msgid "No notifications"
+msgstr "No Notificaciones"
+
+#: index_v3_4.php:3133
+msgid "Unread count"
+msgstr "Recuento no leído"
+
+#: index_v3_4.php:3157
+msgid "All viewed"
+msgstr "Todo visto"
+
+#: index_v3_4.php:3163
+msgid "Notification viewed"
+msgstr "Notificación vista"
+
+#: index_v3_4.php:3189
+msgid "All notification cleared"
+msgstr "Todas las notificaciones borradas"
+
+#: index_v3_4.php:3195
+msgid "Notification cleared"
+msgstr "Notificación borrada"
+
+#: index_v3_4.php:3216 index_v3_4.php:4604 index_v3_4.php:4647
+#: index_v3_4.php:4680 index_v3_4.php:4716 index_v3_4.php:4744
+#: index_v3_4.php:4778 index_v3_4.php:4808 index_v3_4.php:5075
+#: locales/source/app_locales_strings.php:174
+msgid "Done"
+msgstr "Hecho"
+
+#: index_v3_4.php:3249 index_v3_4.php:4348 index_v3_4.php:4952
+#: index_v3_4.php:6084 index_v3_4.php:7465 index_v3_4.php:8647
+msgid "Updated successfully"
+msgstr "Actualizado correctamente"
+
+#: index_v3_4.php:3251
+msgid "It seems this post has been removed."
+msgstr "Parece que esta publicación ha sido eliminada."
+
+#: index_v3_4.php:3280
+msgid "Check-in Successful."
+msgstr "Registro exitoso."
+
+#: index_v3_4.php:3313
+msgid "Chapters list"
+msgstr "Lista de capítulos"
+
+#: index_v3_4.php:3315 index_v3_4.php:3347 index_v3_4.php:3690
+#: index_v3_4.php:3763
+msgid "It seems this group has been removed."
+msgstr "Parece que este grupo ha sido eliminado."
+
+#: index_v3_4.php:3345
+msgid "Channels list"
+msgstr "lista de canales"
+
+#: index_v3_4.php:3361
+msgid "Event Highlights details"
+msgstr "Detalles de eventos destacados"
+
+#: index_v3_4.php:3384
+msgid "Event highlight detail"
+msgstr "Detalle destacado del evento"
+
+#: index_v3_4.php:3396
+msgid "Disliked successfully"
+msgstr "No me gustó con éxito"
+
+#: index_v3_4.php:3408
+msgid "Comment added successfully"
+msgstr "Comentario añadido con éxito"
+
+#: index_v3_4.php:3426
+msgid "Link generated successfully"
+msgstr "Enlace generado con éxito"
+
+#: index_v3_4.php:3457 index_v3_4.php:3473 index_v3_4.php:4315
+#: index_v3_4.php:4917 index_v3_4.php:6190 index_v3_4.php:8437
+#: index_v3_4.php:8676 index_v3_4.php:9347
+msgid "Comment deleted successfully"
+msgstr "Comentario eliminado con éxito"
+
+#: index_v3_4.php:3459 index_v3_4.php:3608 index_v3_4.php:4287
+#: index_v3_4.php:4317 index_v3_4.php:4890 index_v3_4.php:4919
+#: index_v3_4.php:6162 index_v3_4.php:6192 index_v3_4.php:8401
+#: index_v3_4.php:8439 index_v3_4.php:8616 index_v3_4.php:8678
+#: index_v3_4.php:9319 index_v3_4.php:9349
+msgid "Comment not found"
+msgstr "Comentario no encontrado"
+
+#: index_v3_4.php:3492 index_v3_4.php:3496
+msgid "Invalid checkin url."
+msgstr "URL de registro no válida."
+
+#: index_v3_4.php:3501 index_v3_4.php:8699 index_v3_4.php:8733
+#: index_v3_4.php:9779
+msgid "Event not found"
+msgstr "Evento no encontrado"
+
+#: index_v3_4.php:3504
+msgid "You are too late. Checkin has ended"
+msgstr "Llegas muy tarde. El registro ha finalizado"
+
+#: index_v3_4.php:3506
+msgid "You are too early. Checkin is not open yet"
+msgstr "Eres demasiado temprano. El registro aún no está abierto"
+
+#: index_v3_4.php:3510
+msgid "You are checked in successfully"
+msgstr "Has registrado correctamente"
+
+#: index_v3_4.php:3582
+msgid "System messages"
+msgstr "Mensajes del sistema"
+
+#: index_v3_4.php:3606 index_v3_4.php:3812 index_v3_4.php:4285
+#: index_v3_4.php:4888 index_v3_4.php:6160 index_v3_4.php:8399
+#: index_v3_4.php:8614 index_v3_4.php:9317
+msgid "Comment updated successfully"
+msgstr "Comentario actualizado con éxito"
+
+#: index_v3_4.php:3664
+msgid "Manage your membership"
+msgstr "Administra tu membresía"
+
+#: index_v3_4.php:3677
+msgid "As per your office location you have been auto assigned "
+msgstr "Según la ubicación de su oficina, se le ha asignado automáticamente"
+
+#: index_v3_4.php:3731
+msgid "Joined successfully"
+msgstr "Se unió con éxito"
+
+#: index_v3_4.php:3736
+msgid "You can't join this group."
+msgstr "No puedes unirte a este grupo."
+
+#: index_v3_4.php:3742
+msgid "Leader cannot leave membership."
+msgstr "El líder no puede abandonar la membresía."
+
+#: index_v3_4.php:3754
+msgid "Left successfully"
+msgstr "Salió con éxito"
+
+#: index_v3_4.php:3784
+msgid "New password can't be the same as old password"
+msgstr "La nueva contraseña no puede ser la misma que la antigua"
+
+#: index_v3_4.php:3793
+msgid "Password changed successfully"
+msgstr "Contraseña cambiada con éxito"
+
+#: index_v3_4.php:3795
+msgid "Incorrect old password provided! Please try again"
+msgstr "¡Se proporcionó una contraseña antigua incorrecta! Inténtalo de nuevo"
+
+#: index_v3_4.php:3798
+msgid ""
+"New password must be minimum 8 characters long and must contain an uppercase "
+"letter, a lowercase letter, a number and a special character."
+msgstr ""
+"La nueva contraseña debe tener un mínimo de 8 caracteres y debe contener una "
+"letra mayúscula, una letra minúscula, un número y un carácter especial."
+
+#: index_v3_4.php:3872
+msgid "Survey Link"
+msgstr "Enlace de encuesta"
+
+#: index_v3_4.php:3874
+msgid "No survey found"
+msgstr "No se encontró ninguna encuesta"
+
+#: index_v3_4.php:3883 locales/source/app_locales_strings.php:462
+#, php-format
+msgid "This is a collaborative event between %s"
+msgstr "Este es un evento colaborativo entre %s"
+
+#: index_v3_4.php:3934
+msgid "Translated strings"
+msgstr "Cadenas traducidas"
+
+#: index_v3_4.php:3936
+msgid "Translation not available"
+msgstr "Traducción no disponible"
+
+#: index_v3_4.php:3956
+msgid "This feature is not available"
+msgstr "Esta función no está disponible"
+
+#: index_v3_4.php:3960 index_v3_4.php:9121
+msgid "You are already a member"
+msgstr "Ya eres miembro"
+
+#: index_v3_4.php:3965
+msgid "Your request canceled successfully."
+msgstr "Su solicitud cancelada con éxito."
+
+#: index_v3_4.php:4003
+#, php-format
+msgid "%s join request sent successfully."
+msgstr "%s solicitud de unión enviada con éxito."
+
+#: index_v3_4.php:4029
+msgid "Hashtag does not exist."
+msgstr "El hashtag no existe."
+
+#: index_v3_4.php:4101
+#, php-format
+msgid "Feeds related to %s tag."
+msgstr "Feeds relacionados con la etiqueta %s."
+
+#: index_v3_4.php:4150
+msgid ""
+"Access denied. The discussion feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"Acceso denegado. La función de discusión está deshabilitada. Por favor "
+"contacte a su administrador."
+
+#: index_v3_4.php:4209
+msgid "Discussion detail"
+msgstr "Detalle de la discusión"
+
+#: index_v3_4.php:4211
+msgid "It seems this discussioin has been removed."
+msgstr "Parece que esta discusión ha sido eliminada."
+
+#: index_v3_4.php:4260 index_v3_4.php:4350 index_v3_4.php:4392
+msgid "It seems this discussion has been removed."
+msgstr "Parece que esta discusión ha sido eliminada."
+
+#: index_v3_4.php:4383 index_v3_4.php:4741 index_v3_4.php:6223
+msgid "Permission denied"
+msgstr "Permiso denegado"
+
+#: index_v3_4.php:4387
+msgid "Discussion deleted successfully"
+msgstr "Discusión eliminada con éxito"
+
+#: index_v3_4.php:4454
+msgid "Albums list"
+msgstr "Lista de álbumes"
+
+#: index_v3_4.php:4530
+msgid "Media lists"
+msgstr "Listas de medios"
+
+#: index_v3_4.php:4532
+msgid "Media not exist."
+msgstr "Los medios no existen."
+
+#: index_v3_4.php:4536
+msgid "Album not exist"
+msgstr "Álbum no existe"
+
+#: index_v3_4.php:4559
+msgid "Media like and commens"
+msgstr "Me gusta y comentarios de los medios"
+
+#: index_v3_4.php:4562
+msgid "Album does not exist"
+msgstr "el álbum no existe"
+
+#: index_v3_4.php:4597 index_v3_4.php:4637
+#, php-format
+msgid "Please select a %s scope"
+msgstr "Por favor seleccione un alcance %s"
+
+#: index_v3_4.php:4599 index_v3_4.php:4639 index_v3_4.php:9401
+#: index_v3_4.php:9785
+msgid "Access denied"
+msgstr "Acceso denegado"
+
+#: index_v3_4.php:4649 index_v3_4.php:4683 index_v3_4.php:4718
+#: index_v3_4.php:4746 index_v3_4.php:4780 index_v3_4.php:4810
+#: index_v3_4.php:4863 index_v3_4.php:4957 index_v3_4.php:5077
+msgid "It seems this album has been removed."
+msgstr "Parece que este álbum ha sido eliminado."
+
+#: index_v3_4.php:4677
+msgid "Deletion failed because album is not empty."
+msgstr "La eliminación falló porque el álbum no está vacío."
+
+#: index_v3_4.php:4711
+msgid "No such media exist"
+msgstr "No existen tales medios"
+
+#: index_v3_4.php:4860 index_v3_4.php:4954
+msgid "It seems this album media has been removed."
+msgstr "Parece que se han eliminado los medios de este álbum."
+
+#: index_v3_4.php:5044
+msgid "Allowed"
+msgstr "Permitido"
+
+#: index_v3_4.php:5046
+msgid "Not allowed."
+msgstr "No permitido."
+
+#: index_v3_4.php:5106
+msgid "List of zones"
+msgstr "Lista de zonas"
+
+#: index_v3_4.php:5125
+msgid "Zone switched successfully"
+msgstr "Zona cambiada con éxito"
+
+#: index_v3_4.php:5245
+msgid "Invalid url"
+msgstr "URL invalida"
+
+#: index_v3_4.php:5411
+msgid "Callback data"
+msgstr "datos de devolución de llamada"
+
+#: index_v3_4.php:5413
+msgid "Invalid urls"
+msgstr "URL no válidas"
+
+#: index_v3_4.php:5427
+msgid ""
+"Your account has been marked for deletion and will be permanently deleted, "
+"including all information, after thirty days."
+msgstr ""
+"Su cuenta se ha marcado para su eliminación y se eliminará de forma "
+"permanente, incluida toda la información, después de treinta días."
+
+#: index_v3_4.php:5432
+msgid ""
+"Please type 'Delete' in text box to provide your consent to delete your "
+"account"
+msgstr ""
+"Escriba 'Delete' en el cuadro de texto para dar su consentimiento para "
+"eliminar su cuenta"
+
+#: index_v3_4.php:5444
+msgid "Inbox Feature is not active for you"
+msgstr "La función de bandeja de entrada no está activa para usted"
+
+#: index_v3_4.php:5459
+msgid "Messages list."
+msgstr "Lista de mensajes."
+
+#: index_v3_4.php:5461
+msgid "No messages found"
+msgstr "No se encontraron mensajes"
+
+#: index_v3_4.php:5490
+msgid "Unable to load message as it might be deleted."
+msgstr "No se puede cargar el mensaje porque podría eliminarse."
+
+#: index_v3_4.php:5497
+msgid "Message detail."
+msgstr "Detalle del mensaje."
+
+#: index_v3_4.php:5519
+msgid "Deleted Successfully."
+msgstr "Borrado exitosamente."
+
+#: index_v3_4.php:5521
+msgid "Unable to delete. Please try again later."
+msgstr "No se puede eliminar. Por favor, inténtelo de nuevo más tarde."
+
+#: index_v3_4.php:5547
+msgid "You already signed up as a volunteer"
+msgstr "Ya te inscribiste como voluntario"
+
+#: index_v3_4.php:5552
+msgid "Event Volunteer request capacity has been met"
+msgstr "Se ha cumplido la capacidad de solicitud de Voluntarios del evento"
+
+#: index_v3_4.php:5572 locales/source/app_locales_strings.php:447
+msgid "Volunteer role signup successfully"
+msgstr "Registro de rol voluntario con éxito"
+
+#: index_v3_4.php:5574
+msgid "Something went wrong. Please try again"
+msgstr "Algo salió mal. Inténtalo de nuevo"
+
+#: index_v3_4.php:5595 locales/source/app_locales_strings.php:446
+msgid "Volunteer role declined successfully"
+msgstr "El rol de voluntario se rechazó con éxito"
+
+#: index_v3_4.php:5651 index_v3_4.php:5714
+msgid "Resource list."
+msgstr "Lista de recursos."
+
+#: index_v3_4.php:5654 index_v3_4.php:5717
+msgid "No resource found"
+msgstr "Ningún recurso encontrado"
+
+#: index_v3_4.php:5751
+msgid "The requested resource is no longer available"
+msgstr "El recurso solicitado ya no está disponible"
+
+#: index_v3_4.php:5772
+msgid "Resource you are looking for does not exist."
+msgstr "El recurso que busca no existe."
+
+#: index_v3_4.php:5791
+msgid "Recognition types list."
+msgstr "Lista de tipos de reconocimiento."
+
+#: index_v3_4.php:5910
+msgid "Filtered recognitions list"
+msgstr "Lista de reconocimientos filtrados"
+
+#: index_v3_4.php:5931 index_v3_4.php:5935
+msgid "Incorrect Topic Type."
+msgstr "Tipo de tema incorrecto."
+
+#: index_v3_4.php:5939
+msgid "Likers Details"
+msgstr "Detalles de los Me gusta"
+
+#: index_v3_4.php:5971
+msgid ""
+"Access denied. The Recognition feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"Acceso denegado. La función de reconocimiento está desactivada. Contacte con "
+"su administrador."
+
+#: index_v3_4.php:6051
+msgid "Recognition detail"
+msgstr "Detalle de reconocimiento"
+
+#: index_v3_4.php:6053 index_v3_4.php:6086 index_v3_4.php:6135
+msgid "It seems this recognition has been removed."
+msgstr "Parece que este reconocimiento ha sido eliminado."
+
+#: index_v3_4.php:6217
+msgid "Recognition found"
+msgstr "Reconocimiento encontrado"
+
+#: index_v3_4.php:6227
+msgid "Recognition deleted successfully"
+msgstr "Reconocimiento eliminado con éxito"
+
+#: index_v3_4.php:6250
+msgid "Web view auth token generated"
+msgstr "Token de autenticación de vista web generado"
+
+#: index_v3_4.php:6266
+msgid "Profile picture deleted successfully"
+msgstr "Imagen de perfil eliminada con éxito"
+
+#: index_v3_4.php:6448
+#, php-format
+msgid "%s Leaders"
+msgstr "%s líderes"
+
+#: index_v3_4.php:6577
+#, php-format
+msgid ""
+"This %1$s is not yet configured to use the %2$s feature. Please contact your "
+"administrator."
+msgstr ""
+"Este %1$s aún no está configurado para utilizar la función %2$s. Por favor "
+"contacte a su administrador."
+
+#: index_v3_4.php:6581
+#, php-format
+msgid ""
+"No role types have yet been configured in this %1$s. Please contact your "
+"administrator."
+msgstr ""
+"Aún no se han configurado tipos de roles en este %1$s. Por favor contacte a "
+"su administrador."
+
+#: index_v3_4.php:6615
+#, php-format
+msgid ""
+"No Individual Development %s role type found. You should contact your "
+"administrator to get help creating the new role."
+msgstr ""
+"No se encontró ningún tipo de rol de desarrollo individual %s. Debe "
+"comunicarse con su administrador para obtener ayuda para crear el nuevo rol."
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:492
+#, php-format
+msgid "You have not started the %s program yet. Please start now."
+msgstr "Aún no has iniciado el programa %s. Por favor comience ahora."
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:490
+msgid "Start Now"
+msgstr "Empezar ahora"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:491
+#, php-format
+msgid "Are you sure you want to start %s program?"
+msgstr "¿Está seguro de que desea iniciar el programa %s?"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:493
+msgid "Individual Development not started yet"
+msgstr "El desarrollo individual aún no ha comenzado"
+
+#: index_v3_4.php:6633
+#, php-format
+msgid ""
+"%1$s page is available only to the members of %2$s %3$s, please join  %2$s "
+"%3$s as a member first. "
+msgstr ""
+"La página %1$s está disponible solo para los miembros de %2$s %3$s. Únase a "
+"%2$s %3$s como miembro primero."
+
+#: index_v3_4.php:6638 index_v3_4.php:6830
+msgid "In-active"
+msgstr "Inactivo"
+
+#: index_v3_4.php:6639 index_v3_4.php:6831
+msgid "Active"
+msgstr "Activo"
+
+#: index_v3_4.php:6640 index_v3_4.php:6832
+msgid "Draft"
+msgstr "Reclutar"
+
+#: index_v3_4.php:6641 index_v3_4.php:6833
+#: locales/source/app_locales_strings.php:58
+msgid "Delete"
+msgstr "Borrar"
+
+#: index_v3_4.php:6642 index_v3_4.php:6834
+#: locales/source/app_locales_strings.php:388
+msgid "Complete"
+msgstr "Completo"
+
+#: index_v3_4.php:6643 index_v3_4.php:6835
+#: locales/source/app_locales_strings.php:389
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#: index_v3_4.php:6644 index_v3_4.php:6836
+msgid "Paused"
+msgstr "En pausa"
+
+#: index_v3_4.php:6677
+msgid "Available Slots"
+msgstr "Ranuras Disponibles"
+
+#: index_v3_4.php:6721
+msgid "My teams lists"
+msgstr "Mis listas de equipos"
+
+#: index_v3_4.php:6724 index_v3_4.php:6925 index_v3_4.php:6973
+#: index_v3_4.php:7034 index_v3_4.php:7081 index_v3_4.php:7162
+#: index_v3_4.php:7236 index_v3_4.php:7316 index_v3_4.php:7378
+#: index_v3_4.php:7425 index_v3_4.php:7470 index_v3_4.php:7569
+#: index_v3_4.php:7635 index_v3_4.php:7677 index_v3_4.php:7718
+#: index_v3_4.php:7787 index_v3_4.php:7964 index_v3_4.php:8006
+#: index_v3_4.php:8097 index_v3_4.php:8215 index_v3_4.php:8375
+#: index_v3_4.php:8442 index_v3_4.php:9083 index_v3_4.php:9231
+#: index_v3_4.php:9268
+#, php-format
+msgid "%s not found"
+msgstr "%s no se encontró"
+
+#: index_v3_4.php:6762
+#, php-format
+msgid "Access denied. The %s is not active. Please contact your adminstroator"
+msgstr ""
+"Acceso denegado. El %s no está activo. Por favor contacte a su administrador"
+
+#: index_v3_4.php:6766
+#, php-format
+msgid ""
+"Access denied. The %s feature is disabled. Please contact your adminstroator"
+msgstr ""
+"Acceso denegado. La función %s está deshabilitada. Por favor contacte a su "
+"administrador"
+
+#: index_v3_4.php:6770
+#, php-format
+msgid "This %s is currently inactive"
+msgstr "Este %s está actualmente inactivo"
+
+#: index_v3_4.php:6775
+#, php-format
+msgid "Access denied. You are not currently a member of this %s"
+msgstr "Acceso denegado. Actualmente no eres miembro de este %s"
+
+#: index_v3_4.php:6801 locales/source/app_locales_strings.php:484
+#, php-format
+msgid "Join %1$s as %2$s"
+msgstr "Únase a %1$s como %2$s"
+
+#: index_v3_4.php:6803
+#, php-format
+msgid "You are already joined this %s"
+msgstr "Ya estás unido a este %s"
+
+#: index_v3_4.php:6806 index_v3_4.php:9045
+#, php-format
+msgid "Are you sure you want to join this %s?"
+msgstr "¿Estás seguro de que deseas unirte a este %s?"
+
+#: index_v3_4.php:6809 index_v3_4.php:8837 index_v3_4.php:9040
+#, php-format
+msgid ""
+"Registration is now closed, and we are no longer accepting new requests for "
+"this role."
+msgstr ""
+"La inscripción ya está cerrada y ya no aceptamos nuevas solicitudes para "
+"este puesto."
+
+#: index_v3_4.php:6812 locales/source/app_locales_strings.php:358
+msgid "Are you sure you want to join this circle?"
+msgstr "¿Estás seguro de que quieres unirte a este círculo?"
+
+#: index_v3_4.php:6815
+msgid "All slots are filled"
+msgstr "Todos los espacios están llenos"
+
+#: index_v3_4.php:6857 locales/source/app_locales_strings.php:481
+#, php-format
+msgid "Are you sure to remove this member from %s?"
+msgstr "¿Está seguro de eliminar a este miembro de %s?"
+
+#: index_v3_4.php:6858
+msgid "Remove"
+msgstr "Remover"
+
+#: index_v3_4.php:6913
+#, php-format
+msgid "Are you sure you want to leave this %s?"
+msgstr "¿Estás seguro que deseas abandonar este %s?"
+
+#: index_v3_4.php:6914 locales/source/app_locales_strings.php:41
+msgid "Leave"
+msgstr "Salir"
+
+#: index_v3_4.php:6922
+msgid "Teams detail"
+msgstr "Detalle de los equipos"
+
+#: index_v3_4.php:6970
+msgid "Action item list"
+msgstr "Lista de elementos de acción"
+
+#: index_v3_4.php:7031
+msgid "Touch points item list"
+msgstr "Lista de elementos de puntos de contacto"
+
+#: index_v3_4.php:7079
+msgid "Feedbacks list"
+msgstr "Lista de comentarios"
+
+#: index_v3_4.php:7159
+msgid "Action item detail"
+msgstr "Detalle del elemento de acción"
+
+#: index_v3_4.php:7233
+msgid "Touchpoint detail"
+msgstr "Detalle del punto de contacto"
+
+#: index_v3_4.php:7313
+msgid "Feedback detail"
+msgstr "Detalle de comentarios"
+
+#: index_v3_4.php:7344 index_v3_4.php:7406 index_v3_4.php:7453
+#: index_v3_4.php:7498 index_v3_4.php:7597
+msgid "Bad requestS"
+msgstr "Solicitudes incorrectas"
+
+#: index_v3_4.php:7373
+msgid "Status updated successfully"
+msgstr "Estado actualizado con éxito"
+
+#: index_v3_4.php:7375 index_v3_4.php:7422
+msgid "Something went wrong while updating status."
+msgstr "Algo salió mal al actualizar el estado."
+
+#: index_v3_4.php:7420
+msgid "Deleted successfully"
+msgstr "Borrado exitosamente"
+
+#: index_v3_4.php:7467 index_v3_4.php:7715
+msgid "Something went wrong while updating."
+msgstr "Algo salió mal durante la actualización."
+
+#: index_v3_4.php:7515 locales/source/app_locales_strings.php:473
+#, php-format
+msgid ""
+"This %s cannot be reactivated because the maximum number of concurrent "
+"programs supported for one member has been reached."
+msgstr ""
+"Este %s no se puede reactivar porque se alcanzó la cantidad máxima de "
+"programas simultáneos admitidos para un miembro."
+
+#: index_v3_4.php:7526
+msgid "Development program started successfully"
+msgstr "El programa de desarrollo comenzó con éxito"
+
+#: index_v3_4.php:7528 locales/source/app_locales_strings.php:474
+#, php-format
+msgid "%1$s %2$s activated successfully."
+msgstr "%1$s %2$s activado con éxito."
+
+#: index_v3_4.php:7531
+#, php-format
+msgid "%1$s %2$s Error"
+msgstr "%1$s %2$s error"
+
+#: index_v3_4.php:7535 locales/source/app_locales_strings.php:475
+#, php-format
+msgid "%1$s %2$s deactivated successfully."
+msgstr "%1$s %2$s se desactivó correctamente."
+
+#: index_v3_4.php:7541 locales/source/app_locales_strings.php:266
+msgid "Action Items"
+msgstr "Elementos de acción"
+
+#: index_v3_4.php:7542 locales/source/app_locales_strings.php:267
+msgid "Touch Points"
+msgstr "Puntos de contacto"
+
+#: index_v3_4.php:7543
+msgid "and"
+msgstr "y"
+
+#: index_v3_4.php:7545 locales/source/app_locales_strings.php:476
+#, php-format
+msgid ""
+"You have not completed all required %1$s, so the %2$s cannot be marked as "
+"complete"
+msgstr ""
+"No ha completado todos los %1$s requeridos, por lo que el %2$s no se puede "
+"marcar como completo"
+
+#: index_v3_4.php:7549 locales/source/app_locales_strings.php:477
+#, php-format
+msgid "%1$s %2$s completed successfully."
+msgstr "%1$s %2$s completado con éxito."
+
+#: index_v3_4.php:7553 locales/source/app_locales_strings.php:478
+#, php-format
+msgid "%1$s %2$s closed as incomplete successfully."
+msgstr "%1$s %2$s cerrado como incompleto exitosamente."
+
+#: index_v3_4.php:7557 locales/source/app_locales_strings.php:472
+#, php-format
+msgid "%1$s %2$s is paused successfully."
+msgstr "%1$s %2$s se pausó exitosamente"
+
+#: index_v3_4.php:7561 locales/source/app_locales_strings.php:479
+#, php-format
+msgid "%1$s %2$s deleted successfully."
+msgstr "%1$s %2$s eliminado con éxito."
+
+#: index_v3_4.php:7563
+msgid "Update Failed."
+msgstr "Actualización fallida."
+
+#: index_v3_4.php:7623
+msgid "New touch point linked successfully"
+msgstr "Nuevo punto de contacto vinculado con éxito"
+
+#: index_v3_4.php:7628
+msgid "New task linked successfully"
+msgstr "Nueva tarea vinculada con éxito"
+
+#: index_v3_4.php:7632
+msgid "Something went wrong while linking content"
+msgstr "Algo salió mal al vincular contenido"
+
+#: index_v3_4.php:7672
+msgid "Manage roles requests"
+msgstr "Administrar solicitudes de roles"
+
+#: index_v3_4.php:7674 locales/source/app_locales_strings.php:274
+msgid "No role are available to request"
+msgstr "No hay roles disponibles para solicitar"
+
+#: index_v3_4.php:7713 locales/source/app_locales_strings.php:271
+msgid "Registration canceled successfully"
+msgstr "Registro cancelado exitosamente"
+
+#: index_v3_4.php:7775 locales/source/app_locales_strings.php:469
+#, php-format
+msgid ""
+"The Discover feature relies on matching criteria. Please request your %1$s "
+"leaders to complete the setup process."
+msgstr ""
+"La función Descubrir se basa en criterios de coincidencia. Solicite a sus "
+"%1$s líderes que completen el proceso de configuración."
+
+#: index_v3_4.php:7776
+#, php-format
+msgid "%1$s setup is not complete"
+msgstr "La configuración de %1$s no está completa"
+
+#: index_v3_4.php:7782
+msgid "Discover suggessions"
+msgstr "Descubre sugerencias"
+
+#: index_v3_4.php:7784 locales/source/app_locales_strings.php:470
+msgid "To Discover your matches, please Register for a role"
+msgstr "Para descubrir sus coincidencias, regístrese para un puesto"
+
+#: index_v3_4.php:7812
+#, php-format
+msgid ""
+"You can't send a request to this user as you've reached your maximum "
+"available capacity limit. This limit is based on the number of %1$s you're "
+"already in and any outstanding %2$s join requests"
+msgstr ""
+"No puede enviar una solicitud a este usuario porque ha alcanzado su límite "
+"máximo de capacidad disponible. Este límite se basa en la cantidad de %1$s "
+"en los que ya estás y en las %2$s solicitudes de unión pendientes."
+
+#: index_v3_4.php:7814
+msgid "Invite user"
+msgstr "Invitar Usuario"
+
+#: index_v3_4.php:7820 locales/source/app_locales_strings.php:468
+#, php-format
+msgid ""
+"In addition to the following recommendations, you can also directly invite "
+"users to join the %s"
+msgstr ""
+"Además de las siguientes recomendaciones, también puedes invitar "
+"directamente a los usuarios a unirse al %s"
+
+#: index_v3_4.php:7822
+#, php-format
+msgid ""
+"You've reached the maximum number of %1$s you can participate in as a %2$s. "
+"Therefore, you can't send requests or invite users to form new %1$s where "
+"you take on the %2$s role."
+msgstr ""
+"Has alcanzado el número máximo de %1$s en los que puedes participar como "
+"%2$s. Por lo tanto, no puede enviar solicitudes ni invitar a usuarios a "
+"formar un nuevo %1$s donde usted asume el rol %2$s."
+
+#: index_v3_4.php:7860
+msgid "Accepting New Requests"
+msgstr "Aceptar nuevas solicitudes"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spot available"
+msgstr "%s lugar disponible"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spots available"
+msgstr "%s plazas"
+
+#: index_v3_4.php:7865
+msgid "Not Accepting New Requests"
+msgstr "No aceptar nuevas solicitudes"
+
+#: index_v3_4.php:7866
+msgid "No spots available"
+msgstr "No hay lugares disponibles"
+
+#: index_v3_4.php:7867
+msgid ""
+"You cannot send request as user's maximum outstanding requests have been "
+"reached."
+msgstr ""
+"No puede enviar una solicitud porque se ha alcanzado el máximo de "
+"solicitudes pendientes del usuario."
+
+#: index_v3_4.php:7872
+msgid "Are you sure you want to send this request?"
+msgstr "¿Está seguro de que desea enviar esta solicitud?"
+
+#: index_v3_4.php:7873 locales/source/app_locales_strings.php:307
+msgid "Send Request"
+msgstr "Enviar petición"
+
+#: index_v3_4.php:7877 index_v3_4.php:8060 index_v3_4.php:9598
+#: locales/source/app_locales_strings.php:465
+#: locales/source/app_locales_strings.php:480
+msgid "Are you sure you want to delete this request?"
+msgstr "¿Está seguro de que desea eliminar esta solicitud?"
+
+#: index_v3_4.php:7878 locales/source/app_locales_strings.php:306
+msgid "Delete Request"
+msgstr "Borrar petición"
+
+#: index_v3_4.php:7906 locales/source/app_locales_strings.php:467
+#, php-format
+msgid ""
+"Based on your registration information here are the %s matches recommended "
+"for you to connect with:"
+msgstr ""
+"Según su información de registro, estas son las %s coincidencias "
+"recomendadas para que se conecte:"
+
+#: index_v3_4.php:7959 index_v3_4.php:9640
+#: locales/source/app_locales_strings.php:466
+msgid "Invite sent successfully"
+msgstr "Invitación enviada con éxito"
+
+#: index_v3_4.php:7961
+msgid "Something went wrong while sending ."
+msgstr "Algo salió mal durante el envío."
+
+#: index_v3_4.php:8001 index_v3_4.php:9690
+msgid "Request deleted successfully"
+msgstr "Solicitud eliminada con éxito"
+
+#: index_v3_4.php:8003
+msgid "Something went wrong while deleting invite"
+msgstr "Algo salió mal al eliminar la invitación"
+
+#: index_v3_4.php:8055 locales/source/app_locales_strings.php:301
+msgid "Are you sure you want to accept this request?"
+msgstr "¿Está seguro de que desea aceptar esta solicitud?"
+
+#: index_v3_4.php:8056 locales/source/app_locales_strings.php:302
+msgid "Are you sure you want to reject this request?"
+msgstr "¿Está seguro de que desea rechazar esta solicitud?"
+
+#: index_v3_4.php:8092
+msgid "Recived requests list"
+msgstr "Lista de solicitudes recibidas"
+
+#: index_v3_4.php:8094
+msgid "No invites found"
+msgstr "No se encontraron invitaciones"
+
+#: index_v3_4.php:8137
+msgid "Bad request--"
+msgstr "Solicitud incorrecta--"
+
+#: index_v3_4.php:8147
+msgid ""
+"Unable to process your request because maximum capacity for active matches "
+"has been reached!"
+msgstr ""
+"¡No se puede procesar tu solicitud porque se alcanzó la capacidad máxima "
+"para coincidencias activas!"
+
+#: index_v3_4.php:8150
+msgid ""
+"This person has already matched with someone else and no longer has "
+"availability. Please decline their request under the Action button."
+msgstr ""
+"Esta persona ya coincidió con otra persona y ya no tiene disponibilidad. "
+"Rechace su solicitud en el botón Acción."
+
+#: index_v3_4.php:8184
+msgid "Request accepted successfully."
+msgstr "Solicitud aceptada con éxito."
+
+#: index_v3_4.php:8186
+msgid "Request rejected successfully"
+msgstr "Solicitud rechazada con éxito"
+
+#: index_v3_4.php:8206
+msgid "Request rejected successfully."
+msgstr "Solicitud rechazada con éxito."
+
+#: index_v3_4.php:8209
+msgid "Something went wrong, please try again."
+msgstr "Algo salió mal. Por favor, vuelva a intentarlo."
+
+#: index_v3_4.php:8212
+msgid "Request not found."
+msgstr "Solicitud no encontrada."
+
+#: index_v3_4.php:8309
+msgid "View match details"
+msgstr "Spieldetails anzeign"
+
+#: index_v3_4.php:8312
+msgid "The request does not exist anymore."
+msgstr "La solicitud ya no existe."
+
+#: index_v3_4.php:8453
+msgid "Available hooks"
+msgstr "Ganchos disponibles"
+
+#: index_v3_4.php:8498
+msgid "Available disclaimer"
+msgstr "Descargo de responsabilidad disponible"
+
+#: index_v3_4.php:8502 index_v3_4.php:8535
+msgid "No disclaimer available"
+msgstr "No hay descargo de responsabilidad disponible"
+
+#: index_v3_4.php:8504
+msgid "Invalid disclaimer hook provided"
+msgstr "Gancho de descargo de responsabilidad proporcionado no válido"
+
+#: index_v3_4.php:8532
+msgid "Consent saved successfully"
+msgstr "Consentimiento guardado correctamente"
+
+#: index_v3_4.php:8703
+msgid "No recording link found for this event yet. Please check later."
+msgstr ""
+"Aún no se ha encontrado ningún enlace de grabación para este evento. Por "
+"favor verifique más tarde."
+
+#: index_v3_4.php:8712
+msgid "Event recording link."
+msgstr "Enlace de grabación de eventos."
+
+#: index_v3_4.php:8740 locales/source/app_locales_strings.php:448
+msgid "You can mark your attendance 30 minutes after watching the recording"
+msgstr "Puedes marcar tu asistencia 30 minutos después de ver la grabación."
+
+#: index_v3_4.php:8744 locales/source/app_locales_strings.php:449
+msgid "Successfully marked attendance"
+msgstr "Asistencia marcada exitosamente"
+
+#: index_v3_4.php:8746 locales/source/app_locales_strings.php:450
+msgid "Unable to mark your attendance at this time, please try again later"
+msgstr ""
+"No se puede marcar tu asistencia en este momento. Inténtalo de nuevo más "
+"tarde."
+
+#: index_v3_4.php:8791 locales/source/app_locales_strings.php:340
+msgid "Update Registration"
+msgstr "Actualizar el registro"
+
+#: index_v3_4.php:8792 locales/source/app_locales_strings.php:461
+msgid "Cancel Registration"
+msgstr "Cancelación del registro"
+
+#: index_v3_4.php:8793
+#, php-format
+msgid ""
+"Are you sure you want to cancel your registration? You can still access your "
+"existing %1$s in 'My %1$s,'. However your profile won't be shown in new "
+"matches until you register again"
+msgstr ""
+"¿Estás seguro de que deseas cancelar tu registro? Aún puedes acceder a tu "
+"%1$s existente en 'Mi %1$s'. Sin embargo, tu perfil no se mostrará en nuevas "
+"coincidencias hasta que te registres nuevamente."
+
+#: index_v3_4.php:8798
+msgid "Pause Registration"
+msgstr "Pausar registro"
+
+#: index_v3_4.php:8799
+msgid ""
+"Pause registration? You'll be hidden from searches, but can resume anytime."
+msgstr ""
+"¿Pausar el registro? Estarás oculto de las búsquedas, pero podrás "
+"reanudarlas en cualquier momento."
+
+#: index_v3_4.php:8801
+msgid "Resume Registration"
+msgstr "Reanudar registro"
+
+#: index_v3_4.php:8802
+msgid "Ready to be seen again? Resume your registration to get matched"
+msgstr ""
+"¿Listo para ser visto de nuevo? Reanudar su registro para ser emparejado"
+
+#: index_v3_4.php:8815
+#, php-format
+msgid "Registration Closed - Maximum Registrations Reached"
+msgstr "Inscripción cerrada - Se alcanzó el número máximo de inscripciones"
+
+#: index_v3_4.php:8818
+#, php-format
+msgid ""
+"You cannot register for this role because %1$s settings only allow users to "
+"register for only one role at a time"
+msgstr ""
+"No puede registrarse para este rol porque la configuración %1$s solo permite "
+"a los usuarios registrarse para un solo rol a la vez."
+
+#: index_v3_4.php:8820
+#, php-format
+msgid ""
+"You're already assigned to a %1$s for this role. But you can still register "
+"to join other %1$s for future assignments."
+msgstr ""
+"Ya estás asignado a un %1$s para este rol. Pero aún puedes registrarte para "
+"unirte a otros %1$s para futuras asignaciones."
+
+#: index_v3_4.php:8832 index_v3_4.php:9474
+#, php-format
+msgid "Registration is currently unavailable. Please check back after %s"
+msgstr ""
+"El registro no está disponible actualmente. Vuelve a consultar después del %s"
+
+#: index_v3_4.php:8882
+msgid "Request updated successfully"
+msgstr "Solicitud actualizada exitosamente"
+
+#: index_v3_4.php:8884 index_v3_4.php:9117 index_v3_4.php:9146
+#: index_v3_4.php:9181 index_v3_4.php:9197
+msgid "Something went wrong while updating your request. Please try again."
+msgstr "Algo salió mal al actualizar su solicitud. Inténtalo de nuevo."
+
+#: index_v3_4.php:8952 locales/source/app_locales_strings.php:392
+msgid ""
+"Your search criteria did not return any matching result. Please change your "
+"search criteria and try again."
+msgstr ""
+"Sus criterios de búsqueda no arrojaron ningún resultado coincidente. Cambie "
+"sus criterios de búsqueda e inténtelo de nuevo."
+
+#: index_v3_4.php:8989 index_v3_4.php:8993
+#: locales/source/app_locales_strings.php:488
+#, php-format
+msgid "%s spots available!"
+msgstr "¡%s lugares disponibles!"
+
+#: index_v3_4.php:8991 locales/source/app_locales_strings.php:489
+#, php-format
+msgid "%s spot available!"
+msgstr "¡%s lugar disponible!"
+
+#: index_v3_4.php:9020
+msgid "You Joined"
+msgstr "Te uniste"
+
+#: index_v3_4.php:9023 index_v3_4.php:9027 index_v3_4.php:9039
+#: index_v3_4.php:9044 index_v3_4.php:9049 index_v3_4.php:9055
+#, php-format
+msgid "Join %s"
+msgstr "Únete a %s"
+
+#: index_v3_4.php:9024
+#, php-format
+msgid "You are already part of this %s"
+msgstr "Ya eres parte de esto %s"
+
+#: index_v3_4.php:9028
+#, php-format
+msgid ""
+"You have reached the maximum number of %s you can participate in with this "
+"role."
+msgstr ""
+"Ha alcanzado el número máximo de %s en los que puede participar con este rol."
+
+#: index_v3_4.php:9050
+msgid "You do not meet the role registration restrictions criteria"
+msgstr "No cumple con los criterios de restricciones de registro del rol"
+
+#: index_v3_4.php:9056
+msgid "All roles are filled"
+msgstr "Todos los roles están cubiertos"
+
+#: index_v3_4.php:9078
+msgid "Available circles list"
+msgstr "Lista de círculos disponibles"
+
+#: index_v3_4.php:9080
+msgid "No circles are avaiable for now. Stay tuned"
+msgstr "No hay círculos disponibles por ahora. Manténganse al tanto"
+
+#: index_v3_4.php:9126 locales/source/app_locales_strings.php:485
+msgid "Maximum allowed members limit reached for selected role!"
+msgstr ""
+"¡Se alcanzó el límite máximo de miembros permitidos para el rol seleccionado!"
+
+#: index_v3_4.php:9130 locales/source/app_locales_strings.php:486
+msgid ""
+"You cannot join this role because the maximum requested capacity for this "
+"role has been reached."
+msgstr ""
+"No puede unirse a este rol porque se alcanzó la capacidad máxima solicitada "
+"para este rol."
+
+#: index_v3_4.php:9139
+msgid "Unable to update Registration."
+msgstr "No se puede actualizar el registro."
+
+#: index_v3_4.php:9144 locales/source/app_locales_strings.php:487
+msgid "You have successfully joined this circle."
+msgstr "Te has unido exitosamente a este círculo."
+
+#: index_v3_4.php:9192 locales/source/app_locales_strings.php:482
+#, php-format
+msgid "Member removed from this %s"
+msgstr "Miembro eliminado de este %s"
+
+#: index_v3_4.php:9194 locales/source/app_locales_strings.php:483
+#, php-format
+msgid "%s left successfully"
+msgstr "%s salió correctamente"
+
+#: index_v3_4.php:9237 locales/source/app_locales_strings.php:363
+msgid "Messages"
+msgstr "Mensajes"
+
+#: index_v3_4.php:9396
+msgid "Available primary attributes fetched successfully"
+msgstr "Atributos principales disponibles obtenidos correctamente"
+
+#: index_v3_4.php:9398
+msgid "No primary attributes are available"
+msgstr "No hay atributos principales disponibles"
+
+#: index_v3_4.php:9448
+msgid "Primary attribute values fetched successfully"
+msgstr "Valores de atributos principales obtenidos correctamente"
+
+#: index_v3_4.php:9477
+msgid "Registration is now closed for this role."
+msgstr "La inscripción ya está cerrada para este puesto."
+
+#: index_v3_4.php:9483
+#, php-format
+msgid ""
+"Users can only have one %1$s role in this %2$s. This role is unavailable"
+msgstr ""
+"Los usuarios solo pueden tener un %1$s rol en este %2$s. Este rol no está "
+"disponible"
+
+#: index_v3_4.php:9488
+#, php-format
+msgid "You've reached the limit for %s with this role."
+msgstr "Has alcanzado el límite de %s con este rol."
+
+#: index_v3_4.php:9503
+msgid "User cannot join more programs with this role."
+msgstr "El usuario no puede unirse a más programas con este rol."
+
+#: index_v3_4.php:9509 locales/source/app_locales_strings.php:471
+msgid "Invite sent!"
+msgstr "¡Invitar enviado!"
+
+#: index_v3_4.php:9542
+msgid "Users found!"
+msgstr "Usuarios encontrados!"
+
+#: index_v3_4.php:9544
+msgid "No users were found matching the keyword you searched"
+msgstr ""
+"No se encontraron usuarios que coincidan con la palabra clave que buscó"
+
+#: index_v3_4.php:9593 locales/source/app_locales_strings.php:463
+msgid "Are you sure you want to resend request?"
+msgstr "¿Está seguro de que desea reenviar la solicitud?"
+
+#: index_v3_4.php:9594 locales/source/app_locales_strings.php:464
+msgid "Are you sure you want to cancel this request?"
+msgstr "¿Está seguro de que desea cancelar esta solicitud?"
+
+#: index_v3_4.php:9612
+msgid "Invited list"
+msgstr "Lista de invitados"
+
+#: index_v3_4.php:9614
+msgid "No invites founds"
+msgstr "No se han encontrado invitaciones"
+
+#: index_v3_4.php:9665
+msgid "request canceled successfully"
+msgstr "solicitud cancelada exitosamente"
+
+#: index_v3_4.php:9714 index_v3_4.php:9722
+msgid "Attachment you are looking for does not exist."
+msgstr "El archivo adjunto que estás buscando no existe."
+
+#: index_v3_4.php:9755
+msgid "All globally joined groups"
+msgstr "Todos los grupos unidos globalmente"
+
+#: index_v3_4.php:9792
+msgid "Event deleted successfully."
+msgstr "Evento eliminado con éxito."
+
+#: locales/source/app_locales_strings.php:2
+msgid "Home"
+msgstr "Inicio"
+
+#: locales/source/app_locales_strings.php:3
+msgid "Profile"
+msgstr "Perfil"
+
+#: locales/source/app_locales_strings.php:4
+msgid "Check-in"
+msgstr "Registrarse"
+
+#: locales/source/app_locales_strings.php:5
+msgid "Settings"
+msgstr "Ajustes"
+
+#: locales/source/app_locales_strings.php:6
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+#: locales/source/app_locales_strings.php:7
+msgid "Calendar"
+msgstr "Calendario"
+
+#: locales/source/app_locales_strings.php:8
+msgid "Discover"
+msgstr "Descubrir"
+
+#: locales/source/app_locales_strings.php:9
+msgid "Event"
+msgstr "Evento"
+
+#: locales/source/app_locales_strings.php:10
+msgid "Newsletter"
+msgstr "Boletin informativo"
+
+#: locales/source/app_locales_strings.php:11
+msgid "Announcement"
+msgstr "Anuncio"
+
+#: locales/source/app_locales_strings.php:12
+msgid "First name"
+msgstr "Nombre"
+
+#: locales/source/app_locales_strings.php:13
+msgid "Last name"
+msgstr "Apellido"
+
+#: locales/source/app_locales_strings.php:14
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: locales/source/app_locales_strings.php:15
+msgid "Job title"
+msgstr "Cargo"
+
+#: locales/source/app_locales_strings.php:16
+msgid "Office Location"
+msgstr "Localización de la oficina"
+
+#: locales/source/app_locales_strings.php:17
+msgid "Department"
+msgstr "Departamento"
+
+#: locales/source/app_locales_strings.php:18
+msgid "Select Image"
+msgstr "Seleccionar imagen"
+
+#: locales/source/app_locales_strings.php:19
+msgid "Select picture from camera"
+msgstr "Seleccionar la imagen de la cámara"
+
+#: locales/source/app_locales_strings.php:20
+msgid "Select picture from gallery"
+msgstr "Seleccione una imagen de la galería"
+
+#: locales/source/app_locales_strings.php:21
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: locales/source/app_locales_strings.php:22
+msgid "Scan yours events QR code to check-in"
+msgstr "Escanee su código QR para registrarse"
+
+#: locales/source/app_locales_strings.php:23
+msgid "Password"
+msgstr "Contraseña"
+
+#: locales/source/app_locales_strings.php:24
+msgid "Old Password"
+msgstr "Contraseña antigua"
+
+#: locales/source/app_locales_strings.php:25
+msgid "New Password"
+msgstr "Nueva contraseña"
+
+#: locales/source/app_locales_strings.php:26
+msgid "Confirm Password"
+msgstr "Confirmar contraseña"
+
+#: locales/source/app_locales_strings.php:27
+msgid "Change Password"
+msgstr "Cambiar Contraseña"
+
+#: locales/source/app_locales_strings.php:28
+msgid "Select Language"
+msgstr "Seleccionar Idioma"
+
+#: locales/source/app_locales_strings.php:29
+msgid "Join Us"
+msgstr "Únase a nosotros"
+
+#: locales/source/app_locales_strings.php:30
+msgid "Select a"
+msgstr "Seleccione una"
+
+#: locales/source/app_locales_strings.php:31
+msgid "Part of"
+msgstr "Parte de"
+
+#: locales/source/app_locales_strings.php:32
+msgid "Manage Membership"
+msgstr "Gestionar la afiliación"
+
+#: locales/source/app_locales_strings.php:33
+msgid "Note"
+msgstr "Nota"
+
+#: locales/source/app_locales_strings.php:34
+msgid "When you join any Chapter/Channel of the"
+msgstr "Cuando se une a cualquier Capítulo/Canal del"
+
+#: locales/source/app_locales_strings.php:35
+msgid "you will also added as a member of the"
+msgstr "también se añadirá como miembro del"
+
+#: locales/source/app_locales_strings.php:36
+msgid ""
+"If there is not a chapter in your location, click join to be added to the"
+msgstr ""
+"Si no hay un capítulo en su localidad, haga clic en unirse para ser añadido "
+"al"
+
+#: locales/source/app_locales_strings.php:37
+msgid "Close"
+msgstr "Cerrar"
+
+#: locales/source/app_locales_strings.php:38
+msgid "Closing"
+msgstr "Cerrando"
+
+#: locales/source/app_locales_strings.php:39
+msgid "Join"
+msgstr "Unirse"
+
+#: locales/source/app_locales_strings.php:40
+msgid "Joining"
+msgstr "Acceder a"
+
+#: locales/source/app_locales_strings.php:42
+msgid "Leaving"
+msgstr "Saliendo de"
+
+#: locales/source/app_locales_strings.php:43
+msgid "Update Membership"
+msgstr "Actualizar la membresía"
+
+#: locales/source/app_locales_strings.php:46
+msgid "Highlights"
+msgstr "Reflejos"
+
+#: locales/source/app_locales_strings.php:48
+msgid "please wait.."
+msgstr "por favor, espere..."
+
+#: locales/source/app_locales_strings.php:49
+msgid "Leads"
+msgstr "Clientes Potenciales"
+
+#: locales/source/app_locales_strings.php:50
+msgid "Leaders"
+msgstr "Líderes"
+
+#: locales/source/app_locales_strings.php:51
+msgid "Could not launch url"
+msgstr "No se ha podido lanzar la url"
+
+#: locales/source/app_locales_strings.php:52
+msgid "Looks like there isn't any group data yet"
+msgstr "Parece que aún no hay datos del grupo."
+
+#: locales/source/app_locales_strings.php:53
+msgid "Like"
+msgstr "Me gusta"
+
+#: locales/source/app_locales_strings.php:54
+msgid "reply"
+msgstr "responder"
+
+#: locales/source/app_locales_strings.php:55
+msgid "Comments"
+msgstr "Comentarios"
+
+#: locales/source/app_locales_strings.php:56
+msgid "Leave a comment"
+msgstr "Deja un comentario"
+
+#: locales/source/app_locales_strings.php:57
+msgid "Edit"
+msgstr "Editar"
+
+#: locales/source/app_locales_strings.php:59
+msgid "No"
+msgstr "No"
+
+#: locales/source/app_locales_strings.php:60
+msgid "Yes"
+msgstr "Sí"
+
+#: locales/source/app_locales_strings.php:61
+msgid "Delete Comment"
+msgstr "Borrar Comentario"
+
+#: locales/source/app_locales_strings.php:62
+msgid "Are you sure you want to delete this comment?"
+msgstr "¿Está seguro/a de que quieres eliminar este comentario?"
+
+#: locales/source/app_locales_strings.php:63
+msgid "Deleting..."
+msgstr "Eliminando..."
+
+#: locales/source/app_locales_strings.php:64
+msgid "Something went wrong! %s%. Please try again"
+msgstr "¡Algo salió mal! %s%. Inténtalo de nuevo."
+
+#: locales/source/app_locales_strings.php:65
+msgid "Published on"
+msgstr "Publicado en"
+
+#: locales/source/app_locales_strings.php:66
+msgid "Group"
+msgstr "Grupo"
+
+#: locales/source/app_locales_strings.php:67
+msgid "people going"
+msgstr "la gente que va"
+
+#: locales/source/app_locales_strings.php:68
+msgid "Are you sure you want to join this?"
+msgstr "¿Estás seguro de que quieres unirte a esto?"
+
+#: locales/source/app_locales_strings.php:69
+msgid ""
+"If you continue you will join the ERG and Chapter(s) will be assigned to you"
+msgstr "Si continúa, se unirá al ERG y se le asignará un capítulo"
+
+#: locales/source/app_locales_strings.php:70
+msgid "Please Confirm!"
+msgstr "¡Confirme, por favor!"
+
+#: locales/source/app_locales_strings.php:71
+msgid "in"
+msgstr "entrada"
+
+#: locales/source/app_locales_strings.php:72
+msgid "Auto assigned"
+msgstr "Auto asignado"
+
+#: locales/source/app_locales_strings.php:73
+msgid "Not assigned"
+msgstr "No asignado"
+
+#: locales/source/app_locales_strings.php:75
+msgid "Virtual Meeting"
+msgstr "Reunión virtual"
+
+#: locales/source/app_locales_strings.php:76
+msgid "Already selected"
+msgstr "Ya está seleccionado"
+
+#: locales/source/app_locales_strings.php:77
+msgid "Select home office"
+msgstr "Seleccione la oficina en casa"
+
+#: locales/source/app_locales_strings.php:78
+msgid "Please enter your first name"
+msgstr "Por favor, escribe tu primer nombre"
+
+#: locales/source/app_locales_strings.php:79
+msgid "Please enter your last name"
+msgstr "Por favor, ingresa tu apellido"
+
+#: locales/source/app_locales_strings.php:80
+msgid "Search notification"
+msgstr "Notificación de búsqueda"
+
+#: locales/source/app_locales_strings.php:81
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: locales/source/app_locales_strings.php:82
+msgid "Back"
+msgstr "Volver"
+
+#: locales/source/app_locales_strings.php:83
+msgid "Loading newsletter"
+msgstr "Cargando el boletín de noticias"
+
+#: locales/source/app_locales_strings.php:84
+msgid "Alert"
+msgstr "Alerta"
+
+#: locales/source/app_locales_strings.php:85
+msgid "uploading"
+msgstr "subiendo a"
+
+#: locales/source/app_locales_strings.php:86
+msgid "Profile picture updated successfully"
+msgstr "Imagen de perfil actualizada con éxito"
+
+#: locales/source/app_locales_strings.php:87
+msgid "Please enter old password"
+msgstr "Por favor, introduzca su antigua contraseña"
+
+#: locales/source/app_locales_strings.php:88
+msgid "Please enter new password"
+msgstr "Por favor, introduzca una nueva contraseña"
+
+#: locales/source/app_locales_strings.php:89
+msgid "Password must be at least 6 characters"
+msgstr "La contraseña debe tener al menos 6 caracteres"
+
+#: locales/source/app_locales_strings.php:90
+msgid "Please enter valid confirm password"
+msgstr "Por favor, introduzca una contraseña válida de confirmación"
+
+#: locales/source/app_locales_strings.php:91
+msgid "Edit Comment"
+msgstr "Editar Comentario"
+
+#: locales/source/app_locales_strings.php:92
+msgid "Processing"
+msgstr "Procesando"
+
+#: locales/source/app_locales_strings.php:93
+msgid "Please enter comment"
+msgstr "Por favor, introduzca el comentario"
+
+#: locales/source/app_locales_strings.php:94
+msgid "Uh Oh"
+msgstr "Uh Oh"
+
+#: locales/source/app_locales_strings.php:95
+msgid "Looks like there is no content to display"
+msgstr "Parece que no hay contenido para mostrar"
+
+#: locales/source/app_locales_strings.php:96
+msgid "Whoops"
+msgstr "Ups"
+
+#: locales/source/app_locales_strings.php:97
+msgid ""
+"Looks like you don't have any notifications,head over to your group pages to "
+"participate in discussions and join events"
+msgstr ""
+"Parece que no tienes ninguna notificación, dirígete a las páginas de tu "
+"grupo para participar en los debates y unirte a los eventos"
+
+#: locales/source/app_locales_strings.php:98
+msgid "Checking"
+msgstr "Verificando"
+
+#: locales/source/app_locales_strings.php:99
+msgid "Retry"
+msgstr "Reintentar"
+
+#: locales/source/app_locales_strings.php:100
+msgid "Invalid QR code! please try again"
+msgstr "Código QR inválido. Por favor, inténtelo de nuevo"
+
+#: locales/source/app_locales_strings.php:101
+msgid "month"
+msgstr "mes"
+
+#: locales/source/app_locales_strings.php:102
+msgid "years"
+msgstr "años"
+
+#: locales/source/app_locales_strings.php:103
+msgid "year"
+msgstr "año"
+
+#: locales/source/app_locales_strings.php:104
+msgid "day"
+msgstr "día"
+
+#: locales/source/app_locales_strings.php:105
+msgid "hour"
+msgstr "hora"
+
+#: locales/source/app_locales_strings.php:106
+msgid "minutes"
+msgstr "minutos"
+
+#: locales/source/app_locales_strings.php:107
+msgid "just now"
+msgstr "justo ahora"
+
+#: locales/source/app_locales_strings.php:108
+msgid "Are you going?"
+msgstr "¿Vas a ir?"
+
+#: locales/source/app_locales_strings.php:109
+msgid "Replying to"
+msgstr "Respondiendo a"
+
+#: locales/source/app_locales_strings.php:110
+msgid "yesterday"
+msgstr "ayer"
+
+#: locales/source/app_locales_strings.php:111
+msgid "ago"
+msgstr "hace"
+
+#: locales/source/app_locales_strings.php:112
+msgid "New Update Available"
+msgstr "Nueva actualización disponible"
+
+#: locales/source/app_locales_strings.php:113
+msgid "There is a newer version of app available please update it now."
+msgstr ""
+"Hay una nueva versión de la aplicación disponible, por favor, actualícela "
+"ahora."
+
+#: locales/source/app_locales_strings.php:114
+msgid "Update Now"
+msgstr "Actualizar Ahora"
+
+#: locales/source/app_locales_strings.php:115
+msgid "OK"
+msgstr "OK"
+
+#: locales/source/app_locales_strings.php:116
+msgid "Warning"
+msgstr "Advertencia"
+
+#: locales/source/app_locales_strings.php:117
+msgid "days"
+msgstr "dias"
+
+#: locales/source/app_locales_strings.php:118
+msgid "week"
+msgstr "semana"
+
+#: locales/source/app_locales_strings.php:119
+msgid "weeks"
+msgstr "semanas"
+
+#: locales/source/app_locales_strings.php:120
+msgid "hours"
+msgstr "horas"
+
+#: locales/source/app_locales_strings.php:121
+msgid "minute"
+msgstr "minuto"
+
+#: locales/source/app_locales_strings.php:122
+msgid "deleted"
+msgstr "eliminadas"
+
+#: locales/source/app_locales_strings.php:123
+msgid "Undo"
+msgstr "Deshacer"
+
+#: locales/source/app_locales_strings.php:124
+msgid "Stay tuned for Announcements to be posted"
+msgstr "Esté atento a los anuncios que se publicarán"
+
+#: locales/source/app_locales_strings.php:125
+msgid "Stay tuned for upcoming Events to be scheduled"
+msgstr "Esté atento a los próximos eventos que se programen"
+
+#: locales/source/app_locales_strings.php:126
+msgid "Stay tuned for Newsletter to be posted"
+msgstr "Estén atentos para que se publique el boletín"
+
+#: locales/source/app_locales_strings.php:127
+msgid "Stay tuned for Discussion to be posted"
+msgstr "Esté atento a los debates que se publicarán"
+
+#: locales/source/app_locales_strings.php:128
+msgid "Stay tuned for photos & videos to be added"
+msgstr "Esté atento a las fotos y vídeos que se añadirán"
+
+#: locales/source/app_locales_strings.php:129
+msgid "Comment can't be empty"
+msgstr "El comentario no puede estar vacío"
+
+#: locales/source/app_locales_strings.php:130
+msgid "ON"
+msgstr "En"
+
+#: locales/source/app_locales_strings.php:131
+msgid "OFF"
+msgstr "Apagado"
+
+#: locales/source/app_locales_strings.php:132
+msgid "Cover Photo"
+msgstr "Foto de Portada"
+
+#: locales/source/app_locales_strings.php:133
+msgid "Create new Album"
+msgstr "Crear un nuevo álbum"
+
+#: locales/source/app_locales_strings.php:135
+msgid "Update Album"
+msgstr "Actualizar el álbum"
+
+#: locales/source/app_locales_strings.php:136
+msgid "Album Title"
+msgstr "Título del álbum"
+
+#: locales/source/app_locales_strings.php:137
+msgid "Create Album"
+msgstr "Crear Album"
+
+#: locales/source/app_locales_strings.php:138
+msgid "Upload Media"
+msgstr "Subir archivo"
+
+#: locales/source/app_locales_strings.php:139
+msgid "Add photos and videos to upload"
+msgstr "Agregar fotos y videos para cargar"
+
+#: locales/source/app_locales_strings.php:140
+msgid "item"
+msgstr "artículo"
+
+#: locales/source/app_locales_strings.php:141
+msgid "items"
+msgstr "artículos"
+
+#: locales/source/app_locales_strings.php:142
+msgid "You can select only one channel"
+msgstr "Sólo se puede seleccionar un canal"
+
+#: locales/source/app_locales_strings.php:143
+msgid "Error"
+msgstr "Error"
+
+#: locales/source/app_locales_strings.php:144
+msgid "Title is a required field"
+msgstr "El título es un campo obligatorio"
+
+#: locales/source/app_locales_strings.php:145
+msgid "Are you sure want to delete Album"
+msgstr "¿Estás seguro de que quieres borrar el álbum?"
+
+#: locales/source/app_locales_strings.php:146
+msgid "Upload New"
+msgstr "Subir nuevo"
+
+#: locales/source/app_locales_strings.php:147
+msgid "Image"
+msgstr "Imagen"
+
+#: locales/source/app_locales_strings.php:148
+msgid "Update Discussion"
+msgstr "Discusión de actualización"
+
+#: locales/source/app_locales_strings.php:149
+msgid "Submit"
+msgstr "Enviar"
+
+#: locales/source/app_locales_strings.php:150
+msgid "Discussion"
+msgstr "Discusión"
+
+#: locales/source/app_locales_strings.php:151
+msgid "Create Discussion"
+msgstr "Crear debate"
+
+#: locales/source/app_locales_strings.php:152
+msgid "Are you sure want to delete discussion?"
+msgstr "¿Estás seguro de que quieres borrar la discusión?"
+
+#: locales/source/app_locales_strings.php:153
+msgid "Load more..."
+msgstr "Cargar más..."
+
+#: locales/source/app_locales_strings.php:155
+msgid "You must have atleast one or more chapters to join"
+msgstr "Debe tener al menos uno o más capítulos para unirse"
+
+#: locales/source/app_locales_strings.php:156
+msgid "Join Request Processed Succesfully"
+msgstr "Solicitud de adhesión procesada con éxito"
+
+#: locales/source/app_locales_strings.php:157
+msgid "Your request has been processed successfully!"
+msgstr "¡Su solicitud ha sido procesada con éxito!"
+
+#: locales/source/app_locales_strings.php:158
+msgid "Are you sure to clear all notifications?"
+msgstr "¿Estás seguro de borrar todas las notificaciones?"
+
+#: locales/source/app_locales_strings.php:159
+msgid "Are you sure to clear this notification?"
+msgstr "¿Estás seguro de borrar esta notificación?"
+
+#: locales/source/app_locales_strings.php:160
+msgid "RSVP'ed Successfully"
+msgstr "RSVP's exitoso"
+
+#: locales/source/app_locales_strings.php:161
+msgid "Support"
+msgstr "Apoyo"
+
+#: locales/source/app_locales_strings.php:162
+msgid "Upcoming"
+msgstr "Próximos"
+
+#: locales/source/app_locales_strings.php:163
+msgid "Past"
+msgstr "Pasado"
+
+#: locales/source/app_locales_strings.php:164
+msgid "Show all"
+msgstr "Mostrar todo"
+
+#: locales/source/app_locales_strings.php:165
+msgid "months"
+msgstr "meses"
+
+#: locales/source/app_locales_strings.php:166
+msgid "Cancel Join Request"
+msgstr "Cancelar solicitud de unión"
+
+#: locales/source/app_locales_strings.php:167
+msgid "Success"
+msgstr "Éxito"
+
+#: locales/source/app_locales_strings.php:168
+msgid "Announcements and Events related to"
+msgstr "Anuncios y Eventos relacionados con"
+
+#: locales/source/app_locales_strings.php:169
+msgid "Stay tuned for announcements, events and newsletters"
+msgstr "Estén atentos a anuncios, eventos y boletines"
+
+#: locales/source/app_locales_strings.php:170
+msgid "New Album"
+msgstr "Nuevo album"
+
+#: locales/source/app_locales_strings.php:171
+msgid "Cover Image is set"
+msgstr "La imagen de portada está configurada"
+
+#: locales/source/app_locales_strings.php:172
+msgid "Creating new discussion"
+msgstr "Creando nueva discusión"
+
+#: locales/source/app_locales_strings.php:173
+msgid "Exporting video"
+msgstr "Exportación de vídeo"
+
+#: locales/source/app_locales_strings.php:175
+msgid "Are you sure want to set it as cover image?"
+msgstr "¿Seguro que quieres configurarlo como imagen de portada?"
+
+#: locales/source/app_locales_strings.php:176
+msgid "Discussion Detail"
+msgstr "Detalle de la discusión"
+
+#: locales/source/app_locales_strings.php:177
+msgid "Creating new album"
+msgstr "Creando nuevo álbum"
+
+#: locales/source/app_locales_strings.php:178
+msgid "Posted on"
+msgstr "Publicado en"
+
+#: locales/source/app_locales_strings.php:179
+msgid ""
+"I understand and agree that all information related to my account will be "
+"permanently lost after 30 days and I provide my consent to delete my "
+"account. Type 'Delete' below to provide your consent"
+msgstr ""
+"Entiendo y acepto que toda la información relacionada con mi cuenta se "
+"perderá de forma permanente después de 30 días y doy mi consentimiento para "
+"eliminar mi cuenta. Escriba \"%s\" a continuación para dar su consentimiento."
+
+#: locales/source/app_locales_strings.php:180
+msgid "Delete my account"
+msgstr "Borrar mi cuenta"
+
+#: locales/source/app_locales_strings.php:181
+msgid ""
+"I no longer wish to use this platform anymore, and I would like to delete my "
+"account along with my personal information"
+msgstr ""
+"Ya no deseo usar esta plataforma y me gustaría eliminar mi cuenta junto con "
+"mi información personal."
+
+#: locales/source/app_locales_strings.php:182
+msgid "Modified"
+msgstr "Modificado"
+
+#: locales/source/app_locales_strings.php:183
+msgid "Download"
+msgstr "Descargar"
+
+#: locales/source/app_locales_strings.php:185
+msgid "Stay tuned for resources to be added!"
+msgstr "¡Estén atentos a los recursos que se agregarán!"
+
+#: locales/source/app_locales_strings.php:186
+msgid "Inbox"
+msgstr "Inbox"
+
+#: locales/source/app_locales_strings.php:187
+msgid "Trash"
+msgstr "Papelera"
+
+#: locales/source/app_locales_strings.php:188
+msgid "Nothing in the trash"
+msgstr "nada en la basura"
+
+#: locales/source/app_locales_strings.php:189
+msgid "Nothing in the inbox"
+msgstr "Nada en la bandeja de entrada"
+
+#: locales/source/app_locales_strings.php:190
+msgid "Bin"
+msgstr "Compartimiento"
+
+#: locales/source/app_locales_strings.php:191
+msgid "From"
+msgstr "De"
+
+#: locales/source/app_locales_strings.php:192
+msgid "Date"
+msgstr "Fecha"
+
+#: locales/source/app_locales_strings.php:193
+msgid "Volunteers needed"
+msgstr "Voluntarios necesitados"
+
+#: locales/source/app_locales_strings.php:194
+msgid "Volunteers as"
+msgstr "Voluntarios como"
+
+#: locales/source/app_locales_strings.php:195
+msgid "Successfully Assigned Event Volunteer"
+msgstr "Voluntario de evento asignado con éxito"
+
+#: locales/source/app_locales_strings.php:196
+msgid "Are you sure you want to register for this role?"
+msgstr "¿Está seguro de que desea registrarse para este rol?"
+
+#: locales/source/app_locales_strings.php:197
+msgid "Volunteer role successfully decline"
+msgstr "Rechazo exitoso del rol de voluntario"
+
+#: locales/source/app_locales_strings.php:198
+msgid ""
+"You already registered for this role.You can deregister yourself from this "
+"role."
+msgstr "Ya se registró para este rol. Puede darse de baja de este rol."
+
+#: locales/source/app_locales_strings.php:199
+msgid "Volunteer application capacity has been filled."
+msgstr "La capacidad de solicitud de voluntarios se ha llenado."
+
+#: locales/source/app_locales_strings.php:200
+msgid "You need to select atleast one or more Chapter to join."
+msgstr "Debe seleccionar al menos uno o más capítulos para unirse."
+
+#: locales/source/app_locales_strings.php:201
+msgid "Your leave request has been processed successfully."
+msgstr "Su solicitud de licencia ha sido procesada con éxito."
+
+#: locales/source/app_locales_strings.php:202
+msgid ""
+"Are you sure you want to join this ERG? If you continue you will join the "
+"ERG and a Chapter will be assigned to you!"
+msgstr ""
+"¿Estás seguro de que quieres unirte a este ERG? ¡Si continúa, se unirá al "
+"ERG y se le asignará un Capítulo!"
+
+#: locales/source/app_locales_strings.php:203
+msgid "Stay tuned for past Events to be scheduled"
+msgstr "Estén atentos a los eventos pasados que se programarán"
+
+#: locales/source/app_locales_strings.php:204
+msgid "Blog"
+msgstr "Blog"
+
+#: locales/source/app_locales_strings.php:205
+msgid "Detail"
+msgstr "Detalle"
+
+#: locales/source/app_locales_strings.php:206
+msgid "Stay tuned for Blog to be posted."
+msgstr "Estén atentos para que se publique el Blog."
+
+#: locales/source/app_locales_strings.php:207
+msgid "Global Calendar"
+msgstr "Calendario mundial"
+
+#: locales/source/app_locales_strings.php:208
+msgid "My Calendar"
+msgstr "Mi calendario"
+
+#: locales/source/app_locales_strings.php:209
+msgid ""
+"You are accessing a link that is in a different zone than your current zone. "
+"In order to allow access we have switched your zone. You can switch zones "
+"from zone dropdown available in drawer menu"
+msgstr ""
+"Está accediendo a un enlace que está en una zona diferente a su zona actual. "
+"Para permitir el acceso, hemos cambiado su zona. Puede cambiar de zona desde "
+"el menú desplegable de zona disponible en el menú del cajón"
+
+#: locales/source/app_locales_strings.php:210
+msgid "Characters left"
+msgstr "Caracteres disponibles"
+
+#: locales/source/app_locales_strings.php:211
+msgid "Only 1000 characters allowed"
+msgstr "Solo se permiten 1000 caracteres"
+
+#: locales/source/app_locales_strings.php:212
+msgid "Zone"
+msgstr "Zona"
+
+#: locales/source/app_locales_strings.php:213
+msgid "My"
+msgstr "Mi"
+
+#: locales/source/app_locales_strings.php:214
+msgid "You have not joined any %s%  yet"
+msgstr "Aún no te has unido a ningún %s%"
+
+#: locales/source/app_locales_strings.php:215
+msgid "Are you sure to remove profile picture?"
+msgstr "¿Estás seguro de eliminar la foto de perfil?"
+
+#: locales/source/app_locales_strings.php:216
+msgid "Pronouns"
+msgstr "Pronombres"
+
+#: locales/source/app_locales_strings.php:217
+msgid "Joined"
+msgstr "Grupos unidos"
+
+#: locales/source/app_locales_strings.php:218
+msgid "Home Zone"
+msgstr "Zona de inicio"
+
+#: locales/source/app_locales_strings.php:219
+msgid "to me"
+msgstr "a mi"
+
+#: locales/source/app_locales_strings.php:220
+msgid "Map"
+msgstr "Mapa"
+
+#: locales/source/app_locales_strings.php:221
+msgid "Required to join atleast one or more chapters"
+msgstr "Requerido para unirse al menos a uno o más capítulos"
+
+#: locales/source/app_locales_strings.php:222
+msgid "You need to select exactly one Chapter to join."
+msgstr "Debe seleccionar exactamente un capítulo para unirse."
+
+#: locales/source/app_locales_strings.php:223
+msgid "Acts of Inclusion"
+msgstr "Actos de Inclusión"
+
+#: locales/source/app_locales_strings.php:224
+msgid "About the"
+msgstr "Nosotros"
+
+#: locales/source/app_locales_strings.php:225
+msgid "No image preview"
+msgstr "Sin vista previa de imagen"
+
+#: locales/source/app_locales_strings.php:226
+msgid "Recognition Detail"
+msgstr "Detalle de reconocimiento"
+
+#: locales/source/app_locales_strings.php:227
+msgid "Yourself"
+msgstr "Tú mismo"
+
+#: locales/source/app_locales_strings.php:228
+msgid "Recognize a Colleague"
+msgstr "Reconocer a un colega"
+
+#: locales/source/app_locales_strings.php:229
+msgid "Recognize My Self"
+msgstr "reconocerme a mi mismo"
+
+#: locales/source/app_locales_strings.php:230
+msgid "Recognition Feeds"
+msgstr "Fuentes de reconocimiento"
+
+#: locales/source/app_locales_strings.php:231
+msgid "Recognition Given"
+msgstr "Reconocimiento otorgado"
+
+#: locales/source/app_locales_strings.php:232
+msgid "Recognition Received"
+msgstr "Reconocimiento Recibido"
+
+#: locales/source/app_locales_strings.php:233
+msgid "Create new recognition"
+msgstr "Crear nuevo reconocimiento"
+
+#: locales/source/app_locales_strings.php:234
+msgid "Looks like there aren't any recognitions yet!"
+msgstr "¡Parece que todavía no hay reconocimientos!"
+
+#: locales/source/app_locales_strings.php:235
+msgid "There is no past events yet!"
+msgstr "¡Aún no hay eventos pasados!"
+
+#: locales/source/app_locales_strings.php:236
+msgid "Remove Profile Picture"
+msgstr "Eliminar foto de perfil"
+
+#: locales/source/app_locales_strings.php:237
+msgid "Already signed up"
+msgstr "ya registrado"
+
+#: locales/source/app_locales_strings.php:238
+msgid "Would you like to volunteer for one of these roles?"
+msgstr "¿Le gustaría ser voluntario para uno de estos roles?"
+
+#: locales/source/app_locales_strings.php:239
+msgid "Register for role"
+msgstr "Regístrese para el rol"
+
+#: locales/source/app_locales_strings.php:240
+msgid "Delete Album"
+msgstr "Eliminar Álbum"
+
+#: locales/source/app_locales_strings.php:241
+msgid "Set cover image"
+msgstr "Establecer la imagen de portada"
+
+#: locales/source/app_locales_strings.php:242
+msgid "Delete media"
+msgstr "Eliminar medios"
+
+#: locales/source/app_locales_strings.php:243
+msgid "Are you sure want to delete this media?"
+msgstr "¿Seguro que quieres eliminar este medio?"
+
+#: locales/source/app_locales_strings.php:244
+msgid "Delete Discussion"
+msgstr "Eliminar discusión"
+
+#: locales/source/app_locales_strings.php:245
+msgid "Delete Recognition"
+msgstr "Eliminar reconocimiento"
+
+#: locales/source/app_locales_strings.php:246
+msgid "Are you sure you want to delete this recognition?"
+msgstr "¿Está seguro de que desea eliminar este reconocimiento?"
+
+#: locales/source/app_locales_strings.php:247
+msgid "Recognized by"
+msgstr "Reconocido por"
+
+#: locales/source/app_locales_strings.php:248
+msgid "of this"
+msgstr "de esta"
+
+#: locales/source/app_locales_strings.php:249
+msgid "or"
+msgstr "o"
+
+#: locales/source/app_locales_strings.php:250
+msgid "Are you sure want to open the file?"
+msgstr "¿Seguro que quieres abrir el archivo?"
+
+#: locales/source/app_locales_strings.php:251
+msgid "Open"
+msgstr "Abierto"
+
+#: locales/source/app_locales_strings.php:252
+msgid "Do you want to join this %s% anonymously?"
+msgstr "¿Quieres unirte a este %s% de forma anónima?"
+
+#: locales/source/app_locales_strings.php:253
+msgid ""
+"Please be mindful that this does not guarantee your full anonymity.%s% would "
+"still be able to technically identify you if need be."
+msgstr ""
+"Tenga en cuenta que esto no garantiza su anonimato total.%s% aún podría "
+"identificarlo técnicamente si fuera necesario."
+
+#: locales/source/app_locales_strings.php:254
+msgid "Yes, I want to join anonymously"
+msgstr "Sí, quiero unirme de forma anónima."
+
+#: locales/source/app_locales_strings.php:255
+msgid "Proceed"
+msgstr "Proceder"
+
+#: locales/source/app_locales_strings.php:256
+#, no-php-format
+msgid "By typing in %s% below, I provide my consent."
+msgstr "Al escribir %s% a continuación, doy mi consentimiento."
+
+#: locales/source/app_locales_strings.php:257
+msgid "New Touch Point"
+msgstr "Nuevo punto de contacto"
+
+#: locales/source/app_locales_strings.php:258
+msgid "Due date"
+msgstr "Fecha límite"
+
+#: locales/source/app_locales_strings.php:259
+msgid "Update Touch Point"
+msgstr "Actualizar punto de contacto"
+
+#: locales/source/app_locales_strings.php:260
+msgid "Update Status"
+msgstr "Estado de actualización"
+
+#: locales/source/app_locales_strings.php:261
+msgid "Created by"
+msgstr "Creado por"
+
+#: locales/source/app_locales_strings.php:262
+msgid "Looks like there is no touch point yet!"
+msgstr "¡Parece que todavía no hay un punto de contacto!"
+
+#: locales/source/app_locales_strings.php:263
+msgid "Are you sure you want to delete this touch point?"
+msgstr "¿Está seguro de que desea eliminar este punto de contacto?"
+
+#: locales/source/app_locales_strings.php:264
+msgid "Delete Touch Point"
+msgstr "Eliminar punto de contacto"
+
+#: locales/source/app_locales_strings.php:265
+msgid "Team Detail"
+msgstr "Detalles del equipo"
+
+#: locales/source/app_locales_strings.php:268
+msgid "Feedback"
+msgstr "Retroalimentación"
+
+#: locales/source/app_locales_strings.php:269
+msgid "My Teams"
+msgstr "Equipos"
+
+#: locales/source/app_locales_strings.php:272
+msgid "Thank you for your interest in joining in a %s% role!"
+msgstr "¡Gracias por su interés en unirse a un rol de %s%!"
+
+#: locales/source/app_locales_strings.php:273
+msgid "No role available"
+msgstr "Ningún rol disponible"
+
+#: locales/source/app_locales_strings.php:275
+msgid "Manage Request"
+msgstr "Administrar solicitud"
+
+#: locales/source/app_locales_strings.php:276
+msgid "Request to join"
+msgstr "Solicitud para unirse"
+
+#: locales/source/app_locales_strings.php:277
+msgid "Your join request is being processed."
+msgstr "Su solicitud de ingreso está siendo procesada."
+
+#: locales/source/app_locales_strings.php:278
+msgid "Looks like you have not joined any Team yet!"
+msgstr "¡Parece que aún no te has unido a ningún equipo!"
+
+#: locales/source/app_locales_strings.php:279
+msgid "more"
+msgstr "más"
+
+#: locales/source/app_locales_strings.php:280
+msgid "New Feedback"
+msgstr "Nuevo Comentario"
+
+#: locales/source/app_locales_strings.php:281
+msgid "Update Feedback"
+msgstr "Actualizar comentarios"
+
+#: locales/source/app_locales_strings.php:282
+msgid "Add to Action Items"
+msgstr "Agregar a elementos de acción"
+
+#: locales/source/app_locales_strings.php:283
+msgid "For"
+msgstr "Para"
+
+#: locales/source/app_locales_strings.php:284
+msgid "Looks like there is no feedback yet!"
+msgstr "¡Parece que todavía no hay comentarios!"
+
+#: locales/source/app_locales_strings.php:285
+msgid "Are you sure you want to delete this feedback?"
+msgstr "¿Está sseguro de que deseas eliminar este comentario?"
+
+#: locales/source/app_locales_strings.php:286
+msgid "Delete Feedback"
+msgstr "Eliminar comentarios"
+
+#: locales/source/app_locales_strings.php:287
+msgid "New task created successfully"
+msgstr "Nueva tarea creada con éxito"
+
+#: locales/source/app_locales_strings.php:288
+msgid "completed on"
+msgstr "Completado en"
+
+#: locales/source/app_locales_strings.php:289
+msgid "due on"
+msgstr "debido a"
+
+#: locales/source/app_locales_strings.php:290
+msgid "New Action Item"
+msgstr "Nuevo elemento de acción"
+
+#: locales/source/app_locales_strings.php:291
+msgid "Update Action Item"
+msgstr "Actualizar elemento de acción"
+
+#: locales/source/app_locales_strings.php:292
+msgid "Add to touch point"
+msgstr "Agregar al punto de contacto"
+
+#: locales/source/app_locales_strings.php:293
+msgid "Assignee"
+msgstr "Cesionario"
+
+#: locales/source/app_locales_strings.php:294
+msgid "Looks like there is no action items yet!"
+msgstr "¡Parece que todavía no hay elementos de acción!"
+
+#: locales/source/app_locales_strings.php:295
+msgid "Are you sure you want to delete this action item?"
+msgstr "¿Está seguro de que desea eliminar este elemento de acción?"
+
+#: locales/source/app_locales_strings.php:296
+msgid "Delete action item"
+msgstr "Eliminar elemento de acción"
+
+#: locales/source/app_locales_strings.php:297
+msgid "New touch point created successfully"
+msgstr "Nuevo punto de contacto creado con éxito"
+
+#: locales/source/app_locales_strings.php:298
+msgid "Accept Request"
+msgstr "Aceptar petición"
+
+#: locales/source/app_locales_strings.php:299
+msgid "Reject Request"
+msgstr "Solicitud de rechazo"
+
+#: locales/source/app_locales_strings.php:300
+msgid "Looks like there is no requests"
+msgstr "Parece que no hay solicitudes"
+
+#: locales/source/app_locales_strings.php:303
+msgid "Requests Received"
+msgstr "Solicitudes recibidas"
+
+#: locales/source/app_locales_strings.php:304
+msgid "Looks like you have not joined any role yet!"
+msgstr "¡Parece que aún no te has unido a ningún rol!"
+
+#: locales/source/app_locales_strings.php:305
+msgid "Match"
+msgstr "Juego"
+
+#: locales/source/app_locales_strings.php:308
+msgid "No matches found for %s% role"
+msgstr "No se encontraron coincidencias para el rol %s%"
+
+#: locales/source/app_locales_strings.php:309
+msgid "Action Item detail"
+msgstr "Detalle del elemento de acción"
+
+#: locales/source/app_locales_strings.php:310
+msgid "No due date set"
+msgstr "Sin fecha de vencimiento establecida"
+
+#: locales/source/app_locales_strings.php:311
+msgid "Related touchpoints:"
+msgstr "Puntos de contacto relacionados:"
+
+#: locales/source/app_locales_strings.php:312
+msgid "Feedback Detail"
+msgstr "Detalle de comentarios"
+
+#: locales/source/app_locales_strings.php:313
+msgid "Related tasks:"
+msgstr "Tareas relacionadas:"
+
+#: locales/source/app_locales_strings.php:314
+msgid "TouchPoint Detail"
+msgstr "Detalle del punto de contacto"
+
+#: locales/source/app_locales_strings.php:315
+msgid "About %s%"
+msgstr "Acerca de %s%"
+
+#: locales/source/app_locales_strings.php:316
+msgid "Version"
+msgstr "Versión"
+
+#: locales/source/app_locales_strings.php:317
+msgid "Licences"
+msgstr "Licencias"
+
+#: locales/source/app_locales_strings.php:318
+msgid "Open Source Licences"
+msgstr "Licencias de código abierto"
+
+#: locales/source/app_locales_strings.php:319
+msgid "Continue"
+msgstr "Continuar"
+
+#: locales/source/app_locales_strings.php:320
+msgid "Please contact your administrator"
+msgstr "Por favor contacte a su administrador"
+
+#: locales/source/app_locales_strings.php:321
+msgid "Please try later"
+msgstr "Por favor intente mas tarde"
+
+#: locales/source/app_locales_strings.php:322
+msgid ""
+"If you couldn't make it to the live event, don't worry! Just click on the "
+"recording link, and once you have finished viewing it, mark your attendance."
+msgstr ""
+"Si no pudiste asistir al evento en vivo, ¡no te preocupes! Simplemente haz "
+"clic en el enlace de la grabación y, una vez que hayas terminado de verla, "
+"marca tu asistencia."
+
+#: locales/source/app_locales_strings.php:323
+msgid ""
+"I have finished watching the event recording video, please mark my attendance"
+msgstr ""
+"Terminé de ver el video de grabación del evento, por favor marque mi "
+"asistencia."
+
+#: locales/source/app_locales_strings.php:324
+msgid "View Event Recording"
+msgstr "Ver grabación de eventos"
+
+#: locales/source/app_locales_strings.php:326
+msgid "Mark as watched"
+msgstr "Marcar como visto"
+
+#: locales/source/app_locales_strings.php:327
+msgid "Post Event Follow-up Note"
+msgstr "Nota de seguimiento posterior al evento"
+
+#: locales/source/app_locales_strings.php:328
+msgid "Attendance Confirmation"
+msgstr "Confirmación de asistencia"
+
+#: locales/source/app_locales_strings.php:329
+msgid "Team Registration"
+msgstr "Registro de equipo"
+
+#: locales/source/app_locales_strings.php:330
+msgid "Confirm Pause"
+msgstr "Confirmar pausa"
+
+#: locales/source/app_locales_strings.php:331
+msgid "Confirm Resume"
+msgstr "Confirmar currículum"
+
+#: locales/source/app_locales_strings.php:332
+msgid "Are you sure to resume?"
+msgstr "¿Estás seguro de reanudar?"
+
+#: locales/source/app_locales_strings.php:333
+msgid "Are you sure to pause?"
+msgstr "¿Estás seguro de hacer una pausa?"
+
+#: locales/source/app_locales_strings.php:334
+msgid "Request Processed Successfully"
+msgstr "Solicitud procesada exitosamente"
+
+#: locales/source/app_locales_strings.php:335
+msgid "on"
+msgstr "en"
+
+#: locales/source/app_locales_strings.php:336
+msgid "You have not registered for any roles yet!"
+msgstr "¡Aún no te has registrado para ningún puesto!"
+
+#: locales/source/app_locales_strings.php:337
+msgid ""
+"Your join request is being processed. Stay tuned for updates.You can manage "
+"your request by clicking the Manage Join Requests button."
+msgstr ""
+"Su solicitud de inscripción se está procesando. Manténgase atento a las "
+"actualizaciones. Puede administrar su solicitud haciendo clic en el botón "
+"Administrar solicitudes de inscripción."
+
+#: locales/source/app_locales_strings.php:338
+msgid "Confirm Cancel Registration"
+msgstr "Confirmar Cancelar Registro"
+
+#: locales/source/app_locales_strings.php:339
+msgid "Are you sure to cancel your registration?"
+msgstr "¿Estás seguro de cancelar tu registro?"
+
+#: locales/source/app_locales_strings.php:341
+msgid "Confirm Delete Request"
+msgstr "Confirmar solicitud de eliminación"
+
+#: locales/source/app_locales_strings.php:342
+msgid "Confirm Send Request"
+msgstr "Confirmar enviar solicitud"
+
+#: locales/source/app_locales_strings.php:343
+msgid "Are you sure to delete this request?"
+msgstr "¿Está seguro de eliminar esta solicitud?"
+
+#: locales/source/app_locales_strings.php:344
+msgid "Are you sure to send this request?"
+msgstr "¿Estás seguro de enviar esta solicitud?"
+
+#: locales/source/app_locales_strings.php:345
+msgid "Team Members"
+msgstr "Miembros del Equipo"
+
+#: locales/source/app_locales_strings.php:346
+msgid "Your team is in processing state"
+msgstr "Su equipo está en estado de procesamiento"
+
+#: locales/source/app_locales_strings.php:347
+msgid ""
+"Action Items, Touchpoints, and Feedback tabs are disabled from the "
+"configuration settings. Please contact your administrator to resolve this "
+"issue."
+msgstr ""
+"Las pestañas Elementos de acción, Puntos de contacto y Comentarios están "
+"deshabilitadas desde los ajustes de configuración. Comuníquese con su "
+"administrador para resolver este problema."
+
+#: locales/source/app_locales_strings.php:348
+msgid "Looks like there is no member yet!"
+msgstr "¡Parece que aún no hay ningún miembro!"
+
+#: locales/source/app_locales_strings.php:349
+msgid "Discover Circles"
+msgstr "Descubre los círculos"
+
+#: locales/source/app_locales_strings.php:350
+msgid ""
+"It appears that there are no circles available at this time. Please stay "
+"tuned for updates."
+msgstr ""
+"Parece que no hay círculos disponibles en este momento. Estén atentos a las "
+"actualizaciones."
+
+#: locales/source/app_locales_strings.php:351
+msgid "Are you sure want to complete this?"
+msgstr "¿Estás seguro de que quieres completar esto?"
+
+#: locales/source/app_locales_strings.php:352
+msgid "There is no description"
+msgstr "no hay descripción"
+
+#: locales/source/app_locales_strings.php:353
+msgid "Start A Circle"
+msgstr "iniciar un círculo"
+
+#: locales/source/app_locales_strings.php:354
+msgid "Create New Circle"
+msgstr "Crear nuevo círculo"
+
+#: locales/source/app_locales_strings.php:355
+msgid "Update Circle"
+msgstr "Círculo de actualización"
+
+#: locales/source/app_locales_strings.php:356
+msgid "Confirm Leave Circle"
+msgstr "Confirmar salir del círculo"
+
+#: locales/source/app_locales_strings.php:357
+msgid "Confirm Join Circle"
+msgstr "Confirmar unirse al círculo"
+
+#: locales/source/app_locales_strings.php:359
+msgid ""
+"You have successfully joined this circle.You can find it now in the 'My "
+"Circle' tab."
+msgstr ""
+"Te has unido exitosamente a este círculo. Puedes encontrarlo ahora en la "
+"pestaña \"Mi círculo\"."
+
+#: locales/source/app_locales_strings.php:360
+msgid "Edit Message"
+msgstr "Editar mensaje"
+
+#: locales/source/app_locales_strings.php:361
+msgid "Please enter message"
+msgstr "Por favor, ingresa el mensaje"
+
+#: locales/source/app_locales_strings.php:362
+msgid "Confirm Below"
+msgstr "Confirmar a continuación"
+
+#: locales/source/app_locales_strings.php:364
+msgid "No Messages"
+msgstr "Mensajes"
+
+#: locales/source/app_locales_strings.php:365
+msgid "Be the first to Message"
+msgstr "Sé el primero en enviar un mensaje"
+
+#: locales/source/app_locales_strings.php:366
+msgid "Delete Message"
+msgstr "Borrar mensaje"
+
+#: locales/source/app_locales_strings.php:367
+msgid "Are you sure you want to delete this message?"
+msgstr "¿Seguro que quieres borrar este mensaje?"
+
+#: locales/source/app_locales_strings.php:369
+msgid "My Circles"
+msgstr "Mis círculos"
+
+#: locales/source/app_locales_strings.php:370
+msgid "Select Filter"
+msgstr "Seleccionar Filtro"
+
+#: locales/source/app_locales_strings.php:371
+msgid "Clear"
+msgstr "Claro"
+
+#: locales/source/app_locales_strings.php:372
+msgid "Loading"
+msgstr "Cargando"
+
+#: locales/source/app_locales_strings.php:373
+msgid "Filter by Circle leader"
+msgstr "Filtrar por líder del círculo"
+
+#: locales/source/app_locales_strings.php:374
+msgid "Filter"
+msgstr "Filtro"
+
+#: locales/source/app_locales_strings.php:375
+msgid "Filter by first name or last name"
+msgstr "Filtrar por nombre o apellido"
+
+#: locales/source/app_locales_strings.php:376
+msgid "Invite User"
+msgstr "Invitar usuario"
+
+#: locales/source/app_locales_strings.php:377
+msgid "Search user to join the Team"
+msgstr "Buscar usuario para unirse al equipo"
+
+#: locales/source/app_locales_strings.php:378
+msgid "Search user to invite"
+msgstr "Buscar usuario para invitar"
+
+#: locales/source/app_locales_strings.php:379
+msgid "Search User"
+msgstr "Buscar Usuarios"
+
+#: locales/source/app_locales_strings.php:380
+msgid "Search Results"
+msgstr "Resultados de la búsqueda"
+
+#: locales/source/app_locales_strings.php:381
+msgid "Requests Sent"
+msgstr "Peticiones enviadas"
+
+#: locales/source/app_locales_strings.php:382
+msgid "Resend Invite"
+msgstr "Reenviar invitación"
+
+#: locales/source/app_locales_strings.php:383
+msgid "Delete Invite"
+msgstr "Eliminar invitación"
+
+#: locales/source/app_locales_strings.php:384
+msgid "Create Touch Point"
+msgstr "Crear punto de contacto"
+
+#: locales/source/app_locales_strings.php:385
+msgid "Apply"
+msgstr "Aplicar"
+
+#: locales/source/app_locales_strings.php:386
+msgid "Select an option"
+msgstr "Seleccione una opción"
+
+#: locales/source/app_locales_strings.php:387
+msgid "Join a Circle from the Discover Circles tab or start a new Circle"
+msgstr ""
+"Únase a un círculo desde la pestaña Descubrir círculos o inicie un nuevo "
+"círculo"
+
+#: locales/source/app_locales_strings.php:390
+msgid "Leave a message"
+msgstr "Dejar un mensaje"
+
+#: locales/source/app_locales_strings.php:391
+msgid ""
+"Before accepting this request, you need to send a role join request. Press "
+"the Ok button to access the role join request option."
+msgstr ""
+"Antes de aceptar esta solicitud, debe enviar una solicitud para unirse al "
+"rol. Presione el botón Ok para acceder a la opción de solicitud de "
+"incorporación al rol."
+
+#: locales/source/app_locales_strings.php:393
+msgid "Resend Request"
+msgstr "Reenviar solicitud"
+
+#: locales/source/app_locales_strings.php:394
+msgid "Cancel Request"
+msgstr "Cancelar petición"
+
+#: locales/source/app_locales_strings.php:395
+msgid "Show Only Available Circles"
+msgstr "Mostrar solo círculos disponibles"
+
+#: locales/source/app_locales_strings.php:396
+msgid "Check the box to send email notification"
+msgstr "Marque la casilla para enviar una notificación por correo electrónico"
+
+#: locales/source/app_locales_strings.php:397
+msgid "Disclaimer"
+msgstr "Renuncia"
+
+#: locales/source/app_locales_strings.php:398
+msgid "Show More"
+msgstr "Mostrar más"
+
+#: locales/source/app_locales_strings.php:399
+msgid "Show Less"
+msgstr "Mostrar menos"
+
+#: locales/source/app_locales_strings.php:400
+msgid "Download Successful"
+msgstr "Descarga exitosa"
+
+#: locales/source/app_locales_strings.php:401
+msgid "File saved in %s%"
+msgstr "Archivo guardado en %s%"
+
+#: locales/source/app_locales_strings.php:402
+msgid "Inbox feature is not enabled for you. Please contact your administrator"
+msgstr ""
+"La función Bandeja de entrada no está habilitada para usted. Por favor "
+"contacte a su administrador"
+
+#: locales/source/app_locales_strings.php:403
+msgid "Be the first to comment"
+msgstr "Sé el primero en comentar"
+
+#: locales/source/app_locales_strings.php:404
+msgid "Trim"
+msgstr "Recortar"
+
+#: locales/source/app_locales_strings.php:405
+msgid "Filter by Circles Name"
+msgstr "Filtrar por nombre de círculos"
+
+#: locales/source/app_locales_strings.php:406
+msgid "No Comments"
+msgstr "Sin comentarios"
+
+#: locales/source/app_locales_strings.php:407
+msgid "Create action item"
+msgstr "Crear elemento de acción"
+
+#: locales/source/app_locales_strings.php:408
+msgid "Show Only with Available Capacity"
+msgstr "Mostrar sólo con capacidad disponible"
+
+#: locales/source/app_locales_strings.php:409
+msgid "Matches"
+msgstr "Partidos"
+
+#: locales/source/app_locales_strings.php:410
+msgid "Found %s% matches"
+msgstr "Se encontraron %s% coincidencias"
+
+#: locales/source/app_locales_strings.php:411
+msgid "View Match"
+msgstr "Ver Partido"
+
+#: locales/source/app_locales_strings.php:412
+msgid "Matching Detail for the %s% Role"
+msgstr "Detalle coincidente para el rol %s%"
+
+#: locales/source/app_locales_strings.php:413
+msgid "Parameter"
+msgstr "Parámetro"
+
+#: locales/source/app_locales_strings.php:414
+msgid "Matching%"
+msgstr "Pareo%"
+
+#: locales/source/app_locales_strings.php:415
+msgid "Description"
+msgstr "Descripción"
+
+#: locales/source/app_locales_strings.php:416
+msgid "Are you sure want to pause this?"
+msgstr "¿Estás seguro de que deseas pausar esto?"
+
+#: locales/source/app_locales_strings.php:417
+msgid "Are you sure want to Incomplete this?"
+msgstr "¿Estás seguro de que deseas incompletar esto?"
+
+#: locales/source/app_locales_strings.php:418
+msgid "Leave Group"
+msgstr "Abandonar grupo"
+
+#: locales/source/app_locales_strings.php:419
+msgid "Are you sure you want to leave this %s%"
+msgstr "¿Estás seguro de que deseas abandonar este %s%?"
+
+#: locales/source/app_locales_strings.php:420
+msgid "Registration"
+msgstr "Registro"
+
+#: locales/source/app_locales_strings.php:421
+msgid "Update Survey"
+msgstr "Actualizar encuesta"
+
+#: locales/source/app_locales_strings.php:422
+msgid "Pre-event Survey"
+msgstr "Encuesta previa al evento"
+
+#: locales/source/app_locales_strings.php:423
+msgid "Likes"
+msgstr "Me gusta"
+
+#: locales/source/app_locales_strings.php:424
+msgid "Collaboration between:"
+msgstr "Colaboración entre:"
+
+#: locales/source/app_locales_strings.php:425
+msgid "View or edit Profile Photo"
+msgstr "Ver o editar foto de perfil"
+
+#: locales/source/app_locales_strings.php:426
+msgid "Profile Photo"
+msgstr "Foto del perfil"
+
+#: locales/source/app_locales_strings.php:427
+msgid "Add Photo"
+msgstr "Añadir foto"
+
+#: locales/source/app_locales_strings.php:428
+msgid "Take a photo"
+msgstr "Tomar una foto"
+
+#: locales/source/app_locales_strings.php:429
+msgid "Upload from Photos"
+msgstr "Subir desde Fotos"
+
+#: locales/source/app_locales_strings.php:430
+msgid "Request rejection reason"
+msgstr "Motivo del rechazo de la solicitud"
+
+#: locales/source/app_locales_strings.php:431
+msgid "Enter request rejection reason"
+msgstr "Introduzca el motivo del rechazo de la solicitud"
+
+#: locales/source/app_locales_strings.php:432
+msgid "Please enter the reason for the request rejection"
+msgstr "Por favor ingrese el motivo del rechazo de la solicitud"
+
+#: locales/source/app_locales_strings.php:433
+msgid "Event Waivers"
+msgstr "Exenciones de responsabilidad por eventos"
+
+#: locales/source/app_locales_strings.php:434
+msgid "Event RSVPs options"
+msgstr "Opciones de confirmación de asistencia a eventos"
+
+#: locales/source/app_locales_strings.php:435
+msgid "Event volunteer options"
+msgstr "Opciones de voluntariado para eventos"
+
+#: locales/source/app_locales_strings.php:436
+msgid "Recognized Date"
+msgstr "Fecha reconocida"
+
+#: locales/source/app_locales_strings.php:437
+msgid "YES"
+msgstr "SÍ"
+
+#: locales/source/app_locales_strings.php:438
+msgid "TENTATIVE"
+msgstr "TENTATIVO"
+
+#: locales/source/app_locales_strings.php:439
+msgid "DECLINE"
+msgstr "RECHAZAR"
+
+#: locales/source/app_locales_strings.php:440
+msgid "ATTEND IN PERSON"
+msgstr "ASISTIR EN PERSONA"
+
+#: locales/source/app_locales_strings.php:441
+msgid "ADD TO WAITLIST (In Person)"
+msgstr "AGREGAR A LA LISTA DE ESPERA (En persona)"
+
+#: locales/source/app_locales_strings.php:442
+msgid "ATTEND ONLINE"
+msgstr "ASISTIR EN LÍNEA"
+
+#: locales/source/app_locales_strings.php:443
+msgid "ADD TO WAITLIST (Online)"
+msgstr "AGREGAR A LA LISTA DE ESPERA (En línea)"
+
+#: locales/source/app_locales_strings.php:444
+msgid "CANCEL WAITLIST (In Person)"
+msgstr "CANCELAR LISTA DE ESPERA (En persona)"
+
+#: locales/source/app_locales_strings.php:445
+msgid "CANCEL WAITLIST (Online)"
+msgstr "CANCELAR LISTA DE ESPERA (Online)"
+
+#: locales/source/app_locales_strings.php:451
+msgid "This event is not active and cannot be accessed."
+msgstr "Este evento no está activo y no se puede acceder a él."
+
+#: locales/source/app_locales_strings.php:452
+msgid ""
+"Access denied. The event feature is disabled. Please contact your "
+"administrator."
+msgstr ""
+"Acceso denegado. La función de eventos está deshabilitada. Comuníquese con "
+"su administrador."
+
+#: locales/source/app_locales_strings.php:453
+msgid "New Touch Point Event"
+msgstr "Nuevo evento de punto de contacto"
+
+#: locales/source/app_locales_strings.php:454
+msgid "Create Event"
+msgstr "Crear evento"
+
+#: locales/source/app_locales_strings.php:455
+msgid "Update Event"
+msgstr "Actualizar evento"
+
+#: locales/source/app_locales_strings.php:456
+msgid "This touch point does not have an associated event"
+msgstr "Este punto de contacto no tiene un evento asociado"
+
+#: locales/source/app_locales_strings.php:457
+msgid "Event cancellation reason"
+msgstr "Motivo de cancelación del evento"
+
+#: locales/source/app_locales_strings.php:458
+#, php-format
+msgid ""
+"You have requested to join a %s. Please cancel join requests before leaving "
+"the %s"
+msgstr "Has solicitado unirte a %s. Cancela tu solicitud antes de salir de %s."
+
+#: locales/source/app_locales_strings.php:460
+msgid "Recognitions"
+msgstr "Reconocimientos"
+
+#: locales/source/app_locales_strings.php:494
+msgid "Add more photos and videos to the album"
+msgstr "Añade más fotos y vídeos al álbum."
+
+#: locales/source/app_locales_strings.php:495
+msgid ""
+"Note: channel selection disabled. You need to select a Chapter to enable it."
+msgstr ""
+"Nota: La selección de canales está deshabilitada. Debe seleccionar un "
+"capítulo para habilitarla."
+
+#: locales/source/app_locales_strings.php:496
+msgid "Downloading"
+msgstr "Descargando"
+
+#: locales/source/app_locales_strings.php:497
+msgid "Update Recognition"
+msgstr "Reconocimiento de actualizaciones"
+
+#: locales/source/app_locales_strings.php:498
+#, no-php-format
+msgid "You and %s% others"
+msgstr "Tú y %s% otros"
+
+#: locales/source/app_locales_strings.php:499
+msgid "%s% Like"
+msgstr "%s% Me gusta"
+
+#: locales/source/app_locales_strings.php:500
+msgid "No Reactions"
+msgstr "Sin Reacciones"
+
+#: locales/source/app_locales_strings.php:501
+msgid "Reactions"
+msgstr "Reacciones"
+
+#: locales/source/app_locales_strings.php:502
+msgid "All"
+msgstr "Todo"
+
+#, php-format
+#~ msgid "Are you sure to leave this %s?"
+#~ msgstr "¿Estás seguro de dejar este %s?"
+
+#~ msgid "Request accepted successfully"
+#~ msgstr "Solicitud aceptada con éxito"
+
+#~ msgid "Members"
+#~ msgstr "Miembros"
+
+#~ msgid "Chapters"
+#~ msgstr "Capítulos"
+
+#~ msgid "Channels"
+#~ msgstr "Canales"
+
+#~ msgid "Join/Leave Chapter"
+#~ msgstr "Unirse/abandonar el capítulo"
+
+#~ msgid "Join or Leave Chapter of this ERG"
+#~ msgstr "Afiliarse o abandonar el capítulo de este ERG"
+
+#~ msgid "Join or Leave Channel of this ERG"
+#~ msgstr "Unirse o dejar el canal de este ERG"
+
+#~ msgid "Your Upcoming Events"
+#~ msgstr "Sus próximos eventos"
+
+#~ msgid "Looks like there aren't events scheduled yet"
+#~ msgstr "Parece que aún no hay eventos programados"
+
+#~ msgid "Looks like there aren't any newsletters yet"
+#~ msgstr "Parece que todavía no hay boletines"
+
+#~ msgid "Looks like there aren't any announcements yet"
+#~ msgstr "Parece que todavía no hay anuncios"
+
+#~ msgid "Looks like you don't have any upcoming events"
+#~ msgstr "Parece que no tiene ningún evento próximo"
+
+#~ msgid "photo"
+#~ msgstr "lmagen"
+
+#~ msgid "photos"
+#~ msgstr "fotos"
+
+#~ msgid "Select chapter"
+#~ msgstr "Seleccione el capítulo"
+
+#~ msgid "Select channel"
+#~ msgstr "Seleccione el canal"
+
+#~ msgid "Announcement Detail"
+#~ msgstr "Detalle del anuncio"
+
+#~ msgid "Are you sure to clear this notifications?"
+#~ msgstr "¿Estás seguro de que debes borrar estas notificaciones?"
+
+#~ msgid "Please enter title here"
+#~ msgstr "Por favor, introduzca el título aquí"
+
+#~ msgid "Please enter text"
+#~ msgstr "Por favor, introduzca el texto"
+
+#~ msgid "seconds"
+#~ msgstr "segundos"
+
+#~ msgid "later"
+#~ msgstr "más tarde"
+
+#~ msgid "second"
+#~ msgstr "segundo"
+
+#~ msgid "Comment"
+#~ msgstr "Comentario"
+
+#~ msgid "Undefined"
+#~ msgstr "Indefinido"
+
+#~ msgid "Acceptable file formats"
+#~ msgstr ""
+#~ "Formatos de archivo "
+#~ "aceptables: .png, .jpeg, .jpg, .gif, .avi, .mov, .mpeg, .mp4, .wmv"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Size"
+#~ msgstr "Tamaño"
+
+#~ msgid "Upload"
+#~ msgstr "Subir"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "New Discussion"
+#~ msgstr "Nuevo debate"
+
+#~ msgid "Discussion title"
+#~ msgstr "Título del debate"
+
+#~ msgid "Description is a required field"
+#~ msgstr "La descripción es un campo obligatorio"
+
+#~ msgid "You need to select atleast one or more chapter to join"
+#~ msgstr "Tienes que seleccionar al menos uno o más capítulos para unirte"
+
+#~ msgid "Announcement and Events related to"
+#~ msgstr "Anuncios y eventos relacionados con"
+
+#~ msgid "Show ERG level only"
+#~ msgstr "Mostrar solo el nivel de ERG"
+
+#~ msgid ""
+#~ "Your account has been marked for deletion and will be permanently "
+#~ "deleted, including all information, after thirty days"
+#~ msgstr ""
+#~ "Su cuenta se ha marcado para su eliminación y se eliminará de forma "
+#~ "permanente, incluida toda la información, después de treinta días."
+
+#~ msgid "Decline"
+#~ msgstr "Rechazar"
+
+#~ msgid ""
+#~ "Your search criteria did not return any matching result. Please change "
+#~ "your search criteria and try again. "
+#~ msgstr ""
+#~ "Sus criterios de búsqueda no arrojaron ningún resultado coincidente. "
+#~ "Cambie sus criterios de búsqueda e inténtelo de nuevo."
+
+#~ msgid "Pending"
+#~ msgstr "Pendiente"
+
+#~ msgid "Accepted"
+#~ msgstr "Aceptado"
+
+#~ msgid "Rejected"
+#~ msgstr "Rechazado"
+
+#~ msgid "Invite deleted successfully"
+#~ msgstr "Invitación eliminada exitosamente"
+
+#~ msgid "Are you sure you want to resend invite?"
+#~ msgstr "¿Estás seguro de que quieres reenviar la invitación?"
+
+#~ msgid "Are you sure you want to delete this invite?"
+#~ msgstr "¿Estás seguro de que deseas eliminar esta invitación?"
+
+#~ msgid "Total Participants Allowed"
+#~ msgstr "Total de participantes permitidos"
+
+#~ msgid "Discussion can't be empty"
+#~ msgstr "La discusión no puede estar vacía"
+
+#~ msgid ""
+#~ "The content contains links to external images which may not display "
+#~ "properly on all devices. Suggestion: Attach images from your local storage"
+#~ msgstr ""
+#~ "El contenido contiene enlaces a imágenes externas que pueden no mostrarse "
+#~ "correctamente en todos los dispositivos. Sugerencia: adjunte imágenes de "
+#~ "su almacenamiento local"
+
+#~ msgid "Discussion created successfully"
+#~ msgstr "Discusión creada con éxito"
+
+#~ msgid "Discussion updated successfully"
+#~ msgstr "Discusión actualizada con éxito"
+
+#~ msgid "Manage Join Requests"
+#~ msgstr "Administrar solicitudes de unión"
+
+#~ msgid "Request to Join"
+#~ msgstr "Solicitud de ingreso"
+
+#~ msgid "Please request a role to join."
+#~ msgstr "Solicite un rol para unirse."
+
+#~ msgid "Team Membership"
+#~ msgstr "Membresía del equipo"
+
+#~ msgid "You have not yet requested any roles to join a Team.!"
+#~ msgstr "¡Aún no has solicitado ningún rol para unirte a un equipo!"
+
+#~ msgid ""
+#~ "The role is not configured correctly. Please contact your administrator "
+#~ "for assistance."
+#~ msgstr ""
+#~ "El rol no está configurado correctamente. Comuníquese con su "
+#~ "administrador para obtener ayuda."
+
+#~ msgid "No data found"
+#~ msgstr "Datos no encontrados"
+
+#~ msgid "Custom fileds list"
+#~ msgstr "Lista de archivos personalizados"
+
+#~ msgid "Group data  notfound. Please try again."
+#~ msgstr "Datos del grupo no encontrados. Inténtalo de nuevo."
+
+#~ msgid "No user matched with search keyword."
+#~ msgstr "Ningún usuario coincidió con la palabra clave de búsqueda."
+
+#~ msgid "Recognition updated successfully"
+#~ msgstr "Reconocimiento actualizado con éxito"
+
+#, php-format
+#~ msgid "No %s joined yet"
+#~ msgstr "Ningún %s se unió todavía"
+
+#~ msgid "My Groups"
+#~ msgstr "Mis grupos"
+
+#~ msgid "Joined Groups"
+#~ msgstr "Grupos a los que te uniste"
+
+#~ msgid "Add Highlight"
+#~ msgstr "Añadir resaltado"
+
+#~ msgid "Ok"
+#~ msgstr "OK"
+
+#~ msgid "You were already checked in successfully"
+#~ msgstr "Ya te registraste correctamente"
+
+#~ msgid "Something has gone wrong. Please try again later."
+#~ msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
+
+#~ msgid "Highlight uploaded"
+#~ msgstr "Destacado subido"
+
+#~ msgid "media can't be empty"
+#~ msgstr "los medios no pueden estar vacíos"
+
+#~ msgid "Liked successfully"
+#~ msgstr "Me gustó con éxito"
+
+#~ msgid "ok"
+#~ msgstr "listo"
+
+#~ msgid "Upload your files"
+#~ msgstr "Cargue sus archivos"
+
+#~ msgid "Choose media type"
+#~ msgstr "Elija el tipo de soporte"
+
+#~ msgid "News Letter"
+#~ msgstr "Carta de noticias"

@@ -1,0 +1,4 @@
+<a href="login_re?lm_type=otp&lm_id=<?=$loginMethod['settingid'] ?? 0;?>" style="text-decoration:none" class="loginSubmitBtn loginBtn loginBtn--common">
+    <?=htmlspecialchars($loginMethod['login_btn_label'] ?? 'Login using One-Time Password (OTP)')?>
+</a>
+<small class="mt-1"><?=htmlspecialchars($loginMethod['login_btn_description']?? $_COMPANY->val('companyname').' uses OTP login.')?></small>

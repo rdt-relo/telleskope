@@ -1,0 +1,45 @@
+<div class="container col-md-offset-3 col-lg-offset-2 margin-top">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="widget-simple-chart card-box "> 
+						<div class="col-md-6"><h6>FAQs</h6></div>
+						<div class="clearfix"></div>
+						<?php if (isset($msg)){ ?>
+								<div class="col-md-8">	
+										<div class="alert alert-dismissible alert-info">
+											<button type="button" class="close" data-dismiss="alert">&times;</button>
+											<?php echo $msg; ?>
+										</div>
+									</div>
+						<?php }elseif(isset($err)){ ?>
+								<div class="col-md-8">	
+									<div class="alert alert-dismissible alert-danger">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<?php echo $err;?>
+									</div>
+								</div>
+						<?php } ?>
+						
+							<div class="table-responsive ">
+								<table id="faq" class="table table-hover display compact" summary="This table display the list of FAQ's">
+									<tbody>
+										<tr>
+								<?php 	if(count($rows)>0 ){
+											for($i=0;$i<count($rows);$i++){ ?>
+											<td width="100%"><span>Q: <?= $rows[$i]['question']?></span>A: <?=$rows[$i]['answer']; ?></td>
+											
+										</tr>
+								<?php	} ?>
+										
+								<?php	
+									} ?>
+										
+									</tbody>
+								</table>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

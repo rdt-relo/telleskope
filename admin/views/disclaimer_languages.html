@@ -1,0 +1,65 @@
+     
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">               
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= gettext('Disclaimer Details');?></h6>                   
+                </div>
+                
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= ADDED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ERROR; ?>
+                    </div>
+            <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                
+                        <table id="table" class="table table-hover display compact" summary="This table display the list of Disclaimer Languages">
+                            <thead>
+                                <tr>
+                                    <th width="15%" scope="col"><?= gettext('Language');?></th>
+                                    <th width="20%" scope="col"><?= gettext('Title');?></th>
+                                    <th width="50%" scope="col"><?= gettext('Disclaimer');?> </th>
+                                    <th width="15%" scope="col"><?= gettext('Consent Value');?> </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php                                                               
+								foreach ($lanArray as $key=>$val) {                                  
+								?>
+								<tr>
+								<td><?= $allowedLanguages[$key] ; ?></td>
+                                <td><?= $val['title'];?></td>
+                                <td><?= $val['disclaimer'];?></td>
+                                <td><?php if($editDisclaimerlan->val('consent_type') == 'text'){
+                                  echo  $val['consent_input_value'] ;
+                                }  ?></td>
+                               
+                                
+								</tr>
+								<?php }	?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button class="btn btn-info btn-sm" onclick="goBack()">Back to Disclaimers</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

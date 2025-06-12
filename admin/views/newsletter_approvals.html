@@ -1,0 +1,285 @@
+<style>
+    p{
+        margin-bottom: 0.2rem;
+    }
+    .list-no-padding {
+        list-style-type: circle;
+        list-style-position: inside;
+        padding-left: 0;
+    }
+    .urgent{color: red;}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                
+                <div class="col-md-6 ">
+                        <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a class="btn btn-primary btn-sm <?=$_USER->canManageZoneNewsletter() ? '' : 'disabled'?> " href="topic_approval_config?topicType=<?=$topicType?>"><?= $topicName ?> Approval Configuration</a>
+                    </div>
+                <div class="divider col-md-12 mb-3"></div>
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ERROR; ?>
+                    </div>
+            <?php } ?>
+
+            <div class="col-md-12">   
+                <div class="col-sm-6 px-0">
+                    <div class="form-group">
+                        <label for="approval_status_filter"><?= gettext('Filter by Approval Status') ?></label>
+                        <select aria-label="Show All" id="approval_status_filter" class="form-control" onchange="updateApprovalFilters();">
+                            <option value="all" <?= $approvalStatus == 'all' ? 'selected' : ''; ?>><?= gettext('Show All'); ?></option>
+                            <option value="processing" <?= $approvalStatus == 'processing' ? 'selected' : ''; ?>><?= gettext('Processing or Requested'); ?></option>
+                            <option value="processed" <?= $approvalStatus == 'processed' ? 'selected' : ''; ?>><?= gettext('Processed'); ?></option>
+                            <option value="reset" <?= $approvalStatus == 'reset' ? 'selected' : ''; ?>><?= gettext('Cancelled or Reset'); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="request_year_filter"><?= gettext('Filter by Request Year') ?></label>
+                        <select aria-label="Request year" id="request_year_filter" class="form-control" onchange="updateApprovalFilters();">
+                        <?php
+                        for($y = 2022; $y<=date('Y'); $y++){
+                            $sel = '';
+                            if($y == $requestYear){ $sel = 'selected'; } ?>
+                                <option value="<?= $y; ?>" <?= $sel; ?>><?= $y ?></option>    
+                        <?php } ?> 
+                        </select>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                
+                        <table id="topicApprovalsList" class="table table-hover display compact">
+                            <thead>
+                                <tr>
+                                    <th width="5%">ID</th>
+                                    <th width="25%">Name</th>
+                                    <th width="15%">Scope</th>
+                                    <th width="10%">Publish Status</th>
+                                    <th width="10%">Approval Submission Date</th>
+                                    <th width="15%">Assigned To or Last Approver</th>
+                                    <th width="10%">Approval Status</th>
+                                    <!-- <th width="5%">Zip</th> -->
+                                    <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php
+                         foreach($allApprovals as $approval){
+                            $topicObj = Newsletter::GetNewsletter($approval['topicid']);
+                            $topicActiveStatus = $topicObj ? intval($topicObj->val('isactive')) : 0;
+                            if ($topicActiveStatus == 0 ) {
+                                continue;
+                            }
+                            $groupObj = Group::GetGroup($topicObj->val('groupid'));
+                            if(!$groupObj->isActive()){
+                                continue;
+                            }
+                            $isStageApprover = in_array( $_USER->id() , $stageRows[$approval['approval_stage']]['approver_userids'] ?? []);
+                            $approver = null;
+                            if ($approval['assigned_to']){
+                                $approver = User::GetUser($approval['assigned_to']);
+                            }
+                            //getting the last approver only if theere is no current approver
+                            $lastApprover = null;
+                            if(!$approver && $approval['approval_stage'] > 1) {
+                                $previous_stage = intval($approval['approval_stage']) - 1;
+                                $approvalObject = $topicObj->getApprovalObject();
+                                $lastApprover = $approvalObject->getLastApproverByStage($previous_stage) ?? '';
+                            }
+                            $requestedby = null;
+                            if ($approval['createdby']){
+                                $requestedby = User::GetUser($approval['createdby']);
+                            }
+                            $opts = 0;
+                            // Initialize chapter and channel scopes
+                            $chapterScope = '';
+                            $channelScope = '';
+                            
+                            if ($_COMPANY->getAppCustomization()['chapter']['enabled'] && !empty($topicObj->val('chapterid'))) {
+                                 
+                                 $chapterNames = $topicObj->getNewsletterChapterNames();
+                                if (!empty($chapterNames)) {
+                                $chapterScope =
+                                    '<div>' .
+                                        '<b>' . $_COMPANY->getAppCustomization()['chapter']['name-short-plural'] . ': </b>' .
+                                        Arr::AsHtmlList($chapterNames, false, 'list-no-padding') .
+                                    '</div>';
+                                }
+                            }
+                            
+                            if ($_COMPANY->getAppCustomization()['channel']['enabled'] && !empty($topicObj->val('channelid'))) {
+                                $channelDetail = Group::GetChannelName($topicObj->val('channelid'), $topicObj->val('groupid'));
+                                $channelScope =
+                                    '<div>' .
+                                    '<b>' . $_COMPANY->getAppCustomization()['channel']['name-short-plural'] . ': </b>' .
+                                    Arr::AsHtmlList([$channelDetail['channelname']], false, 'list-no-padding') .
+                                    '</div>';
+                            }
+                            // For mapping topic status
+                            $topicStatusMap = array(0 => 'Deleted', 1 => 'Published', 2 => 'Draft', 3 => 'Under Review', 4 => 'Reviewed', 5 => 'Pending Publish');
+                            // Set the URL for topic
+                            $topic_url = $_COMPANY->getAppURL($_ZONE->val('app_type')) . 'newsletter?id=' . $_COMPANY->encodeId($topicObj->id()) . '&approval_review=1';
+                        ?>
+                            <tr id="<?= $_COMPANY->encodeId($approval['approvalid'])?>">
+
+                                <?php if ($topicObj) { ?>
+
+                                <?php
+                                $listsNameCsv = '';
+                                if(($topicObj->val('groupid') == 0) || ($topicObj->val('listids') != 0) ){
+                                    $listsNameCsv = ($topicObj->val('listids') != 0) ? DynamicList::GetFormatedListNameByListids($topicObj->val('listids')) : '';
+                                }
+                                $groupName = $groupObj->val('groupname') ?: '-';
+                                ?>
+                                <td><?= $_COMPANY->encodeIdForReport($topicObj->id());?></td>
+                                <td>
+                                    <a target="_blank" rel="noopener" href="<?= $topic_url ?>"> <?= $topicObj->val('newslettername') ?> </a>
+                                </td>
+                                <td><?= (($groupObj->id() == 0 && $listsNameCsv) || $listsNameCsv) ? '<strong>Dynamic List</strong><br>'. $listsNameCsv : $groupName . '<div class="m-2">' . $chapterScope . $channelScope . '</div>' ?></td>  
+                                <?php } ?>
+                                
+                                <td><?= $topicStatusMap[$topicObj->val('isactive')]; ?></td>
+
+                                <td><?= $_USER->formatUTCDatetimeForDisplayInLocalTimezone($approval['createdon'],true,true,true) ?></td>
+
+                                <td>
+                                    <?php
+                                    if ($approver) {
+                                        echo '<small>Assigned To:</small><br>' . $approver->getFullName() . '<br><small>(' . $approver->val('email') . ')</small>';
+                                    } elseif ($lastApprover) {
+                                        echo '<small>Last Approver:</small><br>' . $lastApprover->getFullName() . '<br><small>(' . $lastApprover->val('email') . ')</small>';
+                                    } else {
+                                        echo '-';
+                                    }
+                                    ?>
+                                </td>
+
+                                <td>
+                                    <?= ucwords($approval['approval_status']) ?>
+                                    <?= in_array($approval['approval_status'], [Approval::TOPIC_APPROVAL_STATUS['PROCESSING'], Approval::TOPIC_APPROVAL_STATUS['REQUESTED']]) ? ('<br>'. gettext(' Stage ') . $approval['approval_stage']) : '' ?>
+                                </td>
+
+                                <td>
+                                    <div class="dropdown" id="action<?= $_COMPANY->encodeId($approval['approvalid'])?>">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <?= gettext('Action');?>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button class="pt-0 pb-0 dropdown-item" onclick="selectApprovalDetailView('<?= $_COMPANY->encodeId($approval['topicid'])?>','<?= $_COMPANY->encodeId($approval['approvalid'])?>', '<?= $topicType ?>')"><i class="fa fa-eye" title="View"></i> View Details<?php $opts++; ?></button>
+                                            <?php if (in_array($topicActiveStatus, array(2,3,4)) && ($isStageApprover || $canManageApprovals) && in_array($approval['approval_status'], [Approval::TOPIC_APPROVAL_STATUS['PROCESSING'], Approval::TOPIC_APPROVAL_STATUS['REQUESTED']])){ $opts++; ?>
+                                                <button aria-label="Assign To"  class="btn btn-no-style dropdown-item" onclick="assignUserForApprovalModal('<?= $_COMPANY->encodeId($approval['topicid'])?>','<?= $_COMPANY->encodeId($approval['approvalid'])?>','<?= $approval['approval_stage'] ?>','<?=$topicType?>')" class=""><i class="fa fa-user-plus" aria-hidden="true"></i> Assign To</button>
+                                            <?php } ?>
+
+                                            <?php if (in_array($topicActiveStatus, array(2,3,4)) && $isStageApprover && !in_array($approval['approval_status'], [Approval::TOPIC_APPROVAL_STATUS['RESET'], Approval::TOPIC_APPROVAL_STATUS['CANCELLED']])){ $opts++; ?>
+                                                <button aria-label="Update Approval"  class="btn btn-no-style dropdown-item" onclick="updateApprovalStatusModal('<?= $_COMPANY->encodeId($approval['topicid'])?>','<?= $_COMPANY->encodeId($approval['approvalid'])?>','','<?=$topicType?>')"><i class="fa fa-check-circle" aria-hidden="true"></i> <?=gettext('Approve');?> / <?=gettext('Deny');?></button>
+                                            <?php } ?>
+
+                                            <?php if (in_array($topicActiveStatus, array(2,3,4)) && $isStageApprover && !in_array($approval['approval_status'], [Approval::TOPIC_APPROVAL_STATUS['RESET'], Approval::TOPIC_APPROVAL_STATUS['CANCELLED']])){ $opts++; ?>
+                                                <button aria-label="Cancel Approval"  class="btn btn-no-style dropdown-item" onclick="cancelApprovalStatus('<?= $_COMPANY->encodeId($approval['topicid'])?>','<?=$topicType?>')"><i class="fa fa-times" aria-hidden="true"></i> <?=gettext('Cancel Request');?></button>
+                                            <?php } ?>
+
+                                            <?php if(((in_array($topicActiveStatus, array(2,3,4)) && in_array($approval['approval_status'], [Approval::TOPIC_APPROVAL_STATUS['DENIED'], Approval::TOPIC_APPROVAL_STATUS['RESET'], Approval::TOPIC_APPROVAL_STATUS['CANCELLED']])) || $topicActiveStatus==0)){ $opts++; ?>
+                                                <button aria-label="Delete"  class="btn btn-no-style dropdown-item deluser" onclick="deleteApproval('<?= $_COMPANY->encodeId($approval['topicid'])?>','<?= $_COMPANY->encodeId($approval['approvalid'])?>')" class="confirm" title="Are you sure you want to delete this <?= $topicName ?> Approval Request?"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                            <?php } ?>
+
+                                            <?php if (!$opts){  ?>
+                                            <a class="dropdown-item disabled"><i class="fa fas fa-exclamation" aria-hidden="true"></i>&emsp;<?= gettext('No options available');?></a>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="eventDetailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl modal-dialog-w900" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $topicName ?> Approval Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12 text-center p-0" id="eventDetail">
+              
+          </div>
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.initial').initial({
+            charCount: 2,
+            textColor: '#ffffff',
+            seed: 0,
+            height: 30,
+            width: 30,
+            fontSize: 15,
+            fontWeight: 300,
+            fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+            radius: 0
+        });
+    });      
+    function deleteApproval(e,s){
+        $.ajax({
+            url: 'ajax.php?deleteApproval=1',
+            type: "post",
+            data: {eventid:e,approvalid:s},
+            success : function(data) {
+                if(data){
+                    $("#"+s).animate({ backgroundColor: "#fbc7c7" }, "fast").animate({ opacity: "hide" },  2000);
+                } else {
+                    swal.fire({title: 'Error!',text:"Something went wrong. Please try again"});
+                }
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        var topicApprovalsListTable = $('#topicApprovalsList').DataTable( {
+                "order": [],
+                "bPaginate": true,
+                "bInfo" : false,
+                "stateSave": true,
+                "columnDefs": [
+                    { targets: [7], orderable: false }
+                ],
+                language: {
+                    searchPlaceholder: "...",
+                    url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+                },
+            } );
+    });  
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<div class="modal" tabindex="-1" role="dialog" id="approvalNoteModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Note:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="approvalForm" onsubmit="updateApprovalStatus(event)">
+                <input type="hidden" id="approvalTopicid" name="topicTypeId" value="<?= $_COMPANY->encodeId($topicTypeId) ?>">
+                <input type="hidden" id="approvalid" name="approvalid" value="<?= $_COMPANY->encodeId($approvalid) ?>">
+                <input type="hidden" id="approvalStatus" name="action" value="<?= $approvalStatus ?>">
+                <input type="hidden" id="approvalStage" name="approvalStage" value="<?= $_COMPANY->encodeId($approvalStage) ?>">
+                <input type="hidden" id="topicType" name="topicType" value="<?= $topicType ?>">
+                <div class="form-group">
+                    <label >Note</label>
+                    <textarea  class="form-control" maxlength="1000" id="approverNote" name="approverNote" placeholder="Add a note"></textarea>
+                    <small style="color:red">Maximum 1000 characters allowed!</small>
+                </div>
+
+                <?= TopicApprovalLog::CreateEphemeralTopic()->renderAttachmentsComponent('v26') ?>
+                <div class="form-group text-center">
+                  <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+        function updateApprovalStatus(jsevent) {
+          jsevent.preventDefault();
+          var submitButton = document.getElementById('submitButton');
+          submitButton.disabled = true;
+        var e = $("#approvalEventid").val();
+        var s = $("#approvalid").val();
+        var a = $("#approvalStatus").val();
+        var n =  $("#approverNote").val();
+        var as =  $("#approvalStage").val();
+        var topicType = '<?= $topicType ?>';
+        $.ajax({
+            url: 'ajax_approvals.php?updateApprovalRequest=1',
+            type: "post",
+            data: $(jsevent.target).serialize(),
+            success : function(data) {
+                if(data == 1){
+                    localStorage.setItem("lastApprovalAction", topicType);
+                    swal.fire({title: 'Success',text:"Updated successfully"}).then(function (result) {
+                        location.reload();
+                    });
+                } else {
+                    swal.fire({title: 'Error!',text:"Something went wrong. Please try again"});
+                }
+                setTimeout(() => {
+                $(".swal2-confirm").focus();
+              }, 100)
+            }
+        });
+
+    }
+  </script>

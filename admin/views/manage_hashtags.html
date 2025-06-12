@@ -1,0 +1,90 @@
+<div class="tl-container-offset-lr">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="widget-simple-chart card p-3">
+				<div class="row mb-3">
+					<div class="col ">
+						<h1 class="h4 mb-0"><?= $pagetitle; ?>&nbsp;
+						<a aria-label="<?= gettext('Add new hashtag');?>" class="add-plus-circle-icon" href="javascript:void(0);" onclick="addUpdateHashTagModel('<?= $_COMPANY->encodeId(0)?>')">
+							<i class="fa fa-plus-circle fa-lg text-primary fs-5 ms-2" title="Add new admin" aria-hidden="true"></i>
+						</a></h1>
+					</div>
+				</div>
+
+				<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<?= UPDATED; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } elseif((time()- @$_SESSION['added']) < 5) { ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<?= ADDED; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+						<?= ERROR; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } ?>
+				<div class="table-responsive">
+					<table id="hashtagTable" class="table table-hover display compact" summary="This table shows the list of Hashtags">
+						<thead>
+							<tr>
+								<th width="50%" scope="col"><?= gettext("Hashtag"); ?></th>
+								<th width="20%" scope="col"><?= gettext("Action"); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach($hashTagHandles as $row){ ?>
+								<tr>
+									<td><?= $row['handle']; ?></td>
+									<td>
+										<button title="Edit" class="btn btn-sm text-primary" onclick="addUpdateHashTagModel('<?= $_COMPANY->encodeId($row['hashtagid'])?>')">
+											<i class="fa fa-edit"></i>
+										</button>
+									</td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#hashtagTable').DataTable({
+			"order": [],
+			"bPaginate": true,
+			"bInfo": true,
+			"columnDefs": [
+			  { targets: [-1], orderable: false }
+			],
+			language: {
+				searchPlaceholder: "...",
+				url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+			},
+		});
+	});
+
+	function addUpdateHashTagModel(i) {
+		$.ajax({
+			url: 'ajax.php?addUpdateHashTagModel=1',
+			type: "GET",
+			data: {'hashtagid':i},
+			success: function(data) {
+				$("#loadAnyModal").html(data);
+				const modalElement = document.getElementById('addUpdateHashTagModel');
+				const modalInstance = new bootstrap.Modal(modalElement, {
+				  backdrop: 'static',
+				  keyboard: false
+				});
+				modalInstance.show();
+
+			}
+		});
+	}
+</script>

@@ -1,0 +1,4 @@
+<a href="login_re?lm_type=connect&lm_id=<?=$loginMethod['settingid'] ?? 0;?>" style="text-decoration:none" class="loginSubmitBtn loginBtn loginBtn--common">
+    <?=htmlspecialchars($loginMethod['login_btn_label'] ?? 'Login using Connect Sign-on')?>
+</a>
+<small class="mt-1"><?=htmlspecialchars($loginMethod['login_btn_description']?? $_COMPANY->val('companyname').' uses connect Sign-on. To login, click on the above button and use your company email if requested. ')?></small>

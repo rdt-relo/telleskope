@@ -1,0 +1,186 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css"
+      rel="stylesheet">
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-4">
+
+                <div class="col-md-12 divider">
+                    <h1>Company Address</h1><hr class="border-1 text-light my-2"></hr>
+                </div>
+                <div class="clearfix"></div>
+                <?php if ((time() - @$_SESSION['updated']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } elseif ((time() - @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } elseif ((time() - @$_SESSION['error']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= $_SESSION['form_error']; ?>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+
+                <div class="col-md-12 contact-container">
+                    <div class="table-responsive">
+                        <table id="table" class="table display" summary="This table displays the list of Global administrators">
+                            <thead>
+                            <tr>
+                                <th width="25%" scope="col">Company Name</th>
+                                <th width="20%" scope="col">Global Admin</th>
+                                <th width="30%" scope="col">Company Address</th>
+                                <th width="20%" scope="col">Email</th>
+                                <th width="5%" scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><?= $_COMPANY->val('companyname'); ?></td>
+                                <td><?= $_COMPANY->val('contactperson'); ?></td>
+                                <td><?= $_COMPANY->val('address') ?><br/>
+                                    <?= $_COMPANY->val('city') ?>
+                                    , <?= $_COMPANY->val('state') ?> <?= $_COMPANY->val('zipcode') ?><br/>
+                                    <?= $_COMPANY->val('country') ?>
+                                </td>
+                                <td><?= $_COMPANY->val('email'); ?></td>
+                                <td><a aria-label="Edit" button type="button" href="editCompany"><i class="fa fa-edit text-primary"
+                                                                                  title="Edit" aria-hidden="true"></i></a></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12 contact-container">
+                    <h6>Business Contact&nbsp;</h6>
+                    <?php if (!$business_contact) { ?>
+                        <a aria-label="Add business contact text-primary" href="add_company_contact?type=Business">
+                            <i class="fa fa-plus-circle fa-lg" title="Add business contact" aria-hidden="true"></i>
+                        </a>
+                    <?php } ?>
+                    <div class="col-md-12">
+                        <?php if ($business_contact) { ?>
+                            <div class="table-responsive">
+                                <table class="table display" summary="This table display the list of company business contact">
+                                    <thead>
+                                    <tr>
+                                        <th width="25%" scope="col">Contact Name</th>
+                                        <th width="25%" scope="col">Email</th>
+                                        <th width="20%" scope="col">Phone Number</th>
+                                        <th width="20%" scope="col">Title</th>
+                                        <th width="10%" scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><?= $business_contact['firstname'] . ' ' . $business_contact['lastname']; ?></td>
+                                        <td><?= $business_contact['email']; ?></td>
+                                        <td><?= $business_contact['phonenumber']; ?></td>
+                                        <td><?= $business_contact['title']; ?></td>
+                                        <td><a aria-lable="Edit" button type="button"
+                                               href="add_company_contact?type=Business&edit=<?= $_COMPANY->encodeId(1) ?>"><i
+                                                        class="fa fa-edit text-primary" title="Edit" aria-hidden="true"></i></a></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } else { ?>
+                            <div class="col-md-12 text-center">
+                                <p> No business contact </p>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="col-md-12 contact-container">
+                    <h6>Technical Contact&nbsp;</h6>
+                    <?php if (!$technical_contact) { ?>
+                        <a aria-label="Add technical contact" href="add_company_contact?type=Technical">
+                            <i class="fa fa-plus-circle fa-lg" title="Add technical contact" aria-hidden="true"></i>
+                        </a>
+                    <?php } ?>
+                    <div class="col-md-12">
+                        <?php if ($technical_contact){ ?>
+                        <div class="table-responsive">
+                            <table class="table display" summary="This table display the company technical contac">
+                                <thead>
+                                <tr>
+                                    <th width="25%" scope="col">Contact Name</th>
+                                    <th width="25%" scope="col">Email</th>
+                                    <th width="20%" scope="col">Phone Number</th>
+                                    <th width="20%" scope="col">Title</th>
+                                    <th width="10%" scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><?= $technical_contact['firstname'] . ' ' . $technical_contact['lastname']; ?></td>
+                                    <td><?= $technical_contact['email']; ?></td>
+                                    <td><?= $technical_contact['phonenumber']; ?></td>
+                                    <td><?= $technical_contact['title']; ?></td>
+                                    <td><a aria-label="Edit" button type="button"
+                                           href="add_company_contact?type=Technical&edit=<?= $_COMPANY->encodeId(1) ?>"><i
+                                                    class="fa fa-edit text-primary" title="Edit" aria-hidden="true"></i></a></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                            <?php } else { ?>
+                                <div class="col-md-12 text-center">
+                                    <p> No technical contact</p>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 contact-container">
+                        <h6>Security Contact&nbsp;</h6>
+                        <?php if (!$security_contact) { ?>
+                            <a aria-label="Add security contact" href="add_company_contact?type=Security">
+                                <i class="fa fa-plus-circle fa-lg" title="Add security contact" aria-hidden="true"></i></a>
+                        <?php } ?>
+                        <div class="col-md-12">
+                            <?php if ($security_contact) { ?>
+                                <div class="table-responsive">
+                                    <table class="table display" summary="This table display the list of company security contact">
+                                        <thead>
+                                        <tr>
+                                            <th width="25%" scope="col">Contact Name</th>
+                                            <th width="25%" scope="col">Email</th>
+                                            <th width="20%" scope="col">Phone Number</th>
+                                            <th width="20%" scope="col">Title</th>
+                                            <th width="10%" scope="col"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><?= $security_contact['firstname'] . ' ' . $security_contact['lastname']; ?></td>
+                                            <td><?= $security_contact['email']; ?></td>
+                                            <td><?= $security_contact['phonenumber']; ?></td>
+                                            <td><?= $security_contact['title']; ?></td>
+                                            <td><a aria-label="edit" button type="button"
+                                                   href="add_company_contact?type=Security&edit=<?= $_COMPANY->encodeId(1) ?>"><i
+                                                            class="fa fa-edit text-primary" title="Edit" aria-hidden="true"></i></a></td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-md-12 text-center">
+                                    <p> No security contact</p>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>

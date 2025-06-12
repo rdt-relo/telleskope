@@ -1,0 +1,77 @@
+<div class="tl-container-offset-lr">
+	<div class="row">              
+	  <div class="col-md-12">
+		<div class="widget-simple-chart card p-3">
+		  <div class="col-md-12">
+			<h1><?= $id ? 'Edit' : 'Add'; ?> <?= $contactrole;?> Contact</h1><hr class="text-light my-2 border-1">
+		  </div>
+		  <div class="clearfix"></div>
+  
+		  <?php if((time()- @$_SESSION['error']) < 5) { ?> 
+		  <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+			<?= $_SESSION['form_error']; ?>
+			<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+		  </div>
+		  <?php } ?> 
+  
+		  <form class="form-horizontal" method="post" action="">
+			<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-md-2 text-md-end">
+				<label for="firstname" class="col-form-label">First Name <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-md-10">
+				<input class="form-control" id="firstname" placeholder="First name" name="firstname" value="<?= $edit ? $edit['firstname'] : (htmlspecialchars($_POST['firstname'])??'');?>" type="text" required>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-md-2 text-md-end">
+				<label for="lastname" class="col-form-label">Last Name <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-md-10">
+				<input class="form-control" id="lastname" placeholder="Last name" name="lastname" value="<?= $edit ? $edit['lastname'] : (htmlspecialchars($_POST['lastname'])??'');?>" type="text" required>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-md-2 text-md-end">
+				<label for="email" class="col-form-label">Email <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-md-10">
+				<input class="form-control" id="email" placeholder="Email" name="email" value="<?= $edit ? $edit['email'] : (htmlspecialchars($_POST['email'])??'');?>" type="email" required>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-md-2 text-md-end">
+				<label for="title" class="col-form-label">Job Title <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-md-10">
+				<input class="form-control" id="title" placeholder="Job Title" name="title" value="<?= $edit ? $edit['title'] : (htmlspecialchars($_POST['title'])??'');?>" type="text" required>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-md-2 text-md-end">
+				<label for="phonenumber" class="col-form-label">Phone Number <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-md-10">
+				<input class="form-control" id="phonenumber" placeholder="Phone number" name="phonenumber" value="<?= $edit ? $edit['phonenumber'] : (htmlspecialchars($_POST['phonenumber'])??'');?>" type="text" required>
+			  </div>
+			</div>
+  
+			<div class="row">
+			  <div class="offset-md-2 col-md-10 text-center">
+				<a href="manage_contacts" class="btn btn-secondary">Cancel</a>
+				<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+			  </div>
+			</div>
+		  </form>
+  
+		</div>	
+	  </div>
+	</div>
+  </div>
+  

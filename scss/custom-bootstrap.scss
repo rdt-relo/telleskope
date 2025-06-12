@@ -1,0 +1,539 @@
+@use "sass:color"; // for color manipulation
+// 1. Override Bootstrap variables and import it
+// STEP 1: Use Bootstrap with your theme colors (only those are overridable)
+@use "bootstrap" as bootstrap with (
+  $theme-colors: (
+    "primary": #0077b5,
+    "secondary": #17507d,
+    "success": #009f56,
+    "info": #dda029,
+    "warning": #e3c900,
+    "danger": #f30000,
+    "light": #d8d8dc,
+    "dark": #021e40,
+    "accent1": #2e3647,
+    "accent2": #566c35,
+    "accent3": #9b6d40,
+    "plum": #b198dc,
+    "light-blue": #4256b9,
+    "light-brown": #646569,
+    "purple":#800080,
+    "white":#fff
+  )
+);
+ 
+
+// Customize hover behavior for each button
+.btn-danger {
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+
+  &:hover {
+    color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    background-color: color.scale(bootstrap.$danger, $lightness: -7.5%);
+    border-color: color.scale(bootstrap.$danger, $lightness: -10%);
+  }
+}
+
+.btn-outline-danger {
+  &:hover {
+     color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    i {
+      color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    }
+  }
+}
+
+.btn-warning {
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+
+  &:hover {
+    color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    background-color: color.scale(bootstrap.$warning, $lightness: -7.5%);
+    border-color: color.scale(bootstrap.$warning, $lightness: -10%);
+  }
+}
+
+.btn-info {
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+
+  &:hover {
+    color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    background-color: color.scale(map-get(bootstrap.$theme-colors, "info"), $lightness: -7.5%);
+    border-color: color.scale(map-get(bootstrap.$theme-colors, "info"), $lightness: -10%);
+  }
+}
+
+.btn-succes {
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+
+  &:hover {
+    color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+    background-color: color.scale(bootstrap.$success, $lightness: -7.5%);
+    border-color: color.scale(bootstrap.$success, $lightness: -10%);
+  }
+}
+
+// 2. Custom utility classes
+$theme-min-heights: (
+  "10": 10vh,
+  "15": 15vh,
+  "20": 20vh,
+  "25": 25vh,
+  "30": 30vh,
+  "35": 35vh,
+  "40": 40vh,
+  "50": 50vh,
+  "75": 75vh,
+  "100": 100vh,
+  "300px": 300px
+);
+
+@each $name, $value in $theme-min-heights {
+  .min-h-#{$name} {
+    min-height: #{$value}!important;
+  }
+}
+
+// Manually define font-size utility classes from 12px to 26px
+$font-sizes: (
+  12: 12px,
+  13: 13px,
+  14: 14px,
+  15: 15px,
+  16: 16px,
+  17: 17px,
+  18: 18px,
+  19: 19px,
+  20: 20px,
+  21: 21px,
+  22: 22px,
+  23: 23px,
+  24: 24px,
+  25: 25px,
+  26: 26px
+);
+
+@each $size, $value in $font-sizes {
+  .fs-#{$size} {
+    font-size: #{$value};
+  }
+}
+
+// 3. Custom styles
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('../vendor/fonts/Lato/Lato-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background-color: map-get(bootstrap.$theme-colors, "light"); // note bootstrap. prefix
+  font-family: 'Lato-Regular';
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  overflow: hidden!important;
+}
+
+.myactive {
+  background: map-get(bootstrap.$theme-colors, "light");
+  border-left: 2px solid #00bfe8;
+}
+
+#sidebar-wrapper > ul > li > a, #accordion_m  > li > a {
+  padding: 1px 0;
+  color: #010101;
+  font-size: 16px;
+}
+#sidebar-wrapper > ul > li > a:hover, #accordion_m  > li > a:hover {
+  background: #f6f7f9 !important;
+  border-left: 2px solid #3f51b5;
+}
+
+.container-offset-lr {
+  margin-left: 0.9%;
+  margin-right:0.9%;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #f4f4f4;
+}
+
+#faq span {
+  display: block;
+  font-weight: bold;
+}
+#sidebar_item_manage_company_m a.dropdown-item:hover {
+  color: #000;
+}
+
+
+.page-wrapper-footer
+{
+  position: fixed; 
+  bottom: 0;
+  width: 100%;
+  float: left;
+}
+
+.page-footer {
+  background-color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #dee2e6;
+}
+.content-container{
+   margin-bottom: 75px;
+}
+
+#content-scroll-page{
+  height: 100vh;
+  overflow-y: auto;
+}
+
+
+#content-scroll-page::-webkit-scrollbar {
+  width: 12px; /* Wider scrollbar */
+}
+
+#content-scroll-page::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Optional: scrollbar track color */
+}
+
+#content-scroll-page::-webkit-scrollbar-thumb {
+  background-color: map-get(bootstrap.$theme-colors, "primary");  /* Scrollbar thumb color */
+  border-radius: 6px;
+  border: 3px solid #f1f1f1; /* Padding inside thumb */
+}
+.required:after {
+  content:" *";
+  color: red;
+}
+h1 {
+  font-size: 1.5rem;
+}
+
+// ............ Start Affinity Admin panel css.........//
+
+.display-mobile {
+  display: none;
+}
+
+
+.tl-accordionSidebar {
+  width: 100% !important;
+  float: left;
+}
+
+.user-image.profile {
+  border-radius: 50px;
+  height: 45px;
+  width: 45px;
+  float: left;
+}
+ul.info {
+  list-style: none;
+  margin-top: 11px;
+}
+.info-log {
+  float: right;
+}
+.img-name h4 {
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #646466;
+  font-weight: 600;
+  float: left;
+  font-size: 16px;
+  margin-top: 3px;
+  margin-bottom: 0px;
+  margin-left: 9px;
+}
+
+.tl-navbar-header{
+  width: 17.5%;
+  float: left;
+}
+.info-log {
+  float: right;
+}
+.tl-logout { 
+  float: left;
+  padding: 9px 50px;
+  margin-top: 3px;
+}
+.img-name h4 {
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #646466;
+  font-weight: 600;
+  float: left;
+  font-size: 16px;
+  margin-top: 3px;
+  margin-bottom: 0px;
+  margin-left: 9px;
+}
+.img-name span {
+  text-transform: lowercase;
+  text-transform: capitalize;
+  font-size: 13.8px;
+  padding: 0 0 0 0px;
+  font-weight: 500;
+}
+.info {
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.switch-zone-btn{
+  height: 30px;
+}
+.tl-admin .sidebar-nav li a:hover {
+  color: #b1bec6;
+}
+.tl-admin .waves-effect.waves-primary {
+  color: #646569;
+}
+.display-mobile-view {
+  display: none;
+}
+#bs-example-navbar-collapse-1 {
+  width: 100%;
+  float: left;
+}
+.tl-admin .navbar.navbar-expand-lg.fixed-top{
+  padding: 6px 0px;
+}
+
+
+.tl-admin .content.content-container{
+  width: 100%;
+  float: left;
+}
+
+.tl-admin{
+  padding-left: 0px!important;
+}
+.tl-admin .tl-container-offset-lr
+{
+  margin-top: 71px;
+  margin-right: 0.5%;
+}
+
+.tl-admin .dropdown-menu.admin-dropdown-menu.show{
+  z-index: 9999;
+}
+
+.border.border-dotted{
+  border:1px dotted gray;
+}
+.border.border-dotted{
+  width:100%; 
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+  border: dashed 1px #cccccc; 
+  border-bottom: 0; 
+  margin:2px 0;
+  padding: 0;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.tl-admin .impact {
+  width: 94%;
+  text-align: center;
+  border-bottom: 1px solid #a4a4a4;
+  line-height: 0.1em;
+  margin: 5px 0px 22px 33px;
+}  
+.tl-admin .impact span {
+  background: #edf0f5;
+  padding: 0 10px;
+  color: #4d4d4d;
+  font-size: 18px;
+  fill: #4d4d4d;
+}
+.tl-admin .card-box-one {
+  box-shadow: 0 0px 0px 0 #ccc;
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 1px solid rgba(54, 64, 74, 0.08);
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.tl-admin .text-success.counter {
+  color: #4d4d4d !important;
+  margin: 0;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 400;
+  padding-top: 10px;
+}
+.tl-admin .all-text-color {
+  color: color.scale(map-get(bootstrap.$theme-colors, "white"));
+  font-size: 16px;
+  text-align: center;
+}
+.tl-admin .text-name {
+  background-color: #418bbb;
+}
+.tl-admin .dropdown-menu > li > a {
+  padding: 2px 20px 2px 10px;
+}
+.tl-admin .dropdown-menu > li > a {
+  color: #777;
+  display: block;
+  font-size: 13px;
+  line-height: 28px;
+}
+.tl-admin .dropdown-menu button, .dropdown-menu a {
+  background: none;
+  margin: 0;
+  padding: 3px 3px 3px 10px;
+  border: 0;
+  text-align: left;
+  width: 100%;
+  font-weight: 400;
+  color: #333;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tl-admin .dropdown-menu > li > a:hover {
+  background-color: #e1e3e9;
+  color: #333;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: map-get(bootstrap.$theme-colors, "primary");
+  border-radius: 10px;
+}
+.tl-admin #accordionSidebar .nav li.nav-item{
+  line-height: 25px;
+}
+#sidebar_item_manage_company_info:hover{
+ background: #d8d8dc!important;
+}
+#sidebar_item_manage_company_info:focus{
+  color: #010101!important;
+ }
+
+.tl-sidebar-wrapper {
+  margin-bottom: 220px;
+  height: 98% !important;
+  overflow-y: auto !important;
+}
+
+.logo-image {
+  display: block;
+  height: auto;
+  max-width: 234px;
+  padding: 0px 8px 8px 24px;
+  width: auto;
+  max-height: 52px;
+}
+.demo2 {
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+}
+.actbtn{
+  width: 20%;
+  float: left;
+}
+.left-margin-14{
+  margin-left: 14px;
+}
+
+@media (max-width: 1950px) {
+  .tl-sidebar-wrapper{
+    height: 88%!important;
+  }
+}
+@media (max-width: 1500px) {
+  .tl-sidebar-wrapper{
+    height: 86%!important;
+  }
+}
+@media (min-width: 768px) {
+  .tl-admin #sidebar-wrapper {
+     width: 18% !important;
+     top: 65px;
+  }
+
+  #bs-example-navbar-collapse-1 .admin-logo {
+    width: 17%; 
+    float: left;
+  }
+}
+
+@media (min-width: 1440px) {
+  .tl-admin .tl-container-offset-lr {
+      float: right;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tl-admin .tl-container-offset-lr {
+       width: 81%;
+       float: right;
+  }
+}
+
+@media (max-width: 640px) {
+  .display-mobile.nav.navbar-nav {
+      background: #fff;
+      margin-bottom: 0;
+      margin-top: 20px;
+  }
+  .display-mobile {
+    display: block;
+  }
+
+ .panel-group.admin-sidebar{
+  background: color.scale(map-get(bootstrap.$theme-colors, "white"));
+  }
+
+  #accordion_m{
+    background:color.scale(map-get(bootstrap.$theme-colors, "white"));
+    width: 100%;
+    //margin-top: 210px;
+    float: left;
+    position: inherit;
+  }
+
+  .sidebar-brand.display-mobile-view{
+       float:left;
+  }
+
+  .tl-admin .sidebar-brand.display-mobile-view{
+    display: block;
+  } 
+  .tl-admin .sidebar-brand.topbar-left{
+    display: none;
+  }
+  .tl-admin .navbar-header.tl-navbar-header{
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .tl-sidebar-wrapper {
+    width: 18.5% !important;
+    top: 69px;
+  }
+  .tl-admin #bs-example-navbar-collapse-1{
+     display: block!important;
+  }
+}

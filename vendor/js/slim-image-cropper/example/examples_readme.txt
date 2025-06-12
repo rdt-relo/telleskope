@@ -1,0 +1,1 @@
+Examples removed on 2022-09-06. See past GIT for examples

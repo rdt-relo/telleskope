@@ -1,0 +1,94 @@
+<div class="container-offset-lr mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card p-3">
+
+                <div class="row align-items-center mb-3">
+                    <div class="col-md-6">
+                        <h1>Manage Zone</h1>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <?php if (empty($zones)) { ?>
+                            <a class="btn btn-outline-primary" href="setup_new_zone" style="margin-left:10px;">Create & Setup a new Zone</a>
+                        <?php } else { ?>
+                            <a class="btn btn-outline-primary" href="createZone">+ Zone</a>
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <?php if ((time() - ($_SESSION['added'] ?? 0)) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <?php if ((time() - ($_SESSION['updated'] ?? 0)) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <?php if ((time() - ($_SESSION['error'] ?? 0)) < 5) { unset($_SESSION['error']); ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Something went wrong. Please try again.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover compact display" id="zone_list">
+                        <thead>
+                            <tr>
+                                <th>Zone Name</th>
+                                <th>App Type</th>
+                                <th>Setting</th>
+                                <th>Zone Collaboration</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($zones as $zone) { ?>
+                                <tr style="<?= $zone['isactive'] == 2 ? 'background-color: rgb(255, 255, 206);' : '' ?>">
+                                    <td><?= $zone['zonename']; ?></td>
+                                    <td><?= ucfirst($zone['app_type']); ?></td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" href="updateZoneSetting?id=<?= base64_encode($zone['zoneid']); ?>">Settings</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" href="zoneCollaboration?id=<?= base64_encode($zone['zoneid']); ?>">Collaboration</a>
+                                    </td>
+                                    <td>
+                                        <?php if ($zone['isactive'] == 1) { ?>
+                                            <a class="btn btn-primary btn-sm confirm" title="<b>Are you sure to deactivate!</b>" href="action?deactivateZone=<?= base64_encode($zone['zoneid']); ?>">Deactivate</a>
+                                        <?php } else { ?>
+                                            <a class="btn btn-primary btn-sm confirm" title="<b>Are you sure to Activate!</b>" href="action?activateZone=<?= base64_encode($zone['zoneid']); ?>">Activate</a>&nbsp;
+                                        <?php } ?>
+                                        <a class="btn btn-primary btn-sm" href="createZone?id=<?= base64_encode($zone['zoneid']); ?>">Edit</a>&nbsp;
+                                        <?php if ($zone['isactive'] == 2) { ?>
+                                            <button class="btn btn-danger btn-sm confirm" onclick="deleteZone('<?= base64_encode($zone['zoneid']) ?>')" title="<b>Are you sure to delete!</b>">Delete</button>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DataTables JS -->
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#zone_list').DataTable({
+        "order": [],
+        "paging": false,
+        "info": false
+    });
+</script>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+</script>

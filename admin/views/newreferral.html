@@ -1,0 +1,81 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+			<?php if(isset($error)){ ?>
+				<div id="hidemesage" class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<?php echo "<font color='ff0000'>".$error."</font>"; ?>
+				</div>
+			<?php } ?>
+				<div class="col-md-12 divider"><h6><?= $id ? "Update Information" : "New Business leader"; ?></h6></div>
+				<form class="form-horizontal" method="post" action="">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<div class="form-group">
+							<label class="col-lg-2 control-label">ERG</label>
+							<div class="col-lg-6">
+								<select class="form-control"  name="groupid" required>
+								<?php if (count($groups)>0){ ?>
+										<option value=''>Select a group</option>
+								<?php	for($i=0;$i<count($groups);$i++){
+											if($id){ if($groups[$i]['groupid']==$edit[0]['groupid']){ $sel='selected'; }else{ $sel = ""; } }else{ $sel=""; }
+											?>	
+											<option  value="<?= $groups[$i]['groupid']?>" <?= $sel; ?> ><?= $groups[$i]['groupname']; ?></option>
+								<?php	} }else{
+											echo "<option value=''>Add ERG First</option>";
+										} ?>
+								</select>
+							</div>
+					</div>
+					<div class="form-group">
+					  <label class="control-label col-lg-2">First Name</label>
+					  <div class="col-lg-6">
+						<input type="text" name="firstname" required class="form-control" value="<?= $id ? $edit[0]['firstname'] : ""; ?>" placeholder="First Name"/>
+					  </div>
+					</div>
+					<div class="form-group">
+					  <label class="control-label col-lg-2">Last Name</label>
+					  <div class="col-lg-6">
+						<input type="text" name="lastname" required class="form-control" value="<?= $id ? $edit[0]['lastname'] : ""; ?>" placeholder="Last Name"/>
+					  </div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2">Email</label>
+						<div class="col-lg-6">
+							<input type="email" name="email" required class="form-control" value="<?= $id ? $edit[0]['email'] : ""; ?>" placeholder="Last Name"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2">Phone</label>
+						<div class="col-lg-6">
+							<input type="text" name="phone" value="<?= $id ? $edit[0]['phone'] : ""; ?>" class="form-control" placeholder="Phone number"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2">Company Name</label>
+						<div class="col-lg-6">
+							<input type="text" name="compnayname" class="form-control" value="<?= $id ? $edit[0]['compnayname'] : ""; ?>" placeholder="Company Name"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2">Comments </label>
+						<div class="col-lg-6">
+							<textarea class="form-control" name="comment" placeholder="Comment here"  rows="5"><?= $id ? $edit[0]['comment'] : ""; ?></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail" class="col-lg-2 control-label"></label>
+						<div class="col-lg-6">
+				<?php if ($id){ ?>
+							<button type="button" onclick="goBack()" class="btn btn-primary">Cancel</button>
+				<?php }else{?>
+							<button type="reset" class="btn btn-primary">Reset</button>
+				<?php } ?>			
+							<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

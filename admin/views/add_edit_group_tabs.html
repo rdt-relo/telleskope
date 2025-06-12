@@ -1,0 +1,144 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<style>
+	.btn-block {
+		background: #418bbb9c;		
+	}
+	
+</style>
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">     
+        <div class="col-md-12">
+			<div class="widget-simple-chart card-box ">			
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+				</div>
+				
+				<p>&nbsp;</p>
+			<div class="clearfix"></div> 
+            <div class="col-md-12">
+                <div class="container w4">
+                    <div class="col-md-12 discu-pad">  
+                        <div class="container">
+                            <?php if((time()- @$_SESSION['error']) < 5){ ?>
+                                <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                                    <?=  $_SESSION['add-msg']; ?>
+                                </div>
+                            <?php } ?>
+                            <form class="form-horizontal" id="add_edit_group" method="post" action="" style="max-width: 1000px;">
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+
+                                <div class="form-group">
+                                    <label class="control-lable" >Tabs Type <span style="color:red;">*</span></label>
+                                    <div class="">
+                                    <select class="form-control" name="tabstype" id="selectionType" <?php if ($edit && $edit['tab_type'] != "") { ?>disabled="disabled"<?php } ?> required>    
+                                            <option disabled selected value> -- Select an option -- </option>
+                                            <?php if ($_COMPANY->getAppCustomization()['group']['tabs']['yammer']) { ?>                             
+                                            <option value="yammer"  <?php if ($edit && $edit['tab_type'] ==  "yammer") { ?>selected="selected"<?php } ?>>Viva Engage / Yammer</option>
+
+                                            
+                                            <?php }?>
+                                            <?php if ($_COMPANY->getAppCustomization()['group']['tabs']['streams']) { ?>    
+                                            <option value="streams" <?php if ($edit && $edit['tab_type'] == "streams") { ?>selected="selected"<?php } ?>>Streams</option>
+                                            <?php }?>
+
+                                            <?php if ($_COMPANY->getAppCustomization()['group']['tabs']['custom']) { ?>
+                                                <option value="custom" <?php if ($edit && $edit['tab_type'] == "custom") { ?>selected="selected"<?php } ?>>Generic HTML</option>
+                                            <?php }?>
+                                           
+                                        </select>                                      
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-lable" >Tab Title <span style="color:red;">*</span></label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="tabname" name="tabname" value="<?= $tabid > 0 ? $edit['tab_name'] : ''; ?>" placeholder="Add title..." required>
+                                    </div>
+                                </div>
+
+								<div class="form-group">
+                                    <label class="control-lable" >Tab Details <span style="color:red;">*</span></label>
+                                    <div  id="post-inner" class="">
+                                        <textarea class="form-control" name="tabdescription" rows="6" id="redactor_content_tabs" required placeholder="Tab details..."><?= $tabid ? htmlspecialchars($edit['tab_html']) : ''; ?></textarea>
+                                    </div>                                    
+                                </div>
+
+                                <div class="form-group" id="iframe_sample_for_yammer" style="display:none;">
+                                    <div class="col-sm-12">
+                                        Viva Engage Iframe Sample<br>
+                                        Before using replace <span style="color: red;"> {{yammer_groupid}}</span> with your viva engage group id.<br>
+                                        <br>
+                                        <?php echo htmlentities('<iframe name="embed-feed" title="Viva Engage" src="https://web.yammer.com/embed/groups/{{yammer_groupid}}?header=false" style="border: 0px; overflow: hidden; width: 100%; height: 100%; min-height: 800px;"></iframe>');?>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="iframe_sample_for_streams" style="display:none;">
+                                    <div class="col-sm-12" >
+                                        Streams Iframe Sample<br>
+                                        Before using replace <span style="color: red;"> {{streams_channel_id}}</span> with your streams channel id.<br>
+                                        <br>
+                                        <?php echo htmlentities('<iframe width="900" height="540" src="https://web.microsoftstream.com/embed/channel/{{streams_channel_id}}?sort=trending" style="border:none;"></iframe>');?>
+                                    </div>
+                                </div>                                 
+
+								<div class="form-group">
+                                    <div class="col-sm-12" style="text-align: center;">
+                                        <input type="submit"  class="btn btn-primary" name="submit" value="Save" />
+                                        <a  class="btn btn-primary" href="tab_type?gid=<?=$_COMPANY->encodeId($groupid)?>">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+	</div>								
+</div>
+</div>
+</div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+    <?php if($edit && $edit['tab_type'] == "custom"){  ?>
+        var fontColors = <?= $fontColors; ?>;
+        var resizableimages = true;
+        $R('#redactor_content_tabs', 'destroy');
+        $('#redactor_content_tabs').initRedactor('redactor_content_tabs', 'group_tabs',['video','fontcolor','counter','fontsize'],fontColors,resizableimages);
+
+    <?php } ?>
+    
+});
+
+$("#selectionType").on("change", function() {
+    var customTabType = $("#selectionType option:selected").val();
+    var tabDesPlaceholder = "Tab details...";
+    if (customTabType == 'yammer') {
+        $R('#redactor_content_tabs', 'destroy');
+        tabDesPlaceholder = "Enter viva engage / yammer iframe...";
+        $("#iframe_sample_for_streams").css("display","none");
+        $("#iframe_sample_for_yammer").css("display","block");
+        $("#tab-desc").attr("placeholder", tabDesPlaceholder);
+
+    } else if (customTabType == 'streams') {
+        $R('#redactor_content_tabs', 'destroy');
+        tabDesPlaceholder = "Enter streams iframe...";
+        $("#iframe_sample_for_yammer").css("display","none");
+        $("#iframe_sample_for_streams").css("display","block");
+        $("#tab-desc").attr("placeholder", tabDesPlaceholder);
+        
+    } else if(customTabType == 'custom'){
+        var fontColors = <?= $fontColors; ?>;
+        var resizableimages = true;
+        $R('#redactor_content_tabs', 'destroy');
+        $('#redactor_content_tabs').initRedactor('redactor_content_tabs', 'group_tabs',['video','fontcolor','counter','fontsize'],fontColors,resizableimages);
+        
+        $("#iframe_sample_for_yammer").css("display","none");
+        $("#iframe_sample_for_streams").css("display","none");
+
+    }
+});
+</script>

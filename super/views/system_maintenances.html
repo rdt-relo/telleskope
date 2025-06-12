@@ -1,0 +1,82 @@
+<?php if (0) {?>
+    <div class="container col-md-offset-2 margin-top">
+        <div class="row">              
+            <div class="col-md-12">
+                <div class="widget-simple-chart card-box">
+                <div class="col-xs-12 col-sm-6 col-md-6"><h6>System Maintenances:</h6></div>
+                    <div class="clearfix"></div>
+                
+                    <?php if (isset($_GET['msg'])){
+                        if (base64_decode($_GET['msg'])==8){?>
+                        <div id="hidemesage" class="col-md-12">
+                            <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <?php echo "<font color='ff0000'>".getmsg(base64_decode($_GET['msg']))."</font>"; ?>
+                            </div>
+                        </div>
+                <?php }else{?>
+                        <div id="hidemesage" class="col-md-12">	
+                            <div class="alert alert-dismissible alert-info">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <?php echo getmsg(base64_decode($_GET['msg']));?>
+                            </div>
+                        </div>
+                <?php } }else{ 
+                        if (isset($message)){ ?>
+                        
+                        <div id="hidemesage" class="col-md-12">	
+                            <div class="alert alert-dismissible alert-info">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <?php echo $message;?>
+                            </div>
+                        </div>
+                <?php } }?>
+                <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= UPDATED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ADDED; ?>
+                    </div>
+                <?php } ?>
+                    <div class="clearfix"></div>
+                    <div class="table-responsive ">
+                        <table id="table" class="table table-hover display compact">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Subject</th>
+                                    <th width="25%">To</th>
+                                    <th width="40%">Message</th>
+                                    <th width="10%">Date</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<?php } else { ?>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        Todo - Not  implemented yet.
+    </div>
+</div>
+	<?php }  ?>
+            <script>
+            jQuery("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                jQuery("#wrapper").toggleClass("toggled");
+            });
+            </script>
+            <script>
+            $("#sidebar-wrapper ul li:nth-child(11)").addClass("myactive");
+        </script>
+            
+        </body>
+    </html>

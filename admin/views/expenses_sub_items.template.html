@@ -1,0 +1,56 @@
+<div class="modal fade" id="expenses_sub_item_modal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sub items list</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12">
+                <div class="table-responsive ">
+                    <table  class="table display" id="subItemsTable" style="width:100%;" summary="This table display the list of expenses">
+                        <thead>
+                            <tr>
+                              <th width="30%" scope="col">Expense Item </th>
+                              <th width="50%" scope="col">Detail</th>
+                                <th width="10%" scope="col">Budget</th>
+                              <th width="10%" scope="col">Expense</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php for($i=0;$i<count($data);$i++){ ?>
+                            <tr>
+                              <td><?= htmlspecialchars($data[$i]['expensetype']); ?></td>
+                              <td><?= htmlspecialchars($data[$i]['item']); ?></td>
+                              <td><?= $_COMPANY->getCurrencySymbol().number_format($data[$i]['item_budgeted_amount'],2); ?></td>
+                              <td><?= $_COMPANY->getCurrencySymbol().number_format($data[$i]['item_used_amount'],2); ?></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?= $expense_entry->renderAttachmentsComponent('v29') ?>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= gettext("Close")?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+  <script>
+      $(document).ready(function() {
+          
+          $('#subItemsTable').DataTable( {
+            "searching": false,
+            "paging":   false,
+            "ordering": false,
+            "info":     false
+
+              
+          } );
+      } );
+  </script>

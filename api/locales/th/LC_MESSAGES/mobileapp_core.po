@@ -1,0 +1,3681 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-05-09 20:31+0530\n"
+"PO-Revision-Date: 2025-05-09 20:31+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: index_v3_4.php:29 index_v3_4.php:35 index_v3_4.php:54
+msgid "Authentication Token is Invalid"
+msgstr "โทเค็นการตรวจสอบความถูกต้องไม่ถูกต้อง"
+
+#: index_v3_4.php:40
+msgid "Session not found"
+msgstr "ไม่พบเซสชัน"
+
+#: index_v3_4.php:49 index_v3_4.php:94 index_v3_4.php:372 index_v3_4.php:596 index_v3_4.php:1073
+#: index_v3_4.php:1272 index_v3_4.php:1748 index_v3_4.php:1817 index_v3_4.php:1855
+#: index_v3_4.php:1929 index_v3_4.php:1979 index_v3_4.php:2327 index_v3_4.php:2421
+#: index_v3_4.php:2480 index_v3_4.php:2557 index_v3_4.php:2955 index_v3_4.php:3073
+#: index_v3_4.php:3151 index_v3_4.php:3184 index_v3_4.php:3235 index_v3_4.php:3272
+#: index_v3_4.php:3299 index_v3_4.php:3331 index_v3_4.php:3422 index_v3_4.php:3441
+#: index_v3_4.php:3487 index_v3_4.php:3532 index_v3_4.php:3551 index_v3_4.php:3597
+#: index_v3_4.php:3624 index_v3_4.php:3706 index_v3_4.php:3779 index_v3_4.php:3828
+#: index_v3_4.php:3924 index_v3_4.php:3951 index_v3_4.php:4023 index_v3_4.php:4139
+#: index_v3_4.php:4227 index_v3_4.php:4277 index_v3_4.php:4303 index_v3_4.php:4335
+#: index_v3_4.php:4368 index_v3_4.php:4408 index_v3_4.php:4489 index_v3_4.php:4551
+#: index_v3_4.php:4578 index_v3_4.php:4619 index_v3_4.php:4665 index_v3_4.php:4699
+#: index_v3_4.php:4734 index_v3_4.php:4763 index_v3_4.php:4796 index_v3_4.php:4826
+#: index_v3_4.php:4880 index_v3_4.php:4906 index_v3_4.php:4939 index_v3_4.php:5033
+#: index_v3_4.php:5062 index_v3_4.php:5120 index_v3_4.php:5239 index_v3_4.php:5450
+#: index_v3_4.php:5477 index_v3_4.php:5512 index_v3_4.php:5537 index_v3_4.php:5590
+#: index_v3_4.php:5611 index_v3_4.php:5670 index_v3_4.php:5732 index_v3_4.php:5806
+#: index_v3_4.php:5924 index_v3_4.php:5960 index_v3_4.php:6075 index_v3_4.php:6102
+#: index_v3_4.php:6152 index_v3_4.php:6178 index_v3_4.php:6209 index_v3_4.php:6563
+#: index_v3_4.php:6746 index_v3_4.php:6947 index_v3_4.php:6995 index_v3_4.php:7056
+#: index_v3_4.php:7103 index_v3_4.php:7184 index_v3_4.php:7258 index_v3_4.php:7338
+#: index_v3_4.php:7400 index_v3_4.php:7447 index_v3_4.php:7492 index_v3_4.php:7591
+#: index_v3_4.php:7658 index_v3_4.php:7699 index_v3_4.php:7740 index_v3_4.php:7943
+#: index_v3_4.php:7987 index_v3_4.php:8029 index_v3_4.php:8121 index_v3_4.php:8232
+#: index_v3_4.php:8329 index_v3_4.php:8391 index_v3_4.php:8417 index_v3_4.php:8468
+#: index_v3_4.php:8521 index_v3_4.php:8556 index_v3_4.php:8604 index_v3_4.php:8635
+#: index_v3_4.php:8665 index_v3_4.php:8694 index_v3_4.php:8728 index_v3_4.php:8875
+#: index_v3_4.php:8900 index_v3_4.php:9099 index_v3_4.php:9162 index_v3_4.php:9212
+#: index_v3_4.php:9253 index_v3_4.php:9309 index_v3_4.php:9335 index_v3_4.php:9367
+#: index_v3_4.php:9418 index_v3_4.php:9464 index_v3_4.php:9528 index_v3_4.php:9564
+#: index_v3_4.php:9631 index_v3_4.php:9659 index_v3_4.php:9684 index_v3_4.php:9708
+#: index_v3_4.php:9772
+#, php-format
+msgid "%s can't be empty"
+msgstr "%s ต้องไม่ว่างเปล่า"
+
+#: index_v3_4.php:64
+msgid "Invalid or Expired Authentication Token"
+msgstr "โทเค็นการตรวจสอบความถูกต้องไม่ถูกต้องหรือหมดอายุ"
+
+#: index_v3_4.php:88
+msgid "Unable to assign a zone, please sign in into web application to complete your account setup."
+msgstr "ไม่สามารถกำหนดโซนได้ โปรดลงชื่อเข้าใช้เว็บแอปพลิเคชันเพื่อตั้งค่าบัญชีของคุณให้เสร็จสมบูรณ์"
+
+#: index_v3_4.php:101
+msgid "Welcome! You have signed in successfully."
+msgstr "ยินดีต้อนรับ! คุณลงชื่อเข้าใช้สำเร็จแล้ว"
+
+#: index_v3_4.php:103
+msgid "Your mobile application session has expired. Please sign in again."
+msgstr "เซสชันแอปพลิเคชันมือถือของคุณหมดอายุแล้ว โปรดลงชื่อเข้าใช้อีกครั้ง"
+
+#: index_v3_4.php:114
+msgid "Method not exist"
+msgstr "ไม่มีวิธีการ"
+
+#: index_v3_4.php:117
+msgid "Please select a method"
+msgstr "กรุณาเลือกวิธีการ"
+
+#: index_v3_4.php:139 index_v3_4.php:307 index_v3_4.php:329 index_v3_4.php:355 index_v3_4.php:366
+#: index_v3_4.php:416 index_v3_4.php:461 index_v3_4.php:590 index_v3_4.php:621 index_v3_4.php:1067
+#: index_v3_4.php:1090 index_v3_4.php:1266 index_v3_4.php:1703 index_v3_4.php:1742
+#: index_v3_4.php:1811 index_v3_4.php:1849 index_v3_4.php:1923 index_v3_4.php:1973
+#: index_v3_4.php:2320 index_v3_4.php:2334 index_v3_4.php:2414 index_v3_4.php:2427
+#: index_v3_4.php:2474 index_v3_4.php:2526 index_v3_4.php:2551 index_v3_4.php:2564
+#: index_v3_4.php:2948 index_v3_4.php:2995 index_v3_4.php:3067 index_v3_4.php:3123
+#: index_v3_4.php:3145 index_v3_4.php:3178 index_v3_4.php:3210 index_v3_4.php:3229
+#: index_v3_4.php:3266 index_v3_4.php:3293 index_v3_4.php:3325 index_v3_4.php:3416
+#: index_v3_4.php:3435 index_v3_4.php:3481 index_v3_4.php:3525 index_v3_4.php:3545
+#: index_v3_4.php:3591 index_v3_4.php:3618 index_v3_4.php:3700 index_v3_4.php:3773
+#: index_v3_4.php:3820 index_v3_4.php:3917 index_v3_4.php:3945 index_v3_4.php:4017
+#: index_v3_4.php:4132 index_v3_4.php:4145 index_v3_4.php:4221 index_v3_4.php:4271
+#: index_v3_4.php:4297 index_v3_4.php:4329 index_v3_4.php:4362 index_v3_4.php:4378
+#: index_v3_4.php:4402 index_v3_4.php:4483 index_v3_4.php:4508 index_v3_4.php:4545
+#: index_v3_4.php:4572 index_v3_4.php:4613 index_v3_4.php:4659 index_v3_4.php:4693
+#: index_v3_4.php:4728 index_v3_4.php:4757 index_v3_4.php:4790 index_v3_4.php:4820
+#: index_v3_4.php:4874 index_v3_4.php:4900 index_v3_4.php:4933 index_v3_4.php:5023
+#: index_v3_4.php:5056 index_v3_4.php:5087 index_v3_4.php:5114 index_v3_4.php:5138
+#: index_v3_4.php:5233 index_v3_4.php:5422 index_v3_4.php:5441 index_v3_4.php:5471
+#: index_v3_4.php:5484 index_v3_4.php:5506 index_v3_4.php:5531 index_v3_4.php:5584
+#: index_v3_4.php:5605 index_v3_4.php:5664 index_v3_4.php:5726 index_v3_4.php:5782
+#: index_v3_4.php:5800 index_v3_4.php:5918 index_v3_4.php:5953 index_v3_4.php:5966
+#: index_v3_4.php:6069 index_v3_4.php:6096 index_v3_4.php:6146 index_v3_4.php:6172
+#: index_v3_4.php:6203 index_v3_4.php:6236 index_v3_4.php:6258 index_v3_4.php:6557
+#: index_v3_4.php:6569 index_v3_4.php:6740 index_v3_4.php:6752 index_v3_4.php:6941
+#: index_v3_4.php:6953 index_v3_4.php:6989 index_v3_4.php:7001 index_v3_4.php:7050
+#: index_v3_4.php:7062 index_v3_4.php:7097 index_v3_4.php:7109 index_v3_4.php:7178
+#: index_v3_4.php:7190 index_v3_4.php:7252 index_v3_4.php:7264 index_v3_4.php:7332
+#: index_v3_4.php:7354 index_v3_4.php:7360 index_v3_4.php:7394 index_v3_4.php:7416
+#: index_v3_4.php:7441 index_v3_4.php:7461 index_v3_4.php:7486 index_v3_4.php:7566
+#: index_v3_4.php:7585 index_v3_4.php:7608 index_v3_4.php:7652 index_v3_4.php:7664
+#: index_v3_4.php:7693 index_v3_4.php:7705 index_v3_4.php:7734 index_v3_4.php:7746
+#: index_v3_4.php:7936 index_v3_4.php:7949 index_v3_4.php:7980 index_v3_4.php:7993
+#: index_v3_4.php:8022 index_v3_4.php:8035 index_v3_4.php:8114 index_v3_4.php:8127
+#: index_v3_4.php:8226 index_v3_4.php:8323 index_v3_4.php:8335 index_v3_4.php:8346
+#: index_v3_4.php:8385 index_v3_4.php:8411 index_v3_4.php:8427 index_v3_4.php:8451
+#: index_v3_4.php:8462 index_v3_4.php:8474 index_v3_4.php:8514 index_v3_4.php:8550
+#: index_v3_4.php:8598 index_v3_4.php:8629 index_v3_4.php:8659 index_v3_4.php:8688
+#: index_v3_4.php:8722 index_v3_4.php:8869 index_v3_4.php:8894 index_v3_4.php:8906
+#: index_v3_4.php:9093 index_v3_4.php:9106 index_v3_4.php:9156 index_v3_4.php:9169
+#: index_v3_4.php:9206 index_v3_4.php:9219 index_v3_4.php:9247 index_v3_4.php:9259
+#: index_v3_4.php:9303 index_v3_4.php:9329 index_v3_4.php:9360 index_v3_4.php:9412
+#: index_v3_4.php:9458 index_v3_4.php:9522 index_v3_4.php:9558 index_v3_4.php:9625
+#: index_v3_4.php:9653 index_v3_4.php:9678 index_v3_4.php:9702 index_v3_4.php:9734
+#: index_v3_4.php:9766
+msgid "Bad request"
+msgstr "คำขอไม่ดี"
+
+#: index_v3_4.php:183
+msgid "Profile data"
+msgstr "ข้อมูลโปรไฟล์"
+
+#: index_v3_4.php:311
+msgid "You are now signed out. See you later"
+msgstr "คุณออกจากระบบแล้ว แล้วเจอกันนะ"
+
+#: index_v3_4.php:314 index_v3_4.php:439 index_v3_4.php:3733 index_v3_4.php:3756 index_v3_4.php:4389
+#: index_v3_4.php:5127 index_v3_4.php:5429 index_v3_4.php:9512 index_v3_4.php:9547
+#: index_v3_4.php:9642 index_v3_4.php:9667 index_v3_4.php:9692 index_v3_4.php:9794
+msgid "Something went wrong. Please try again."
+msgstr "มีบางอย่างผิดปกติ โปรดลองอีกครั้ง"
+
+#: index_v3_4.php:335
+msgid "Notifications are OFF now."
+msgstr "การแจ้งเตือนปิดอยู่ในขณะนี้"
+
+#: index_v3_4.php:339
+msgid "Notifications are ON now."
+msgstr "การแจ้งเตือนเปิดอยู่ในขณะนี้"
+
+#: index_v3_4.php:358
+msgid "All branches list"
+msgstr "รายชื่อสาขาทั้งหมด"
+
+#: index_v3_4.php:397
+msgid "Profile picture uploaded successfully"
+msgstr "อัพโหลดรูปโปรไฟล์เรียบร้อยแล้ว"
+
+#: index_v3_4.php:400
+msgid "Uploading error! Please try again"
+msgstr "ข้อผิดพลาดในการอัปโหลด! กรุณาลองอีกครั้ง"
+
+#: index_v3_4.php:403
+msgid "Maximum allowed size of profile picture is 2MB"
+msgstr "ขนาดรูปโปรไฟล์สูงสุดที่อนุญาตคือ 2MB"
+
+#: index_v3_4.php:406
+msgid "Only .jpg,.jpeg,.png files are allowed"
+msgstr "อนุญาตเฉพาะไฟล์ .jpg,.jpeg,.png เท่านั้น"
+
+#: index_v3_4.php:437
+msgid "Profile updated successfully"
+msgstr "อัพเดทโปรไฟล์เรียบร้อยแล้ว"
+
+#: index_v3_4.php:511
+#, php-format
+msgid "Click on any %s tile to join!"
+msgstr "คลิกที่ไทล์ %s ใดก็ได้เพื่อเข้าร่วม!"
+
+#: index_v3_4.php:520
+msgid "All groups"
+msgstr "ทุกกลุ่ม"
+
+#: index_v3_4.php:522
+msgid "No groups found"
+msgstr "ไม่พบกลุ่ม"
+
+#: index_v3_4.php:655 index_v3_4.php:1134 locales/source/app_locales_strings.php:270
+msgid "Manage Registration"
+msgstr "จัดการการลงทะเบียน"
+
+#: index_v3_4.php:655 index_v3_4.php:1134 index_v3_4.php:8823
+#: locales/source/app_locales_strings.php:368
+msgid "Register"
+msgstr "สมัครสมาชิก"
+
+#: index_v3_4.php:678 index_v3_4.php:1253
+msgid "Group detail"
+msgstr "รายละเอียดกลุ่ม"
+
+#: index_v3_4.php:680 index_v3_4.php:1255 index_v3_4.php:1727 index_v3_4.php:1796 index_v3_4.php:1835
+#: index_v3_4.php:1908
+msgid "Group not found"
+msgstr "ไม่พบกลุ่ม"
+
+#: index_v3_4.php:762
+msgid "Group events"
+msgstr "งานกลุ่ม"
+
+#: index_v3_4.php:764 index_v3_4.php:1052 index_v3_4.php:1414 index_v3_4.php:1667 index_v3_4.php:3054
+#: index_v3_4.php:5221 index_v3_4.php:5224
+msgid "No events"
+msgstr "ไม่มีกิจกรรม"
+
+#: index_v3_4.php:804 index_v3_4.php:1454
+msgid "Group members"
+msgstr "สมาชิกกลุ่ม"
+
+#: index_v3_4.php:857
+msgid "About us"
+msgstr "เกี่ยวกับเรา"
+
+#: index_v3_4.php:910 index_v3_4.php:1511
+msgid "Group newsletters"
+msgstr "จดหมายข่าวกลุ่ม"
+
+#: index_v3_4.php:912 index_v3_4.php:1513
+msgid "No newsletters"
+msgstr "ไม่มีจดหมายข่าว"
+
+#: index_v3_4.php:991 index_v3_4.php:1599
+msgid "Discussions list"
+msgstr "รายการสนทนา"
+
+#: index_v3_4.php:1050 index_v3_4.php:1665
+msgid "Group past events"
+msgstr "จัดกลุ่มกิจกรรมที่ผ่านมา"
+
+#: index_v3_4.php:1057 index_v3_4.php:1672
+msgid "Please select a section"
+msgstr "กรุณาเลือกส่วน"
+
+#: index_v3_4.php:1158 index_v3_4.php:1290 index_v3_4.php:2360 index_v3_4.php:2449
+#: index_v3_4.php:2573 index_v3_4.php:4163 index_v3_4.php:4497 index_v3_4.php:5681
+#: index_v3_4.php:5740
+#, php-format
+msgid "This is a private %1$s. Only members can view the content."
+msgstr "นี่คือ %1$s ส่วนตัว เฉพาะสมาชิกเท่านั้นที่สามารถดูเนื้อหาได้"
+
+#: index_v3_4.php:1158
+#, php-format
+msgid ""
+" If you recently joined, your access might take a few moments. Try reloading the page after a few "
+"seconds to see the content."
+msgstr " หากคุณเพิ่งเข้าร่วม การเข้าถึงของคุณอาจใช้เวลาสักครู่ ลองโหลดหน้าซ้ำหลังจากผ่านไปสักครู่เพื่อดูเนื้อหา"
+
+#: index_v3_4.php:1163 locales/source/app_locales_strings.php:47
+msgid "About Us"
+msgstr "เกี่ยวกับเรา"
+
+#: index_v3_4.php:1171
+msgid "Donations"
+msgstr "การบริจาค"
+
+#: index_v3_4.php:1189 locales/source/app_locales_strings.php:44
+msgid "Events"
+msgstr "กิจกรรม"
+
+#: index_v3_4.php:1197 locales/source/app_locales_strings.php:45
+msgid "Newsletters"
+msgstr "จดหมายข่าว"
+
+#: index_v3_4.php:1205 locales/source/app_locales_strings.php:184
+msgid "Resources"
+msgstr "ทรัพยากร"
+
+#: index_v3_4.php:1213 locales/source/app_locales_strings.php:134
+msgid "Albums"
+msgstr "อัลบัม"
+
+#: index_v3_4.php:1222
+#, php-format
+msgid "My %s"
+msgstr "%sสะสมส่วนลด"
+
+#: index_v3_4.php:1231 locales/source/app_locales_strings.php:154
+msgid "Discussions"
+msgstr "สนทนา"
+
+#: index_v3_4.php:1317
+msgid "Announcements list"
+msgstr "รายการประกาศ"
+
+#: index_v3_4.php:1319
+msgid "No announcements"
+msgstr "ไม่มีประกาศ"
+
+#: index_v3_4.php:1412
+msgid "Events lists"
+msgstr "รายการกิจกรรม"
+
+#: index_v3_4.php:1709
+msgid " can't be empty"
+msgstr " ว่างเปล่าไม่ได้"
+
+#: index_v3_4.php:1722
+msgid "About chapter"
+msgstr "เกี่ยวกับบท"
+
+#: index_v3_4.php:1724
+msgid "Chapter not found"
+msgstr "ไม่พบบท"
+
+#: index_v3_4.php:1791
+msgid "Chapter members list."
+msgstr "รายชื่อสมาชิกบท"
+
+#: index_v3_4.php:1793
+msgid "Chapter members listing not allowed"
+msgstr "ไม่อนุญาตให้สมาชิกบทลงรายการ"
+
+#: index_v3_4.php:1830
+msgid "About channel"
+msgstr "เกี่ยวกับช่อง"
+
+#: index_v3_4.php:1832
+msgid "Channel not found"
+msgstr "ไม่พบช่อง"
+
+#: index_v3_4.php:1903
+msgid "Channel members list."
+msgstr "รายชื่อสมาชิกช่อง."
+
+#: index_v3_4.php:1905
+msgid "Channel members listing not allowed"
+msgstr "ไม่อนุญาตให้สมาชิกช่องลงรายการ"
+
+#: index_v3_4.php:1956
+msgid "Joined groups"
+msgstr "เข้าร่วมกลุ่ม"
+
+#: index_v3_4.php:1958 index_v3_4.php:9757
+msgid "No groups joined"
+msgstr "ไม่มีกลุ่มเข้าร่วม"
+
+#: index_v3_4.php:2007
+msgid "No content available"
+msgstr "ไม่มีเนื้อหา"
+
+#: index_v3_4.php:2301
+msgid "All feeds"
+msgstr "ฟีดทั้งหมด"
+
+#: index_v3_4.php:2339
+#, php-format
+msgid "Access denied. The %s feature is disabled. Please contact your administrator."
+msgstr "ปฏิเสธการเข้าใช้. คุณลักษณะ %s ถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:2396
+msgid "Post detail"
+msgstr "รายละเอียดโพสต์"
+
+#: index_v3_4.php:2398 index_v3_4.php:2511
+msgid "It seems this announcement has been removed."
+msgstr "ดูเหมือนว่าประกาศนี้จะถูกลบออก"
+
+#: index_v3_4.php:2432
+msgid "Access denied. The newsletter feature is disabled. Please contact your administrator."
+msgstr "ปฏิเสธการเข้าใช้. คุณลักษณะจดหมายข่าวถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:2458
+msgid "Newsletter detail"
+msgstr "รายละเอียดจดหมายข่าว"
+
+#: index_v3_4.php:2460
+msgid "It seems this newsletter has been removed."
+msgstr "ดูเหมือนว่าจดหมายข่าวนี้จะถูกลบออก"
+
+#: index_v3_4.php:2498 index_v3_4.php:2505 index_v3_4.php:4246 index_v3_4.php:4253
+#: index_v3_4.php:4847 index_v3_4.php:4854 index_v3_4.php:6121 index_v3_4.php:6128
+#: index_v3_4.php:8362 index_v3_4.php:8369 index_v3_4.php:8574 index_v3_4.php:8581
+#: index_v3_4.php:9283 index_v3_4.php:9290
+msgid "Comment added"
+msgstr "ความคิดเห็นที่เพิ่ม"
+
+#: index_v3_4.php:2500 index_v3_4.php:2507 index_v3_4.php:4005 index_v3_4.php:4248
+#: index_v3_4.php:4255 index_v3_4.php:4849 index_v3_4.php:4856 index_v3_4.php:6123
+#: index_v3_4.php:6130 index_v3_4.php:8364 index_v3_4.php:8371 index_v3_4.php:8576
+#: index_v3_4.php:8583 index_v3_4.php:9285 index_v3_4.php:9292
+msgid "Something went wrong! Please try again."
+msgstr "บางอย่างผิดพลาด! กรุณาลองอีกครั้ง."
+
+#: index_v3_4.php:2538
+msgid "All departments"
+msgstr "ทุกหน่วยงาน"
+
+#: index_v3_4.php:2655 locales/source/app_locales_strings.php:325
+msgid "This event is over"
+msgstr "กิจกรรมนี้จบลงแล้ว"
+
+#: index_v3_4.php:2657
+msgid "Sorry, this Event RSVP has closed. We are no longer accepting RSVP updates for this event."
+msgstr "ขออภัย การตอบรับคำเชิญเข้าร่วมกิจกรรมนี้ปิดลงแล้ว เราจะไม่รับอัปเดตการตอบรับคำเชิญเข้าร่วมกิจกรรมนี้อีกต่อไป"
+
+#: index_v3_4.php:2737
+msgid "Please confirm!"
+msgstr "กรุณายืนยัน!"
+
+#: index_v3_4.php:2738
+msgid "Are you sure your want to sign up for this role?"
+msgstr "คุณแน่ใจหรือว่าต้องการลงชื่อสมัครใช้บทบาทนี้"
+
+#: index_v3_4.php:2749
+msgid "Note: If you sign up for a role, your RSVP for this event will be automatically added."
+msgstr "หมายเหตุ: หากคุณลงทะเบียนสำหรับบทบาท การตอบรับคำเชิญของคุณสำหรับกิจกรรมนี้จะถูกเพิ่มโดยอัตโนมัติ"
+
+#: index_v3_4.php:2778 index_v3_4.php:2798
+msgid "Update"
+msgstr "ปรับปรุง"
+
+#: index_v3_4.php:2779
+msgid "Post event survey responses"
+msgstr "การตอบแบบสำรวจหลังกิจกรรม"
+
+#: index_v3_4.php:2781
+msgid "Respond"
+msgstr "ตอบกลับ"
+
+#: index_v3_4.php:2782
+msgid "Post event survey is available"
+msgstr "มีแบบสำรวจหลังกิจกรรม"
+
+#: index_v3_4.php:2797
+msgid "Pre event survey responses"
+msgstr "การตอบแบบสำรวจก่อนกิจกรรม"
+
+#: index_v3_4.php:2828
+msgid ""
+"Before accepting the waiver, please read the disclaimer. Click the disclaimer title to see the "
+"full details."
+msgstr "ก่อนยอมรับการสละสิทธิ์ โปรดอ่านข้อจำกัดความรับผิดชอบ คลิกที่หัวข้อข้อจำกัดความรับผิดชอบเพื่อดูรายละเอียดทั้งหมด"
+
+#: index_v3_4.php:2844
+#, php-format
+msgid "By typing in <strong><i>%s</i></strong> below, I provide my consent"
+msgstr "โดยการพิมพ์ <strong><i>%s</i></strong> ด้านล่าง ฉันยินยอม"
+
+#: index_v3_4.php:2844
+msgid "I Agree"
+msgstr "ฉันยอมรับ"
+
+#: index_v3_4.php:2850
+msgid "In order to RSVP for this Event please accept the Event Waivers above."
+msgstr "เพื่อตอบรับการเข้าร่วมกิจกรรมนี้ โปรดยอมรับการสละสิทธิ์กิจกรรมข้างต้น"
+
+#: index_v3_4.php:2863
+msgid "RSVPs are not required for this event."
+msgstr "ไม่จำเป็นต้องตอบรับคำเชิญสำหรับกิจกรรมนี้"
+
+#: index_v3_4.php:2868 locales/source/app_locales_strings.php:74
+msgid "Event Detail"
+msgstr "รายละเอียดกิจกรรม"
+
+#: index_v3_4.php:2870 index_v3_4.php:2980 index_v3_4.php:3282 index_v3_4.php:8587
+#: index_v3_4.php:8619 index_v3_4.php:8649
+msgid "It seems this event has been removed."
+msgstr "ดูเหมือนว่ากิจกรรมนี้จะถูกลบออก"
+
+#: index_v3_4.php:2936
+msgid "Deprecated method"
+msgstr "วิธีการเลิกใช้"
+
+#: index_v3_4.php:2968 locales/source/app_locales_strings.php:459
+#, php-format
+msgid ""
+"Thank you for RSVPing %s to this event. Your RSVP has been recorded, and you will receive an email "
+"with a corresponding calendar hold."
+msgstr ""
+"ขอขอบคุณที่ตอบรับคำเชิญเข้าร่วมกิจกรรมนี้ %s เราได้รับบันทึกการตอบรับคำเชิญของคุณแล้ว "
+"และคุณจะได้รับอีเมลพร้อมข้อมูลปฏิทินที่เกี่ยวข้อง"
+
+#: index_v3_4.php:2970
+msgid "Thank you for RSVPing \""
+msgstr "ขอขอบคุณสำหรับการตอบรับคำเชิญ \""
+
+#: index_v3_4.php:2974
+msgid "Something went wrong! Please try again"
+msgstr "บางอย่างผิดพลาด! กรุณาลองอีกครั้ง"
+
+#: index_v3_4.php:2977 index_v3_4.php:3760
+msgid "Not a valid type"
+msgstr "ไม่ใช่ประเภทที่ถูกต้อง"
+
+#: index_v3_4.php:3000 index_v3_4.php:5143
+msgid "Event feature is disabled"
+msgstr "ฟีเจอร์กิจกรรมถูกปิดใช้งาน"
+
+#: index_v3_4.php:3013
+msgid "Past events"
+msgstr "เหตุการณ์ที่ผ่านมา"
+
+#: index_v3_4.php:3024
+msgid "Upcoming events"
+msgstr "เหตุการณ์ที่จะเกิดขึ้น"
+
+#: index_v3_4.php:3107
+msgid "All notifications"
+msgstr "การแจ้งเตือนทั้งหมด"
+
+#: index_v3_4.php:3109
+msgid "No notifications"
+msgstr "ไม่มีการแจ้งเตือน"
+
+#: index_v3_4.php:3133
+msgid "Unread count"
+msgstr "ยังไม่ได้อ่านจำนวน"
+
+#: index_v3_4.php:3157
+msgid "All viewed"
+msgstr "ดูทั้งหมด"
+
+#: index_v3_4.php:3163
+msgid "Notification viewed"
+msgstr "ดูการแจ้งเตือน"
+
+#: index_v3_4.php:3189
+msgid "All notification cleared"
+msgstr "ล้างการแจ้งเตือนทั้งหมดแล้ว"
+
+#: index_v3_4.php:3195
+msgid "Notification cleared"
+msgstr "ล้างการแจ้งเตือน"
+
+#: index_v3_4.php:3216 index_v3_4.php:4604 index_v3_4.php:4647 index_v3_4.php:4680
+#: index_v3_4.php:4716 index_v3_4.php:4744 index_v3_4.php:4778 index_v3_4.php:4808
+#: index_v3_4.php:5075 locales/source/app_locales_strings.php:174
+msgid "Done"
+msgstr "เสร็จสิ้น"
+
+#: index_v3_4.php:3249 index_v3_4.php:4348 index_v3_4.php:4952 index_v3_4.php:6084
+#: index_v3_4.php:7465 index_v3_4.php:8647
+msgid "Updated successfully"
+msgstr "อัปเดตเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3251
+msgid "It seems this post has been removed."
+msgstr "ดูเหมือนว่าโพสต์นี้จะถูกลบไปแล้ว"
+
+#: index_v3_4.php:3280
+msgid "Check-in Successful."
+msgstr "เช็คอินสำเร็จ"
+
+#: index_v3_4.php:3313
+msgid "Chapters list"
+msgstr "รายการบท"
+
+#: index_v3_4.php:3315 index_v3_4.php:3347 index_v3_4.php:3690 index_v3_4.php:3763
+msgid "It seems this group has been removed."
+msgstr "ดูเหมือนว่ากลุ่มนี้จะถูกลบออก"
+
+#: index_v3_4.php:3345
+msgid "Channels list"
+msgstr "รายการช่อง"
+
+#: index_v3_4.php:3361
+msgid "Event Highlights details"
+msgstr "รายละเอียดไฮไลท์กิจกรรม"
+
+#: index_v3_4.php:3384
+msgid "Event highlight detail"
+msgstr "รายละเอียดไฮไลท์กิจกรรม"
+
+#: index_v3_4.php:3396
+msgid "Disliked successfully"
+msgstr "ไม่ชอบสำเร็จ"
+
+#: index_v3_4.php:3408
+msgid "Comment added successfully"
+msgstr "เพิ่มความคิดเห็นเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3426
+msgid "Link generated successfully"
+msgstr "สร้างลิงค์สำเร็จ"
+
+#: index_v3_4.php:3457 index_v3_4.php:3473 index_v3_4.php:4315 index_v3_4.php:4917
+#: index_v3_4.php:6190 index_v3_4.php:8437 index_v3_4.php:8676 index_v3_4.php:9347
+msgid "Comment deleted successfully"
+msgstr "ลบความคิดเห็นเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3459 index_v3_4.php:3608 index_v3_4.php:4287 index_v3_4.php:4317
+#: index_v3_4.php:4890 index_v3_4.php:4919 index_v3_4.php:6162 index_v3_4.php:6192
+#: index_v3_4.php:8401 index_v3_4.php:8439 index_v3_4.php:8616 index_v3_4.php:8678
+#: index_v3_4.php:9319 index_v3_4.php:9349
+msgid "Comment not found"
+msgstr "ไม่พบความคิดเห็น"
+
+#: index_v3_4.php:3492 index_v3_4.php:3496
+msgid "Invalid checkin url."
+msgstr "URL การเช็คอินไม่ถูกต้อง"
+
+#: index_v3_4.php:3501 index_v3_4.php:8699 index_v3_4.php:8733 index_v3_4.php:9779
+msgid "Event not found"
+msgstr "ไม่พบกิจกรรม"
+
+#: index_v3_4.php:3504
+msgid "You are too late. Checkin has ended"
+msgstr "คุณสายเกินไป สิ้นสุดการเช็คอินแล้ว"
+
+#: index_v3_4.php:3506
+msgid "You are too early. Checkin is not open yet"
+msgstr "คุณเร็วเกินไป เช็คอินยังไม่เปิด"
+
+#: index_v3_4.php:3510
+msgid "You are checked in successfully"
+msgstr "คุณได้เช็คอินสำเร็จแล้ว"
+
+#: index_v3_4.php:3582
+msgid "System messages"
+msgstr "ข้อความระบบ"
+
+#: index_v3_4.php:3606 index_v3_4.php:3812 index_v3_4.php:4285 index_v3_4.php:4888
+#: index_v3_4.php:6160 index_v3_4.php:8399 index_v3_4.php:8614 index_v3_4.php:9317
+msgid "Comment updated successfully"
+msgstr "อัปเดตความคิดเห็นเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3664
+msgid "Manage your membership"
+msgstr "จัดการการเป็นสมาชิกของคุณ"
+
+#: index_v3_4.php:3677
+msgid "As per your office location you have been auto assigned "
+msgstr "ตามที่ตั้งสำนักงานของคุณคุณได้รับมอบหมายโดยอัตโนมัติ"
+
+#: index_v3_4.php:3731
+msgid "Joined successfully"
+msgstr "เข้าร่วมเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3736
+msgid "You can't join this group."
+msgstr "คุณไม่สามารถเข้าร่วมกลุ่มนี้ได้"
+
+#: index_v3_4.php:3742
+msgid "Leader cannot leave membership."
+msgstr "ผู้นำไม่สามารถออกจากสมาชิกได้"
+
+#: index_v3_4.php:3754
+msgid "Left successfully"
+msgstr "ออกไปเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3784
+msgid "New password can't be the same as old password"
+msgstr "รหัสผ่านใหม่ต้องไม่เหมือนกับรหัสผ่านเก่า"
+
+#: index_v3_4.php:3793
+msgid "Password changed successfully"
+msgstr "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว"
+
+#: index_v3_4.php:3795
+msgid "Incorrect old password provided! Please try again"
+msgstr "ระบุรหัสผ่านเก่าไม่ถูกต้อง! กรุณาลองอีกครั้ง"
+
+#: index_v3_4.php:3798
+msgid ""
+"New password must be minimum 8 characters long and must contain an uppercase letter, a lowercase "
+"letter, a number and a special character."
+msgstr "รหัสผ่านใหม่ต้องมีความยาวไม่ต่ำกว่า 8 อักขระ และต้องมีอักษรตัวพิมพ์ใหญ่ อักษรตัวพิมพ์เล็ก ตัวเลข และอักขระพิเศษ"
+
+#: index_v3_4.php:3872
+msgid "Survey Link"
+msgstr "ลิงค์สำรวจ"
+
+#: index_v3_4.php:3874
+msgid "No survey found"
+msgstr "ไม่พบแบบสำรวจ"
+
+#: index_v3_4.php:3883 locales/source/app_locales_strings.php:462
+#, php-format
+msgid "This is a collaborative event between %s"
+msgstr "นี่เป็นกิจกรรมความร่วมมือระหว่าง %s"
+
+#: index_v3_4.php:3934
+msgid "Translated strings"
+msgstr "สตริงที่แปล"
+
+#: index_v3_4.php:3936
+msgid "Translation not available"
+msgstr "ไม่มีการแปล"
+
+#: index_v3_4.php:3956
+msgid "This feature is not available"
+msgstr "ฟีเจอร์นี้ไม่พร้อมใช้งาน"
+
+#: index_v3_4.php:3960 index_v3_4.php:9121
+msgid "You are already a member"
+msgstr "คุณเป็นสมาชิกอยู่แล้ว"
+
+#: index_v3_4.php:3965
+msgid "Your request canceled successfully."
+msgstr "คำขอของคุณถูกยกเลิกเรียบร้อยแล้ว"
+
+#: index_v3_4.php:4003
+#, php-format
+msgid "%s join request sent successfully."
+msgstr "ส่งคำขอเข้าร่วม %s เรียบร้อยแล้ว"
+
+#: index_v3_4.php:4029
+msgid "Hashtag does not exist."
+msgstr "ไม่มีแฮชแท็ก"
+
+#: index_v3_4.php:4101
+#, php-format
+msgid "Feeds related to %s tag."
+msgstr "ฟีดที่เกี่ยวข้องกับแท็ก %s"
+
+#: index_v3_4.php:4150
+msgid "Access denied. The discussion feature is disabled. Please contact your administrator."
+msgstr "ปฏิเสธการเข้าใช้. คุณลักษณะการสนทนาถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:4209
+msgid "Discussion detail"
+msgstr "รายละเอียดการสนทนา"
+
+#: index_v3_4.php:4211
+msgid "It seems this discussioin has been removed."
+msgstr "ดูเหมือนว่าการสนทนานี้จะถูกลบออก"
+
+#: index_v3_4.php:4260 index_v3_4.php:4350 index_v3_4.php:4392
+msgid "It seems this discussion has been removed."
+msgstr "ดูเหมือนว่าการสนทนานี้จะถูกลบออก"
+
+#: index_v3_4.php:4383 index_v3_4.php:4741 index_v3_4.php:6223
+msgid "Permission denied"
+msgstr "ไม่ได้รับอนุญาต"
+
+#: index_v3_4.php:4387
+msgid "Discussion deleted successfully"
+msgstr "ลบการสนทนาเรียบร้อยแล้ว"
+
+#: index_v3_4.php:4454
+msgid "Albums list"
+msgstr "รายชื่ออัลบั้ม"
+
+#: index_v3_4.php:4530
+msgid "Media lists"
+msgstr "รายการสื่อ"
+
+#: index_v3_4.php:4532
+msgid "Media not exist."
+msgstr "ไม่มีสื่อ"
+
+#: index_v3_4.php:4536
+msgid "Album not exist"
+msgstr "ไม่มีอัลบั้ม"
+
+#: index_v3_4.php:4559
+msgid "Media like and commens"
+msgstr "สื่อชอบและแสดงความคิดเห็น"
+
+#: index_v3_4.php:4562
+msgid "Album does not exist"
+msgstr "ไม่มีอัลบั้ม"
+
+#: index_v3_4.php:4597 index_v3_4.php:4637
+#, php-format
+msgid "Please select a %s scope"
+msgstr "กรุณาเลือกขอบเขต %s"
+
+#: index_v3_4.php:4599 index_v3_4.php:4639 index_v3_4.php:9401 index_v3_4.php:9785
+msgid "Access denied"
+msgstr "Access Denied"
+
+#: index_v3_4.php:4649 index_v3_4.php:4683 index_v3_4.php:4718 index_v3_4.php:4746
+#: index_v3_4.php:4780 index_v3_4.php:4810 index_v3_4.php:4863 index_v3_4.php:4957
+#: index_v3_4.php:5077
+msgid "It seems this album has been removed."
+msgstr "ดูเหมือนว่าอัลบั้มนี้จะถูกลบไปแล้ว"
+
+#: index_v3_4.php:4677
+msgid "Deletion failed because album is not empty."
+msgstr "การลบล้มเหลวเนื่องจากอัลบั้มไม่ว่างเปล่า"
+
+#: index_v3_4.php:4711
+msgid "No such media exist"
+msgstr "ไม่มีสื่อดังกล่าว"
+
+#: index_v3_4.php:4860 index_v3_4.php:4954
+msgid "It seems this album media has been removed."
+msgstr "ดูเหมือนว่าสื่ออัลบั้มนี้จะถูกลบไปแล้ว"
+
+#: index_v3_4.php:5044
+msgid "Allowed"
+msgstr "อนุญาตให้แล้ว"
+
+#: index_v3_4.php:5046
+msgid "Not allowed."
+msgstr "ไม่ได้รับอนุญาต."
+
+#: index_v3_4.php:5106
+msgid "List of zones"
+msgstr "รายชื่อโซน"
+
+#: index_v3_4.php:5125
+msgid "Zone switched successfully"
+msgstr "เปลี่ยนโซนสำเร็จ"
+
+#: index_v3_4.php:5245
+msgid "Invalid url"
+msgstr "URL ไม่ถูกต้อง"
+
+#: index_v3_4.php:5411
+msgid "Callback data"
+msgstr "ข้อมูลการโทรกลับ"
+
+#: index_v3_4.php:5413
+msgid "Invalid urls"
+msgstr "URL ไม่ถูกต้อง"
+
+#: index_v3_4.php:5427
+msgid ""
+"Your account has been marked for deletion and will be permanently deleted, including all "
+"information, after thirty days."
+msgstr "บัญชีของคุณถูกทำเครื่องหมายเพื่อลบและจะถูกลบอย่างถาวร รวมถึงข้อมูลทั้งหมด หลังจากสามสิบวัน"
+
+#: index_v3_4.php:5432
+msgid "Please type 'Delete' in text box to provide your consent to delete your account"
+msgstr "โปรดพิมพ์ 'Delete' ในกล่องข้อความเพื่อให้ความยินยอมในการลบบัญชีของคุณ"
+
+#: index_v3_4.php:5444
+msgid "Inbox Feature is not active for you"
+msgstr "คุณลักษณะกล่องจดหมายไม่ทำงานสำหรับคุณ"
+
+#: index_v3_4.php:5459
+msgid "Messages list."
+msgstr "รายการข้อความ"
+
+#: index_v3_4.php:5461
+msgid "No messages found"
+msgstr "ไม่พบข้อความ"
+
+#: index_v3_4.php:5490
+msgid "Unable to load message as it might be deleted."
+msgstr "ไม่สามารถโหลดข้อความได้เนื่องจากอาจถูกลบ"
+
+#: index_v3_4.php:5497
+msgid "Message detail."
+msgstr "รายละเอียดข้อความ."
+
+#: index_v3_4.php:5519
+msgid "Deleted Successfully."
+msgstr "ลบสำเร็จแล้ว"
+
+#: index_v3_4.php:5521
+msgid "Unable to delete. Please try again later."
+msgstr "ไม่สามารถลบได้ โปรดลองอีกครั้งในภายหลัง."
+
+#: index_v3_4.php:5547
+msgid "You already signed up as a volunteer"
+msgstr "คุณสมัครเป็นอาสาสมัครแล้ว"
+
+#: index_v3_4.php:5552
+msgid "Event Volunteer request capacity has been met"
+msgstr "บรรลุความสามารถคำขออาสาสมัครแล้ว"
+
+#: index_v3_4.php:5572 locales/source/app_locales_strings.php:447
+msgid "Volunteer role signup successfully"
+msgstr "การลงทะเบียนบทบาทอาสาสมัครสำเร็จ"
+
+#: index_v3_4.php:5574
+msgid "Something went wrong. Please try again"
+msgstr "บางอย่างผิดพลาด. กรุณาลองอีกครั้ง"
+
+#: index_v3_4.php:5595 locales/source/app_locales_strings.php:446
+msgid "Volunteer role declined successfully"
+msgstr "บทบาทอาสาสมัครลดลงสำเร็จ"
+
+#: index_v3_4.php:5651 index_v3_4.php:5714
+msgid "Resource list."
+msgstr "รายการทรัพยากร"
+
+#: index_v3_4.php:5654 index_v3_4.php:5717
+msgid "No resource found"
+msgstr "ไม่พบทรัพยากร"
+
+#: index_v3_4.php:5751
+msgid "The requested resource is no longer available"
+msgstr "ทรัพยากรที่ร้องขอไม่สามารถใช้งานได้อีกต่อไป"
+
+#: index_v3_4.php:5772
+msgid "Resource you are looking for does not exist."
+msgstr "ไม่มีทรัพยากรที่คุณกำลังมองหา"
+
+#: index_v3_4.php:5791
+msgid "Recognition types list."
+msgstr "รายการประเภทการรับรู้"
+
+#: index_v3_4.php:5910
+msgid "Filtered recognitions list"
+msgstr "รายการการรับรู้ที่กรองแล้ว"
+
+#: index_v3_4.php:5931 index_v3_4.php:5935
+msgid "Incorrect Topic Type."
+msgstr "ประเภทหัวข้อไม่ถูกต้อง"
+
+#: index_v3_4.php:5939
+msgid "Likers Details"
+msgstr "รายละเอียดผู้ไลค์"
+
+#: index_v3_4.php:5971
+msgid "Access denied. The Recognition feature is disabled. Please contact your administrator."
+msgstr "การเข้าถึงถูกปฏิเสธ คุณลักษณะการจดจำถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:6051
+msgid "Recognition detail"
+msgstr "รายละเอียดการจดจำ"
+
+#: index_v3_4.php:6053 index_v3_4.php:6086 index_v3_4.php:6135
+msgid "It seems this recognition has been removed."
+msgstr "ดูเหมือนว่าการรับรู้ดังกล่าวจะถูกลบออกไปแล้ว"
+
+#: index_v3_4.php:6217
+msgid "Recognition found"
+msgstr "พบการรับรู้"
+
+#: index_v3_4.php:6227
+msgid "Recognition deleted successfully"
+msgstr "ลบการรับรู้เรียบร้อยแล้ว"
+
+#: index_v3_4.php:6250
+msgid "Web view auth token generated"
+msgstr "สร้างโทเค็นการตรวจสอบสิทธิ์การดูเว็บแล้ว"
+
+#: index_v3_4.php:6266
+msgid "Profile picture deleted successfully"
+msgstr "ลบรูปโปรไฟล์เรียบร้อยแล้ว"
+
+#: index_v3_4.php:6448
+#, php-format
+msgid "%s Leaders"
+msgstr "%s ผู้นำ"
+
+#: index_v3_4.php:6577
+#, php-format
+msgid "This %1$s is not yet configured to use the %2$s feature. Please contact your administrator."
+msgstr "%1$s นี้ยังไม่ได้กำหนดค่าให้ใช้คุณลักษณะ %2$s โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:6581
+#, php-format
+msgid "No role types have yet been configured in this %1$s. Please contact your administrator."
+msgstr "ยังไม่มีการกำหนดค่าประเภทบทบาทใน %1$s นี้ โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:6615
+#, php-format
+msgid ""
+"No Individual Development %s role type found. You should contact your administrator to get help "
+"creating the new role."
+msgstr "ไม่พบประเภทบทบาทการพัฒนาส่วนบุคคล %s คุณควรติดต่อผู้ดูแลระบบเพื่อขอความช่วยเหลือในการสร้างบทบาทใหม่"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:492
+#, php-format
+msgid "You have not started the %s program yet. Please start now."
+msgstr "คุณยังไม่ได้เริ่มโปรแกรม %s กรุณาเริ่มตอนนี้"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:490
+msgid "Start Now"
+msgstr "เริ่มทำรายการ"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:491
+#, php-format
+msgid "Are you sure you want to start %s program?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการเริ่มโปรแกรม %s"
+
+#: index_v3_4.php:6618 locales/source/app_locales_strings.php:493
+msgid "Individual Development not started yet"
+msgstr "การพัฒนารายบุคคลยังไม่ได้เริ่ม"
+
+#: index_v3_4.php:6633
+#, php-format
+msgid ""
+"%1$s page is available only to the members of %2$s %3$s, please join  %2$s %3$s as a member first. "
+msgstr "เพจ %1$s ใช้ได้เฉพาะสมาชิกของ %2$s %3$s เท่านั้น โปรดเข้าร่วม %2$s %3$s ในฐานะสมาชิกก่อน"
+
+#: index_v3_4.php:6638 index_v3_4.php:6830
+msgid "In-active"
+msgstr "ใช้งานไม่ได้"
+
+#: index_v3_4.php:6639 index_v3_4.php:6831
+msgid "Active"
+msgstr "เปิดใช้งาน"
+
+#: index_v3_4.php:6640 index_v3_4.php:6832
+msgid "Draft"
+msgstr "ฉบับร่าง"
+
+#: index_v3_4.php:6641 index_v3_4.php:6833 locales/source/app_locales_strings.php:58
+msgid "Delete"
+msgstr "ลบ"
+
+#: index_v3_4.php:6642 index_v3_4.php:6834 locales/source/app_locales_strings.php:388
+msgid "Complete"
+msgstr "สำเร็จ"
+
+#: index_v3_4.php:6643 index_v3_4.php:6835 locales/source/app_locales_strings.php:389
+msgid "Incomplete"
+msgstr "ไม่สำเร็จ"
+
+#: index_v3_4.php:6644 index_v3_4.php:6836
+msgid "Paused"
+msgstr "หยุดชั่วคราว"
+
+#: index_v3_4.php:6677
+msgid "Available Slots"
+msgstr "สล็อตที่มีอยู่"
+
+#: index_v3_4.php:6721
+msgid "My teams lists"
+msgstr "รายการทีมของฉัน"
+
+#: index_v3_4.php:6724 index_v3_4.php:6925 index_v3_4.php:6973 index_v3_4.php:7034
+#: index_v3_4.php:7081 index_v3_4.php:7162 index_v3_4.php:7236 index_v3_4.php:7316
+#: index_v3_4.php:7378 index_v3_4.php:7425 index_v3_4.php:7470 index_v3_4.php:7569
+#: index_v3_4.php:7635 index_v3_4.php:7677 index_v3_4.php:7718 index_v3_4.php:7787
+#: index_v3_4.php:7964 index_v3_4.php:8006 index_v3_4.php:8097 index_v3_4.php:8215
+#: index_v3_4.php:8375 index_v3_4.php:8442 index_v3_4.php:9083 index_v3_4.php:9231
+#: index_v3_4.php:9268
+#, php-format
+msgid "%s not found"
+msgstr "ไม่พบ %s"
+
+#: index_v3_4.php:6762
+#, php-format
+msgid "Access denied. The %s is not active. Please contact your adminstroator"
+msgstr "ปฏิเสธการเข้าใช้. %s ไม่ได้ใช้งานอยู่ โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:6766
+#, php-format
+msgid "Access denied. The %s feature is disabled. Please contact your adminstroator"
+msgstr "ปฏิเสธการเข้าใช้. คุณลักษณะ %s ถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: index_v3_4.php:6770
+#, php-format
+msgid "This %s is currently inactive"
+msgstr "%s นี้ไม่ได้ใช้งานอยู่ในขณะนี้"
+
+#: index_v3_4.php:6775
+#, php-format
+msgid "Access denied. You are not currently a member of this %s"
+msgstr "ปฏิเสธการเข้าใช้. ขณะนี้คุณไม่ได้เป็นสมาชิกของ %s นี้"
+
+#: index_v3_4.php:6801 locales/source/app_locales_strings.php:484
+#, php-format
+msgid "Join %1$s as %2$s"
+msgstr "เข้าร่วม %1$s ในฐานะ %2$s"
+
+#: index_v3_4.php:6803
+#, php-format
+msgid "You are already joined this %s"
+msgstr "คุณได้เข้าร่วมแล้ว %s นี้"
+
+#: index_v3_4.php:6806 index_v3_4.php:9045
+#, php-format
+msgid "Are you sure you want to join this %s?"
+msgstr "คุณแน่ใจหรือว่าต้องการเข้าร่วม %s"
+
+#: index_v3_4.php:6809 index_v3_4.php:8837 index_v3_4.php:9040
+#, php-format
+msgid "Registration is now closed, and we are no longer accepting new requests for this role."
+msgstr "การลงทะเบียนปิดลงแล้ว และเราจะไม่รับคำขอใหม่สำหรับบทบาทนี้อีกต่อไป"
+
+#: index_v3_4.php:6812 locales/source/app_locales_strings.php:358
+msgid "Are you sure you want to join this circle?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการเข้าร่วมแวดวงนี้?"
+
+#: index_v3_4.php:6815
+msgid "All slots are filled"
+msgstr "ช่องทั้งหมดเต็มแล้ว"
+
+#: index_v3_4.php:6857 locales/source/app_locales_strings.php:481
+#, php-format
+msgid "Are you sure to remove this member from %s?"
+msgstr "คุณแน่ใจหรือไม่ที่จะลบสมาชิกรายนี้ออกจาก %s"
+
+#: index_v3_4.php:6858
+msgid "Remove"
+msgstr "เอาออก"
+
+#: index_v3_4.php:6913
+#, php-format
+msgid "Are you sure you want to leave this %s?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการออกจาก %s"
+
+#: index_v3_4.php:6914 locales/source/app_locales_strings.php:41
+msgid "Leave"
+msgstr "ทิ้ง"
+
+#: index_v3_4.php:6922
+msgid "Teams detail"
+msgstr "รายละเอียดทีม"
+
+#: index_v3_4.php:6970
+msgid "Action item list"
+msgstr "รายการการดำเนินการ"
+
+#: index_v3_4.php:7031
+msgid "Touch points item list"
+msgstr "รายการจุดสัมผัส"
+
+#: index_v3_4.php:7079
+msgid "Feedbacks list"
+msgstr "รายการตอบกลับ"
+
+#: index_v3_4.php:7159
+msgid "Action item detail"
+msgstr "รายละเอียดรายการดำเนินการ"
+
+#: index_v3_4.php:7233
+msgid "Touchpoint detail"
+msgstr "รายละเอียดจุดสัมผัส"
+
+#: index_v3_4.php:7313
+msgid "Feedback detail"
+msgstr "รายละเอียดข้อเสนอแนะ"
+
+#: index_v3_4.php:7344 index_v3_4.php:7406 index_v3_4.php:7453 index_v3_4.php:7498
+#: index_v3_4.php:7597
+msgid "Bad requestS"
+msgstr "คำขอไม่ถูกต้องS"
+
+#: index_v3_4.php:7373
+msgid "Status updated successfully"
+msgstr "อัปเดตสถานะสำเร็จแล้ว"
+
+#: index_v3_4.php:7375 index_v3_4.php:7422
+msgid "Something went wrong while updating status."
+msgstr "เกิดข้อผิดพลาดขณะอัปเดตสถานะ"
+
+#: index_v3_4.php:7420
+msgid "Deleted successfully"
+msgstr "ลบเรียบร้อยแล้ว"
+
+#: index_v3_4.php:7467 index_v3_4.php:7715
+msgid "Something went wrong while updating."
+msgstr "เกิดข้อผิดพลาดขณะอัปเดต"
+
+#: index_v3_4.php:7515 locales/source/app_locales_strings.php:473
+#, php-format
+msgid ""
+"This %s cannot be reactivated because the maximum number of concurrent programs supported for one "
+"member has been reached."
+msgstr "ไม่สามารถเปิดใช้งาน %s นี้อีกครั้งได้ เนื่องจากถึงจำนวนสูงสุดของโปรแกรมพร้อมกันที่รองรับสำหรับสมาชิกหนึ่งรายแล้ว"
+
+#: index_v3_4.php:7526
+msgid "Development program started successfully"
+msgstr "โปรแกรมการพัฒนาเริ่มต้นสำเร็จ"
+
+#: index_v3_4.php:7528 locales/source/app_locales_strings.php:474
+#, php-format
+msgid "%1$s %2$s activated successfully."
+msgstr "เปิดใช้งาน %1$s %2$s สำเร็จแล้ว"
+
+#: index_v3_4.php:7531
+#, php-format
+msgid "%1$s %2$s Error"
+msgstr "%1$s %2$s ข้อผิดพลาด"
+
+#: index_v3_4.php:7535 locales/source/app_locales_strings.php:475
+#, php-format
+msgid "%1$s %2$s deactivated successfully."
+msgstr "%1$s %2$s ปิดใช้งานสำเร็จแล้ว"
+
+#: index_v3_4.php:7541 locales/source/app_locales_strings.php:266
+msgid "Action Items"
+msgstr "รายการดำเนินการ"
+
+#: index_v3_4.php:7542 locales/source/app_locales_strings.php:267
+msgid "Touch Points"
+msgstr "จุดสัมผัส"
+
+#: index_v3_4.php:7543
+msgid "and"
+msgstr "และ"
+
+#: index_v3_4.php:7545 locales/source/app_locales_strings.php:476
+#, php-format
+msgid "You have not completed all required %1$s, so the %2$s cannot be marked as complete"
+msgstr "คุณยังไม่ได้ทำ %1$s ให้เสร็จทั้งหมด ดังนั้นจึงไม่สามารถทำเครื่องหมาย %2$s ว่าเสร็จสมบูรณ์ได้"
+
+#: index_v3_4.php:7549 locales/source/app_locales_strings.php:477
+#, php-format
+msgid "%1$s %2$s completed successfully."
+msgstr "%1$s %2$s เสร็จสมบูรณ์"
+
+#: index_v3_4.php:7553 locales/source/app_locales_strings.php:478
+#, php-format
+msgid "%1$s %2$s closed as incomplete successfully."
+msgstr "%1$s %2$s ปิดเนื่องจากไม่เสร็จสมบูรณ์"
+
+#: index_v3_4.php:7557 locales/source/app_locales_strings.php:472
+#, php-format
+msgid "%1$s %2$s is paused successfully."
+msgstr "%1$s %2$s หยุดชั่วคราวสำเร็จแล้ว"
+
+#: index_v3_4.php:7561 locales/source/app_locales_strings.php:479
+#, php-format
+msgid "%1$s %2$s deleted successfully."
+msgstr "ลบ %1$s %2$s เรียบร้อยแล้ว"
+
+#: index_v3_4.php:7563
+msgid "Update Failed."
+msgstr "การอัพเดทล้มเหลว."
+
+#: index_v3_4.php:7623
+msgid "New touch point linked successfully"
+msgstr "เชื่อมโยงจุดสัมผัสใหม่เรียบร้อยแล้ว"
+
+#: index_v3_4.php:7628
+msgid "New task linked successfully"
+msgstr "ลิงก์งานใหม่สำเร็จแล้ว"
+
+#: index_v3_4.php:7632
+msgid "Something went wrong while linking content"
+msgstr "เกิดข้อผิดพลาดขณะเชื่อมโยงเนื้อหา"
+
+#: index_v3_4.php:7672
+msgid "Manage roles requests"
+msgstr "จัดการคำขอบทบาท"
+
+#: index_v3_4.php:7674 locales/source/app_locales_strings.php:274
+msgid "No role are available to request"
+msgstr "ไม่มีบทบาทที่สามารถขอได้"
+
+#: index_v3_4.php:7713 locales/source/app_locales_strings.php:271
+msgid "Registration canceled successfully"
+msgstr "ยกเลิกการลงทะเบียนเรียบร้อยแล้ว"
+
+#: index_v3_4.php:7775 locales/source/app_locales_strings.php:469
+#, php-format
+msgid ""
+"The Discover feature relies on matching criteria. Please request your %1$s leaders to complete the "
+"setup process."
+msgstr "ฟีเจอร์ Discover จะขึ้นอยู่กับเกณฑ์การจับคู่ โปรดขอให้ผู้นำ %1$s ของคุณดำเนินการตั้งค่าให้เสร็จสิ้น"
+
+#: index_v3_4.php:7776
+#, php-format
+msgid "%1$s setup is not complete"
+msgstr "%1$s การตั้งค่าไม่เสร็จสมบูรณ์"
+
+#: index_v3_4.php:7782
+msgid "Discover suggessions"
+msgstr "ค้นพบข้อเสนอแนะ"
+
+#: index_v3_4.php:7784 locales/source/app_locales_strings.php:470
+msgid "To Discover your matches, please Register for a role"
+msgstr "หากต้องการค้นพบการแข่งขันของคุณ โปรดลงทะเบียนเพื่อรับตำแหน่ง"
+
+#: index_v3_4.php:7812
+#, php-format
+msgid ""
+"You can't send a request to this user as you've reached your maximum available capacity limit. "
+"This limit is based on the number of %1$s you're already in and any outstanding %2$s join requests"
+msgstr ""
+"คุณไม่สามารถส่งคำขอไปยังผู้ใช้รายนี้ได้เนื่องจากคุณถึงขีดจำกัดความจุสูงสุดที่มีอยู่แล้ว ขีดจำกัดนี้ขึ้นอยู่กับจำนวน %1$s "
+"ที่คุณเข้าร่วมแล้ว และคำขอเข้าร่วม %2$s ที่ค้างอยู่"
+
+#: index_v3_4.php:7814
+msgid "Invite user"
+msgstr "เชิญผู้ใช้"
+
+#: index_v3_4.php:7820 locales/source/app_locales_strings.php:468
+#, php-format
+msgid ""
+"In addition to the following recommendations, you can also directly invite users to join the %s"
+msgstr "นอกเหนือจากคำแนะนำต่อไปนี้ คุณยังสามารถเชิญผู้ใช้ให้เข้าร่วม %s ได้โดยตรง"
+
+#: index_v3_4.php:7822
+#, php-format
+msgid ""
+"You've reached the maximum number of %1$s you can participate in as a %2$s. Therefore, you can't "
+"send requests or invite users to form new %1$s where you take on the %2$s role."
+msgstr ""
+"คุณมี %1$s ถึงจำนวนสูงสุดที่คุณสามารถเข้าร่วมได้ในฐานะ %2$s แล้ว ดังนั้น คุณจึงไม่สามารถส่งคำขอหรือเชิญผู้ใช้ให้สร้าง %1$s "
+"ใหม่ โดยที่คุณรับบทบาท %2$s"
+
+#: index_v3_4.php:7860
+msgid "Accepting New Requests"
+msgstr "การยอมรับคำขอใหม่"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spot available"
+msgstr "มีที่ว่าง %s แห่ง"
+
+#: index_v3_4.php:7861
+#, php-format
+msgid "%s spots available"
+msgstr "ว่าง %s ที่"
+
+#: index_v3_4.php:7865
+msgid "Not Accepting New Requests"
+msgstr "ไม่ยอมรับคำขอใหม่"
+
+#: index_v3_4.php:7866
+msgid "No spots available"
+msgstr "ไม่มีจุดว่าง"
+
+#: index_v3_4.php:7867
+msgid "You cannot send request as user's maximum outstanding requests have been reached."
+msgstr "คุณไม่สามารถส่งคำขอได้ เนื่องจากถึงคำขอคงค้างสูงสุดของผู้ใช้แล้ว"
+
+#: index_v3_4.php:7872
+msgid "Are you sure you want to send this request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการส่งคำขอนี้"
+
+#: index_v3_4.php:7873 locales/source/app_locales_strings.php:307
+msgid "Send Request"
+msgstr "ส่งคำร้อง"
+
+#: index_v3_4.php:7877 index_v3_4.php:8060 index_v3_4.php:9598
+#: locales/source/app_locales_strings.php:465 locales/source/app_locales_strings.php:480
+msgid "Are you sure you want to delete this request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบคำขอนี้"
+
+#: index_v3_4.php:7878 locales/source/app_locales_strings.php:306
+msgid "Delete Request"
+msgstr "ลบคำขอ"
+
+#: index_v3_4.php:7906 locales/source/app_locales_strings.php:467
+#, php-format
+msgid ""
+"Based on your registration information here are the %s matches recommended for you to connect with:"
+msgstr "จากข้อมูลการลงทะเบียนของคุณ นี่คือการแข่งขัน %s รายการที่แนะนำให้คุณเชื่อมต่อด้วย:"
+
+#: index_v3_4.php:7959 index_v3_4.php:9640 locales/source/app_locales_strings.php:466
+msgid "Invite sent successfully"
+msgstr "ส่งคำเชิญเรียบร้อยแล้ว"
+
+#: index_v3_4.php:7961
+msgid "Something went wrong while sending ."
+msgstr "เกิดข้อผิดพลาดขณะส่ง"
+
+#: index_v3_4.php:8001 index_v3_4.php:9690
+msgid "Request deleted successfully"
+msgstr "ลบคำขอเรียบร้อยแล้ว"
+
+#: index_v3_4.php:8003
+msgid "Something went wrong while deleting invite"
+msgstr "เกิดข้อผิดพลาดขณะลบคำเชิญ"
+
+#: index_v3_4.php:8055 locales/source/app_locales_strings.php:301
+msgid "Are you sure you want to accept this request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการยอมรับคำขอนี้"
+
+#: index_v3_4.php:8056 locales/source/app_locales_strings.php:302
+msgid "Are you sure you want to reject this request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการปฏิเสธคำขอนี้"
+
+#: index_v3_4.php:8092
+msgid "Recived requests list"
+msgstr "รายการคำขอที่ได้รับ"
+
+#: index_v3_4.php:8094
+msgid "No invites found"
+msgstr "ไม่พบคำเชิญ"
+
+#: index_v3_4.php:8137
+msgid "Bad request--"
+msgstr "คำขอไม่ถูกต้อง--"
+
+#: index_v3_4.php:8147
+msgid "Unable to process your request because maximum capacity for active matches has been reached!"
+msgstr "ไม่สามารถดำเนินการตามคำขอของคุณได้เนื่องจากถึงขีดสูงสุดสำหรับการแข่งขันที่กำลังดำเนินอยู่!"
+
+#: index_v3_4.php:8150
+msgid ""
+"This person has already matched with someone else and no longer has availability. Please decline "
+"their request under the Action button."
+msgstr "บุคคลนี้ได้จับคู่กับคนอื่นแล้วและไม่มีความพร้อมอีกต่อไป โปรดปฏิเสธคำขอของพวกเขาภายใต้ปุ่มการดำเนินการ"
+
+#: index_v3_4.php:8184
+msgid "Request accepted successfully."
+msgstr "คำขอได้รับการยอมรับเรียบร้อยแล้ว"
+
+#: index_v3_4.php:8186
+msgid "Request rejected successfully"
+msgstr "คำขอถูกปฏิเสธสำเร็จ"
+
+#: index_v3_4.php:8206
+msgid "Request rejected successfully."
+msgstr "คำขอถูกปฏิเสธสำเร็จ"
+
+#: index_v3_4.php:8209
+msgid "Something went wrong, please try again."
+msgstr "มีบางสิ่งผิดพลาด โปรดลองอีกครั้ง"
+
+#: index_v3_4.php:8212
+msgid "Request not found."
+msgstr "ไม่พบคำขอ"
+
+#: index_v3_4.php:8309
+msgid "View match details"
+msgstr "ดูรายละเอียดการแข่งขัน"
+
+#: index_v3_4.php:8312
+msgid "The request does not exist anymore."
+msgstr "คำขอนี้ไม่มีอยู่อีกต่อไป"
+
+#: index_v3_4.php:8453
+msgid "Available hooks"
+msgstr "ฮุกที่มีอยู่"
+
+#: index_v3_4.php:8498
+msgid "Available disclaimer"
+msgstr "ข้อจำกัดความรับผิดชอบที่มีอยู่"
+
+#: index_v3_4.php:8502 index_v3_4.php:8535
+msgid "No disclaimer available"
+msgstr "ไม่มีข้อจำกัดความรับผิดชอบ"
+
+#: index_v3_4.php:8504
+msgid "Invalid disclaimer hook provided"
+msgstr "ระบุขอปฏิเสธความรับผิดที่ไม่ถูกต้อง"
+
+#: index_v3_4.php:8532
+msgid "Consent saved successfully"
+msgstr "บันทึกความยินยอมเรียบร้อยแล้ว"
+
+#: index_v3_4.php:8703
+msgid "No recording link found for this event yet. Please check later."
+msgstr "ยังไม่พบลิงค์บันทึกสำหรับกิจกรรมนี้ โปรดตรวจสอบในภายหลัง"
+
+#: index_v3_4.php:8712
+msgid "Event recording link."
+msgstr "ลิงค์บันทึกเหตุการณ์"
+
+#: index_v3_4.php:8740 locales/source/app_locales_strings.php:448
+msgid "You can mark your attendance 30 minutes after watching the recording"
+msgstr "คุณสามารถทำเครื่องหมายการเข้าร่วมของคุณได้ 30 นาทีหลังจากดูการบันทึก"
+
+#: index_v3_4.php:8744 locales/source/app_locales_strings.php:449
+msgid "Successfully marked attendance"
+msgstr "ทำเครื่องหมายการเข้าร่วมสำเร็จแล้ว"
+
+#: index_v3_4.php:8746 locales/source/app_locales_strings.php:450
+msgid "Unable to mark your attendance at this time, please try again later"
+msgstr "ไม่สามารถทำเครื่องหมายการเข้าร่วมของคุณได้ในขณะนี้ โปรดลองอีกครั้งในภายหลัง"
+
+#: index_v3_4.php:8791 locales/source/app_locales_strings.php:340
+msgid "Update Registration"
+msgstr "อัพเดทการลงทะเบียน"
+
+#: index_v3_4.php:8792 locales/source/app_locales_strings.php:461
+msgid "Cancel Registration"
+msgstr "ยกเลิกการลงทะเบียน"
+
+#: index_v3_4.php:8793
+#, php-format
+msgid ""
+"Are you sure you want to cancel your registration? You can still access your existing %1$s in 'My "
+"%1$s,'. However your profile won't be shown in new matches until you register again"
+msgstr ""
+"คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการลงทะเบียนของคุณ? คุณยังคงสามารถเข้าถึง %1$s ที่มีอยู่ใน '%1$s ของฉัน' ได้ อย่างไรก็ตาม "
+"โปรไฟล์ของคุณจะไม่ปรากฏในแมตช์ใหม่จนกว่าคุณจะลงทะเบียนอีกครั้ง"
+
+#: index_v3_4.php:8798
+msgid "Pause Registration"
+msgstr "หยุดการลงทะเบียนชั่วคราว"
+
+#: index_v3_4.php:8799
+msgid "Pause registration? You'll be hidden from searches, but can resume anytime."
+msgstr "ระงับการลงทะเบียนชั่วคราวใช่ไหม คุณจะถูกซ่อนจากการค้นหา แต่สามารถดำเนินการต่อได้ตลอดเวลา"
+
+#: index_v3_4.php:8801
+msgid "Resume Registration"
+msgstr "ลงทะเบียนต่อ"
+
+#: index_v3_4.php:8802
+msgid "Ready to be seen again? Resume your registration to get matched"
+msgstr "พร้อมจะพบเห็นอีกครั้งหรือยัง? ลงทะเบียนต่อเพื่อรับการจับคู่"
+
+#: index_v3_4.php:8815
+#, php-format
+msgid "Registration Closed - Maximum Registrations Reached"
+msgstr "ปิดรับลงทะเบียนแล้ว - ยอดลงทะเบียนถึงกำหนดแล้ว"
+
+#: index_v3_4.php:8818
+#, php-format
+msgid ""
+"You cannot register for this role because %1$s settings only allow users to register for only one "
+"role at a time"
+msgstr "คุณไม่สามารถลงทะเบียนสำหรับบทบาทนี้ได้ เนื่องจากการตั้งค่า %1$s อนุญาตให้ผู้ใช้ลงทะเบียนได้ครั้งละหนึ่งบทบาทเท่านั้น"
+
+#: index_v3_4.php:8820
+#, php-format
+msgid ""
+"You're already assigned to a %1$s for this role. But you can still register to join other %1$s for "
+"future assignments."
+msgstr ""
+"คุณได้รับมอบหมายให้ %1$s สำหรับบทบาทนี้แล้ว แต่คุณยังสามารถลงทะเบียนเพื่อเข้าร่วม %1$s อื่นๆ "
+"สำหรับการมอบหมายงานในอนาคตได้"
+
+#: index_v3_4.php:8832 index_v3_4.php:9474
+#, php-format
+msgid "Registration is currently unavailable. Please check back after %s"
+msgstr "การลงทะเบียนไม่สามารถใช้งานได้ในขณะนี้ โปรดกลับมาตรวจสอบอีกครั้งหลังจาก %s"
+
+#: index_v3_4.php:8882
+msgid "Request updated successfully"
+msgstr "คำขออัปเดตเรียบร้อยแล้ว"
+
+#: index_v3_4.php:8884 index_v3_4.php:9117 index_v3_4.php:9146 index_v3_4.php:9181
+#: index_v3_4.php:9197
+msgid "Something went wrong while updating your request. Please try again."
+msgstr "เกิดข้อผิดพลาดขณะอัปเดตคำขอของคุณ กรุณาลองอีกครั้ง."
+
+#: index_v3_4.php:8952 locales/source/app_locales_strings.php:392
+msgid ""
+"Your search criteria did not return any matching result. Please change your search criteria and "
+"try again."
+msgstr "เกณฑ์การค้นหาของคุณไม่ส่งคืนผลลัพธ์ที่ตรงกัน โปรดเปลี่ยนเกณฑ์การค้นหาของคุณแล้วลองอีกครั้ง"
+
+#: index_v3_4.php:8989 index_v3_4.php:8993 locales/source/app_locales_strings.php:488
+#, php-format
+msgid "%s spots available!"
+msgstr "ว่าง %s ที่!"
+
+#: index_v3_4.php:8991 locales/source/app_locales_strings.php:489
+#, php-format
+msgid "%s spot available!"
+msgstr "%s ที่ว่าง!"
+
+#: index_v3_4.php:9020
+msgid "You Joined"
+msgstr "คุณเข้าร่วม"
+
+#: index_v3_4.php:9023 index_v3_4.php:9027 index_v3_4.php:9039 index_v3_4.php:9044
+#: index_v3_4.php:9049 index_v3_4.php:9055
+#, php-format
+msgid "Join %s"
+msgstr "เข้าร่วม %s"
+
+#: index_v3_4.php:9024
+#, php-format
+msgid "You are already part of this %s"
+msgstr "คุณเป็นส่วนหนึ่งของ %s นี้แล้ว"
+
+#: index_v3_4.php:9028
+#, php-format
+msgid "You have reached the maximum number of %s you can participate in with this role."
+msgstr "คุณมี %s ครบตามจำนวนสูงสุดที่คุณสามารถเข้าร่วมในบทบาทนี้ได้"
+
+#: index_v3_4.php:9050
+msgid "You do not meet the role registration restrictions criteria"
+msgstr "คุณไม่ตรงตามเกณฑ์ข้อจำกัดการลงทะเบียนบทบาท"
+
+#: index_v3_4.php:9056
+msgid "All roles are filled"
+msgstr "ครบทุกบทบาทแล้ว"
+
+#: index_v3_4.php:9078
+msgid "Available circles list"
+msgstr "รายการแวดวงที่มีอยู่"
+
+#: index_v3_4.php:9080
+msgid "No circles are avaiable for now. Stay tuned"
+msgstr "ไม่มีแวดวงที่ใช้ได้ในขณะนี้ คอยติดตาม"
+
+#: index_v3_4.php:9126 locales/source/app_locales_strings.php:485
+msgid "Maximum allowed members limit reached for selected role!"
+msgstr "ถึงขีดจำกัดสูงสุดที่อนุญาตสำหรับบทบาทที่เลือกแล้ว!"
+
+#: index_v3_4.php:9130 locales/source/app_locales_strings.php:486
+msgid ""
+"You cannot join this role because the maximum requested capacity for this role has been reached."
+msgstr "คุณไม่สามารถเข้าร่วมบทบาทนี้ได้เนื่องจากถึงขีดจำกัดสูงสุดที่ร้องขอสำหรับบทบาทนี้แล้ว"
+
+#: index_v3_4.php:9139
+msgid "Unable to update Registration."
+msgstr "ไม่สามารถอัปเดตการลงทะเบียนได้"
+
+#: index_v3_4.php:9144 locales/source/app_locales_strings.php:487
+msgid "You have successfully joined this circle."
+msgstr "คุณเข้าร่วมแวดวงนี้สำเร็จแล้ว"
+
+#: index_v3_4.php:9192 locales/source/app_locales_strings.php:482
+#, php-format
+msgid "Member removed from this %s"
+msgstr "สมาชิกที่ถูกลบออกจาก %s นี้"
+
+#: index_v3_4.php:9194 locales/source/app_locales_strings.php:483
+#, php-format
+msgid "%s left successfully"
+msgstr "%s ออกสำเร็จแล้ว"
+
+#: index_v3_4.php:9237 locales/source/app_locales_strings.php:363
+msgid "Messages"
+msgstr "ข้อความ"
+
+#: index_v3_4.php:9396
+msgid "Available primary attributes fetched successfully"
+msgstr "ดึงข้อมูลแอตทริบิวต์หลักที่มีอยู่สำเร็จแล้ว"
+
+#: index_v3_4.php:9398
+msgid "No primary attributes are available"
+msgstr "ไม่มีแอตทริบิวต์หลัก"
+
+#: index_v3_4.php:9448
+msgid "Primary attribute values fetched successfully"
+msgstr "ดึงค่าแอตทริบิวต์หลักสำเร็จแล้ว"
+
+#: index_v3_4.php:9477
+msgid "Registration is now closed for this role."
+msgstr "ขณะนี้ปิดการลงทะเบียนสำหรับตำแหน่งนี้แล้ว"
+
+#: index_v3_4.php:9483
+#, php-format
+msgid "Users can only have one %1$s role in this %2$s. This role is unavailable"
+msgstr "ผู้ใช้สามารถมีบทบาท %1$s ได้เพียงบทบาทเดียวใน %2$s นี้ บทบาทนี้ไม่พร้อมใช้งาน"
+
+#: index_v3_4.php:9488
+#, php-format
+msgid "You've reached the limit for %s with this role."
+msgstr "คุณถึงขีดจำกัดสำหรับ %s สำหรับบทบาทนี้แล้ว"
+
+#: index_v3_4.php:9503
+msgid "User cannot join more programs with this role."
+msgstr "ผู้ใช้ไม่สามารถเข้าร่วมโปรแกรมเพิ่มเติมด้วยบทบาทนี้ได้"
+
+#: index_v3_4.php:9509 locales/source/app_locales_strings.php:471
+msgid "Invite sent!"
+msgstr "ส่งคำเชิญแล้ว!"
+
+#: index_v3_4.php:9542
+msgid "Users found!"
+msgstr "พบผู้ใช้แล้ว!"
+
+#: index_v3_4.php:9544
+msgid "No users were found matching the keyword you searched"
+msgstr "ไม่พบผู้ใช้ที่ตรงกับคำสำคัญที่คุณค้นหา"
+
+#: index_v3_4.php:9593 locales/source/app_locales_strings.php:463
+msgid "Are you sure you want to resend request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการส่งคำขออีกครั้ง"
+
+#: index_v3_4.php:9594 locales/source/app_locales_strings.php:464
+msgid "Are you sure you want to cancel this request?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกคำขอนี้"
+
+#: index_v3_4.php:9612
+msgid "Invited list"
+msgstr "รายชื่อผู้ได้รับเชิญ"
+
+#: index_v3_4.php:9614
+msgid "No invites founds"
+msgstr "ไม่พบคำเชิญ"
+
+#: index_v3_4.php:9665
+msgid "request canceled successfully"
+msgstr "ยกเลิกคำขอเรียบร้อยแล้ว"
+
+#: index_v3_4.php:9714 index_v3_4.php:9722
+msgid "Attachment you are looking for does not exist."
+msgstr "สิ่งที่แนบมาที่คุณกำลังมองหาไม่มีอยู่"
+
+#: index_v3_4.php:9755
+msgid "All globally joined groups"
+msgstr "กลุ่มที่เข้าร่วมทั่วโลก"
+
+#: index_v3_4.php:9792
+msgid "Event deleted successfully."
+msgstr "ลบกิจกรรมสำเร็จแล้ว"
+
+#: locales/source/app_locales_strings.php:2
+msgid "Home"
+msgstr "หน้าแรก"
+
+#: locales/source/app_locales_strings.php:3
+msgid "Profile"
+msgstr "ข้อมูลส่วนตัว"
+
+#: locales/source/app_locales_strings.php:4
+msgid "Check-in"
+msgstr "เช็ค-อิน"
+
+#: locales/source/app_locales_strings.php:5
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+#: locales/source/app_locales_strings.php:6
+msgid "Log Out"
+msgstr "ออกจากระบบ"
+
+#: locales/source/app_locales_strings.php:7
+msgid "Calendar"
+msgstr "ปฏิทิน"
+
+#: locales/source/app_locales_strings.php:8
+msgid "Discover"
+msgstr "ค้นพบ"
+
+#: locales/source/app_locales_strings.php:9
+msgid "Event"
+msgstr "กิจกรรม"
+
+#: locales/source/app_locales_strings.php:10
+msgid "Newsletter"
+msgstr "จดหมายข่าว"
+
+#: locales/source/app_locales_strings.php:11
+msgid "Announcement"
+msgstr "ประกาศ"
+
+#: locales/source/app_locales_strings.php:12
+msgid "First name"
+msgstr "ชื่อ"
+
+#: locales/source/app_locales_strings.php:13
+msgid "Last name"
+msgstr "นามสกุล"
+
+#: locales/source/app_locales_strings.php:14
+msgid "Email"
+msgstr "อีเมล"
+
+#: locales/source/app_locales_strings.php:15
+msgid "Job title"
+msgstr "ตำแหน่งงาน"
+
+#: locales/source/app_locales_strings.php:16
+msgid "Office Location"
+msgstr "ที่ตั้งสำนักงาน"
+
+#: locales/source/app_locales_strings.php:17
+msgid "Department"
+msgstr "แผนก"
+
+#: locales/source/app_locales_strings.php:18
+msgid "Select Image"
+msgstr "เลือกรูปภาพ"
+
+#: locales/source/app_locales_strings.php:19
+msgid "Select picture from camera"
+msgstr "เลือกภาพจากกล้อง"
+
+#: locales/source/app_locales_strings.php:20
+msgid "Select picture from gallery"
+msgstr "เลือกรูปภาพจากแกลเลอรี่"
+
+#: locales/source/app_locales_strings.php:21
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#: locales/source/app_locales_strings.php:22
+msgid "Scan yours events QR code to check-in"
+msgstr "สแกนรหัส QR กิจกรรมของคุณเพื่อเช็คอิน"
+
+#: locales/source/app_locales_strings.php:23
+msgid "Password"
+msgstr "รหัสผ่าน"
+
+#: locales/source/app_locales_strings.php:24
+msgid "Old Password"
+msgstr "รหัสผ่านเก่า"
+
+#: locales/source/app_locales_strings.php:25
+msgid "New Password"
+msgstr "รหัสผ่านใหม่"
+
+#: locales/source/app_locales_strings.php:26
+msgid "Confirm Password"
+msgstr "ยืนยันรหัสผ่าน"
+
+#: locales/source/app_locales_strings.php:27
+msgid "Change Password"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+#: locales/source/app_locales_strings.php:28
+msgid "Select Language"
+msgstr "เลือกภาษา"
+
+#: locales/source/app_locales_strings.php:29
+msgid "Join Us"
+msgstr "เข้าร่วมกับเรา"
+
+#: locales/source/app_locales_strings.php:30
+msgid "Select a"
+msgstr "เลือก"
+
+#: locales/source/app_locales_strings.php:31
+msgid "Part of"
+msgstr "เป็นส่วนหนึ่งของ"
+
+#: locales/source/app_locales_strings.php:32
+msgid "Manage Membership"
+msgstr "จัดการการเป็นสมาชิก"
+
+#: locales/source/app_locales_strings.php:33
+msgid "Note"
+msgstr "หมายเหตุ"
+
+#: locales/source/app_locales_strings.php:34
+msgid "When you join any Chapter/Channel of the"
+msgstr "เมื่อคุณเข้าร่วมบท / ช่องใด ๆ ของ"
+
+#: locales/source/app_locales_strings.php:35
+msgid "you will also added as a member of the"
+msgstr "คุณจะเพิ่มเป็นสมาชิกของ .ด้วย"
+
+#: locales/source/app_locales_strings.php:36
+msgid "If there is not a chapter in your location, click join to be added to the"
+msgstr "หากไม่มีบทในพื้นที่ของคุณ ให้คลิกเข้าร่วมเพื่อเพิ่มลงใน"
+
+#: locales/source/app_locales_strings.php:37
+msgid "Close"
+msgstr "ปิด"
+
+#: locales/source/app_locales_strings.php:38
+msgid "Closing"
+msgstr "ปิด"
+
+#: locales/source/app_locales_strings.php:39
+msgid "Join"
+msgstr "เข้าร่วม"
+
+#: locales/source/app_locales_strings.php:40
+msgid "Joining"
+msgstr "เข้าร่วม"
+
+#: locales/source/app_locales_strings.php:42
+msgid "Leaving"
+msgstr "ออกเดินทาง"
+
+#: locales/source/app_locales_strings.php:43
+msgid "Update Membership"
+msgstr "อัพเดทสมาชิก"
+
+#: locales/source/app_locales_strings.php:46
+msgid "Highlights"
+msgstr "ข่าวเด่น"
+
+#: locales/source/app_locales_strings.php:48
+msgid "please wait.."
+msgstr "โปรดรอ.."
+
+#: locales/source/app_locales_strings.php:49
+msgid "Leads"
+msgstr "นำ"
+
+#: locales/source/app_locales_strings.php:50
+msgid "Leaders"
+msgstr "ผู้นำ"
+
+#: locales/source/app_locales_strings.php:51
+msgid "Could not launch url"
+msgstr "ไม่สามารถเปิด url"
+
+#: locales/source/app_locales_strings.php:52
+msgid "Looks like there isn't any group data yet"
+msgstr "ดูเหมือนว่ายังไม่มีข้อมูลกลุ่มเลย"
+
+#: locales/source/app_locales_strings.php:53
+msgid "Like"
+msgstr "ชอบ"
+
+#: locales/source/app_locales_strings.php:54
+msgid "reply"
+msgstr "ตอบ"
+
+#: locales/source/app_locales_strings.php:55
+msgid "Comments"
+msgstr "ความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:56
+msgid "Leave a comment"
+msgstr "แสดงความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:57
+msgid "Edit"
+msgstr "แก้ไข"
+
+#: locales/source/app_locales_strings.php:59
+msgid "No"
+msgstr "ไม่"
+
+#: locales/source/app_locales_strings.php:60
+msgid "Yes"
+msgstr "ใช่"
+
+#: locales/source/app_locales_strings.php:61
+msgid "Delete Comment"
+msgstr "ลบความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:62
+msgid "Are you sure you want to delete this comment?"
+msgstr "คุณแน่ใจหรือว่าต้องการลบความคิดเห็นนี้?"
+
+#: locales/source/app_locales_strings.php:63
+msgid "Deleting..."
+msgstr "การลบ ..."
+
+#: locales/source/app_locales_strings.php:64
+msgid "Something went wrong! %s%. Please try again"
+msgstr "บางอย่างผิดพลาด! %s% กรุณาลองอีกครั้ง"
+
+#: locales/source/app_locales_strings.php:65
+msgid "Published on"
+msgstr "เผยแพร่เมื่อ"
+
+#: locales/source/app_locales_strings.php:66
+msgid "Group"
+msgstr "กลุ่ม"
+
+#: locales/source/app_locales_strings.php:67
+msgid "people going"
+msgstr "คนไป"
+
+#: locales/source/app_locales_strings.php:68
+msgid "Are you sure you want to join this?"
+msgstr "คุณแน่ใจหรือว่าต้องการเข้าร่วม %s"
+
+#: locales/source/app_locales_strings.php:69
+msgid "If you continue you will join the ERG and Chapter(s) will be assigned to you"
+msgstr "หากคุณดำเนินการต่อ คุณจะเข้าร่วม ERG และบทต่างๆ จะได้รับมอบหมายให้คุณ"
+
+#: locales/source/app_locales_strings.php:70
+msgid "Please Confirm!"
+msgstr "กรุณายืนยัน!"
+
+#: locales/source/app_locales_strings.php:71
+msgid "in"
+msgstr "ใน"
+
+#: locales/source/app_locales_strings.php:72
+msgid "Auto assigned"
+msgstr "กำหนดอัตโนมัติ"
+
+#: locales/source/app_locales_strings.php:73
+msgid "Not assigned"
+msgstr "ไม่ได้รับมอบหมาย"
+
+#: locales/source/app_locales_strings.php:75
+msgid "Virtual Meeting"
+msgstr "การประชุมเสมือนจริง"
+
+#: locales/source/app_locales_strings.php:76
+msgid "Already selected"
+msgstr "เลือกแล้ว"
+
+#: locales/source/app_locales_strings.php:77
+msgid "Select home office"
+msgstr "เลือกโฮมออฟฟิศ"
+
+#: locales/source/app_locales_strings.php:78
+msgid "Please enter your first name"
+msgstr "กรุณากรอกชื่อของคุณ"
+
+#: locales/source/app_locales_strings.php:79
+msgid "Please enter your last name"
+msgstr "กรุณาใส่นามสกุลของคุณ"
+
+#: locales/source/app_locales_strings.php:80
+msgid "Search notification"
+msgstr "การแจ้งเตือนการค้นหา"
+
+#: locales/source/app_locales_strings.php:81
+msgid "Notifications"
+msgstr "การแจ้งเตือน"
+
+#: locales/source/app_locales_strings.php:82
+msgid "Back"
+msgstr "กลับ"
+
+#: locales/source/app_locales_strings.php:83
+msgid "Loading newsletter"
+msgstr "กำลังโหลดจดหมายข่าว"
+
+#: locales/source/app_locales_strings.php:84
+msgid "Alert"
+msgstr "แจ้งเตือน"
+
+#: locales/source/app_locales_strings.php:85
+msgid "uploading"
+msgstr "กำลังอัปโหลด"
+
+#: locales/source/app_locales_strings.php:86
+msgid "Profile picture updated successfully"
+msgstr "รูปโปรไฟล์อัพเดทเรียบร้อยแล้ว"
+
+#: locales/source/app_locales_strings.php:87
+msgid "Please enter old password"
+msgstr "กรุณาใส่รหัสผ่านเก่า"
+
+#: locales/source/app_locales_strings.php:88
+msgid "Please enter new password"
+msgstr "กรุณาใส่รหัสผ่านใหม่"
+
+#: locales/source/app_locales_strings.php:89
+msgid "Password must be at least 6 characters"
+msgstr "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"
+
+#: locales/source/app_locales_strings.php:90
+msgid "Please enter valid confirm password"
+msgstr "กรุณากรอกยืนยันรหัสผ่านให้ถูกต้อง"
+
+#: locales/source/app_locales_strings.php:91
+msgid "Edit Comment"
+msgstr "แก้ไขความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:92
+msgid "Processing"
+msgstr "กำลังดำเนินการ"
+
+#: locales/source/app_locales_strings.php:93
+msgid "Please enter comment"
+msgstr "กรุณาใส่ความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:94
+msgid "Uh Oh"
+msgstr "เอ่อโอ้"
+
+#: locales/source/app_locales_strings.php:95
+msgid "Looks like there is no content to display"
+msgstr "ดูเหมือนไม่มีเนื้อหาที่จะแสดง"
+
+#: locales/source/app_locales_strings.php:96
+msgid "Whoops"
+msgstr "อ๊ะ"
+
+#: locales/source/app_locales_strings.php:97
+msgid ""
+"Looks like you don't have any notifications,head over to your group pages to participate in "
+"discussions and join events"
+msgstr "ดูเหมือนคุณจะไม่มีการแจ้งเตือนใดๆ เลย ไปที่หน้ากลุ่มของคุณเพื่อเข้าร่วมในการอภิปรายและเข้าร่วมกิจกรรม"
+
+#: locales/source/app_locales_strings.php:98
+msgid "Checking"
+msgstr "กำลังตรวจสอบ"
+
+#: locales/source/app_locales_strings.php:99
+msgid "Retry"
+msgstr "ลองอีกครั้ง"
+
+#: locales/source/app_locales_strings.php:100
+msgid "Invalid QR code! please try again"
+msgstr "รหัส QR ไม่ถูกต้อง! กรุณาลองอีกครั้ง"
+
+#: locales/source/app_locales_strings.php:101
+msgid "month"
+msgstr "เดือน"
+
+#: locales/source/app_locales_strings.php:102
+msgid "years"
+msgstr "ปี"
+
+#: locales/source/app_locales_strings.php:103
+msgid "year"
+msgstr "ปี"
+
+#: locales/source/app_locales_strings.php:104
+msgid "day"
+msgstr "วัน"
+
+#: locales/source/app_locales_strings.php:105
+msgid "hour"
+msgstr "ชั่วโมง"
+
+#: locales/source/app_locales_strings.php:106
+msgid "minutes"
+msgstr "นาที"
+
+#: locales/source/app_locales_strings.php:107
+msgid "just now"
+msgstr "เมื่อสักครู่"
+
+#: locales/source/app_locales_strings.php:108
+msgid "Are you going?"
+msgstr "คุณจะไปไหม?"
+
+#: locales/source/app_locales_strings.php:109
+msgid "Replying to"
+msgstr "กำลังตอบกลับ"
+
+#: locales/source/app_locales_strings.php:110
+msgid "yesterday"
+msgstr "เมื่อวาน"
+
+#: locales/source/app_locales_strings.php:111
+msgid "ago"
+msgstr "ที่ผ่านมา"
+
+#: locales/source/app_locales_strings.php:112
+msgid "New Update Available"
+msgstr "อัพเดทใหม่พร้อมใช้งาน"
+
+#: locales/source/app_locales_strings.php:113
+msgid "There is a newer version of app available please update it now."
+msgstr "มีแอพเวอร์ชันใหม่กว่านี้ โปรดอัปเดตทันที"
+
+#: locales/source/app_locales_strings.php:114
+msgid "Update Now"
+msgstr "อัปเดตทันที"
+
+#: locales/source/app_locales_strings.php:115
+msgid "OK"
+msgstr "ตกลง"
+
+#: locales/source/app_locales_strings.php:116
+msgid "Warning"
+msgstr "การเตือน"
+
+#: locales/source/app_locales_strings.php:117
+msgid "days"
+msgstr "วัน"
+
+#: locales/source/app_locales_strings.php:118
+msgid "week"
+msgstr "สัปดาห์"
+
+#: locales/source/app_locales_strings.php:119
+msgid "weeks"
+msgstr "สัปดาห์"
+
+#: locales/source/app_locales_strings.php:120
+msgid "hours"
+msgstr "ชั่วโมง"
+
+#: locales/source/app_locales_strings.php:121
+msgid "minute"
+msgstr "นาที"
+
+#: locales/source/app_locales_strings.php:122
+msgid "deleted"
+msgstr "ที่ถูกลบ"
+
+#: locales/source/app_locales_strings.php:123
+msgid "Undo"
+msgstr "แก้"
+
+#: locales/source/app_locales_strings.php:124
+msgid "Stay tuned for Announcements to be posted"
+msgstr "คอยติดตามการประกาศที่จะโพสต์"
+
+#: locales/source/app_locales_strings.php:125
+msgid "Stay tuned for upcoming Events to be scheduled"
+msgstr "คอยติดตามเหตุการณ์ที่จะเกิดขึ้นที่จะกำหนด"
+
+#: locales/source/app_locales_strings.php:126
+msgid "Stay tuned for Newsletter to be posted"
+msgstr "คอยติดตามจดหมายข่าวที่จะโพสต์"
+
+#: locales/source/app_locales_strings.php:127
+msgid "Stay tuned for Discussion to be posted"
+msgstr "คอยติดตามการสนทนาที่จะโพสต์"
+
+#: locales/source/app_locales_strings.php:128
+msgid "Stay tuned for photos & videos to be added"
+msgstr "คอยติดตามรูปภาพและวิดีโอที่จะเพิ่ม"
+
+#: locales/source/app_locales_strings.php:129
+msgid "Comment can't be empty"
+msgstr "ต้องระบุความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:130
+msgid "ON"
+msgstr "เปิดใช้งาน"
+
+#: locales/source/app_locales_strings.php:131
+msgid "OFF"
+msgstr "ปิด"
+
+#: locales/source/app_locales_strings.php:132
+msgid "Cover Photo"
+msgstr "ภาพหน้าปก"
+
+#: locales/source/app_locales_strings.php:133
+msgid "Create new Album"
+msgstr "สร้างอัลบั้มใหม่"
+
+#: locales/source/app_locales_strings.php:135
+msgid "Update Album"
+msgstr "อัปเดตอัลบั้ม"
+
+#: locales/source/app_locales_strings.php:136
+msgid "Album Title"
+msgstr "ชื่ออัลบั้ม"
+
+#: locales/source/app_locales_strings.php:137
+msgid "Create Album"
+msgstr "สร้างอัลบั้ม"
+
+#: locales/source/app_locales_strings.php:138
+msgid "Upload Media"
+msgstr "อัพโหลดสื่อ"
+
+#: locales/source/app_locales_strings.php:139
+msgid "Add photos and videos to upload"
+msgstr "เพิ่มรูปภาพและวิดีโอเพื่ออัปโหลด"
+
+#: locales/source/app_locales_strings.php:140
+msgid "item"
+msgstr "สินค้า"
+
+#: locales/source/app_locales_strings.php:141
+msgid "items"
+msgstr "รายการ"
+
+#: locales/source/app_locales_strings.php:142
+msgid "You can select only one channel"
+msgstr "เลือกได้เพียงช่องทางเดียว"
+
+#: locales/source/app_locales_strings.php:143
+msgid "Error"
+msgstr "ผิดพลาด"
+
+#: locales/source/app_locales_strings.php:144
+msgid "Title is a required field"
+msgstr "ชื่อเรื่องเป็นฟิลด์บังคับ"
+
+#: locales/source/app_locales_strings.php:145
+msgid "Are you sure want to delete Album"
+msgstr "คุณแน่ใจหรือว่าต้องการลบ Album"
+
+#: locales/source/app_locales_strings.php:146
+msgid "Upload New"
+msgstr "อัพโหลดใหม่"
+
+#: locales/source/app_locales_strings.php:147
+msgid "Image"
+msgstr "รูปภาพ"
+
+#: locales/source/app_locales_strings.php:148
+msgid "Update Discussion"
+msgstr "อัปเดตการสนทนา"
+
+#: locales/source/app_locales_strings.php:149
+msgid "Submit"
+msgstr "ส่ง"
+
+#: locales/source/app_locales_strings.php:150
+msgid "Discussion"
+msgstr "การอภิปราย"
+
+#: locales/source/app_locales_strings.php:151
+msgid "Create Discussion"
+msgstr "สร้างการสนทนา"
+
+#: locales/source/app_locales_strings.php:152
+msgid "Are you sure want to delete discussion?"
+msgstr "คุณแน่ใจหรือว่าต้องการลบการสนทนา?"
+
+#: locales/source/app_locales_strings.php:153
+msgid "Load more..."
+msgstr "โหลดเพิ่ม..."
+
+#: locales/source/app_locales_strings.php:155
+msgid "You must have atleast one or more chapters to join"
+msgstr "คุณต้องมีอย่างน้อยหนึ่งบทเพื่อเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:156
+msgid "Join Request Processed Succesfully"
+msgstr "ประมวลผลคำขอเข้าร่วมสำเร็จแล้ว"
+
+#: locales/source/app_locales_strings.php:157
+msgid "Your request has been processed successfully!"
+msgstr "คำขอของคุณได้รับการดำเนินการเรียบร้อยแล้ว!"
+
+#: locales/source/app_locales_strings.php:158
+msgid "Are you sure to clear all notifications?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการล้างการแจ้งเตือนทั้งหมด"
+
+#: locales/source/app_locales_strings.php:159
+msgid "Are you sure to clear this notification?"
+msgstr "คุณแน่ใจหรือที่จะล้างการแจ้งเตือนนี้"
+
+#: locales/source/app_locales_strings.php:160
+msgid "RSVP'ed Successfully"
+msgstr "ตอบกลับเรียบร้อยแล้ว"
+
+#: locales/source/app_locales_strings.php:161
+msgid "Support"
+msgstr "สนับสนุน"
+
+#: locales/source/app_locales_strings.php:162
+msgid "Upcoming"
+msgstr "กำลังจะมาถึง"
+
+#: locales/source/app_locales_strings.php:163
+msgid "Past"
+msgstr "อดีต"
+
+#: locales/source/app_locales_strings.php:164
+msgid "Show all"
+msgstr "แสดงทั้งหมด"
+
+#: locales/source/app_locales_strings.php:165
+msgid "months"
+msgstr "เดือน"
+
+#: locales/source/app_locales_strings.php:166
+msgid "Cancel Join Request"
+msgstr "ยกเลิก คำขอเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:167
+msgid "Success"
+msgstr "ความสำเร็จ"
+
+#: locales/source/app_locales_strings.php:168
+msgid "Announcements and Events related to"
+msgstr "ประกาศและกิจกรรมที่เกี่ยวข้องกับ"
+
+#: locales/source/app_locales_strings.php:169
+msgid "Stay tuned for announcements, events and newsletters"
+msgstr "ติดตามข่าวสาร กิจกรรม และจดหมายข่าว"
+
+#: locales/source/app_locales_strings.php:170
+msgid "New Album"
+msgstr "อัลบั้มใหม่"
+
+#: locales/source/app_locales_strings.php:171
+msgid "Cover Image is set"
+msgstr "ภาพหน้าปกถูกตั้งค่า"
+
+#: locales/source/app_locales_strings.php:172
+msgid "Creating new discussion"
+msgstr "การสร้างการสนทนาใหม่"
+
+#: locales/source/app_locales_strings.php:173
+msgid "Exporting video"
+msgstr "การส่งออกวิดีโอ"
+
+#: locales/source/app_locales_strings.php:175
+msgid "Are you sure want to set it as cover image?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการตั้งเป็นภาพหน้าปก"
+
+#: locales/source/app_locales_strings.php:176
+msgid "Discussion Detail"
+msgstr "รายละเอียดการสนทนา"
+
+#: locales/source/app_locales_strings.php:177
+msgid "Creating new album"
+msgstr "กำลังสร้างอัลบั้มใหม่"
+
+#: locales/source/app_locales_strings.php:178
+msgid "Posted on"
+msgstr "โพสต์เมื่อ"
+
+#: locales/source/app_locales_strings.php:179
+msgid ""
+"I understand and agree that all information related to my account will be permanently lost after "
+"30 days and I provide my consent to delete my account. Type 'Delete' below to provide your consent"
+msgstr ""
+"ฉันเข้าใจและตกลงว่าข้อมูลทั้งหมดที่เกี่ยวข้องกับบัญชีของฉันจะสูญหายไปอย่างถาวรหลังจากผ่านไป 30 วัน "
+"และฉันให้ความยินยอมในการลบบัญชีของฉัน พิมพ์ 'Delete' ด้านล่างเพื่อให้ความยินยอมของคุณ"
+
+#: locales/source/app_locales_strings.php:180
+msgid "Delete my account"
+msgstr "ลบบัญชีของฉัน"
+
+#: locales/source/app_locales_strings.php:181
+msgid ""
+"I no longer wish to use this platform anymore, and I would like to delete my account along with my "
+"personal information"
+msgstr "ฉันไม่ต้องการใช้แพลตฟอร์มนี้อีกต่อไปแล้ว และฉันต้องการลบบัญชีของฉันพร้อมกับข้อมูลส่วนบุคคลของฉัน"
+
+#: locales/source/app_locales_strings.php:182
+msgid "Modified"
+msgstr "ดัดแปลง"
+
+#: locales/source/app_locales_strings.php:183
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+#: locales/source/app_locales_strings.php:185
+msgid "Stay tuned for resources to be added!"
+msgstr "คอยติดตามทรัพยากรที่จะเพิ่ม!"
+
+#: locales/source/app_locales_strings.php:186
+msgid "Inbox"
+msgstr "กล่องข้อความ"
+
+#: locales/source/app_locales_strings.php:187
+msgid "Trash"
+msgstr "ถังขยะ"
+
+#: locales/source/app_locales_strings.php:188
+msgid "Nothing in the trash"
+msgstr "ไม่มีอะไรในถังขยะ"
+
+#: locales/source/app_locales_strings.php:189
+msgid "Nothing in the inbox"
+msgstr "ไม่มีอะไรในกล่องจดหมาย"
+
+#: locales/source/app_locales_strings.php:190
+msgid "Bin"
+msgstr "บิน"
+
+#: locales/source/app_locales_strings.php:191
+msgid "From"
+msgstr "จาก"
+
+#: locales/source/app_locales_strings.php:192
+msgid "Date"
+msgstr "วันที่"
+
+#: locales/source/app_locales_strings.php:193
+msgid "Volunteers needed"
+msgstr "ต้องการอาสาสมัคร"
+
+#: locales/source/app_locales_strings.php:194
+msgid "Volunteers as"
+msgstr "อาสาสมัครเป็น"
+
+#: locales/source/app_locales_strings.php:195
+msgid "Successfully Assigned Event Volunteer"
+msgstr "อาสาสมัครกิจกรรมที่ได้รับมอบหมายสำเร็จแล้ว"
+
+#: locales/source/app_locales_strings.php:196
+msgid "Are you sure you want to register for this role?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลงทะเบียนสำหรับบทบาทนี้"
+
+#: locales/source/app_locales_strings.php:197
+msgid "Volunteer role successfully decline"
+msgstr "ปฏิเสธบทบาทอาสาสมัครสำเร็จ"
+
+#: locales/source/app_locales_strings.php:198
+msgid "You already registered for this role.You can deregister yourself from this role."
+msgstr "คุณได้ลงทะเบียนสำหรับบทบาทนี้แล้ว คุณสามารถยกเลิกการลงทะเบียนด้วยตัวคุณเองจากบทบาทนี้ได้"
+
+#: locales/source/app_locales_strings.php:199
+msgid "Volunteer application capacity has been filled."
+msgstr "รับสมัครอาสาสมัครเต็มแล้ว"
+
+#: locales/source/app_locales_strings.php:200
+msgid "You need to select atleast one or more Chapter to join."
+msgstr "คุณต้องเลือกอย่างน้อยหนึ่งบทขึ้นไปเพื่อเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:201
+msgid "Your leave request has been processed successfully."
+msgstr "คำขอลาของคุณได้รับการประมวลผลเรียบร้อยแล้ว"
+
+#: locales/source/app_locales_strings.php:202
+msgid ""
+"Are you sure you want to join this ERG? If you continue you will join the ERG and a Chapter will "
+"be assigned to you!"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการเข้าร่วม ERG นี้ หากคุณดำเนินการต่อ คุณจะเข้าร่วม ERG และบทจะได้รับมอบหมายให้คุณ!"
+
+#: locales/source/app_locales_strings.php:203
+msgid "Stay tuned for past Events to be scheduled"
+msgstr "คอยติดตามเหตุการณ์ที่ผ่านมาที่จะกำหนด"
+
+#: locales/source/app_locales_strings.php:204
+msgid "Blog"
+msgstr "บล็อก"
+
+#: locales/source/app_locales_strings.php:205
+msgid "Detail"
+msgstr "รายละเอียด"
+
+#: locales/source/app_locales_strings.php:206
+msgid "Stay tuned for Blog to be posted."
+msgstr "คอยติดตามบล็อกที่จะโพสต์"
+
+#: locales/source/app_locales_strings.php:207
+msgid "Global Calendar"
+msgstr "ปฏิทินสากล"
+
+#: locales/source/app_locales_strings.php:208
+msgid "My Calendar"
+msgstr "ปฏิทินของฉัน"
+
+#: locales/source/app_locales_strings.php:209
+msgid ""
+"You are accessing a link that is in a different zone than your current zone. In order to allow "
+"access we have switched your zone. You can switch zones from zone dropdown available in drawer menu"
+msgstr ""
+"คุณกำลังเข้าถึงลิงก์ที่อยู่ในโซนอื่นที่ไม่ใช่โซนปัจจุบันของคุณ เพื่อให้สามารถเข้าถึงได้ เราได้เปลี่ยนโซนของคุณ "
+"คุณสามารถสลับโซนจากโซนแบบเลื่อนลงที่มีอยู่ในเมนูลิ้นชัก"
+
+#: locales/source/app_locales_strings.php:210
+msgid "Characters left"
+msgstr "ตัวละครเหลือ"
+
+#: locales/source/app_locales_strings.php:211
+msgid "Only 1000 characters allowed"
+msgstr "อนุญาตเพียง 1,000 ตัวอักษร"
+
+#: locales/source/app_locales_strings.php:212
+msgid "Zone"
+msgstr "โซน"
+
+#: locales/source/app_locales_strings.php:213
+msgid "My"
+msgstr "ของฉัน"
+
+#: locales/source/app_locales_strings.php:214
+msgid "You have not joined any %s%  yet"
+msgstr "คุณยังไม่ได้เข้าร่วม %s% ใดๆ"
+
+#: locales/source/app_locales_strings.php:215
+msgid "Are you sure to remove profile picture?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรูปโปรไฟล์"
+
+#: locales/source/app_locales_strings.php:216
+msgid "Pronouns"
+msgstr "คำสรรพนาม"
+
+#: locales/source/app_locales_strings.php:217
+msgid "Joined"
+msgstr "เข้าร่วมแล้ว"
+
+#: locales/source/app_locales_strings.php:218
+msgid "Home Zone"
+msgstr "โฮมโซน"
+
+#: locales/source/app_locales_strings.php:219
+msgid "to me"
+msgstr "ถึงฉัน"
+
+#: locales/source/app_locales_strings.php:220
+msgid "Map"
+msgstr "แผนที่"
+
+#: locales/source/app_locales_strings.php:221
+msgid "Required to join atleast one or more chapters"
+msgstr "ต้องเข้าร่วมอย่างน้อยหนึ่งบทขึ้นไป"
+
+#: locales/source/app_locales_strings.php:222
+msgid "You need to select exactly one Chapter to join."
+msgstr "คุณต้องเลือกหนึ่งบทเพื่อเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:223
+msgid "Acts of Inclusion"
+msgstr "พระราชบัญญัติการรวม"
+
+#: locales/source/app_locales_strings.php:224
+msgid "About the"
+msgstr "เกี่ยวกับ"
+
+#: locales/source/app_locales_strings.php:225
+msgid "No image preview"
+msgstr "ไม่มีภาพตัวอย่าง"
+
+#: locales/source/app_locales_strings.php:226
+msgid "Recognition Detail"
+msgstr "รายละเอียดการรับรู้"
+
+#: locales/source/app_locales_strings.php:227
+msgid "Yourself"
+msgstr "ตัวคุณเอง"
+
+#: locales/source/app_locales_strings.php:228
+msgid "Recognize a Colleague"
+msgstr "รู้จักเพื่อนร่วมงาน"
+
+#: locales/source/app_locales_strings.php:229
+msgid "Recognize My Self"
+msgstr "รู้จักตัวตนของฉัน"
+
+#: locales/source/app_locales_strings.php:230
+msgid "Recognition Feeds"
+msgstr "ฟีดการรับรู้"
+
+#: locales/source/app_locales_strings.php:231
+msgid "Recognition Given"
+msgstr "ได้รับการยอมรับ"
+
+#: locales/source/app_locales_strings.php:232
+msgid "Recognition Received"
+msgstr "ได้รับการยอมรับ"
+
+#: locales/source/app_locales_strings.php:233
+msgid "Create new recognition"
+msgstr "สร้างการรับรู้ใหม่"
+
+#: locales/source/app_locales_strings.php:234
+msgid "Looks like there aren't any recognitions yet!"
+msgstr "ดูเหมือนว่าจะยังไม่มีการจดจำใดๆ เลย!"
+
+#: locales/source/app_locales_strings.php:235
+msgid "There is no past events yet!"
+msgstr "ยังไม่มีกิจกรรมที่ผ่านมา!"
+
+#: locales/source/app_locales_strings.php:236
+msgid "Remove Profile Picture"
+msgstr "ลบรูปโปรไฟล์"
+
+#: locales/source/app_locales_strings.php:237
+msgid "Already signed up"
+msgstr "ลงทะเบียนแล้ว"
+
+#: locales/source/app_locales_strings.php:238
+msgid "Would you like to volunteer for one of these roles?"
+msgstr "คุณต้องการเป็นอาสาสมัครสำหรับหนึ่งในบทบาทเหล่านี้หรือไม่?"
+
+#: locales/source/app_locales_strings.php:239
+msgid "Register for role"
+msgstr "ลงทะเบียนสำหรับบทบาท"
+
+#: locales/source/app_locales_strings.php:240
+msgid "Delete Album"
+msgstr "ลบอัลบั้ม"
+
+#: locales/source/app_locales_strings.php:241
+msgid "Set cover image"
+msgstr "ตั้งค่าภาพหน้าปก"
+
+#: locales/source/app_locales_strings.php:242
+msgid "Delete media"
+msgstr "ลบสื่อ"
+
+#: locales/source/app_locales_strings.php:243
+msgid "Are you sure want to delete this media?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบสื่อนี้"
+
+#: locales/source/app_locales_strings.php:244
+msgid "Delete Discussion"
+msgstr "ลบการสนทนา"
+
+#: locales/source/app_locales_strings.php:245
+msgid "Delete Recognition"
+msgstr "ลบการรับรู้"
+
+#: locales/source/app_locales_strings.php:246
+msgid "Are you sure you want to delete this recognition?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการจดจำนี้"
+
+#: locales/source/app_locales_strings.php:247
+msgid "Recognized by"
+msgstr "ได้รับการยอมรับจาก"
+
+#: locales/source/app_locales_strings.php:248
+msgid "of this"
+msgstr "ของสิ่งนี้"
+
+#: locales/source/app_locales_strings.php:249
+msgid "or"
+msgstr "หรือ"
+
+#: locales/source/app_locales_strings.php:250
+msgid "Are you sure want to open the file?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการเปิดไฟล์"
+
+#: locales/source/app_locales_strings.php:251
+msgid "Open"
+msgstr "เปิด"
+
+#: locales/source/app_locales_strings.php:252
+msgid "Do you want to join this %s% anonymously?"
+msgstr "คุณต้องการเข้าร่วม %s% นี้โดยไม่เปิดเผยตัวตนหรือไม่?"
+
+#: locales/source/app_locales_strings.php:253
+msgid ""
+"Please be mindful that this does not guarantee your full anonymity.%s% would still be able to "
+"technically identify you if need be."
+msgstr "โปรดทราบว่านี่ไม่ได้รับประกันว่าคุณจะไม่เปิดเผยตัวตนโดยสมบูรณ์%s% จะยังคงสามารถระบุตัวคุณได้ในทางเทคนิคหากจำเป็น"
+
+#: locales/source/app_locales_strings.php:254
+msgid "Yes, I want to join anonymously"
+msgstr "ใช่ ฉันต้องการเข้าร่วมโดยไม่เปิดเผยตัวตน"
+
+#: locales/source/app_locales_strings.php:255
+msgid "Proceed"
+msgstr "ดำเนินการ"
+
+#: locales/source/app_locales_strings.php:256
+#, no-php-format
+msgid "By typing in %s% below, I provide my consent."
+msgstr "การพิมพ์ %s% ด้านล่างแสดงว่าฉันยินยอม"
+
+#: locales/source/app_locales_strings.php:257
+msgid "New Touch Point"
+msgstr "จุดสัมผัสใหม่"
+
+#: locales/source/app_locales_strings.php:258
+msgid "Due date"
+msgstr "วันที่ครบกำหนด"
+
+#: locales/source/app_locales_strings.php:259
+msgid "Update Touch Point"
+msgstr "อัปเดตจุดสัมผัส"
+
+#: locales/source/app_locales_strings.php:260
+msgid "Update Status"
+msgstr "อัปเดตสถานะ"
+
+#: locales/source/app_locales_strings.php:261
+msgid "Created by"
+msgstr "สร้างโดย"
+
+#: locales/source/app_locales_strings.php:262
+msgid "Looks like there is no touch point yet!"
+msgstr "ดูเหมือนว่ายังไม่มีจุดสัมผัส!"
+
+#: locales/source/app_locales_strings.php:263
+msgid "Are you sure you want to delete this touch point?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบจุดสัมผัสนี้"
+
+#: locales/source/app_locales_strings.php:264
+msgid "Delete Touch Point"
+msgstr "ลบจุดสัมผัส"
+
+#: locales/source/app_locales_strings.php:265
+msgid "Team Detail"
+msgstr "รายละเอียดทีม"
+
+#: locales/source/app_locales_strings.php:268
+msgid "Feedback"
+msgstr "คำติชม"
+
+#: locales/source/app_locales_strings.php:269
+msgid "My Teams"
+msgstr "ทีมของฉัน"
+
+#: locales/source/app_locales_strings.php:272
+msgid "Thank you for your interest in joining in a %s% role!"
+msgstr "ขอขอบคุณที่สนใจเข้าร่วมในบทบาท %s%!"
+
+#: locales/source/app_locales_strings.php:273
+msgid "No role available"
+msgstr "ไม่มีบทบาท"
+
+#: locales/source/app_locales_strings.php:275
+msgid "Manage Request"
+msgstr "จัดการคำขอ"
+
+#: locales/source/app_locales_strings.php:276
+msgid "Request to join"
+msgstr "ขอเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:277
+msgid "Your join request is being processed."
+msgstr "กำลังประมวลผลคำขอเข้าร่วมของคุณ"
+
+#: locales/source/app_locales_strings.php:278
+msgid "Looks like you have not joined any Team yet!"
+msgstr "ดูเหมือนว่าคุณยังไม่ได้เข้าร่วมทีมใดเลย!"
+
+#: locales/source/app_locales_strings.php:279
+msgid "more"
+msgstr "มากกว่า"
+
+#: locales/source/app_locales_strings.php:280
+msgid "New Feedback"
+msgstr "คำติชมใหม่"
+
+#: locales/source/app_locales_strings.php:281
+msgid "Update Feedback"
+msgstr "อัปเดตความคิดเห็น"
+
+#: locales/source/app_locales_strings.php:282
+msgid "Add to Action Items"
+msgstr "เพิ่มไปยังรายการการดำเนินการ"
+
+#: locales/source/app_locales_strings.php:283
+msgid "For"
+msgstr "สำหรับ"
+
+#: locales/source/app_locales_strings.php:284
+msgid "Looks like there is no feedback yet!"
+msgstr "ดูเหมือนว่ายังไม่มีการตอบกลับ!"
+
+#: locales/source/app_locales_strings.php:285
+msgid "Are you sure you want to delete this feedback?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบความคิดเห็นนี้"
+
+#: locales/source/app_locales_strings.php:286
+msgid "Delete Feedback"
+msgstr "ลบคำติชม"
+
+#: locales/source/app_locales_strings.php:287
+msgid "New task created successfully"
+msgstr "สร้างงานใหม่สำเร็จแล้ว"
+
+#: locales/source/app_locales_strings.php:288
+msgid "completed on"
+msgstr "เสร็จสิ้นเมื่อวันที่"
+
+#: locales/source/app_locales_strings.php:289
+msgid "due on"
+msgstr "เนื่องจาก"
+
+#: locales/source/app_locales_strings.php:290
+msgid "New Action Item"
+msgstr "รายการดำเนินการใหม่"
+
+#: locales/source/app_locales_strings.php:291
+msgid "Update Action Item"
+msgstr "อัปเดตรายการดำเนินการ"
+
+#: locales/source/app_locales_strings.php:292
+msgid "Add to touch point"
+msgstr "เพิ่มไปยังจุดสัมผัส"
+
+#: locales/source/app_locales_strings.php:293
+msgid "Assignee"
+msgstr "ผู้รับมอบหมาย"
+
+#: locales/source/app_locales_strings.php:294
+msgid "Looks like there is no action items yet!"
+msgstr "ดูเหมือนว่ายังไม่มีรายการดำเนินการ!"
+
+#: locales/source/app_locales_strings.php:295
+msgid "Are you sure you want to delete this action item?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรายการการทำงานนี้"
+
+#: locales/source/app_locales_strings.php:296
+msgid "Delete action item"
+msgstr "ลบรายการการทำงาน"
+
+#: locales/source/app_locales_strings.php:297
+msgid "New touch point created successfully"
+msgstr "สร้างจุดสัมผัสใหม่สำเร็จแล้ว"
+
+#: locales/source/app_locales_strings.php:298
+msgid "Accept Request"
+msgstr "ยอมรับคำขอ"
+
+#: locales/source/app_locales_strings.php:299
+msgid "Reject Request"
+msgstr "ปฏิเสธคำขอ"
+
+#: locales/source/app_locales_strings.php:300
+msgid "Looks like there is no requests"
+msgstr "ดูเหมือนไม่มีการร้องขอ"
+
+#: locales/source/app_locales_strings.php:303
+msgid "Requests Received"
+msgstr "ได้รับคำขอแล้ว"
+
+#: locales/source/app_locales_strings.php:304
+msgid "Looks like you have not joined any role yet!"
+msgstr "ดูเหมือนว่าคุณยังไม่ได้เข้าร่วมบทบาทใดเลย!"
+
+#: locales/source/app_locales_strings.php:305
+msgid "Match"
+msgstr "การแข่งขัน"
+
+#: locales/source/app_locales_strings.php:308
+msgid "No matches found for %s% role"
+msgstr "ไม่พบงานที่ตรงกับ %s% บทบาท"
+
+#: locales/source/app_locales_strings.php:309
+msgid "Action Item detail"
+msgstr "รายละเอียดรายการดำเนินการ"
+
+#: locales/source/app_locales_strings.php:310
+msgid "No due date set"
+msgstr "ไม่มีการกำหนดวันครบกำหนด"
+
+#: locales/source/app_locales_strings.php:311
+msgid "Related touchpoints:"
+msgstr "จุดสัมผัสที่เกี่ยวข้อง:"
+
+#: locales/source/app_locales_strings.php:312
+msgid "Feedback Detail"
+msgstr "รายละเอียดข้อเสนอแนะ"
+
+#: locales/source/app_locales_strings.php:313
+msgid "Related tasks:"
+msgstr "งานที่เกี่ยวข้อง:"
+
+#: locales/source/app_locales_strings.php:314
+msgid "TouchPoint Detail"
+msgstr "รายละเอียด TouchPoint"
+
+#: locales/source/app_locales_strings.php:315
+msgid "About %s%"
+msgstr "ประมาณ %s%"
+
+#: locales/source/app_locales_strings.php:316
+msgid "Version"
+msgstr "รุ่น"
+
+#: locales/source/app_locales_strings.php:317
+msgid "Licences"
+msgstr "ใบอนุญาต"
+
+#: locales/source/app_locales_strings.php:318
+msgid "Open Source Licences"
+msgstr "ใบอนุญาตโอเพ่นซอร์ส"
+
+#: locales/source/app_locales_strings.php:319
+msgid "Continue"
+msgstr "ดำเนินการต่อ"
+
+#: locales/source/app_locales_strings.php:320
+msgid "Please contact your administrator"
+msgstr "โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: locales/source/app_locales_strings.php:321
+msgid "Please try later"
+msgstr "โปรดลองอีกครั้งในภายหลัง"
+
+#: locales/source/app_locales_strings.php:322
+msgid ""
+"If you couldn't make it to the live event, don't worry! Just click on the recording link, and once "
+"you have finished viewing it, mark your attendance."
+msgstr ""
+"หากคุณไม่สามารถเข้าร่วมงานสดได้ ไม่ต้องกังวล! เพียงคลิกลิงก์บันทึก และเมื่อคุณดูเสร็จแล้ว ให้ทำเครื่องหมายการเข้าร่วมของคุณ"
+
+#: locales/source/app_locales_strings.php:323
+msgid "I have finished watching the event recording video, please mark my attendance"
+msgstr "ฉันได้ดูวีดีโอบันทึกกิจกรรมจบแล้ว กรุณาทำเครื่องหมายที่เข้าร่วมด้วย"
+
+#: locales/source/app_locales_strings.php:324
+msgid "View Event Recording"
+msgstr "ดูการบันทึกเหตุการณ์"
+
+#: locales/source/app_locales_strings.php:326
+msgid "Mark as watched"
+msgstr "ทำเครื่องหมายว่าดูแล้ว"
+
+#: locales/source/app_locales_strings.php:327
+msgid "Post Event Follow-up Note"
+msgstr "บันทึกการติดตามผลหลังเหตุการณ์"
+
+#: locales/source/app_locales_strings.php:328
+msgid "Attendance Confirmation"
+msgstr "การยืนยันการเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:329
+msgid "Team Registration"
+msgstr "การลงทะเบียนทีม"
+
+#: locales/source/app_locales_strings.php:330
+msgid "Confirm Pause"
+msgstr "ยืนยันการหยุดชั่วคราว"
+
+#: locales/source/app_locales_strings.php:331
+msgid "Confirm Resume"
+msgstr "ยืนยันประวัติย่อ"
+
+#: locales/source/app_locales_strings.php:332
+msgid "Are you sure to resume?"
+msgstr "คุณแน่ใจหรือว่าจะกลับมาดำเนินการต่อ?"
+
+#: locales/source/app_locales_strings.php:333
+msgid "Are you sure to pause?"
+msgstr "คุณแน่ใจหรือว่าจะหยุดชั่วคราว?"
+
+#: locales/source/app_locales_strings.php:334
+msgid "Request Processed Successfully"
+msgstr "คำขอดำเนินการสำเร็จ"
+
+#: locales/source/app_locales_strings.php:335
+msgid "on"
+msgstr "เปิด"
+
+#: locales/source/app_locales_strings.php:336
+msgid "You have not registered for any roles yet!"
+msgstr "คุณยังไม่ได้ลงทะเบียนสำหรับบทบาทใดๆ!"
+
+#: locales/source/app_locales_strings.php:337
+msgid ""
+"Your join request is being processed. Stay tuned for updates.You can manage your request by "
+"clicking the Manage Join Requests button."
+msgstr ""
+"คำขอเข้าร่วมของคุณกำลังได้รับการประมวลผล คอยติดตามการอัปเดต คุณสามารถจัดการคำขอของคุณได้โดยคลิกปุ่มจัดการคำขอเข้าร่วม"
+
+#: locales/source/app_locales_strings.php:338
+msgid "Confirm Cancel Registration"
+msgstr "ยืนยันการยกเลิกการลงทะเบียน"
+
+#: locales/source/app_locales_strings.php:339
+msgid "Are you sure to cancel your registration?"
+msgstr "คุณแน่ใจหรือว่าจะยกเลิกการลงทะเบียนของคุณ?"
+
+#: locales/source/app_locales_strings.php:341
+msgid "Confirm Delete Request"
+msgstr "ยืนยันคำขอลบ"
+
+#: locales/source/app_locales_strings.php:342
+msgid "Confirm Send Request"
+msgstr "ยืนยันการส่งคำขอ"
+
+#: locales/source/app_locales_strings.php:343
+msgid "Are you sure to delete this request?"
+msgstr "คุณแน่ใจหรือว่าจะลบคำขอนี้"
+
+#: locales/source/app_locales_strings.php:344
+msgid "Are you sure to send this request?"
+msgstr "คุณแน่ใจหรือว่าจะส่งคำขอนี้"
+
+#: locales/source/app_locales_strings.php:345
+msgid "Team Members"
+msgstr "สมาชิกในทีม"
+
+#: locales/source/app_locales_strings.php:346
+msgid "Your team is in processing state"
+msgstr "ทีมของคุณอยู่ในสถานะกำลังดำเนินการ"
+
+#: locales/source/app_locales_strings.php:347
+msgid ""
+"Action Items, Touchpoints, and Feedback tabs are disabled from the configuration settings. Please "
+"contact your administrator to resolve this issue."
+msgstr ""
+"แท็บรายการการดำเนินการ จุดสัมผัส และคำติชมถูกปิดใช้งานจากการตั้งค่าการกำหนดค่า โปรดติดต่อผู้ดูแลระบบของคุณเพื่อแก้ไขปัญหานี้"
+
+#: locales/source/app_locales_strings.php:348
+msgid "Looks like there is no member yet!"
+msgstr "ดูเหมือนว่าจะยังไม่มีสมาชิก!"
+
+#: locales/source/app_locales_strings.php:349
+msgid "Discover Circles"
+msgstr "ค้นพบแวดวง"
+
+#: locales/source/app_locales_strings.php:350
+msgid "It appears that there are no circles available at this time. Please stay tuned for updates."
+msgstr "ดูเหมือนว่าไม่มีแวดวงในขณะนี้ โปรดติดตามการปรับปรุง"
+
+#: locales/source/app_locales_strings.php:351
+msgid "Are you sure want to complete this?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้ให้เสร็จสิ้น"
+
+#: locales/source/app_locales_strings.php:352
+msgid "There is no description"
+msgstr "ไม่มีคำอธิบาย"
+
+#: locales/source/app_locales_strings.php:353
+msgid "Start A Circle"
+msgstr "เริ่มวงกลม"
+
+#: locales/source/app_locales_strings.php:354
+msgid "Create New Circle"
+msgstr "สร้างแวดวงใหม่"
+
+#: locales/source/app_locales_strings.php:355
+msgid "Update Circle"
+msgstr "อัปเดตแวดวง"
+
+#: locales/source/app_locales_strings.php:356
+msgid "Confirm Leave Circle"
+msgstr "ยืนยันออกจากแวดวง"
+
+#: locales/source/app_locales_strings.php:357
+msgid "Confirm Join Circle"
+msgstr "ยืนยันเข้าร่วมแวดวง"
+
+#: locales/source/app_locales_strings.php:359
+msgid "You have successfully joined this circle.You can find it now in the 'My Circle' tab."
+msgstr "คุณเข้าร่วมแวดวงนี้สำเร็จแล้ว คุณสามารถค้นหาได้ในแท็บ 'แวดวงของฉัน'"
+
+#: locales/source/app_locales_strings.php:360
+msgid "Edit Message"
+msgstr "แก้ไขข้อความ"
+
+#: locales/source/app_locales_strings.php:361
+msgid "Please enter message"
+msgstr "กรุณากรอกข้อความ"
+
+#: locales/source/app_locales_strings.php:362
+msgid "Confirm Below"
+msgstr "ยืนยันด้านล่าง"
+
+#: locales/source/app_locales_strings.php:364
+msgid "No Messages"
+msgstr "ไม่มีข้อความ"
+
+#: locales/source/app_locales_strings.php:365
+msgid "Be the first to Message"
+msgstr "เป็นคนแรกที่จะส่งข้อความ"
+
+#: locales/source/app_locales_strings.php:366
+msgid "Delete Message"
+msgstr "ลบทิ้ง"
+
+#: locales/source/app_locales_strings.php:367
+msgid "Are you sure you want to delete this message?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบข้อความนี้"
+
+#: locales/source/app_locales_strings.php:369
+msgid "My Circles"
+msgstr "แวดวงของฉัน"
+
+#: locales/source/app_locales_strings.php:370
+msgid "Select Filter"
+msgstr "เลือกตัวกรอง"
+
+#: locales/source/app_locales_strings.php:371
+msgid "Clear"
+msgstr "ยกเลิกการเลือก"
+
+#: locales/source/app_locales_strings.php:372
+msgid "Loading"
+msgstr "กำลังโหลด"
+
+#: locales/source/app_locales_strings.php:373
+msgid "Filter by Circle leader"
+msgstr "กรองตามผู้นำวงกลม"
+
+#: locales/source/app_locales_strings.php:374
+msgid "Filter"
+msgstr "ตัวกรอง"
+
+#: locales/source/app_locales_strings.php:375
+msgid "Filter by first name or last name"
+msgstr "กรองตามชื่อหรือนามสกุล"
+
+#: locales/source/app_locales_strings.php:376
+msgid "Invite User"
+msgstr "เชิญผู้ใช้"
+
+#: locales/source/app_locales_strings.php:377
+msgid "Search user to join the Team"
+msgstr "ค้นหาผู้ใช้เพื่อเข้าร่วมทีม"
+
+#: locales/source/app_locales_strings.php:378
+msgid "Search user to invite"
+msgstr "ค้นหาผู้ใช้ที่จะเชิญ"
+
+#: locales/source/app_locales_strings.php:379
+msgid "Search User"
+msgstr "ค้นหาผู้ใช้"
+
+#: locales/source/app_locales_strings.php:380
+msgid "Search Results"
+msgstr "ผลการค้นหา"
+
+#: locales/source/app_locales_strings.php:381
+msgid "Requests Sent"
+msgstr "ส่งคำขอแล้ว"
+
+#: locales/source/app_locales_strings.php:382
+msgid "Resend Invite"
+msgstr "ส่งคำเชิญอีกครั้ง"
+
+#: locales/source/app_locales_strings.php:383
+msgid "Delete Invite"
+msgstr "ลบคำเชิญ"
+
+#: locales/source/app_locales_strings.php:384
+msgid "Create Touch Point"
+msgstr "สร้างจุดสัมผัส"
+
+#: locales/source/app_locales_strings.php:385
+msgid "Apply"
+msgstr "ใช้"
+
+#: locales/source/app_locales_strings.php:386
+msgid "Select an option"
+msgstr "เลือกตัวเลือกเพิ่มเติม"
+
+#: locales/source/app_locales_strings.php:387
+msgid "Join a Circle from the Discover Circles tab or start a new Circle"
+msgstr "เข้าร่วมแวดวงจากแท็บค้นพบแวดวงหรือเริ่มแวดวงใหม่"
+
+#: locales/source/app_locales_strings.php:390
+msgid "Leave a message"
+msgstr "ฝากข้อความ"
+
+#: locales/source/app_locales_strings.php:391
+msgid ""
+"Before accepting this request, you need to send a role join request. Press the Ok button to access "
+"the role join request option."
+msgstr "ก่อนที่จะยอมรับคำขอนี้ คุณต้องส่งคำขอเข้าร่วมบทบาทก่อน กดปุ่มตกลงเพื่อเข้าถึงตัวเลือกคำขอเข้าร่วมบทบาท"
+
+#: locales/source/app_locales_strings.php:393
+msgid "Resend Request"
+msgstr "ส่งคำขออีกครั้ง"
+
+#: locales/source/app_locales_strings.php:394
+msgid "Cancel Request"
+msgstr "ยกเลิกคำขอ"
+
+#: locales/source/app_locales_strings.php:395
+msgid "Show Only Available Circles"
+msgstr "แสดงเฉพาะแวดวงที่มีอยู่"
+
+#: locales/source/app_locales_strings.php:396
+msgid "Check the box to send email notification"
+msgstr "ทำเครื่องหมายในช่องเพื่อส่งการแจ้งเตือนทางอีเมล"
+
+#: locales/source/app_locales_strings.php:397
+msgid "Disclaimer"
+msgstr "ข้อความจำกัดความรับผิดชอบ"
+
+#: locales/source/app_locales_strings.php:398
+msgid "Show More"
+msgstr "แสดงเพิ่มเติม"
+
+#: locales/source/app_locales_strings.php:399
+msgid "Show Less"
+msgstr "แสดงน้อยลง"
+
+#: locales/source/app_locales_strings.php:400
+msgid "Download Successful"
+msgstr "ดาวน์โหลดสำเร็จ"
+
+#: locales/source/app_locales_strings.php:401
+msgid "File saved in %s%"
+msgstr "ไฟล์ที่บันทึกใน %s%"
+
+#: locales/source/app_locales_strings.php:402
+msgid "Inbox feature is not enabled for you. Please contact your administrator"
+msgstr "คุณลักษณะกล่องจดหมายไม่ได้เปิดใช้งานสำหรับคุณ โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: locales/source/app_locales_strings.php:403
+msgid "Be the first to comment"
+msgstr "เป็นคนคอมเม้นท์คนแรก"
+
+#: locales/source/app_locales_strings.php:404
+msgid "Trim"
+msgstr "ตัดแต่ง"
+
+#: locales/source/app_locales_strings.php:405
+msgid "Filter by Circles Name"
+msgstr "กรองตามชื่อวงกลม"
+
+#: locales/source/app_locales_strings.php:406
+msgid "No Comments"
+msgstr "ไม่มีความเห็น"
+
+#: locales/source/app_locales_strings.php:407
+msgid "Create action item"
+msgstr "สร้างรายการการดำเนินการ"
+
+#: locales/source/app_locales_strings.php:408
+msgid "Show Only with Available Capacity"
+msgstr "แสดงเฉพาะความจุที่มีอยู่เท่านั้น"
+
+#: locales/source/app_locales_strings.php:409
+msgid "Matches"
+msgstr "แมตช์"
+
+#: locales/source/app_locales_strings.php:410
+msgid "Found %s% matches"
+msgstr "พบ %s% รายการที่ตรงกัน"
+
+#: locales/source/app_locales_strings.php:411
+msgid "View Match"
+msgstr "ดูการแข่งขัน"
+
+#: locales/source/app_locales_strings.php:412
+msgid "Matching Detail for the %s% Role"
+msgstr "การจับคู่รายละเอียดสำหรับบทบาท %s%"
+
+#: locales/source/app_locales_strings.php:413
+msgid "Parameter"
+msgstr "พารามิเตอร์"
+
+#: locales/source/app_locales_strings.php:414
+msgid "Matching%"
+msgstr "การจับคู่%"
+
+#: locales/source/app_locales_strings.php:415
+msgid "Description"
+msgstr "รายละเอียด"
+
+#: locales/source/app_locales_strings.php:416
+msgid "Are you sure want to pause this?"
+msgstr "คุณแน่ใจว่าต้องการหยุดชั่วคราวนี้หรือไม่?"
+
+#: locales/source/app_locales_strings.php:417
+msgid "Are you sure want to Incomplete this?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการไม่ดำเนินการนี้ให้เสร็จสมบูรณ์?"
+
+#: locales/source/app_locales_strings.php:418
+msgid "Leave Group"
+msgstr "ออกจากกลุ่ม"
+
+#: locales/source/app_locales_strings.php:419
+msgid "Are you sure you want to leave this %s%"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการออกจาก %s% นี้"
+
+#: locales/source/app_locales_strings.php:420
+msgid "Registration"
+msgstr "ลงทะเบียน"
+
+#: locales/source/app_locales_strings.php:421
+msgid "Update Survey"
+msgstr "อัปเดตแบบสำรวจ"
+
+#: locales/source/app_locales_strings.php:422
+msgid "Pre-event Survey"
+msgstr "การสำรวจก่อนงาน"
+
+#: locales/source/app_locales_strings.php:423
+msgid "Likes"
+msgstr "ถูกใจ"
+
+#: locales/source/app_locales_strings.php:424
+msgid "Collaboration between:"
+msgstr "ความร่วมมือระหว่าง:"
+
+#: locales/source/app_locales_strings.php:425
+msgid "View or edit Profile Photo"
+msgstr "ดูหรือแก้ไขรูปโปรไฟล์"
+
+#: locales/source/app_locales_strings.php:426
+msgid "Profile Photo"
+msgstr "รูปโปรไฟล์"
+
+#: locales/source/app_locales_strings.php:427
+msgid "Add Photo"
+msgstr "เพิ่มรูปภาพ"
+
+#: locales/source/app_locales_strings.php:428
+msgid "Take a photo"
+msgstr "ถ่ายรูป"
+
+#: locales/source/app_locales_strings.php:429
+msgid "Upload from Photos"
+msgstr "อัพโหลดจากภาพถ่าย"
+
+#: locales/source/app_locales_strings.php:430
+msgid "Request rejection reason"
+msgstr "เหตุผลการปฏิเสธคำขอ"
+
+#: locales/source/app_locales_strings.php:431
+msgid "Enter request rejection reason"
+msgstr "ระบุเหตุผลการปฏิเสธคำขอ"
+
+#: locales/source/app_locales_strings.php:432
+msgid "Please enter the reason for the request rejection"
+msgstr "กรุณาระบุเหตุผลในการปฏิเสธคำขอ"
+
+#: locales/source/app_locales_strings.php:433
+msgid "Event Waivers"
+msgstr "การสละสิทธิ์กิจกรรม"
+
+#: locales/source/app_locales_strings.php:434
+msgid "Event RSVPs options"
+msgstr "ตัวเลือกการตอบรับคำเชิญเข้าร่วมกิจกรรม"
+
+#: locales/source/app_locales_strings.php:435
+msgid "Event volunteer options"
+msgstr "ตัวเลือกอาสาสมัครกิจกรรม"
+
+#: locales/source/app_locales_strings.php:436
+msgid "Recognized Date"
+msgstr "วันที่ได้รับการยอมรับ"
+
+#: locales/source/app_locales_strings.php:437
+msgid "YES"
+msgstr "ใช่"
+
+#: locales/source/app_locales_strings.php:438
+msgid "TENTATIVE"
+msgstr "เบื้องต้น"
+
+#: locales/source/app_locales_strings.php:439
+msgid "DECLINE"
+msgstr "ปฏิเสธ"
+
+#: locales/source/app_locales_strings.php:440
+msgid "ATTEND IN PERSON"
+msgstr "เข้าร่วมด้วยตนเอง"
+
+#: locales/source/app_locales_strings.php:441
+msgid "ADD TO WAITLIST (In Person)"
+msgstr "เพิ่มเข้าในรายการรอ (ด้วยตนเอง)"
+
+#: locales/source/app_locales_strings.php:442
+msgid "ATTEND ONLINE"
+msgstr "เข้าร่วมออนไลน์"
+
+#: locales/source/app_locales_strings.php:443
+msgid "ADD TO WAITLIST (Online)"
+msgstr "เพิ่มเข้าในรายการรอ (ออนไลน์)"
+
+#: locales/source/app_locales_strings.php:444
+msgid "CANCEL WAITLIST (In Person)"
+msgstr "ยกเลิกรายชื่อรอ (ด้วยตนเอง)"
+
+#: locales/source/app_locales_strings.php:445
+msgid "CANCEL WAITLIST (Online)"
+msgstr "ยกเลิกรายชื่อรอ (ออนไลน์)"
+
+#: locales/source/app_locales_strings.php:451
+msgid "This event is not active and cannot be accessed."
+msgstr "กิจกรรมนี้ไม่ได้ใช้งานอยู่และไม่สามารถเข้าถึงได้"
+
+#: locales/source/app_locales_strings.php:452
+msgid "Access denied. The event feature is disabled. Please contact your administrator."
+msgstr "การเข้าถึงถูกปฏิเสธ ฟีเจอร์กิจกรรมถูกปิดใช้งาน โปรดติดต่อผู้ดูแลระบบของคุณ"
+
+#: locales/source/app_locales_strings.php:453
+msgid "New Touch Point Event"
+msgstr "กิจกรรม Touch Point ใหม่"
+
+#: locales/source/app_locales_strings.php:454
+msgid "Create Event"
+msgstr "สร้างกิจกรรม"
+
+#: locales/source/app_locales_strings.php:455
+msgid "Update Event"
+msgstr "อัปเดตกิจกรรม"
+
+#: locales/source/app_locales_strings.php:456
+msgid "This touch point does not have an associated event"
+msgstr "จุดสัมผัสนี้ไม่มีเหตุการณ์ที่เกี่ยวข้อง"
+
+#: locales/source/app_locales_strings.php:457
+msgid "Event cancellation reason"
+msgstr "เหตุผลการยกเลิกกิจกรรม"
+
+#: locales/source/app_locales_strings.php:458
+#, php-format
+msgid "You have requested to join a %s. Please cancel join requests before leaving the %s"
+msgstr "คุณได้ร้องขอเข้าร่วม %s โปรดยกเลิกคำขอเข้าร่วมก่อนออกจาก %s"
+
+#: locales/source/app_locales_strings.php:460
+msgid "Recognitions"
+msgstr "การยอมรับ"
+
+#: locales/source/app_locales_strings.php:494
+msgid "Add more photos and videos to the album"
+msgstr "เพิ่มรูปภาพและวิดีโอเพิ่มเติมลงในอัลบั้ม"
+
+#: locales/source/app_locales_strings.php:495
+msgid "Note: channel selection disabled. You need to select a Chapter to enable it."
+msgstr "หมายเหตุ: ปิดใช้งานการเลือกช่อง คุณต้องเลือกบทเพื่อเปิดใช้งาน"
+
+#: locales/source/app_locales_strings.php:496
+msgid "Downloading"
+msgstr "กำลังดาวน์โหลด"
+
+#: locales/source/app_locales_strings.php:497
+msgid "Update Recognition"
+msgstr "อัปเดตการรับรู้"
+
+#: locales/source/app_locales_strings.php:498
+#, no-php-format
+msgid "You and %s% others"
+msgstr "คุณและอีก %s% คน"
+
+#: locales/source/app_locales_strings.php:499
+msgid "%s% Like"
+msgstr "%s% ชอบ"
+
+#: locales/source/app_locales_strings.php:500
+msgid "No Reactions"
+msgstr "ไม่มีการตอบสนอง"
+
+#: locales/source/app_locales_strings.php:501
+msgid "Reactions"
+msgstr "ปฏิกิริยา"
+
+#: locales/source/app_locales_strings.php:502
+msgid "All"
+msgstr "ทั้งหมด"
+
+#, php-format
+#~ msgid "Are you sure to leave this %s?"
+#~ msgstr "คุณแน่ใจหรือว่าจะออกจาก %s นี้"
+
+#~ msgid "Request accepted successfully"
+#~ msgstr "คำขอได้รับการยอมรับเรียบร้อยแล้ว"
+
+#~ msgid "Members"
+#~ msgstr "สมาชิก"
+
+#~ msgid "Chapters"
+#~ msgstr "บทที่"
+
+#~ msgid "Channels"
+#~ msgstr "ช่อง"
+
+#~ msgid "Join/Leave Chapter"
+#~ msgstr "เข้าร่วม / ออกจาก Chapter"
+
+#~ msgid "Join or Leave Chapter of this ERG"
+#~ msgstr "เข้าร่วมหรือออกจากบทของ ERG . นี้"
+
+#~ msgid "Join or Leave Channel of this ERG"
+#~ msgstr "เข้าร่วมหรือออกจากช่องของ ERG . นี้"
+
+#~ msgid "Your Upcoming Events"
+#~ msgstr "กิจกรรมที่จะเกิดขึ้นของคุณ"
+
+#~ msgid "Looks like there aren't events scheduled yet"
+#~ msgstr "ดูเหมือนยังไม่มีกำหนดการจัดงาน"
+
+#~ msgid "Looks like there aren't any newsletters yet"
+#~ msgstr "ดูเหมือนยังไม่มีจดหมายข่าวเลย"
+
+#~ msgid "Looks like there aren't any announcements yet"
+#~ msgstr "เหมือนจะยังไม่มีประกาศ"
+
+#~ msgid "Looks like you don't have any upcoming events"
+#~ msgstr "ดูเหมือนคุณจะยังไม่มีงานกิจกรรมที่กำลังจะมาถึง"
+
+#~ msgid "photo"
+#~ msgstr "ภาพถ่าย"
+
+#~ msgid "photos"
+#~ msgstr "ภาพถ่าย"
+
+#~ msgid "Select chapter"
+#~ msgstr "เลือกบท"
+
+#~ msgid "Select channel"
+#~ msgstr "เลือกช่อง"
+
+#~ msgid "Announcement Detail"
+#~ msgstr "รายละเอียดประกาศ"
+
+#~ msgid "Are you sure to clear this notifications?"
+#~ msgstr "คุณแน่ใจหรือไม่ว่าต้องการล้างการแจ้งเตือนนี้"
+
+#~ msgid "Please enter title here"
+#~ msgstr "กรุณาใส่ชื่อเรื่องที่นี่"
+
+#~ msgid "Please enter text"
+#~ msgstr "กรุณากรอกข้อความ"
+
+#~ msgid "seconds"
+#~ msgstr "วินาที"
+
+#~ msgid "later"
+#~ msgstr "ภายหลัง"
+
+#~ msgid "second"
+#~ msgstr "วินาที"
+
+#~ msgid "Comment"
+#~ msgstr "ความคิดเห็น"
+
+#~ msgid "Undefined"
+#~ msgstr "ไม่ได้กำหนด"
+
+#~ msgid "Acceptable file formats"
+#~ msgstr "รูปแบบไฟล์ที่ยอมรับได้"
+
+#~ msgid "Name"
+#~ msgstr "ชื่อ"
+
+#~ msgid "Size"
+#~ msgstr "ขนาด"
+
+#~ msgid "Upload"
+#~ msgstr "อัพโหลด"
+
+#~ msgid "Video"
+#~ msgstr "วิดีโอ"
+
+#~ msgid "New Discussion"
+#~ msgstr "อภิปรายใหม่"
+
+#~ msgid "Discussion title"
+#~ msgstr "หัวข้อสนทนา"
+
+#~ msgid "Description is a required field"
+#~ msgstr "คำอธิบายเป็นฟิลด์บังคับ"
+
+#~ msgid "You need to select atleast one or more chapter to join"
+#~ msgstr "คุณต้องเลือกอย่างน้อยหนึ่งบทเพื่อเข้าร่วม"
+
+#~ msgid "Announcement and Events related to"
+#~ msgstr "ประกาศและกิจกรรมที่เกี่ยวข้องกับ"
+
+#~ msgid "Show ERG level only"
+#~ msgstr "แสดงระดับ ERG เท่านั้น"
+
+#~ msgid ""
+#~ "Your account has been marked for deletion and will be permanently deleted, including all "
+#~ "information, after thirty days"
+#~ msgstr "บัญชีของคุณถูกทำเครื่องหมายเพื่อลบและจะถูกลบอย่างถาวร รวมถึงข้อมูลทั้งหมด หลังจากสามสิบวัน"
+
+#~ msgid "Decline"
+#~ msgstr "ปฏิเสธ"
+
+#~ msgid ""
+#~ "Your search criteria did not return any matching result. Please change your search criteria and "
+#~ "try again. "
+#~ msgstr "เกณฑ์การค้นหาของคุณไม่ส่งคืนผลลัพธ์ที่ตรงกัน โปรดเปลี่ยนเกณฑ์การค้นหาของคุณแล้วลองอีกครั้ง"
+
+#~ msgid "Pending"
+#~ msgstr "รอดำเนินการ"
+
+#~ msgid "Accepted"
+#~ msgstr "ยอมรับ"
+
+#~ msgid "Rejected"
+#~ msgstr "ปฏิเสธ"
+
+#~ msgid "Invite deleted successfully"
+#~ msgstr "ลบคำเชิญเรียบร้อยแล้ว"
+
+#~ msgid "Are you sure you want to resend invite?"
+#~ msgstr "คุณแน่ใจหรือไม่ว่าต้องการส่งคำเชิญอีกครั้ง"
+
+#~ msgid "Are you sure you want to delete this invite?"
+#~ msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบคำเชิญนี้"
+
+#~ msgid "Total Participants Allowed"
+#~ msgstr "อนุญาตให้ผู้เข้าร่วมทั้งหมด"
+
+#~ msgid "Discussion can't be empty"
+#~ msgstr "การสนทนาไม่สามารถว่างเปล่า"
+
+#~ msgid ""
+#~ "The content contains links to external images which may not display properly on all devices. "
+#~ "Suggestion: Attach images from your local storage"
+#~ msgstr ""
+#~ "เนื้อหามีลิงก์ไปยังรูปภาพภายนอกที่อาจแสดงไม่ถูกต้องบนอุปกรณ์ทั้งหมด คำแนะนำ: แนบรูปภาพจากที่จัดเก็บในเครื่องของคุณ"
+
+#~ msgid "Discussion created successfully"
+#~ msgstr "สร้างการสนทนาเรียบร้อยแล้ว"
+
+#~ msgid "Discussion updated successfully"
+#~ msgstr "อัปเดตการสนทนาเรียบร้อยแล้ว"
+
+#~ msgid "Manage Join Requests"
+#~ msgstr "จัดการคำขอเข้าร่วม"
+
+#~ msgid "Request to Join"
+#~ msgstr "ขอเข้าร่วม"
+
+#~ msgid "Please request a role to join."
+#~ msgstr "อัปเดต %s คำขอเข้าร่วมบทบาทของคุณ"
+
+#~ msgid "Team Membership"
+#~ msgstr "สมาชิกทีม"
+
+#~ msgid "You have not yet requested any roles to join a Team.!"
+#~ msgstr "คุณยังไม่ได้ขอบทบาทใด ๆ เพื่อเข้าร่วมทีม.!"
+
+#~ msgid "The role is not configured correctly. Please contact your administrator for assistance."
+#~ msgstr "บทบาทไม่ได้รับการกำหนดค่าอย่างถูกต้อง โปรดติดต่อผู้ดูแลระบบของคุณเพื่อขอความช่วยเหลือ"
+
+#~ msgid "No data found"
+#~ msgstr "ไม่พบข้อมูล"
+
+#~ msgid "Custom fileds list"
+#~ msgstr "รายการไฟล์ที่กำหนดเอง"
+
+#~ msgid "Group data  notfound. Please try again."
+#~ msgstr "ไม่พบข้อมูลกลุ่ม กรุณาลองอีกครั้ง."
+
+#~ msgid "No user matched with search keyword."
+#~ msgstr "ไม่มีผู้ใช้ที่ตรงกับคำค้นหา"
+
+#~ msgid "Recognition updated successfully"
+#~ msgstr "อัปเดตการรับรู้สำเร็จแล้ว"
+
+#, php-format
+#~ msgid "No %s joined yet"
+#~ msgstr "ยังไม่มี %s เข้าร่วม"
+
+#~ msgid "My Groups"
+#~ msgstr "กลุ่มของฉัน"
+
+#~ msgid "Joined Groups"
+#~ msgstr "เข้าร่วมกลุ่ม"
+
+#~ msgid "Add Highlight"
+#~ msgstr "เพิ่มไฮไลท์"
+
+#~ msgid "Ok"
+#~ msgstr "ตกลง"
+
+#~ msgid "You were already checked in successfully"
+#~ msgstr "คุณได้เช็คอินสำเร็จแล้ว"
+
+#~ msgid "Something has gone wrong. Please try again later."
+#~ msgstr "มีบางอย่างผิดพลาด โปรดลองอีกครั้งในภายหลัง."
+
+#~ msgid "Highlight uploaded"
+#~ msgstr "ไฮไลท์ที่อัปโหลด"
+
+#~ msgid "media can't be empty"
+#~ msgstr "สื่อต้องไม่ว่างเปล่า"
+
+#~ msgid "Liked successfully"
+#~ msgstr "ถูกใจเรียบร้อย"
+
+#~ msgid "ok"
+#~ msgstr "ตกลง"
+
+#~ msgid "Upload your files"
+#~ msgstr "อัพโหลดไฟล์ของคุณ"
+
+#~ msgid "Choose media type"
+#~ msgstr "เลือกประเภทสื่อ"
+
+#~ msgid "News Letter"
+#~ msgstr "จดหมายข่าว"

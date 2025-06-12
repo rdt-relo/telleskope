@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title><?=$title?></title>
+
+<link rel="icon" href="data:,">
+    <!-- Bootstrap -->
+    <!--link href="../css/bootstrap.min.css" rel="stylesheet"-->
+    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+
+    <!-- Teleskope styles, comes after bootstrap from parent folder -->
+    <link href="../css/teleskope.css" rel="stylesheet">
+    <!-- User Application specific style guides from project folder -->
+    <link href="./css/user.css" rel="stylesheet">
+
+    <!-- Bootstrap ... in the last -->
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Google Recaptcha v2 -->
+    <?php 	if (1) { /* Changed if to always true after removal of loginmethod from companies */ ?>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script>
+            function onRecaptchaSubmit(token) {
+                document.getElementById("recaptcha-enabled-form").submit();
+            }
+        </script>
+    <?php } ?>
+</head>
+
+<body style="background: url('<?= empty($_COMPANY) ? '../image/login_background.png' : $_COMPANY->val('loginscreen_background')?>') repeat; background-size: cover;">
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>

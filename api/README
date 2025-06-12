@@ -1,0 +1,28 @@
+This file describes how to use localization of mobile application
+_________________________________
+
+~ SETUP ~
+Folder ./locales contains 2 files:
+    1. app_locals.json
+    2. app_locales_strings.php
+
+Frontend developer (Flutter Developer) will provide app_locals.json file with key and value in defalut language i.e. english.
+
+All the values of app_locals.json needs to be mapped with gettext() method on app_locales_strings.php file by backend developer and complile with POEdit tool.
+
+~ API ~
+For app localizatioin there are 2 api.
+1. getAvailableLanguages
+2. getLocalization
+
+getAvailableLanguages api will provide available languages for translation. 
+getLocalization need language code e.g. for japanese -  ja if needs japanese localizatioin.
+
+~ USE ~
+
+getLocalization need to be called everytime before landing on home page. Pick the language code from defaultLanguage key of users data object.
+
+
+~ UPDATE ~
+
+If frontend add new translation key and value on app_locals.json file, backend developer need to replase old app_locals.json  with new one and map new value with gettext() method on app_locales_strings.php file.

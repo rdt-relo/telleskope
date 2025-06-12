@@ -1,0 +1,123 @@
+html {
+	font-family: sans-serif;
+}
+body, html {
+    height: 100%;
+    min-height: 100%;
+}
+h1, h2, h3, h4 {
+	font-size: 1.5rem;
+}
+
+body {	
+	color: #505050;
+	font-size: 16px;
+	line-height: 1.8;
+}
+.multiselect.dropdown-toggle { text-align: left; }
+.multiselect-native-select > .btn-group{ width:100% !important; border:1px solid #ccc; border-radius: 4px; }
+.multiselect-group {background-color: lightgray;margin: 8px 0 3px -12px;}
+.multiselect-container > li.multiselect-group label {
+    margin: 0;
+    padding: 3px 20px 3px 20px;
+    height: 100%;
+   
+}
+.dropdown-menu a {
+    display: block;
+    padding: 3px 3px 3px 10px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+div#post-inner a {
+    color: #0077b5 !important;
+}
+.dropdown-menu.show {
+    right: 0;
+    left: auto;
+}
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+	content: none;
+}
+.multiselect-container > li > a > label {
+	font-weight: 400;
+}
+.multiselect-container > li.multiselect-group label {
+	font-weight: 400;
+}
+label.radio-inline input {
+	margin-right: 5px;
+}
+.redactor-box.redactor-styles-on {
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border: 1px solid rgba(0,0,0,.075);
+	border-radius: 3px;
+	box-shadow: none;
+}
+.redactor-box.redactor-styles-off {
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border: 1px solid rgba(0,0,0,.075);
+	border-radius: 3px;
+	box-shadow: none;
+}
+.redactor-box.redactor-styles-on,.redactor-styles-off .redactor-toolbar {
+	padding: 18px 16px 0 12px;
+}
+.redactor-in {
+	padding: 0.375rem 0.75rem;
+}
+.ui-widget-header {
+	background: #666 !important;
+	border: 1px solid #888 !important;
+	color: #EEE !important;
+}
+.btn {
+	padding: .375rem .75rem !important;
+	min-width: 100px;
+}
+.btn-affinity {
+	color: #fff;
+	background-color: #0077B5;
+	border-color:  #0077B5;
+}
+.btn-affinity:hover {
+	background-color: #0d5380;
+	color: #fff;
+}
+.hrs-minutes {
+	width: 100px;
+}
+.mt-2, .my-2 {
+	margin-top: .0rem !important;
+}
+#event_duration {
+	margin-bottom: 20px;
+}
+.post-inner-edit {
+	border: 1px lightgray solid;
+	padding: 10px;
+}
+label.radio-inline {
+	position: relative;
+	display: inline-block;
+	padding-right: 10px;
+	margin-bottom: 0;
+	font-weight: 400;
+	vertical-align: middle;
+	cursor: pointer;
+}
+label {
+	display: inline-block;
+	margin-bottom: .0rem;
+}

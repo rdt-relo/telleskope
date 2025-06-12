@@ -1,0 +1,243 @@
+<style>
+    .report-admin p {
+        font-size: 17px;
+        margin-bottom: 15px !important;
+    }
+    .report-admin i{
+        font-size: 19px;
+        margin-left: 4px;
+        color: #646569;;
+    }
+    .box-wrap{flex-wrap: wrap; display: flex;}
+</style>
+
+    <div class="container  col-md-offset-2 margin-top">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget-simple-chart card-box report-admin">
+                            <div class="col-md-12 divider">
+                                <h6>Reports <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?=  sprintf(gettext('Below are the various reports you can run on the %s in your organization. To download the report, click on the type of report you wish to download, select the desired filters, and download. Some reports allow you to have a quick view option on the right side of the report type. Please note, that in the case of a blank report/Session Timeout, attempt to change the dates and narrow the field of data so your browser does not time out on download.'),$_COMPANY->getAppCustomization()['group']['name-short']); ?>"></i></h6>
+                            </div>
+                           
+                                <div class="col-12 box-wrap">                                  
+                                    <div class="col-md-4 col-sm-12 mb-3">
+
+                                            <h5 class="mb-3">Users Reports</h5>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersReportModal('members')">> Member Reports </a><a onclick="userReportsGraphModal(1)" href="#"><i aria-label="<?=gettext('Member Reports Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                            <p class="m-1 p-0"><a href="ajax.php?downloadAdminsReport=1">> Administrator Reports</a></p>
+                                            <?php if($_COMPANY->getAppCustomization()['chapter']['enabled'] || $_COMPANY->getAppCustomization()['channel']['enabled']){ $subItemize = 1;?>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersReportModal('allleads')">> All Leader Reports</a></p>
+                                            <?php } ?>
+                                            <p class="m-1 p-0 <?=isset($subItemize) ? 'pl-4' : ''?>"><a href="#" onclick="usersReportModal('groupleads')">> <?=$_COMPANY->getAppCustomization()['group']['name-short']?> Leader Reports</a></p>
+                                            <?php if($_COMPANY->getAppCustomization()['chapter']['enabled']){ ?>
+                                                <p class="m-1 p-0 <?=isset($subItemize) ? 'pl-4' : ''?>"><a href="#" onclick="usersReportModal('chapterleads')">> <?=$_COMPANY->getAppCustomization()['chapter']['name-short']?> Leader Reports</a></p>
+                                            <?php } ?>
+                                            <?php if($_COMPANY->getAppCustomization()['channel']['enabled']){ ?>
+                                                <p class="m-1 p-0 <?=isset($subItemize) ? 'pl-4' : ''?>"><a href="#" onclick="usersReportModal('channelleads')">> <?=$_COMPANY->getAppCustomization()['channel']['name-short']?> Leader Reports</a></p>
+                                            <?php } ?>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersReportModal('nonmembers')">> Non Member Reports</a></p>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersReportModal('uniquemembers')">> Unique Member Reports</a></p>
+                                            <p class="m-1 p-0"><a href="#" onclick="zoneUsersModal()">> All Users In Zone</a></p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 mb-3">
+
+                                            <h5 class="mb-3"><?= $_COMPANY->getAppCustomization()['group']["name"]; ?> Reports</h5>
+                                            <p class="m-1 p-0"><a href="ajax?download_groupchapters_report=group">> <?=$_COMPANY->getAppCustomization()['group']['name-short']?> List</a></p>
+                                            <?php if($_COMPANY->getAppCustomization()['chapter']['enabled']){ ?>
+                                                <p class="m-1 p-0"><a href="ajax?download_groupchapters_report=chapter">> <?=$_COMPANY->getAppCustomization()['chapter']['name-short']?> List</a></p>
+                                                <p class="m-1 p-0"><a href="ajax?download_groupchapters_location_report=chapter">> <?=$_COMPANY->getAppCustomization()['chapter']['name-short']?> Location List</a></p>
+                                            <?php } ?>
+                                            <?php if($_COMPANY->getAppCustomization()['channel']['enabled']){ ?>
+                                                <p class="m-1 p-0"><a href="ajax?download_groupchapters_report=channel">> <?=$_COMPANY->getAppCustomization()['channel']['name-short']?> List</a></p>
+                                            <?php } ?>	
+                                            <p class="m-1 p-0"><a href="ajax.php?downloadLeadTypeReport">> Leader Type List</a></p>
+    
+                                    </div>
+
+                                     <?php if($_COMPANY->getAppCustomization()['event']['enabled']){ ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                                <h5 class="mb-3">Events Reports</h5>
+                                                <p class="m-1 p-0"><a href="#" onclick="eventsReportModal('event_list_report')">> Event List Report </a><a onclick="eventsReportGraphModal(1)" href="#"><i aria-label="<?=gettext('Event List Report Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                                
+                                                <?php if($_COMPANY->getAppCustomization()['event']['rsvp_link']){ ?>
+                                                    <p class="m-1 p-0"><a href="#" onclick="eventsReportModal('event_rsvp_report')">> Event RSVP Report </a><a onclick="eventsRSVPReport(1)" href="#"><i aria-label="<?=gettext('Event RSVP Report Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                                <?php } ?>
+    
+                                                <p class="m-1 p-0"><a href="ajax.php?downloadEventTypeReport">> Event Type List</a></p>				
+                                                
+                                                <?php if($_COMPANY->getAppCustomization()['event']['speakers']['enabled']){ ?>								
+                                                    <p class="m-1 p-0"><a href="ajax.php?downloadEventSpeakerReport">> Event Speaker Report</a></p>
+                                                <?php } ?>
+    
+                                                <?php if($_COMPANY->getAppCustomization()['event']['volunteers']){ ?>	
+                                                    <p class="m-1 p-0"><a onclick="eventsReportModal('event_volunteers_report')" href="#">> Event Volunteers Report</a></p>
+                                                <?php } ?>
+
+                                                <?php if($_COMPANY->getAppCustomization()['event']['partner_organizations']['enabled']){ ?>
+                                                    <p class="m-1 p-0"><a href="ajax.php?downloadEventOrganizationReport">> Event Organization Report</a></p>
+                                                <?php } ?>
+
+                                                <?php if ($_COMPANY->getAppCustomization()['event']['approvals']['enabled']) { ?>
+                                                    <p class="m-1 p-0"><a href="javascript:void(0);" onclick="topicApprovalsReportModal('<?=Teleskope::TOPIC_TYPES['EVENT']?>')">> <?= gettext('Event Approvals Report') ?></a></p>
+                                                <?php } ?>
+                                                
+                                        
+                                        </div>
+                                        <?php } ?>
+
+                                    <?php if($_COMPANY->getAppCustomization()['budgets']['enabled'] && $_USER->canManageZoneBudget() ){ ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                            <h5 class="mb-3">Budget Reports</h5>
+                                            <p class="m-1 p-0"><a href="#" onclick="budgetReportsModal(1)">> Budget Summary by Year</a><a href="#" onclick="budgetGraphReportModal(3)"><i aria-label="<?=gettext('Budget Summary by Year Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                            <p class="m-1 p-0"><a onclick="expenseReportsModal()" href="#">> Expense/Spend Reports</a><a href="#" onclick="expenseGraphReportModal(1)"><i aria-label="<?=gettext('Expense Summary by Year Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                            <p class="m-1 p-0"><a href="ajax.php?download_budgetyear_chargecode">> Charge Code List</a></p>
+                                            <p class="m-1 p-0"><a href="ajax.php?downloadExpenseTypeReport">> Expense Type List</a></p>
+                                    
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if($_COMPANY->getAppCustomization()['surveys']['enabled']){ ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                            <h5 class="mb-3">Survey Report</h5>
+                                            <p class="m-1 p-0"><a href="#" onclick="surveyReportModal('survey_data_report')">> Survey Data Report </a></p>
+                                            <?php if($_COMPANY->getAppCustomization()['surveys']['approvals']['enabled']){ ?>
+                                                <p class="m-1 p-0"><a href="#" onclick="topicApprovalsReportModal('<?=Teleskope::TOPIC_TYPES['SURVEY']?>')">> Survey Approvals Report </a></p>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if($_COMPANY->getAppCustomization()['post']['enabled']){ ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                            <h5 class="mb-3">Announcement Report</h5>
+                                            <p class="m-1 p-0"><a href="#" onclick="announcementReportModal('announcement_report')">> Announcement Report </a></p>
+                                            <?php if ($_COMPANY->getAppCustomization()['post']['approvals']['enabled']) { ?>
+                                            <p class="m-1 p-0"><a href="#" onclick="topicApprovalsReportModal('<?=Teleskope::TOPIC_TYPES['POST']?>')">> Announcement Approvals Report </a></p>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if($_COMPANY->getAppCustomization()['newsletters']['enabled']){ ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                            <h5 class="mb-3">Newsletters Report</h5>
+                                            <p class="m-1 p-0"><a href="#" onclick="newslettersReportModal('newsletter_report')">> Newsletters Report </a></p>
+                                            <?php if ($_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled']) { ?>
+                                            <p class="m-1 p-0"><a href="#" onclick="topicApprovalsReportModal('<?=Teleskope::TOPIC_TYPES['NEWSLETTER']?>')">> Newsletters Approvals Report </a></p>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+
+                                    <div class="col-md-4 col-sm-12 mb-3">
+                                        <h5 class="mb-3">Audit Logs</h5>
+                                        <p class="m-1 p-0"><a href="#" onclick="usersLogReportModal('members')">> Member Logs </a></p>
+                                        <p class="m-1 p-0"><a href="#" onclick="usersLogReportModal('groupleads')">> <?=$_COMPANY->getAppCustomization()['group']['name-short']?> Leader Logs</a></p>
+                                        <?php if($_COMPANY->getAppCustomization()['chapter']['enabled']){ ?>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersLogReportModal('chapterleads')">> <?=$_COMPANY->getAppCustomization()['chapter']['name-short']?> Leader Logs</a></p>
+                                        <?php } ?>
+                                        <?php if($_COMPANY->getAppCustomization()['channel']['enabled']){ ?>
+                                            <p class="m-1 p-0"><a href="#" onclick="usersLogReportModal('channelleads')">> <?=$_COMPANY->getAppCustomization()['channel']['name-short']?> Leader Logs</a></p>
+                                        <?php } ?>
+                                        <?php if ($_COMPANY->getAppCustomization()['profile']['allow_delegated_access']) { ?>
+                                          <p class="m-1 p-0"><a href="ajax.php?download_delegated_access_report=1">> Delegated Access Report</a></p>
+                                        <?php } ?>
+                                    </div>
+                                    
+                                    <?php if ($_USER->isCompanyAdmin()) { ?>
+                                    <div class="col-md-4 col-sm-12 mb-3">
+                                        <h5 class="mb-3">Regions and Office Locations <sup style="font-size:small;color: darkgray">[Global]</sup></h5>
+                                        <p class="m-1 p-0"><a href="ajax.php?downloadRegionList">> Region List</a></p>
+                                        <p class="m-1 p-0"><a href="ajax.php?download_officelocations_report">> Office Location List</a></p>
+                                    
+                                    </div>
+                                    <?php } ?>
+
+                                    <?php if ($_USER->isCompanyAdmin()) { ?>
+                                    <div class="col-md-4 col-sm-12 mb-3">
+                                        <h5 class="mb-3">Usage Reports <sup style="font-size:small;color: darkgray">[Global]</sup></h5>
+                                        <p class="m-1 p-0"><a href="#" onclick="loginReportModal('web_usage_report')">> Web Login</a><a onclick="loginReportGraphModal('web_usage_report')" href="#"><i aria-label="<?=gettext('Web Login Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                        <p class="m-1 p-0"><a href="#" onclick="loginReportModal('native_usage_report')">> Mobile Application Login</a><a onclick="loginReportGraphModal('native_usage_report')" href="#"><i aria-label="<?=gettext('Mobile Application Login Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                        <p class="m-1 p-0"><a href="#" onclick="loginReportModal('email_connection_report')">> Email In-Connections</a><a onclick="loginReportGraphModal('email_connection_report')" href="#"><i aria-label="<?=gettext('Email In-Connections Chart');?>" class="fas fa-chart-bar"></i></a></p>
+                                    </div>
+                                    <?php } ?>
+                                    <?php if ( /*$_USER->isCompanyAdmin() && */ $_COMPANY->getAppCustomization()['teams']['enabled']) { ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                            <h5 class="mb-3"><?=sprintf(gettext('%s Reports'),$_COMPANY->getAppCustomization()['teams']['name'])?></h5>
+                                            <p class="m-1 p-0">
+                                                <a href="#" onclick="getTeamsReportOptions()">
+                                                    - <?= sprintf(gettext('Download %s Report'), $_COMPANY->getAppCustomization()['teams']['name-plural']) ?>
+                                                </a>
+                                            </p>
+                                            <p class="m-1 p-0">
+                                                <a href="#" onclick="getTeamMembersReportOptions()">
+                                                    - <?= sprintf(gettext('Download %s Members Report'), $_COMPANY->getAppCustomization()['teams']['name']) ?>
+                                                </a>
+                                            </p>
+
+                                            <p class="m-1 p-0">
+                                                <a href="#" onclick="getTeamRegistrationReportOptions()">
+                                                    - <?= gettext('Download Registration Report') ?>
+                                                </a>
+                                            </p>
+
+                                            <p class="m-1 p-0">
+                                                <a href="#" onclick="getTeamsFeedbackReportOptions()">
+                                                    - <?= sprintf(gettext('Download %s Feedback Report'), $_COMPANY->getAppCustomization()['teams']['name']) ?>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if ($_COMPANY->getAppCustomization()['points']['enabled']) {  ?>
+                                      <div class="col-md-4 col-sm-12 mb-3">
+                                        <h5 class="mb-3"><?= gettext('Points Program Reports') ?></h5>
+                                        <p class="m-1 p-0">
+                                          <a href="javascript:void(0);" onclick="pointsTransactionsReportModal()">> <?= gettext('Points Transactions Report') ?></a>
+                                        </p>
+                                        <p class="m-1 p-0">
+                                          <a href="javascript:void(0);" onclick="pointsBalanceReportModal()">> <?= gettext('Points Balance Report') ?></a>
+                                        </p>
+                                      </div>
+                                    <?php } ?>
+                                    <?php if ($_COMPANY->getAppCustomization()['messaging']['enabled']) {  ?>
+                                    <div class="col-md-4 col-sm-12 mb-3">
+                                        <h5 class="mb-3"><?= gettext('Direct Mail Report') ?></h5>
+                                        <p class="m-1 p-0"><a href="javascript:void(0);" onclick="directMailsReportModal()">> Direct Mail Report </a></p>
+                                    </div>
+                                    <?php } ?>
+
+                                    <?php if ($_COMPANY->getAppCustomization()['event']['partner_organizations']['enabled']) { ?>
+                                        <div class="col-md-4 col-sm-12 mb-3">
+                                          <h5 class="mb-3"><?= gettext('Organizations Report') ?></h5>
+                                          <p class="m-1 p-0">
+                                            <a href="javascript:void(0);" onclick="partnerOrganizationsReportModal()">> <?= gettext('Partner Organizations Report') ?></a>
+                                          </p>
+                                        </div>
+                                      <?php } ?>
+                                </div>
+                        </div>	
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>  
+<?php if(isset($_SESSION['noAnalyticsData']) && (time()- $_SESSION['noAnalyticsData']) < 5){
+    unset($_SESSION['noAnalyticsData']);
+    $eMessage = 'No record was found to generate data analytics. Please update your input.';
+    if (isset($_SESSION['analyticsPageRefreshed'])){
+        $eMessage = "Page refresh is not allowed on the analytics page. Please regenerate analytics to analyze the latest update.";
+        unset($_SESSION['analyticsPageRefreshed']);
+    }
+?>
+<script>
+    swal.fire({title: 'Info',text:"<?= $eMessage; ?>"});
+</script>
+<?php } ?>         
+</body>
+</html>
+        
+
+
+
+    
+

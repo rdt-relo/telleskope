@@ -1,0 +1,63 @@
+<style>
+    .past-jobs {
+        border: 1px solid #8080803b;
+    }
+</style>
+
+<div class="container-offset-lr mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="widget-simple-chart card p-4 ">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h4 >Manage Domains</h4>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a class="btn btn-outline-primary" href="edit_domain">+ Add Domain</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="table" class="table table-bordered table-hover table-sm align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="65%">Domain</th>
+                                <th width="15%" class="text-center">Is Routable</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($rows as $row) { ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['domain']); ?></td>
+                                <td class="text-center"><?= $row['routable'] ? "Yes" : "No"; ?></td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="btn btn-primary btn-sm" href="edit_domain?param=<?= base64_encode($row['domain_id']); ?>">Modify</a>
+                                        <a class="btn btn-danger btn-sm confirm" onclick="deleteDomain('<?= base64_encode($row['domain_id']); ?>')" title="Are you sure you want to delete <?= htmlspecialchars($row['domain']); ?>?">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>  
+                        </tbody>
+                    </table>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyPasswordContainer"></div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+
+    $('#table').DataTable({
+        "order": [],
+        "paging": true,
+        "info": false
+    });
+</script>

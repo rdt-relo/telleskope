@@ -1,0 +1,55 @@
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Login Silently<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="login_silently" value="1" <?= (isset($row['login_silently']) && $row['login_silently']=='1') ? 'checked' : ''; ?> required>
+            <label class="form-check-label"> Enable [default]</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="login_silently" value="0" <?= (isset($row['login_silently']) && $row['login_silently']=='0') ? 'checked' : ''; ?>>
+            <label class="form-check-label"><span class="text-warning"> Disable</span></label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="login_silently" value="-1" <?= (isset($row['login_silently']) && $row['login_silently']=='-1') ? 'checked' : ''; ?>>
+            <label class="form-check-label"><span class="text-warning"> Disable &amp; Force Pre-Consent for Privacy Policy</span></label>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Authenticator Version<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <select name="authenticator_version" id="authenticator_version" class="form-select" required>
+            <option value="1" <?= isset($row['authenticator_version']) ? ($row['authenticator_version'] == 1 ? 'selected' : '') : 'selected'; ?>>Version 1 (deprecated - needs customer co-ordination to move to Version 2)</option>
+            <option value="2" <?= isset($row['authenticator_version']) ? ($row['authenticator_version'] == 2 ? 'selected' : '') : ''; ?>>Version 2 (preferred)</option>
+        </select>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Auto Provisioning<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="auto_provisioning" value="1" <?= isset($row['auto_provisioning']) ? ($row['auto_provisioning']=='1' ? 'checked' : '') : 'checked'; ?> required>
+            <label class="form-check-label"> Enable [default]</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="auto_provisioning" value="0" <?= isset($row['auto_provisioning']) ? ($row['auto_provisioning']=='0' ? 'checked' : '') : ''; ?>>
+            <label class="form-check-label"> Disable</label>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Tenant GUID<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="tenantguid" placeholder="Tenant GUID here" value="<?= $row['tenantguid'] ?? ''; ?>" required>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Sync Days<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="sync_days" placeholder="Sync days. e.g. 10" type="number" min="0" value="<?= $row['sync_days'] ?? '0'; ?>" required>
+    </div>
+</div>

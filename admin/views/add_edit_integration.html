@@ -1,0 +1,436 @@
+<link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<style>
+    .btn-block {
+        background: #418bbb9c;
+    }
+
+</style>
+<div class="container  col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box ">
+                <div class="col-md-12 divider">
+                    <h6><?= $pagetitle; ?>&nbsp;</h6>
+                </div>
+
+                <p>&nbsp;</p>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="container w4">
+                        <div class="col-md-12 discu-pad">
+                            <div class="container">
+                                <?php if ((time() - @$_SESSION['error']) < 5) { ?>
+                                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                                        <?= $_SESSION['add-msg']; ?>
+                                    </div>
+                                <?php } ?>
+                                <form class="form-horizontal" id="add_edit_integration" method="post" action="">
+                                    <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+
+                                    <div class="form-group">
+                                        <label class="control-lable col-sm-2">Integration Type <span style="color:red;">*</span></label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="integrationtype" id="selectionType"
+                                                    required>
+                                                <option disabled selected value> -- Select an option --</option>
+                                                <?php
+
+                                                foreach ($integrationtype as $key => $val) {
+                                                    ?>
+                                                    <?php
+                                                    $selected = "";
+                                                    $disabled = "";
+                                                    if ($editintegration) {
+                                                        $disabled = 'disabled';
+                                                    }
+                                                    if ($editintegration && $editintegration->val('external_type') == $val) {
+                                                        $selected = 'selected';
+                                                        $disabled = '';
+                                                    }
+
+                                                    ?>
+                                                    <option class="int_<?php echo $val; ?>"
+                                                            value="<?php echo $_COMPANY->encodeId($val); ?>" <?= $selected; ?> <?= $disabled; ?>><?php echo ucfirst($key); ?></option>
+
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-lable col-sm-2">Integration Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="integrationname"
+                                                   name="integrationname"
+                                                   value="<?= $integrationid > 0 ? $editintegration->val('integration_name') : ''; ?>"
+                                                   placeholder="Add integration name...">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="integration-table">
+                                        <label class="control-lable col-sm-2">Integration Options</label>
+                                        <div class="col-sm-2">&nbsp;</div>
+                                        <div class="col-sm-10">
+
+                                            <table width="100%" style="text-align: left;">
+                                                <thead>
+                                                <tr>
+                                                    <th>&nbsp;</th>
+
+                                                    <th><?= $_COMPANY->getAppCustomization()['group']["name-short"] ?></th>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid > 0 && $channelid == 0)) { ?>
+                                                        <th><?= $_COMPANY->getAppCustomization()['chapter']["name-short"] ?></th>
+                                                    <?php } ?>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid == 0 && $channelid > 0)) { ?>
+                                                        <th><?= $_COMPANY->getAppCustomization()['channel']["name-short"] ?></th>
+                                                    <?php } ?>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Publish <?= Post::GetCustomName(); ?></td>
+                                                    <td><input type="checkbox" name="post[]"
+                                                               value="1" <?php if ($integration_json_arr && $integration_json_arr['group']['post'] == 1) {
+                                                            echo "checked='checked'";
+                                                        } ?> /><label for="text1"></label></td>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid > 0 && $channelid == 0)) { ?>
+
+                                                        <td><input type="checkbox" name="post[]"
+                                                                   value="2" <?php if ($integration_json_arr && $integration_json_arr['chapter']['post'] == 2) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid == 0 && $channelid > 0)) { ?>
+                                                        <td><input type="checkbox" name="post[]"
+                                                                   value="3" <?php if ($integration_json_arr && $integration_json_arr['channel']['post'] == 3) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </tr>
+                                                <tr>
+                                                    <td>Publish Event</td>
+                                                    <td><input type="checkbox" name="events[]"
+                                                               value="1" <?php if ($integration_json_arr && $integration_json_arr['group']['events'] == 1) {
+                                                            echo "checked='checked'";
+                                                        } ?> /><label for="text1"></label></td>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid > 0 && $channelid == 0)) { ?>
+
+                                                        <td class="chapterltd"><input type="checkbox" name="events[]"
+                                                                                      value="2" <?php if ($integration_json_arr && $integration_json_arr['chapter']['events'] == 2) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid == 0 && $channelid > 0)) { ?>
+                                                        <td class="channeltd"><input type="checkbox" name="events[]"
+                                                                                     value="3" <?php if ($integration_json_arr && $integration_json_arr['channel']['events'] == 3) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </tr>
+                                                <tr>
+                                                    <td>Publish Newsletter</td>
+                                                    <td><input type="checkbox" name="newsletter[]"
+                                                               value="1" <?php if ($integration_json_arr && $integration_json_arr['group']['newsletter'] == 1) {
+                                                            echo "checked='checked'";
+                                                        } ?> /><label for="text1"></label></td>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid > 0 && $channelid == 0)) { ?>
+
+                                                        <td><input type="checkbox" name="newsletter[]"
+                                                                   value="2" <?php if ($integration_json_arr && $integration_json_arr['chapter']['newsletter'] == 2) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                    <?php if (($chapterid == 0 && $channelid == 0) || ($chapterid == 0 && $channelid > 0)) { ?>
+
+                                                        <td><input type="checkbox" name="newsletter[]"
+                                                                   value="3" <?php if ($integration_json_arr && $integration_json_arr['channel']['newsletter'] == 3) {
+                                                                echo "checked='checked'";
+                                                            } ?> /><label for="text1"></label></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-workplace" style="display:none;">
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Workplace Group Id</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="workgroupid"
+                                                       name="workgroupid"
+                                                       value="<?= $integration_json_arr['external']['fb_groupid'] ?? '' ?>"
+                                                       placeholder="Add workplace group id..." <?= empty($integration_json_arr['external']['fb_groupid']) ? '' : 'readonly' ?>>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Workplace Access Token</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="workaccesstoken"
+                                                       name="workaccesstoken"
+                                                       value="<?= $integrationid ? $integration_json_arr['external']['access_token_mask'] : '' ?>"
+                                                       placeholder="Add workplace access token...">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Link Unfurling</label>
+                                            <div class="col-sm-10">
+                                                <input type="checkbox" name="worklinkunfurling"
+                                                       value="1" <?php if (($integration_json_arr['external']['link_unfurling'] ?? 0) == 1) {
+                                                    echo "checked='checked'";
+                                                } ?> /><label for="linkunfurling"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-yammer" style="display:none;">
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Viva Engage / Yammer Group Id</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="yammergroupid"
+                                                       name="yammergroupid"
+                                                       value="<?= $integration_json_arr['external']['yammer_groupid'] ?? ''; ?>"
+                                                       placeholder="Add viva engage / yammer group id..." <?= empty($integration_json_arr['external']['yammer_groupid']) ? '' : 'readonly' ?>>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Viva Engage / Yammer Access Token</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="yammeraccesstoken"
+                                                       name="yammeraccesstoken"
+                                                       value="<?= $integrationid ? $integration_json_arr['external']['access_token_mask'] : '' ?>"
+                                                       placeholder="Add viva engage / yammer access token...">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="form-group-teams" style="display:none;">
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Channel Access URL</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="teamsaccesstoken"
+                                                       name="teamsaccesstoken"
+                                                       value="<?= $integrationid ? $integration_json_arr['external']['access_token_mask'] : '' ?>"
+                                                       placeholder="Add teams access url...">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-googlechat" style="display:none;">
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Webhook URL</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="googlechataccesstoken"
+                                                       name="googlechataccesstoken"
+                                                       value="<?= $integrationid ? $integration_json_arr['external']['access_token_mask'] : '' ?>"
+                                                       placeholder="Add Google Chat Webhook URL...">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-slack" style="display:none;">
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Slack Channel Id</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="slackchannelid"
+                                                       name="slackchannelid"
+                                                       value="<?= $integration_json_arr['external']['slack_groupid'] ?? ''; ?>"
+                                                       placeholder="Add slack channel id..." <?= empty($integration_json_arr['external']['slack_groupid']) ? '' : 'readonly' ?> >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-lable col-sm-2">Slack Access Token</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="slackaccesstoken"
+                                                       name="slackaccesstokenname"
+                                                       value="<?= $integrationid ? $integration_json_arr['external']['access_token_mask'] : '' ?>"
+                                                       placeholder="Add slack access token...">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-lable col-sm-2">Pre select publish</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="preselectpublish" value="1"
+                                                <?php
+                                                if (!$integration_json_arr || $integration_json_arr['publish_option_pre_selected'] == 1) {
+                                                    echo "checked='checked'";
+                                                } ?>/><label for="text1"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-6" style="float:right;">
+                                            <input type="submit" class="btn btn-primary" name="submit" value="Save"/>
+                                            <?php
+
+                                            if ($chapterid) { ?>
+                                                <a class="btn btn-primary"
+                                                   href="integration?gid=<?= $_COMPANY->encodeId($groupid) ?>&cid=<?= $encchapterId; ?>">Cancel</a>
+                                                <?php
+                                            } elseif ($channelid) {
+                                                ?>
+                                                <a class="btn btn-primary"
+                                                   href="integration?gid=<?= $_COMPANY->encodeId($groupid) ?>&chid=<?= $encchannelId; ?>">Cancel</a>
+                                                <?php
+
+                                            } else {
+                                                ?>
+                                                <a class="btn btn-primary"
+                                                   href="integration?gid=<?= $_COMPANY->encodeId($groupid) ?>">Cancel</a>
+                                                <?php
+                                            }
+
+                                            ?>
+
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const chid = urlParams.get('chid');
+        const cid = urlParams.get('cid');
+
+        //alert(chid);
+        //alert(cid);
+        if (cid == null && chid == null) {
+            $('.chapterltd').show();
+            $('.channeltd').show();
+        } else if (chid == null) {
+            $('.chapterltd').show();
+            $('.channeltd').hide();
+        } else if (cid == null) {
+            $('.channeltd').show();
+            $('.chapterltd').hide();
+        }
+
+        var customTabType = $('#selectionType option:selected').attr('class');
+        if (customTabType == 'int_1') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-workplace").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_2') {
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-yammer").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_3') {
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-teams").css("display", "block");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_4') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_5') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","block");
+
+        }
+    });
+
+    $("#selectionType").on("change", function () {
+        var customTabType = $('#selectionType option:selected').attr('class');
+        if (customTabType == 'int_1') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-workplace").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_2') {
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-yammer").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_3') {
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-teams").css("display", "block");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_4') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "block");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","none");
+
+        } else if (customTabType == 'int_5') {
+            $(".form-group-yammer").css("display", "none");
+            $(".form-group-workplace").css("display", "none");
+            $(".form-group-slack").css("display", "none");
+            $(".form-group-teams").css("display", "none");
+            $(".form-group-googlechat").css("display","block");
+
+        }
+
+
+    });
+</script>

@@ -1,0 +1,413 @@
+<style>
+    .approval-heading {
+        font-size: 14px;
+        padding-left: 20px;
+        margin: 0.4em 0;
+    }
+    .approval-section {
+        font-size: 14px;
+        width 100%;
+        padding: 0 20px;
+    }
+    .approval-section-sub-block {
+        border: 1px solid #efefef;
+        border-radius: 4px;
+        background: #fcfcfc;
+    }
+
+    .approval-section-heading {
+        margin: 20px 20px 0px;
+        padding: 15px;
+        /* font-size: 15px; */
+        background: #efefef;
+    }
+
+    .approval-timeline {
+        border-left: 4px solid #4298C3;
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+        background: rgb(87 78 78 / 3%);
+        color: rgb(0 0 0);
+        /*margin: 30px 20px;*/
+        position: relative;
+        line-height: 1.2em;
+        font-size: 14px;
+        padding: 50px 50px 50px 10px;
+        list-style: none;
+        text-align: left;
+        font-weight: 100;
+        max-width: 100%;
+        max-height: 450px;
+        overflow: scroll;
+    }
+
+    .approval-timeline h1, .approval-timeline h2, .approval-timeline h3 {
+        font-size: 1em;
+    }
+
+    .approval-timeline-event {
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
+        padding-bottom: 25px;
+        margin-bottom: 50px;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .approval-timeline-event:last-of-type {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: none;
+    }
+
+    .approval-timeline-event:before, .approval-timeline-event:after {
+        position: absolute;
+        display: block;
+        top: 0;
+    }
+
+    .approval-timeline-event:before {
+        left: 18px;
+        color: rgb(14 15 15);
+        content: attr(data-date);
+        text-align: right;
+        font-weight: 500;
+        font-size: 1.2em;
+        top: -30px;
+        min-width: 120px;
+    }
+
+    .approval-timeline-event:after {
+        box-shadow: 0 0 0 4px #4298c3;
+        left: -16.85px;
+        background: #313534;
+        border-radius: 50%;
+        height: 11px;
+        width: 11px;
+        content: "";
+        top: 5px;
+    }
+    /* CSS for speaker data */
+.associated-speakers {
+    margin-top: 20px;
+    font-size: 1.2em;
+    padding-left: 20px;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.speaker-details {
+    list-style: none;
+    padding: 0;
+}
+
+.btn-accordion {
+    text-align: left; 
+    width: 100%;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 0;
+    transition: background-color 0.3s ease;
+    color: #646569;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.btn-accordion:hover {
+    background-color: #eaeaea;
+}
+.approval-card-box h6{
+    width: 100%;
+    font-size: .9em;
+    font-weight: bold;
+    padding: 0;
+}
+span.task-tile{
+    width: 100%;
+    font-size: 1.0em;
+    font-weight: 400;
+    display: inline-block;
+}
+#note-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+}
+#accordion{padding: 0 15px;}
+.topic-description img{max-width: 100%; overflow: hidden;}
+.card{
+    box-shadow: none;
+    transition: 0.3s;
+    width: auto;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+</style>
+<?=ViewHelper::PassVariableToJavascriptInComment('topictype', Teleskope::TOPIC_TYPES_ENGLISH[$topicType], 'Approval Topic')?>
+
+<div class="pt-0 mb-3 text-left" style="width:100%;">
+
+    <div class="pb-3">
+
+         <!-- Basic Details -->
+         <?php
+         include(__DIR__ . '/../../common/views/templates/approval_templates/topic_basic_details.html.php');
+         ?>
+         <!-- Event components -->
+         <?php if($topicType == Teleskope::TOPIC_TYPES['EVENT']){ 
+             include(__DIR__ . '/../../common/views/templates/approval_templates/topictype_event_data.html.php');
+             //Speakers data if it exists
+             if ($_COMPANY->getAppCustomization()['event']['speakers']['enabled'] && $topicTypeObj && !$topicTypeObj->isSeriesEventHead()){
+                 include(__DIR__ . '/../../common/views/templates/approval_templates/topictype_event_speakers_data.html.php');
+             }
+             //ORG data if it exists - excluded from affinity
+             $disable_org_updates = true;
+             if($_COMPANY->getAppCustomization()['event']['partner_organizations']['enabled'] && $topicTypeObj && !$topicTypeObj->isSeriesEventHead()){
+                 include(__DIR__ . '/../../common/views/templates/approval_templates/topictype_event_org_data.html.php');
+             }
+             //Events of event series
+             if($topicTypeObj->val('event_series_id')){
+                 include(__DIR__ . '/../../common/views/templates/approval_templates/topictype_event_series_data.html.php');
+             }
+            }elseif($topicType == Teleskope::TOPIC_TYPES['SURVEY']){
+                // Survey Componenets 
+                include(__DIR__ . '/../../common/views/templates/approval_templates/topictype_survey_details_data.html.php');
+            } ?>
+         <!-- ATtachements  -->
+         <?= $topicTypeObj->renderAttachmentsComponent('v16') ?>
+         <!-- Approval Timeline -->
+        <div class="mt-5">
+            <div class="approval-section-heading">
+                <strong><?=gettext($topicTypeLabel." Approval Timeline")?> </strong>
+            </div>
+
+        <div class="col-md-12 text-center p-3" id="approvalTimelineNotes">
+           <!-- Add a note container -->
+           <div id="note-container">
+               <div class="my-3">
+                   <?= gettext('Approval Status'); ?>
+                   <span class="<?= Approval::STATUS_LABEL_CSS_CLASS_MAP[$approval->val('approval_status')] ?> px-2 py-1">
+                       <?= ucwords($approval->val('approval_status')); ?>
+                       <?= in_array($approval->val('approval_status'), [Approval::TOPIC_APPROVAL_STATUS['PROCESSING'], Approval::TOPIC_APPROVAL_STATUS['REQUESTED']]) ? (''. gettext(' Stage ') . $approval->val('approval_stage')) : ''; ?>
+                   </span>
+               </div>
+                <button id="add-note-button" class="btn btn-primary"><?=gettext("Add a Note")?></button>
+                <!-- Textarea and Save button (hidden by default) -->
+                <form onsubmit="addCommonNote(event)">
+                    <div class="col-sm-12 form-group">
+                    <input type="hidden" id="topicTypeId" value="<?= $enc_topictype_id ?>" name="topicTypeId">
+                    <input type="hidden" id="topicType" value="<?= $topicType ?>" name="topicType">
+                    <div id="note-form" class="mt-3" style="display: none;">
+                        <p> <?= gettext('Required fields are marked with an asterisk (<span aria-hidden="true" style="color: #ff0000;">*</span>).')?></p>
+                    <p><label for="note-textarea"><?= gettext('Add a note');?><span style="color: #ff0000;"> *</span></label> </p>  
+                        <textarea id="note-textarea" maxlength="1000" placeholder="<?=gettext("Write your note here ...")?>" rows="4" cols="64%" name="note" required></textarea>
+                        <br>
+                        <small style="color:red">Maximum 1000 characters allowed!</small>
+                        <br>
+                        <?= TopicApprovalLog::CreateEphemeralTopic()->renderAttachmentsComponent('v26') ?>
+                        <button id="close-note-button" type="button" class="btn btn-secondary">Cancel</button>
+                        <button id="save-note-button" type="submit" class="btn btn-primary"><?=gettext("Save Note")?></button>
+                        <hr>
+                    </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tasks Log -->
+            <?php if(!empty($approvalTasks) && $_COMPANY->getAppCustomization()[$appCustomizationTitle]['approvals']['tasks']){ ?>
+                <div class="row">
+                    <?php include(__DIR__ . '/../../common/views/templates/approval_templates/topic_tasks.html.php');  ?>
+                </div>
+            <?php } ?>
+            <!-- Approval tasks Log ends -->
+
+            <ul class="approval-timeline">
+
+                <?php foreach(array_reverse($approvalNotes) as $anote_obj) {
+                    $anote = $anote_obj->toArray();
+                    $actionDate = $db->covertUTCtoLocalAdvance("M d Y, h:i A (T)", "", $anote['createdon'] ,$_SESSION['timezone']);
+                ?>
+                <li class="approval-timeline-event" data-date="<?= $actionDate ?>">
+
+                    <p>
+                        <strong>Stage <?= $anote['approval_stage'];?></strong> : <?= ucfirst(htmlspecialchars($anote['log_title']));?>
+                    </p>
+                    <?php if (!empty($anote['log_notes'])) { ?>
+                    <p class="pt-3">
+                        <?= (htmlspecialchars($anote['log_notes']));?>
+                    </p>
+                    <?php } ?>
+                    <?= $anote_obj->renderAttachmentsComponent('v25') ?>
+                </li>
+            <?php } ?>
+            </ul>
+           </div>
+        </div>
+        <?= $approval->renderAttachmentsComponent('v18') ?>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $('.topic-description-open-close-js').click(function () {
+            const eventDescriptionId = $(this).data('id');
+            const descriptionDataDiv = $(`.topic-description[data-id="${eventDescriptionId}"]`);
+            descriptionDataDiv.slideToggle('slow');
+
+            $(this).text(function(i, text){
+                return text === "[<?=gettext("View")?>]" ? "[<?=gettext("Hide")?>]" : "[<?=gettext("View")?>]";
+            });
+        });
+
+        $('.add-expense-open-close-js').click(function () {
+            const toggleButton = $(this);
+            const toggleSection = toggleButton.closest('.approval-heading').nextAll('div');
+            const toggleDetails = toggleSection.find('.event-expenses-details');
+            toggleDetails.slideToggle('slow');
+
+            toggleButton.text(function(i, text){
+                return text === "[<?=gettext("View")?>]" ? "[<?=gettext("Close")?>]" : "[<?=gettext("View")?>]";
+            });
+        });
+
+        $('.topic-participation-limit-open-close-js').click(function () {
+            const eventDataId = $(this).data('id');
+            const eventDataDiv = $(`.topic-participation-limit[data-id="${eventDataId}"]`);
+            eventDataDiv.slideToggle('slow');
+
+            $(this).text(function(i, text){
+                return text === "[<?=gettext("View")?>]" ? "[<?=gettext("Hide")?>]" : "[<?=gettext("View")?>]";
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Toggle visibility of textarea and Save button on Add a note button click
+        $("#add-note-button").click(function() {
+            $("#note-form").toggle();
+            $("#add-note-button").hide();
+        });
+        $("#close-note-button").click(function() {
+            $("#note-form").toggle();
+            $("#add-note-button").show();
+        });
+
+        $('.org-data-open-close-js').click(function () {
+            const toggleButton = $(this);
+            const toggleSection = toggleButton.closest('.approval-heading').next('.approval-section');
+            const toggleDetails = toggleSection.find('.org-details');
+            const orgAdditionalContactDetails = toggleSection.find('.org_details');
+            toggleDetails.slideToggle('slow');
+            orgAdditionalContactDetails.slideToggle('slow');
+            toggleButton.text(function(i, text){
+                return text === "[<?=gettext("View")?>]" ? "[<?=gettext("Hide")?>]" : "[<?=gettext("View")?>]";
+            });
+        });
+        $('.speaker-data-open-close-js').click(function () {
+            const toggleButton = $(this);
+            const toggleSection = toggleButton.closest('.approval-section');
+            const toggleDetails = toggleSection.find('.speaker-details');
+            toggleDetails.slideToggle('slow');
+            toggleButton.text(function(i, text){
+                return text === "[<?=gettext("View")?>]" ? "[<?=gettext("Hide")?>]" : "[<?=gettext("View")?>]";
+            });
+        });
+        // Send emails
+        $('.org-send-emails').click(function () {
+            var selectedOrgId = $(this).data('api-org-id');
+            var selectedOrgName = $(this).data('org-name');
+            let company_org_id = $(this).data('company-org-id');
+            var eventid = '<?= $_COMPANY->encodeId($topicTypeObj->id()) ?>';
+            let contactEmails = [];
+            $('.contact-checkbox[data-org-id="'+ selectedOrgId + '"]:checked').each(function(){
+                contactEmails.push($(this).data('email'));
+            });
+
+            if(contactEmails.length > 0 ){
+                $.ajax({
+                    url: 'ajax_organizations.php?sendOrgEmailsModal',
+                    type: 'POST',
+                    data: {
+                        contactEmails,
+                        api_org_id: selectedOrgId,
+                        orgName: selectedOrgName,
+                        eventid: eventid,
+                        company_org_id,
+                    },
+                    success: function(response){
+                        $('#approvalDetailModal').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        $("#loadAnyModal").html(response);
+                        $('#orgEmailModalForm').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                    }
+                })
+            }else{
+                swal.fire({title: 'Notice',text:'Please select at least one Email!'})
+            }
+        });
+
+        $('.org-status-select').on('change', function(e){
+            <?php /* This method is disabled in Affinities, in future if we need to implement it copy the code from Admin Panel side*/ ?>
+            swal.fire({
+                title: '',
+                text: "<?=gettext("To update the Organization's status, please access the Admin Panel.")?>",
+                showCancelButton: true,
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                cancelButtonText: 'OK',
+            });
+            $(this).val('');
+        });
+
+
+    });
+
+    function addCommonNote(jsevent) {
+        jsevent.preventDefault();
+        var note = $("#note-textarea").val();
+        if (note.length < 2) {
+            swal.fire({title: "Error", text: "A minimum of two character note is required"});
+            return;
+        }
+            var topicTypeId = '<?= $enc_topictype_id ?>';
+            var topicType = '<?= $topicType?>';
+            var topicTypeLabel = '<?= $topicTypeLabel?>';
+            $.ajax({
+                url: "ajax_approvals.php?saveTopicApprovalNote=1",
+                method: "POST",
+                data: $(jsevent.target).serialize(),
+                tskp_submit_btn: $(jsevent.target).find('[type="submit"]'),
+                success: function (data) {
+                    try {
+                        let jsonData = JSON.parse(data);
+                        swal.fire({title: jsonData.title, text: jsonData.message}).then(function (result) {
+                            if (jsonData.status == 1) {
+                                $("#note-form").hide();
+                                let approvalid = jsonData.val;
+                                $('#approvalDetailModal').modal('hide');
+                                $("#add-note-button").toggle();
+                                $('body').removeClass('modal-open');
+                                $('.modal-backdrop').remove();
+                                $('#loadAnyModal').html('');
+                                viewApprovalDetail(topicTypeId,approvalid,topicType,topicTypeLabel);
+                            }
+                        });
+                    } catch (e) {
+                        swal.fire({title: 'Error', text: "Unknown error."});
+                    }
+                    setTimeout(() => {
+                      $(".swal2-confirm").focus();
+                  }, 100);
+                }
+            });
+    }
+    </script>

@@ -1,0 +1,73 @@
+<div class="container  col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6><?= $pagetitle; ?>&nbsp;</h6>
+                </div>
+                <div class="col-12" >
+                    <form action="" id="organization_email_template">
+                        <input type="hidden" name="organization_email_type" value="<?= $organization_email_type; ?>">
+                        <div class="col-12 form-group-emphasis">
+                            <h5 class="form-group-emphasis-heading form-group-emphasis-dark"><?=gettext("Configure Verification Emails ")?></h5>
+                            <!-- <p class="form-group-emphasis-heading-text"></p> -->
+                            
+                            <div class="col-md-12 mt-3">
+                                <label class="control-label col-md-12" for="organization_email_subject"><strong> <?= gettext('Email Subject'); ?> </strong></label>
+                                <div id="post-inner" class="col-md-12">
+                                    <input type="text" class="form-control" name="organization_email_subject"  id="organization_email_subject" placeholder="<?= gettext("Notification subject here") . ' ... ' . gettext("(will be reset to default if empty)"); ?>" value="<?= $organization_email_subject ?>">
+                                </div>
+            
+                            </div>
+        
+                            <div class="col-md-12 mt-3">
+                                <label class="control-label col-md-12" for="organization_email_body"><strong><?= gettext('Email Body'); ?></strong> </label>
+                                <div id="post-inner" class="col-md-12">
+                                    <textarea class="form-control" name="organization_email_body" rows="10" id="organization_email_body" maxlength="8000" placeholder="<?= gettext("Notification message here") . ' ... ' . gettext("(will be reset to default if empty)"); ?>"><?= $organization_email_body ?></textarea>
+
+                                    <p class="pt-3">
+                                        <?=sprintf(
+                                            gettext('You can use the following variables in \'Email Subject\' and \'Email Body\': <strong>%s</strong> which will be replaced by actual values when sending out the emails.'),
+                                            '[[COMPANY_NAME]],  [[ORGANIZATION_NAME]], [[ORGANIZATION_UPDATE_URL]]'
+                                        )?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div class="form-group text-center mt-2">
+                            <button type="button" onclick="updateOrgEmailsNotification()" class="btn btn-primary prevent-multi-clicks"><?= gettext("Update");?></button>&emsp;<a href="manage_organizations" class="btn btn-primary" data-dismiss="modal"><?= gettext("Back");?></a>
+                        </div>
+                    </form>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#organization_email_body').initRedactor('organization_email_body','',['counter']);
+    
+    function updateOrgEmailsNotification(){
+
+        var formdata = $('#organization_email_template')[0];
+		var finaldata  = new FormData(formdata);
+		$.ajax({
+			url: 'ajax.php?updateOrganizationEmailsTemplate=1',
+			type: "POST",
+			data: finaldata,
+			processData: false,
+			contentType: false,
+			cache: false,
+			success : function(data) {
+				try {
+					let jsonData = JSON.parse(data);
+					swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        location.reload();
+                    });
+				} catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+			}
+		});
+    }
+</script>

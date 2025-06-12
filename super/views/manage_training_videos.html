@@ -1,0 +1,404 @@
+<style>
+  .inputDnD .form-control-file {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 6em;
+    outline: none;
+    visibility: hidden;
+    cursor: pointer;
+    background-color: #c61c23;
+    box-shadow: 0 0 1px solid currentColor;
+}
+  .inputDnD .form-control-file:before {
+    content: attr(data-title);
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    width: 100%;
+    min-height: 5em;
+    line-height: 2em;
+    padding-top: 1.5em;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+    border: 0.15em dashed currentColor;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+}
+  </style>
+<div class="container-offset-lr mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 mt-2">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <h1 >Manage Training Videos</h1>
+          </div>
+          <div class="col-md-6 text-end">
+            <button class="btn btn-outline-primary" onclick="openVideoUploadModal()">
+              + <?= gettext('Upload New Video'); ?>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table id="table" class="table table-bordered table-hover display compact">
+              <thead>
+                <tr>
+                  <th width="15%">Label</th>
+                  <th width="15%">File</th>
+                  <th width="40%" class="text-center">Tags</th>
+                  <th width="5%" class="text-center">Is Active</th>
+                  <th width="20%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?php foreach($rows as $row){ ?>
+                <tr id="id<?= $row['video_id']; ?>">
+                  <td><?= $row['label']; ?></td>
+                  <td><?= $row['filename']; ?></td>
+                  <td><?= $row['tags']; ?></td>
+                  <td class="text-center"><?= $row['is_active'] ? "yes" : "no"; ?></td>
+                  <td>
+                    <a class="btn btn-primary btn-sm me-2 <?= $row['widget_code'] ? '' : 'd-none'; ?>" onclick="previewVideo('<?= $row['video_id']; ?>');">Preview</a>
+                    <a class="btn btn-primary btn-sm me-2" href="edit_training_video?param=<?= $row['video_id']; ?>">Configure</a>
+                    <a class="btn btn-danger btn-sm confirm" onclick="deleteVideo('<?= $row['video_id'] ?>', '<?= $row['companyid']; ?>')" title="Are you sure you want to delete <?= $row['filename']; ?>?">Delete</a>
+                  </td>
+                </tr>
+              <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="copyPasswordContainer"></div>
+
+<!-- Upload Modal -->
+<div id="updateResourceModal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload New Video</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="resourceForm" enctype="multipart/form-data">
+          <div class="form-group inputDnD bulkDnD">
+            <input type="file" class="form-control-file text-primary fw-bold" id="bulkfileupload" name="bulkfileupload" accept=".mov,.avi,.mp4" onchange="uploadTrainingVideo(this)" data-title="Drag and drop a file">
+            <p class="text-danger small mt-2"><?= gettext('Note: Only .mp4 files are accepted'); ?></p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer flex-column align-items-center">
+        <div class="text-center mb-2" id="loadingSpinner" style="display:none;">
+          <span class="fa fa-spinner fa-spin fa-2x"></span>&emsp;<?= gettext("Uploading video, please wait"); ?>...
+        </div>
+        <div>
+          <button type="button" id="close_button" class="btn btn-secondary" data-bs-dismiss="modal"><?= gettext('Close'); ?></button>
+          <button type="button" class="btn btn-primary" onclick="trainingVideoUploadSubmit();"><?= gettext('Submit'); ?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Video Preview Modal -->
+<div id="videoModal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close close-video-player" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Your video content goes here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close_video_button" class="btn btn-secondary close-video-player" data-bs-dismiss="modal">
+          <?= gettext('Close'); ?>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $( "#title" ).on('input', function() {
+    if ($(this).val().length>32) {
+      $(this).val($(this).val().substring(0,32));
+      swal.fire({title: 'Error!',text:"<?= gettext('Maximum 32 characters allowed'); ?>"});
+    }
+  });
+</script>
+
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+  jQuery("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    jQuery("#wrapper").toggleClass("toggled");
+  });
+  
+  $("#sidebar-wrapper ul li:nth-child(8)").addClass("myactive");
+
+  $('#table').DataTable( {
+    "order": [],
+    "bPaginate": true,
+    "bInfo" : false
+  } );
+
+  // functions for Training Videos Upload
+  let openVideoUploadModal = function() {
+    $('#bulk_file_table').remove();
+    $('.file_data').val('');
+    $('#bulkfileupload').val('');
+
+      var myModal = new bootstrap.Modal(document.getElementById('updateResourceModal'), {
+      backdrop: 'static',
+      keyboard: false
+    });
+      myModal.show();
+  }
+
+  function b64toBlob(b64Data, contentType, sliceSize) {
+
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+
+  let previewVideo = function(video_id) {
+      console.log(video_id);
+    $('#bulk_file_table').remove();
+    $('.file_data').val('');
+    $('#bulkfileupload').val('');
+
+    let file_data = JSON.stringify({"action":"getPreviewVideo","video_id":video_id});
+
+    $.ajax({
+      url: 'manage_training_videos.php',
+      type: "POST",
+      data: {data: file_data},
+      success : function(video_data_response) {
+        if (video_data_response) {
+          video_data_response = JSON.parse(video_data_response);
+          if ("success" == video_data_response.status) {
+            $('#videoModal .modal-title').html(video_data_response.label);
+            $('#videoModal .modal-body').html(video_data_response.widget_code);
+
+          var myModal = new bootstrap.Modal(document.getElementById('videoModal'), {
+          backdrop: 'static',
+          keyboard: false
+          });
+          myModal.show();
+          return false;
+
+          }
+        }
+        swal.fire({title: 'Error',text:"Something went wrong. Please try again."}).then(function(result) {
+          window.location.reload();
+        });
+      },
+      error: function() {
+        swal.fire({title: 'Error',text:"Something went wrong. Please try again."}).then(function(result) {
+          window.location.reload();
+        });
+      }
+    });
+
+
+  };
+
+  let trainingVideoUploadSubmit = function(){
+
+    $('#updateResourceModal button').hide();
+    $('.bulkDnD').hide();
+    $('#loadingSpinner').show();
+
+    setTimeout(function(){
+
+      let file_metadata_row = $('#bulk_file_table tbody tr td')
+      let index = file_metadata_row.attr("data-index");
+      let filename = file_metadata_row.attr("data-name");
+      let resource_file = $('input.file_data[data-index=' + index + ']').val();
+      let type = file_metadata_row.attr("data-type");
+
+      let media  = JSON.parse(resource_file);
+      let base64 = media.image;
+      let block  = base64.split(";");
+
+      // get the real base64 content of the file
+      let realData = block[1].split(",")[1];
+
+      // Convert to blob
+      let blob = b64toBlob(realData, type);
+
+      let file_name_data = JSON.stringify({"action":"getUploadURL","filename":filename,"type":type});
+
+      $.ajax({
+        url: 'manage_training_videos.php',
+        type: "POST",
+        data: {data: file_name_data},
+        success : function(file_url_data) {
+          if (file_url_data){
+            $.ajax({
+              url: file_url_data,
+              type: "PUT",
+              data: blob,
+              processData: false,
+              contentType: false,
+              success : function(data) {
+                $('#loadingSpinner').hide();
+                  swal.fire({title: 'Success',text:"Video upload complete."}).then(function(result) {
+                    window.location.reload();
+                  });
+              }
+            });
+          }else {
+            $('#loadingSpinner').hide();
+            swal.fire({title: 'Error',text:"Something went wrong. Please try again."}).then(function(result) {
+              window.location.reload();
+            });
+          }
+        }
+      });
+
+    },100);
+
+  }
+
+  let deleteVideo = function(video_id, companyid) {
+    let file_data = JSON.stringify({"action":"deleteVideo","video_id":video_id,"companyid":companyid});
+
+    $.ajax({
+      url: 'manage_training_videos.php',
+      type: "POST",
+      data: {data: file_data},
+      success : function(result) {
+        result = JSON.parse(result);
+        if(result.status) {
+          $("#id" + video_id).animate({backgroundColor: "#fbc7c7"}, "fast").animate({opacity: "hide"}, 2000);
+        } else {
+          swal.fire({title: 'Error',text:"Something went wrong. Please try again."}).then(function(result) {
+            window.location.reload();
+          });
+        }
+      }
+    });
+
+  }
+
+
+  function fileSizeFormatter(bytes, si=false, dp=1) {
+    const thresh = si ? 1000 : 1024;
+
+    if (Math.abs(bytes) < thresh) {
+      return bytes + ' B';
+    }
+
+    const units = si
+      ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+      : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    let u = -1;
+    const r = 10**dp;
+
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+
+    return bytes.toFixed(dp) + ' ' + units[u];
+  }
+
+  // Function to upload a training video
+  let uploadTrainingVideo = function(input) {
+
+    if (!input.files || !(input.files.length)) {
+      // do nothing
+      console.log('input files condition failed');
+      console.log(input.files);
+
+    } else if (input.files.length > 10) {
+      swal.fire({title: 'Error', text: "Please select 10 files or less."});
+
+    } else {
+      $('#bulk_file_table').remove();
+      $('.file_data').val("");
+      let fileList = input.files;
+      let fileContainer = $('<table id="bulk_file_table">' +
+        '<thead>' +
+        '<tr>' +
+        '<th scope="col">Name</th>' +
+        '<th scope="col">Size</th>' +
+        '</tr>' +
+        '</thead>' +
+        '</table>');
+
+      let fileContainerBody = $('<tbody></tbody>');
+
+      for (let i = 0; i < fileList.length; i++)  //for multiple files
+      {
+        let fileRow = $("<tr></tr>");
+        let fileLabel = fileList[i].name;
+
+        if (fileLabel.length > 60) {
+          fileLabel = fileLabel.slice(0, 60) + "...";
+        }
+
+        $('<td data-index="' + i + '" data-name="'+fileList[i].name+'" data-type="'+fileList[i].type+'">' + fileLabel + "</td>").appendTo(fileRow);
+        $('<td>' + fileSizeFormatter(fileList[i].size) + '</td>').appendTo(fileRow);
+        fileRow.appendTo(fileContainerBody);
+
+        let reader = new FileReader();
+        reader.onload = (function(file, i){
+          return function(e){
+            let fileObj = {};
+            fileObj.image = e.target.result;
+            let file_input = $('<input class="file_data" type="hidden" data-index="' + i + '">');
+            file_input.val(JSON.stringify(fileObj));
+            file_input.appendTo($('#updateResourceModal .modal-body'));
+
+          };
+        })(fileList[i],i);
+        reader.readAsDataURL(fileList[i]);
+      }
+
+      fileContainerBody.appendTo(fileContainer);
+      fileContainer.appendTo($('#updateResourceModal .modal-body'));
+
+    }
+  }
+
+ 
+  $('#videoModal').on('hidden.bs.modal', function (e) {
+      $(this).contents().find('video')[0].pause();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<div class="container-offset-lr mt-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="card p-4 mt-2">
+          <div class="row">
+            <div class="col-md-6">
+              <h1>Group Templates</h1>
+            </div>
+            <div class="col-md-6 text-end">
+              <a class="btn btn-outline-primary" href="new_template_import">+ Add New Group Template</a>
+            </div>
+          </div>
+  
+          <div class="table-responsive mt-4">
+            <table id="template_list" class="table table-hover display compact">
+              <thead>
+                <tr>
+                  <th width="35%">Template name</th>
+                  <th width="15%">Template type</th>
+                  <th width="15%">Import Date</th>
+                  <th width="15%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $i = 0;
+                foreach ($importedTemplates as $importedTemplate) {
+                  $i++;
+                ?>
+                <tr id="r<?= $i ?>">
+                  <td><?= $importedTemplate['template_name']; ?></td>
+                  <td><?= $importedTemplate['template_type']; ?> - <?= $importedTemplate['template_app_type'] ?></td>
+                  <td><?= $importedTemplate['imported_at']; ?></td>
+                  <td>
+                    <?php if ($importedTemplate['is_active'] == 2) { ?>
+                      <a href="new_template_import?source_template_id=<?= base64_url_encode($importedTemplate['source_template_id']) ?>" class="btn btn-sm btn-primary">Edit</a>
+                      <button onclick="changeTempateState('<?= base64_url_encode($importedTemplate['source_template_id']) ?>', 'activate')" class="btn btn-sm btn-primary confirm" title="<b>Are you sure to activate this template!</b>">Activate</button>
+                      <button onclick="changeTempateState('<?= base64_url_encode($importedTemplate['source_template_id']) ?>', 'delete')" class="btn btn-sm btn-danger confirm" title="<b>Are you sure to delete this template!</b>">Delete</button>
+                    <?php } ?>
+                    <?php if ($importedTemplate['is_active'] == 1) { ?>
+                      <button onclick="changeTempateState('<?= base64_url_encode($importedTemplate['source_template_id']) ?>', 'deactivate')" class="btn btn-sm btn-primary confirm" title="<b>Are you sure to deactivate this template!</b>">Deactivate</button>
+                    <?php } ?>
+                  </td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .main.container,
+    .footer.container {
+      padding: 0 !important;
+    }
+  
+    .divider {
+      margin: 0 !important;
+    }
+  </style>
+  
+  <script>
+    function changeTempateState(source_template_id, s) {
+      $.ajax({
+        url: 'action?changeTempateState=1',
+        type: 'POST',
+        data: { 'source_template_id': source_template_id, 'state': s },
+        success: function (data) {
+          if (data.success) {
+            swal.fire({
+              title: 'Success',
+              text: 'Template state changed to ' + s,
+            }).then(function (result) {
+              window.location.href = 'template_manager';
+            });
+          } else {
+            swal.fire({
+              title: 'Error',
+              text: 'Failed to change state to ' + s,
+              icon: 'error'
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          swal.fire({
+            title: 'Error',
+            text: 'An error occurred while changing the state of the template. Please try again.',
+            icon: 'error'
+          });
+        }
+      });
+    }
+  $("#sidebar-wrapper ul li:nth-child(12)").addClass("myactive");
+  </script>

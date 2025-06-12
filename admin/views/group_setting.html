@@ -1,0 +1,113 @@
+<style>
+    .headbold{
+        font-weight: 700;
+    }
+</style>
+<div id="ergSetting" class="modal fade" role="dialog" aria-label="<?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> <?= gettext('Setting');?>">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"><?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> Setting</h4>
+              <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <form id="groupSettingForm" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                    <?php if($_ZONE->val('app_type') != 'talentpeak'){ ?>
+                        <div class="form-group">
+                          <label >Show members on About Us page</label>
+                          <select class="form-control" name="about_show_members" id="">
+                            <option value="1" <?= $group[0]['about_show_members'] == 1 ? 'selected' : ''; ?>>Show to everyone</option>
+                            <option value="2" <?= $group[0]['about_show_members'] == 2 ? 'selected' : ''; ?>>Show only to other Members</option>
+                            <option value="0" <?= $group[0]['about_show_members'] == 0 ? 'selected' : ''; ?>>Do not show</option>
+                          </select>
+                        </div>
+                    <?php } ?>
+
+                        <div class="form-group">
+                            <label >Content Restrictions</label>
+                            <select name="content_restrictions" class="form-control" id="">
+                                <option value="anyone_can_view" <?= $group[0]['content_restrictions'] == 'anyone_can_view' ? 'selected' : ''; ?> >Anyone can view</option>
+                                <option value="members_only_can_view" <?= $group[0]['content_restrictions'] == 'members_only_can_view' ? 'selected' : ''; ?> > Only Members can view</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label >Change <?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> Type</label>
+                          <select class="form-control" name="group_type" id="sel1">
+                            <?php foreach($grouptype as $key => $value){
+                                    $sel = "";
+                                    if ($group[0]['group_type'] ==$key) {
+                                        $sel = "selected";
+                                    }
+                                ?>
+                                <option value="<?= $key; ?>" <?= $sel; ?> ><?= $value; ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+
+                        <?php
+                        if ($_COMPANY->getAppCustomization()['chapter']['enabled'] && $_ZONE->val('app_type') != 'talentpeak') {
+                            $chapter_label = $_COMPANY->getAppCustomization()['chapter']['name-short'];
+                        ?>
+                        <div class="form-group">
+                            <label ><?=$chapter_label?> Assignment</label>
+                            <select name="chapter_assign_type" class="form-control" id="">
+                              <option value="by_user_any" <?= $group[0]['chapter_assign_type'] == 'by_user_any' ? 'selected' : ''; ?>>Allow user to choose any number of <?=$chapter_label?>s</option>
+                              <option value="by_user_exactly_one" <?= $group[0]['chapter_assign_type'] == 'by_user_exactly_one' ? 'selected' : ''; ?>>Require user to choose exactly one <?=$chapter_label?></option>
+                              <option value="by_user_atleast_one" <?= $group[0]['chapter_assign_type'] == 'by_user_atleast_one' ? 'selected' : ''; ?>>Require user to choose atleast one <?=$chapter_label?></option>
+                              <option value="auto" <?= $group[0]['chapter_assign_type'] == 'auto' ? 'selected' : ''; ?>>Auto Assign <?=$chapter_label?> based on user location</option>
+                            </select>
+                        </div>
+                        <?php } ?>
+
+                        <?php if($_COMPANY->getAppCustomization()['group']['allow_anonymous_join']){?>
+                        <div class="form-group">
+                            <div class="radio" id="join_anonymously" style="display: none;">
+                                <input type="checkbox" id="anonymity" name="anonymity" <?= $group[0]['join_group_anonymously']== 1 ? 'checked' : ''; ?> value="1">
+                                <label class="checkbox-inline">&nbsp; <?= gettext("Allow anonymous join");?>&nbsp;<i class="fa fa-question-circle" data-toggle="tooltip" title="<?= sprintf(gettext('If selected, users will be shown an option to join  %s anonymously'), $_COMPANY->getAppCustomization()['group']['name-short'])?>"></i></label>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <div class="modal-footer text-center">
+                            <button type="button" onclick="updateGroupSetting('<?= $_COMPANY->encodeId($group[0]['groupid']) ?>')" class="btn btn-primary"><?= gettext("Update")?></button> <button type="button" class="btn btn-primary" data-dismiss="modal"><?= gettext("Close")?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+           
+        </div>
+
+    </div>
+</div>
+<!-- script to hide anonymous option on change -->
+<script>
+    $(document).ready(function(){
+        // show if open mmembership
+        if($("#sel1").val() == 0 ){
+            $("#join_anonymously").show();
+        }
+        // on change of dropdown
+        $("#sel1").on('change', function() {
+            $("#join_anonymously").hide();
+            $("#anonymity").removeAttr('checked');
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+                if(optionValue == 0){
+                    $("#join_anonymously").show();
+                }
+            });
+        });
+});
+$(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+  })
+
+$('#ergSetting').on('shown.bs.modal', function () {     					 
+    $('.close').focus();
+})
+</script>

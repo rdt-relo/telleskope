@@ -1,0 +1,168 @@
+<style>   
+       
+    .widget-simple-chart.card-box-one.top-no-border {
+        border-top: none;
+        border-radius: 0 5px 5px 5px;
+        padding: 10px 20px 10px 25px;
+    }
+    </style>
+        <div class="container  col-md-offset-2 margin-top">  
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-simple-chart card-box-one fixhight">
+                        <?php if(isset($_GET['msg'])){?>
+                        <div id="hidemesage" class="alert alert-info alert-dismissable">
+                                <?= $_GET['msg']; ?>                      
+                         </div>
+                         <?php }?>
+                        <div class="col-md-12 m-2">
+                            <a class="btn btn-primary pull-right mr-1" href="#">Create Matching Program</a>
+                            
+                            <h4 class="">Matching Programs</h4>
+                        </div>
+                        <div style="margin-top:60px">
+                        
+<div class="col-md-12">
+    <div class="table-responsive">
+        <table id="donationTable" class="table table-hover display compact" style="width:100%;table-layout: fixed;" summary="This table display the list of event expenses">
+            <thead>
+                <tr>
+                    <th width="15%" scope="col">Title</th>
+                    <th width="15%" scope="col">Description</th>
+                    <th width="15%" scope="col">Max Match Amount</th>
+                    <th width="15%" scope="col">Start Date</th>
+                    <th width="15%" scope="col">End Date</th>
+                    <th width="15%" scope="col">Match Amount</th>
+                    <th width="15%" scope="col">Match Program Configuration</th>
+                    <th width="15%" scope="col">Action</th>                    
+                    </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>National Disaster Matching</td><td>11</td><td>$200.00</td><td>2023-03-01</td><td>2023-03-31</td>  
+                    <td>  
+                        4x </td> 
+                    <td>  
+                        <a class="pull-right mr-1" href="#"><i class="fa fa-cog" style="margin-right: 70px;" title="Configuration"></i></a> </td> 
+
+         <td> <a href="#"><i class="fa fa-edit" title="Edit"></i>
+                    </a> &nbsp;&nbsp;
+                    <a class="deluser" onclick="" title="" data-original-title="<strong>Are you sure you want to delete?</strong>">
+                       </a></td>              
+                  </tr>
+                  <tr>
+                    <td>Climate Related Matching</td><td>11</td><td>$100.00</td><td>2023-01-27</td><td>2023-01-31</td>  
+                        <td> 1x </td> 
+                        <td>  
+                            <a class="pull-right mr-1" href="#"><i class="fa fa-cog" style="margin-right: 70px;" title="Configuration"></i></a>
+                        </td> 
+    
+             <td> <a href="#"><i class="fa fa-edit" title="Edit"></i>
+                        </a> &nbsp;&nbsp;
+                        <a class="deluser" onclick="" title="" data-original-title="<strong>Are you sure you want to delete?</strong>">
+                           </a></td>              
+                      </tr>
+                      <tr>
+                        <td>Standard Yearly Matching</td><td>11</td><td>$150.00</td><td>2023-02-27</td><td>2023-02-31</td>  
+                            <td>  
+                            2x </td> 
+                            <td>  
+                                <a class="pull-right mr-1" href="#"><i class="fa fa-cog" style="margin-right: 70px;" title="Configuration"></i></a> </td> 
+        
+                 <td> <a href="#"><i class="fa fa-edit" title="Edit"></i>
+                            </a> &nbsp;&nbsp;
+                            <a class="deluser" onclick="" title="" data-original-title="<strong>Are you sure you want to delete?</strong>">
+                               </a></td>              
+                          </tr>
+                      
+            </tbody>
+        </table>
+    </div>	
+</div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="listOfGroupLeadsDiv">
+                <div class="col-md-12">
+                    <div class="widget-simple-chart card-box-one fixhight">
+                        <?php if(isset($_GET['msgbox'])){?>
+                            <div id="hidemesage" class="alert alert-info alert-dismissable">
+                                    <?= $_GET['msgbox']; ?>                      
+                             </div>
+                             <?php }?>
+                        <div class="m-4">                         
+                            <h4 class="">List of Donation Matches </h4>                          
+                        </div>
+                        
+                        <div class="tab-content">
+                           
+                                <div class="row">
+                                    <div class="col-md-12 cover-div">
+                                        <div class="widget-simple-chart card-box-one top-no-border" >
+                                            <div class="table-responsive " id="list-view">
+                                                <table id="listOfDonationMatches" class="table table-hover display compact"  width="100%" summary="This table displays the list of Group Leaders">
+                                                    <thead>
+                                                        <tr>
+                                                        <th width="15%" scope="col">Employee Name</th>
+                                                        <th width="15%" scope="col">Recepient Organization</th>
+                                                        <th width="15%" scope="col">Employer Matching Program</th>
+                                                        <th width="15%" scope="col">Employee Donation</th>
+                                                        <th width="15%" scope="col">Employer Match</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <td>Maneet Sarai</td><td>American Red Cross</td><td>Disaster relief matching program</td><td>$50</td><td>$100</td>  
+
+                                                        </tr>
+                                                        <tr>
+                                                        <td>Aman Brar</td><td>Habitat for Humanity</td><td>Climate matching program</td><td>$75</td><td>$150</td>  
+                                                            
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Hem Thakur</td><td>Feeding America</td><td>Climate matching program</td><td>$200</td><td>$400</td>  
+                                                                
+                                                        </tr>
+                                                    </tbody>
+                                                       
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>               
+            </div> 
+   
+    
+    </div>	
+    </div>
+
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#donationTable').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "pageLength": 10,
+        "columnDefs": [
+			{ targets: [6,7], orderable: false }
+		]
+        
+    } );
+    $('#listOfDonationMatches').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "pageLength": 10
+        
+    } );
+</script>
+ 
+</body>
+</html>

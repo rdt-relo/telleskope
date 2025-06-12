@@ -1,0 +1,39 @@
+<div class="tl-container-offset-lr">
+	<div class="row">              
+	  <div class="col-md-12">
+		<div class="widget-simple-chart card p-3">
+		  <?php if(isset($_GET['msg'])){ ?>
+			<div id="hidemesage" class="alert alert-info alert-dismissable">
+			  <?= $_GET['msg']; ?>                      
+			</div>
+		  <?php } ?>  
+  
+		  <div class="col-md-12 divider">
+			<h1><?= $id ? 'Edit' : 'Add'; ?> Department</h1>
+			<hr class="text-light my-2 border-1">
+		  </div>
+  
+		  <form class="form-horizontal" method="post" action="">
+			<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="department" class="col-form-label">Department Name <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-lg-6">
+				<input class="form-control" id="department" placeholder="Department name" name="department" value="<?= $id ? $edit[0]['department'] : '';?>" type="text" required>
+			  </div>
+			</div>
+  
+			<div class="row">
+			  <div class="offset-lg-2 col-lg-6">
+				<button type="button" onclick="goBack()" class="btn btn-secondary">Cancel</button>
+				<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+			  </div>
+			</div>
+		  </form>
+		</div>	
+	  </div>
+	</div>
+  </div>
+  

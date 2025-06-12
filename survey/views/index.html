@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teleskope Survey</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= Url::GetFavIconUrl(); ?>">
+
+    <!-- Bootstrap -->
+    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+
+    <!-- Teleskope styles, comes after bootstrap from parent folder -->
+    <link href="../css/teleskope.css" rel="stylesheet">
+    <!-- Bootstrap ... in the last -->
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+     
+
+    <!-- SurveyJs Stuff-->
+    <link type="text/css" rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css">
+    <link type="text/css" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+
+    <!-- Sweet Alert 2 -->
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <style>
+        body {
+            background-color: #ffffff !important;
+
+        }
+        .sv-question,.sv-btn,.sv-container-modern,.svd_container,.sv_main,.sv-title,.sv-completedpage {
+            font-family: 'Lato-Regular' !important;
+        }
+        .sv-root-modern .sv-completedpage{
+            background: #fff !important;
+        }
+        .rc-anchor-alert{
+          display: none;
+        }
+  .sv-boolean--checked .sv-boolean__slider {
+      margin-left: calc(100% - 1.25em) !important;
+  }
+    </style>
+
+</head>
+<body>
+<div class="jumbotron text-center " style="background: #fff; border-bottom: 1px solid rgb(201, 199, 199);">
+      <img src="<?=$logo; ?>" style="max-height:100px;"/>
+     </div>
+      
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 surveyTitle">
+          <h3 class="text-center"><?= $survey_name;?></h3>
+        </div>
+        <?php if(!empty($surveyLanguages)){ ?>
+          <div class="col-12" id="language_selection" style="display:none;">
+            <select class="form-control pull-right" style="max-width:300px" onchange="survey.locale = this.value;">
+              
+              <?php
+                foreach($surveyLanguages['languages'] as $lang){
+                  $langVal = $lang;
+                  if ($lang == 'default'){
+                    $langVal = "en";
+                  }
+
+                  $sel = "";
+                  if ($langVal == $surveyLanguages['locale']){
+                    $sel = "selected";
+                  }
+
+              ?>
+              <option value="<?= $langVal; ?>" <?= $sel; ?>><?= Locale::getDisplayName($langVal); ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        <?php } ?>
+        <div class="col-sm-12 mb-5">
+          <div id="surveyContainer"></div>
+        </div>
+
+      </div>
+    </div>
+  <?php if($anonymous){ ?>
+    <form id="recaptcha-enabled-form">
+    <button id="submitCaptcha" type="button" data-sitekey="<?=RECAPTCHA_SITE_KEY?>" data-callback='onRecaptchaSubmit' class="g-recaptcha" style="display:none;"></button>
+    </form>
+  <?php } ?>
+    <script>
+     var __responseJson = null;
+    
+      $( document ).ready(function() {
+          // Color customization
+          var defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors["modern"];
+          defaultThemeColorsSurvey["$main-color"] = "#0077b5";
+          defaultThemeColorsSurvey["$main-hover-color"] = "#0D5380";
+          defaultThemeColorsSurvey["$text-color"] = "#505050";
+          defaultThemeColorsSurvey["$header-color"] = "#0077b5";
+          defaultThemeColorsSurvey["$header-background-color"] = "#505050";
+          defaultThemeColorsSurvey["$body-container-background-color"] = "#f8f8f8";
+          Survey.StylesManager.applyTheme("Default");  
+          Survey.settings.titleTags.survey = "h1";
+          Survey.settings.titleTags.page = "h2";
+          Survey.settings.titleTags.panel = "h3";
+          Survey.settings.titleTags.question = "h2";
+
+        var surveyJSON = <?= $survey_json; ?>;
+        var surveyResponse = null;
+        $("#language_selection").show();
+        window.survey = new Survey.Model(surveyJSON);
+        survey.locale = '<?= $surveyLanguages['locale'] ?? 'en'; ?>';
+        $("#surveyContainer").Survey({
+            model:survey,
+            onComplete:saveSurveyResponse
+        });
+        setTimeout(function(){
+            document.querySelectorAll('div[role="listbox"]').forEach(function (el){
+                $(el).removeAttr( "role" )
+            });
+            $('.sv-checkbox__svg, .sv-radio__svg').css({"border-color": "#949494", 
+                  "border-width":"3px", 
+                  "border-style":"solid"});
+        },1000);
+      });
+
+     
+      function saveSurveyResponse(survey) {
+        __responseJson = JSON.stringify(survey.data);
+      <?php if($anonymous){ ?>
+        $(".sv-root-modern .sv-completedpage").hide();
+        $('#submitCaptcha').trigger('click');
+      <?php } else{ ?>
+        onRecaptchaSubmit();
+      <?php } ?>
+        
+      }
+
+      function onRecaptchaSubmit(token) {
+        let responseJson = __responseJson; // __responseJson global Scope
+        let recaptcha = null;
+        <?php if ($anonymous){ ?>
+          recaptcha = $('#g-recaptcha-response').val();
+        <?php } ?>
+        $.ajax({
+          url: "<?= $next_url ?>",
+              type: "post",
+              data: {'responseJson':responseJson,'surveyid':'<?= $enc_surveyid ?>' <?= ($anonymous) ? ", 'g-recaptcha-response':recaptcha" : ", 'csrf_token':'".$csrfToken."'"?>},
+              success : function(data) {
+                swal.fire({icon:'success', title:'Success', text:"Survey response saved."}).then( function(result) {
+                  $(".sv-root-modern .sv-completedpage").show();
+                  $(".sv-root-modern > form").attr('tabindex',0);
+                  $(".sv-root-modern > form").focus();
+                });
+
+              },
+              error: function(errorMessage){
+                swal.fire({icon:'warning', title:'Error', text: 'HTTP ' + errorMessage.status + ' Error'}).then( function(result) {
+                  window.location.reload();
+                });
+              }
+        });  
+      }
+   </script>
+
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   
+</body>
+</html>

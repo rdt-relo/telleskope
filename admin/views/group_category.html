@@ -1,0 +1,129 @@
+<div class="container  col-md-offset-2 margin-top">
+    <div class="row">	  
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box ">
+                    <div class="col-md-12 divider">
+                        <div class="col-md-7">
+                            <h6>Manage <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Categories &nbsp;</h6>
+                                <a aria-label="<?= gettext('Add new group');?>" class="add-plus-circle-icon" href="addgroupcategory">
+                                    <i class="fa fa-plus-circle fa-lg" title="Add new group category" aria-hidden="true"></i>
+                                </a>
+                        </div>
+                        <div class="col-md-2">
+                                &nbsp;
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= UPDATED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ADDED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                        <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                            <?= ERROR; ?>
+                        </div>
+                <?php } ?>
+                    
+                    <div class="table-responsive mb-5">
+                        <table id="group_category_table" class="table table-hover display compact" summary="This table display the list of groups categories">
+                            <thead>
+                                <tr>
+                                    <?php $tableCols = 5; ?>
+                                    <th width="25%" class="color-black" scope="col">Category Name</th>
+                                    <th width="15%" class="color-black" scope="col">Category Label</th>
+                                    <th width="10%" class="color-black" scope="col">Is Default Category</th>
+                                    <th width="25%" class="color-black" scope="col">Created on</th>
+                                    <th width="25%" class="color-black text-right" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            <?php
+                            $i = 0;
+                            foreach ($rows as $row) { $i++; $encodedId = $_COMPANY->encodeId((int)$row['categoryid']); ?>
+                                <tr style="<?= $row['isactive'] != 1 ? 'background-color: rgb(255, 255, 206);' : ''?>" id="<?=$encodedId;?>">
+                                    <td><?= htmlspecialchars_decode($row['category_name']); ?></td>
+                                    <td><?= $row['category_label'] ?></td>
+                                    <td><?= $row['is_default_category'] ? 'Yes' : 'No' ?></td>
+                                    <td><?= $row['createdon'] ?></td>
+                                    <td class="text-right">
+                                            <a class="btn" href="addgroupcategory?edit=<?=$encodedId;?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+                                        <?php if($row['isactive']){?>
+                                            <button aria-label="De-Activate" class="btn btn-no-style deluser" onclick="changeGroupCategoryStatus('<?=$encodedId;?>',0)" title="<strong>Are you sure you want to De-activate!</strong>"><i class="fa fa-lock" title="De-activate" aria-hidden="true"></i></button>&nbsp;
+                                        <?php }else{?>
+                                            <button aria-label="Activate" class="btn btn-no-style deluser" onclick="changeGroupCategoryStatus('<?=$encodedId;?>',1)" title="<strong>Are you sure you want to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>&nbsp;
+                                            <button aria-label="delete"  class="btn btn-no-style deluser" onclick="deleteGroupCategory('<?=$encodedId;?>')" title="<strong>Are you sure you want to Delete!</strong>"><i class="fa fa-trash fa-l" title="Delete" ></i></button>
+                                        <?php } ?>
+                                      
+                                     
+                                       
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#group_category_table').DataTable( {
+        "order": [],
+        "bPaginate": false,
+        "bInfo" : false,
+        "columnDefs": [
+            { targets: [0,1,2,3,4], orderable: false }
+        ],
+    } );
+    //Helper function to keep table row from collapsing when being sorted
+    var fixHelperModified = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+            $(this).width($originals.eq(index).width())
+        });
+        return $helper;
+    };
+
+    //Make diagnosis table sortable
+    $("#group_category_table tbody").sortable({
+        helper: fixHelperModified,
+        stop: function(event,ui) {renumber_table('#group_category_table')}
+    }).disableSelection();
+} );
+//Renumber table rows
+function renumber_table(tableID) {
+    var newOrder = $(tableID + " tbody tr").map(function(index, elem){
+        return $(elem).attr('id');
+    }).get();
+    updateErgCategoryPriority(newOrder)   
+}
+// Delete category
+function deleteGroupCategory(categoryId){
+    $.ajax({
+        url: 'ajax.php?deleteGroupCategory',
+            type: "POST",
+            data: {'categoryId':categoryId},
+        success : function(data) {
+            let jsonData = JSON.parse(data);
+            swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                location.reload();
+              });
+        }
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card p-4">
+                <div class="border-bottom mb-3">
+                    <h1><?=$pagetitle;?></h1>
+                </div>
+                
+            <div class="table-responsive ">
+            <table id="userCatalogsTable" class="table table-hover display compact" summary="User Catalogs list">
+                <thead>
+                    <tr>
+                        <th  scope="col">Catalog Name </th>
+                        <th scope="col">Catalog Data Type</th>
+                        <th scope="col">Visible in Zones</th>
+                        <th scope="col">Created On</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(!empty($catalogs)){
+                        foreach($catalogs as $catalog){
+                            $catZoneIds = explode(',',$catalog['visible_in_zoneids']);
+                            // map the zoneids to names
+                            $catalogZones = array_map(function($zoneid) use ($zoneNameMap){
+                                return $zoneNameMap[$zoneid] ?? null;
+                            }, $catZoneIds);
+                            $encoded_zoneids = $catalog['visible_in_zoneids'] ? $_COMPANY->encodeIdsInCSV($catalog['visible_in_zoneids']) : '';
+                            $encoded_categoryid = $_COMPANY->encodeId($catalog['user_catalog_categoryid'])
+                            ?>
+                        <tr>
+                            <td><?= $catalog['user_catalog_category']; ?></td>
+                            <td><?= $catalog['user_catalog_keytype']; ?></td>
+                            <td><?= htmlspecialchars_decode(trim(implode(', ',$catalogZones), ', '))  ?></td>
+                            <td><?= $catalog['createdon']; ?></td>
+                            <td>
+                                <div class="dropdown" id="action<?= $encoded_categoryid ?>">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <?= gettext('Action');?>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button aria-label="Update Zone Visibility"  class="btn btn-no-style dropdown-item" onclick="viewZoneVisibilityModal('<?= $encoded_categoryid ?>', '<?= $encoded_zoneids ?>')"><i class="fa fa-check-circle" aria-hidden="true"></i> Update Zone Visibiity</button>
+
+                                        <button aria-label="View Catalog Stats"  class="btn btn-no-style dropdown-item" onclick="viewCatalogStatsModal('<?= $encoded_categoryid ?>')"><i class="fa fa-eye" aria-hidden="true"></i> View Stats</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    <?php } ?>                    
+                </tbody>
+            </table>
+            </div>	
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Zone visibility Modal -->
+<div id="update_zone_visibility_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">  
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="form_title">Update Zone Visibility</h5>
+                <button id="btn_close" aria-label="close" type="button" class="btn-close" data-bs-dismiss="modal"></button>              
+			</div>
+			<div class="modal-body">
+                    <p class="my-1">
+                        Check/Uncheck to enable/disable any zone and hit submit:
+                    </p>               
+                <form class="form-horizontal" method="post">
+                    <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                    <input type="hidden" id="selected_catalog_id" name="selected_catalog_id" value="">
+                    <div class="form-group hide-for-tab" id="selectedCriteria">
+                        <?php
+                        foreach($zoneNameMap as $zone_id => $zone_name){
+                            $encoded_zone_id = $_COMPANY->encodeId($zone_id); ?>
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    class="zone-checkbox"
+                                    name="selectedZones[]"
+                                    value="<?= $encoded_zone_id ?>"
+                                    id="<?= $encoded_zone_id ?>"
+                                >
+                                <label class="form-check-label" for="<?= $encoded_zone_id ?>">
+                                    <?= htmlspecialchars_decode($zone_name); ?>
+                                </label>
+                            </div>
+                        <?php } ?>
+                    </div>
+                        <div class="form-group text-center mt-3">
+                            <button type="button" onclick="submitZoneVisibilityForm()" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>	
+			</div>
+		</div>  
+	</div>
+</div>
+
+
+<!-- View Stats Modal -->
+<div id="view_stats_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-w1000">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="form_title">View Stats</h5>                
+                <button id="btn_close" aria-label="close" type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+                  <!-- view stats data will be here -->
+                  <table id="viewCatalogsStatsTable" class="table table-hover display compact" summary="User Catalogs list">
+                    <thead>
+                        <tr>
+                            <th width="25%" scope="col">Catalog Category</th>
+                            <th width="30%" scope="col">Catalog Key Name </th>
+                            <th width="15%" scope="col">Catalog Source ID</th>
+                            <th width="10%" scope="col">User Count</th>
+                            <th width="20%" scope="col">Last updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                      <!--  show stats table here -->
+                    </tbody>
+                </table>
+			</div>
+		</div>  
+	</div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+            var dtable = $('#userCatalogsTable').DataTable( {
+            bInfo : false,
+            language: {
+                    searchPlaceholder: "Enter search text here ...",
+                    url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+                },
+            });
+    });
+
+    // initialize datatable once
+    $('#viewCatalogsStatsTable').DataTable({
+        destroy:true,
+        paging: false,
+        searching: false,
+        columnDefs: [
+            {targets: 1, className: 'string-column'}
+        ]
+    });
+    function viewCatalogStatsModal(catalog_categoryid){
+        $.ajax({
+            url: 'ajax.php?viewCatalogStatsModal=1',
+            data: {catalog_categoryid:catalog_categoryid},
+            type: "POST",
+            success : function(response) {
+                let jsonData = JSON.parse(response);
+                if(jsonData.status == 1){
+                    const allStats = JSON.parse(jsonData.val);
+                    const statsTable = $("#viewCatalogsStatsTable").DataTable();
+
+                    // Clear existing rows
+                    statsTable.clear();
+
+                    $.each(allStats, function (index, row) {
+                        statsTable.row.add([
+                        row.user_catalog_category,
+                        row.user_catalog_keyname,
+                        row.source_id,
+                        row.num_users,
+                        row.last_updated
+                        ]);
+                    });
+                    statsTable.draw();
+                    $("#view_stats_modal").modal('show');
+                }else{
+                    swal.fire({title: 'Error', text: "Unknown error."});
+                }
+            }
+        });
+    }
+</script>
+<script>
+    function viewZoneVisibilityModal(catalog_id, visible_in_zones){
+        const zoneIds = visible_in_zones.split(',').map(id=>id.trim());
+        $("#selected_catalog_id").val(catalog_id);
+        $('.zone-checkbox').prop('checked', false);
+        // CHeck which are visible_in_zones
+
+        $('.zone-checkbox').each(function(){
+            if(zoneIds.includes($(this).val())){
+                $(this).prop('checked',true);
+            }
+        });
+
+        $("#update_zone_visibility_modal").modal('show');
+    }
+    // resetting catalog value on closing modal
+    $('#update_zone_visibility_modal').on('hidden.bs.modal', function (e) {
+        $("#selected_catalog_id").val('');
+    })
+    function submitZoneVisibilityForm(){
+        let catalog_id = $("#selected_catalog_id").val();
+        const selectedZoneIds = $('.zone-checkbox:checked').map(function(){
+                return $(this).val();
+            }).get();
+
+        $.ajax({
+            url: "ajax.php?updateZoneVisibilityForCatalogCategories=1",
+            data: {
+                catalog_id: catalog_id,
+                zone_ids: selectedZoneIds
+            },
+            type: "POST",
+            success: function (data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title, text: jsonData.message}).then(function (result) {
+                       location.reload();
+                    });
+                } catch (e) {
+                    swal.fire({title: 'Error', text: "Unknown error."});
+                }
+
+            }
+        });	
+    }
+</script>
+</body>
+</html>

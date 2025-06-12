@@ -1,0 +1,74 @@
+<div class="table-responsive " id="list-view">
+    <table id="team_role_table" class="table table-hover display compact" summary="This table shows the list of team role types">
+        <thead>
+            <tr>
+                <th width="5%" scope="col">#</th>
+                <th width="20%" scope="col">Role Type</th>
+                <th width="10%" scope="col">System Role Type</th>
+                <th width="10%" scope="col">Minimum Members Required</th>
+                <th width="10%" scope="col">Maximum Members Allowed</th>
+                <th width="10%" scope="col">Role Capacity</th>
+                <th width="10%" scope="col">Registration Start/End Date</th>
+                <th width="20%" scope="col">Role Used By</th>
+                <th width="5%" scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php $i = 0;
+        foreach($data as $row){ 
+            $roleUsedBy = Team::GetRoleUsesStat($row['groupid'],$row['roleid']); 
+        ?>
+            <tr id="e<?= ($i+1); ?>" <?= ($row['isactive'] == 1)?'':'style="background-color: rgb(251, 199, 199); opacity: 0.5;"' ?> >
+                <td><?= ($i+1); ?></td>
+                <td ><?= $row['type']; ?></td>
+                <td ><?= Team::SYS_TEAMROLE_TYPES["{$row['sys_team_role_type']}"] ?></td>
+                <td ><?= $row['min_required'] ?? ''; ?></td>
+                <td ><?= $row['max_allowed'] ?? ''; ?></td>
+                <td ><?= $row['role_capacity'] ?? '' ?></td>
+                <td ><?= $row['registration_start_date'] ? $row['registration_start_date'] : 'NA'; ?> / <?= $row['registration_end_date'] ? $row['registration_end_date'] :  'NA'; ?></td>
+                <td >Members: <?= $roleUsedBy['totalMembersByRole']; ?><br>Join Requests: <?= $roleUsedBy['totalMemberRequestsByRole']; ?></td>
+                <td>
+                <?php if($row['isactive'] == 1){ ?>
+                    <a class="" href="new_team_role_type?groupid=<?= $_COMPANY->encodeId($groupid); ?>&id=<?= $_COMPANY->encodeId($row['roleid'])?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+                    <a class="deluser" onclick="enableDisableTeamRoleType('<?= $_COMPANY->encodeId($groupid); ?>','<?=$_COMPANY->encodeId($row['roleid'])?>',100,<?= $roleUsedBy['totalMembersByRole']+$roleUsedBy['totalMemberRequestsByRole']; ?>)" title="<strong>Are you sure to Delete!</strong>"  ><i class="fa fa-trash" aria-hidden="true" title="Disable"></i></a>
+                <?php } else { ?>
+                    <a class="deluser" onclick="enableDisableTeamRoleType('<?= $_COMPANY->encodeId($groupid); ?>','<?=$_COMPANY->encodeId($row['roleid'])?>', 1,<?= $roleUsedBy['totalMembersByRole']+$roleUsedBy['totalMemberRequestsByRole']; ?>)" title="<strong>Are you sure to undo delete!</strong>"  ><i class="fa fa-undo" aria-hidden="true" title="Enable"></i></a>
+                <?php } ?>
+                </td>
+            </tr>
+            <?php $i++; } ?>
+        </tbody>
+    </table>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#team_role_table').DataTable( {
+			"order": [],
+			"bPaginate": true,
+			"bInfo" : false
+				
+		});
+        $(".deluser").popConfirm({content: ''});
+	});
+
+    function enableDisableTeamRoleType(g,i,s,c){
+        if (c != 0  && s == 100){
+            swal.fire({text:"This role cannot be removed because it's already in use. Please remove all assignments from this role to proceed with the deletion."})
+        } else{
+            $.ajax({
+                type: "POST",
+                url: "ajax.php?enableDisableTeamRoleType=1",
+                data: {'groupid':g,'id':i,'status':s},
+                success: function(data){
+                    swal.fire({title: 'Success',text:"Updated successfully."}).then(function(result) {
+                        getTeamRolesList(g);
+                    });
+                }
+            });
+        } 
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<style>
+	.btn-block {
+		background: #418bbb9c;		
+	}
+	
+</style>
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">
+				<!--div class="col-md-12 latest"><h6>Manage Survey</h6></div-->
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+				</div>
+				
+				<p>&nbsp;</p>
+				<div class="clearfix"></div>
+			<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= UPDATED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= ADDED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ERROR; ?>
+					</div>
+			<?php } ?>
+						
+                    
+            <div class="col-md-12">
+                <div class="container w4">
+                    <div class="col-md-12 discu-pad">  
+                        <div class="container">
+                            <form class="form-horizontal" id="newChannel" method="post" action="" >
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                <div class="form-group">
+                                    <label class="control-lable col-sm-2" ><?= $_COMPANY->getAppCustomization()['channel']["name-short"]?> Name <span style="color:red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="channelname" name="channelname" value="<?= $channelid > 0 ? $edit['channelname'] : ''; ?>" placeholder="<?= $_COMPANY->getAppCustomization()['channel']["name-short"]?> Name" maxlength="34" required>
+                                    </div>
+                                </div>
+								<div class="form-group">
+                                    <label class="control-lable col-sm-2" >Colour <span style="color:red;">*</span></label>
+                                    <div  id="cp2" class="col-sm-10 input-group colorpicker-component ">
+                                         <input type="text"  id="colour" class="form-control" name="colour" value="<?= $channelid > 0 ? $edit['colour'] : '#000'; ?> "  required /><span class="input-group-addon"><i></i></span>
+                                    </div>
+                                </div> 
+								<div class="form-group">
+                                    <div class="col-sm-6" style="float:right;">
+                                        <input type="submit"  class="btn btn-primary" name="submit" value="Save" />
+                                        <a  class="btn btn-primary" href="manage_channels?gid=<?=$_COMPANY->encodeId($groupid)?>"  >Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+	</div>								
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/js/bootstrap-colorpicker.min.js"></script>
+<script>
+	$(function() { $('#cp2').colorpicker({format: 'rgb'});});
+</script>

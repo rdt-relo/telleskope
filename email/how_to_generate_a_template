@@ -1,0 +1,6 @@
+Step 1: Create a template in Revolov-App. Key consideration; [%CONTENT_CONTENT%] should be directly in a block
+Step 2: Generate HTML from that template using Revolvapp.
+Step 3: Template fixes.
+    (a) Revolv-app will remove [%CONTENT_CONTENT%], so insert it back in the correct block with a div as
+    <div id="post-inner">[%CONTENT_CONTENT%]</div>
+    (b) add contents of template_css into the template just before the </head> tag. This will provide styles for post-inner id

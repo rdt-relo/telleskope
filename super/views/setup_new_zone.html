@@ -1,0 +1,192 @@
+
+<style>
+    .create_template {
+        background-color: #337ab7;
+        color: #fff;
+        margin-top: 15px;
+    }
+    .cancel_template{
+        background-color:#80808047;
+        color: #000;
+        margin-top: 15px;
+    }
+    hr {
+        border: dashed 1px #EEEEEE;
+        width:revert;
+    }
+    .erg_tables {
+        margin-bottom: 40px;
+    }
+    .erg_tables table td,th {
+        padding: 7px 15px;
+        border: solid 1px #ececec;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12"> 
+            <div class="widget-simple-chart card-box">
+				<div class="col-md-12" style="border-bottom:1px solid  #e9e9e9; 	margin-bottom:20px">
+					<h6><?= $pagetitle; ?></h6>
+				</div>
+                <div class="col-md-12">
+                     <?php if ($validation_failed) { ?>
+                    <p style="color:red;">Please check required parameters</p>
+                    <?php } ?>
+                    <form class="form-horizontal" id="zone_form" action="" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Region Name *</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="regionname" name="regionname"  value="<?= $edit ? $edit[0]['regionname'] : ''; ?>" placeholder="Region name" required>
+                            </div>
+                        </div>
+                        <hr/>
+                       <p></p>
+                        <div class="form-group">
+                            <label class=" control-label col-md-2">Zone Name *</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="zonename" name="zonename"  value="<?= $edit ? $edit[0]['zonename'] : ''; ?>" placeholder="Zonename name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Zone Type *</label>
+                            <div class="col-md-10">
+                                <select type="text" class="form-control"  id="app_type" name="app_type" required  >
+                                    <option value="">Select Zone Type</option>
+                                    <?php foreach($allApps as $key => $label){
+                                    $sel = "";
+                                    if ($edit && $edit[0]['app_type'] == $key){
+                                    $sel = "selected";
+                                    }
+                                    if ($key == 'teleskope') {
+                                    continue;
+                                    }
+                                    ?>
+
+                                    <option value="<?= $key; ?>" <?= $sel; ?> ><?= $label; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Group Name *</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="groupname" name="groupname"  value="<?= $edit ? $edit[0]['groupname'] : ''; ?>" placeholder="Group name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-md-2 control-label">Group Name Short *</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="groupshortname" name="groupshortname"  value="<?= $edit ? $edit[0]['groupshortname'] : ''; ?>" placeholder="Group short name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-md-2 control-label">Enable Chapters</label>
+                            <div class="col-md-10" style="padding-top:7px;">
+                                <input type="checkbox" id="enablechapters" name="enablechapters"  value="yes">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-md-2 control-label">Enable Channels</label>
+                            <div class="col-md-10" style="padding-top:7px;">
+                                <input type="checkbox" id="enablechannels" name="enablechannels"  value="yes">
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="erg_tables_affinities" class="erg_tables" style="display:none;">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Create Groups</label>
+
+                                    <table class="col-md-10">
+                                        <tr>
+                                            <th></th>
+                                            <th>Group Name</th>
+                                        </tr>
+                                        <?php foreach($affinities_erg_data as $i=>$erg){ ?>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" id="erg_affinities_group_<?=$i ?>" name="erg_affinities_group_<?=$i ?>"  value="yes">
+                                            </td>
+                                            <td>
+                                                <?=$erg["group_name"]; ?>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
+                                    </table>
+
+                            </div>
+                        </div>
+
+                        <div id="erg_tables_officeraven" class="erg_tables" style="display:none;">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Create Groups</label>
+
+                                <table class="col-md-10">
+                                    <tr>
+                                        <th></th>
+                                        <th>Group Name</th>
+                                    </tr>
+                                    <?php foreach($officeraven_erg_data as $i=>$erg){ ?>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="erg_officeraven_group_<?=$i ?>" name="erg_officeraven_group_<?=$i ?>"  value="yes">
+                                        </td>
+                                        <td>
+                                            <?=$erg["group_name"]; ?>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div id="erg_tables_talentpeak" class="erg_tables" style="display:none;">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Create Groups</label>
+
+                                <table class="col-md-10">
+                                    <tr>
+                                        <th></th>
+                                        <th>Group Name</th>
+                                    </tr>
+                                    <?php foreach($talentpeak_erg_data as $i=>$erg){ ?>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="erg_talentpeak_group_<?=$i ?>" name="erg_talentpeak_group_<?=$i ?>"  value="yes">
+                                        </td>
+                                        <td>
+                                            <?=$erg["group_name"]; ?>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn create_template " type="submit" id="createZone" name="createZone">Create</button>
+                            &emsp;
+                            <a class="btn cancel_template" href="manage_zones">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    $('#app_type').bind('change',function(){
+        $('.erg_tables').hide();
+       if ("affinities" == $(this).val()) {
+           $('#erg_tables_affinities').show();
+       } else if ("officeraven" == $(this).val()) {
+           $('#erg_tables_officeraven').show();
+       } else if ("talentpeak" == $(this).val()) {
+           $('#erg_tables_talentpeak').show();
+       }
+    });
+</script>

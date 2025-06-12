@@ -1,0 +1,90 @@
+Integrations
+------------
+This directory contains the code required to publish events, annoucements and newsletters onto external applications
+such as Workplace, Yammer, Slack.
+
+There are two key concepts:
+(a) What is being integrated (Internal Type) Currently only have Group integration with external groups. The
+    Internal types extend Integration class which contains the model code to store integrations.
+(b) And what it is being integrated with (External Type), e.g. Workplace Group, Yammer Group.
+    We have extracted the interface needed for external application into IntegrationExternalType.php
+    FbWorkplaceIntegrationExternalType and YammerIntegrationExternalType implement the methods declrated in
+    IntegrationExternalType and these methods are called by GroupIntegration class.
+
+Externally one needs to know only the GroupIntegrationType and the way to use it is
+(a) Create an Integration,
+    e.g.
+        $integration = GroupIntegration::CreateNewFBWorkplaceIntegration(...)
+    or
+        $integration = GroupIntegration::CreateNewYammerIntegration(...)
+(b) Activate the Integration
+    e.g.
+        $integration->setActive();
+
+(c) And whenever Announcement, Newsletter, Event is published in the group you can publish it in the corresponding
+    e.g.
+        $v->processCreateEvent($someEvent);
+        The Create can be replaced with Update or Delete
+        and Event can be replaced with Post or Newsletter
+
+(d) You can get all Integrations for a group/chapter/channel by calling,
+    e.g.
+        $integrations = GroupIntegration::GetGroupIntegrations($groupid,$chapterid,$channelid,0, true);
+    and then apply process functions in a loop e.g.
+        foreach ($integrations as $v) {
+            $v->processCreateEvent($someEvent);
+        }
+
+(e) You can get all Integrations for a group/chapter/channel for a particular external type as
+    e.g.
+        $yammer_integrations = GroupIntegration::GetGroupIntegrations($groupid,$chapterid,$channelid,2, true);
+    and then apply process functions in a loop e.g.
+        foreach ($integrations as $v) {
+            $v->processCreateEvent($someEvent);
+        }
+Here is some sample code
+//<?php
+//include __DIR__.'/head.php';
+//require_once __DIR__ . '/../include/integrations/GroupIntegration.php';
+
+//Usage Notes - How to use and test
+// $groupid = 3;
+// $chapterid = 0;
+// $channelid = 0;
+
+// //Step 1 - Create an Integration record,
+// $fb_access_token = 'DQVJ2amttU3BieU9PT1BiYjJxZAE5CdWY4Tk1VeDhpcDdiMkx4WVo0Rjk3LVZAxeUxSaFNsUzZAtZAXYyLW9IYzhGZAjg1NG1oTXNwU0VpeG8yZA0xLdWxLVDV3bkF2RXlvR2FFRG5EcmZAYdGcxeUtuV3MyZA3hnVkZAyejNEVjVuazVTNE5iV1NKQTBEUHBKUHoyQzRRNzUzZA09xeGVTSFRqdlFwSU5aR0NpSzRVYTJjQmhDNE9LczZABQ0F6dE16MlFpcm9GU2FYNXhR';
+// $fb_groupid = '681066012255110';
+// $all_true = array('events' => true, 'post' => true, 'newsletter' => true);
+// $all_false = array('events' => false, 'post' => false, 'newsletter' => false);
+// $integration = GroupIntegration::CreateNewFBWorkplaceIntegration('Basic FB',$groupid,$chapterid,$channelid,$fb_access_token,$fb_groupid, $all_true,$all_false,$all_false);
+// //Step 2 - Activate the integration
+// if ($integration)
+// $integration->setActive();
+// //and /or  create Yammer Integration
+// $yammer_auth_token = '6202552-gvDlWwPx3EAVLzcUzCahQ';
+// $yammer_groupid = '78833115136';
+// $integration = GroupIntegration::CreateNewYammerIntegration('Basic Yammer',$groupid,$chapterid,$channelid,$yammer_auth_token,$yammer_groupid, $all_true, $all_true, $all_true);
+// //Step 2 - Activate the integration
+// if ($integration)
+// $integration->setActive();
+
+
+ //Step 3 - Call as needed, for example in the Job class...
+ //Get *all* the integrations *active* for a given groupid, chapterid, channelid
+ //Step 4 - Depending upon the context call the methods as needed
+// $someEvent = Event::GetEvent(127);
+// $somePost = Post::GetPost(412);
+// $someNewsletter = Newsletter::GetNewsletter(2104);
+// $intg = GroupIntegration::GetGroupIntegrations($groupid,$chapterid,$channelid,0, true);
+// foreach ($intg as $v) {
+      //$v->processCreateEvent($someEvent);
+      //$v->processUpdateEvent($someEvent);
+      //$v->processDeleteEvent($someEvent);
+      //$v->processCreatePost($somePost);
+      //$v->processUpdatePost($somePost);
+      //$v->processDeletePost($somePost);
+      //$v->processCreateNewsletter($someNewsletter);
+      //$v->processUpdateNewsletter($someNewsletter);
+      //$v->processDeleteNewsletter($someNewsletter);
+//}

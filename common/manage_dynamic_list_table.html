@@ -1,0 +1,101 @@
+<div class="table-responsive">
+    <table id="manage_dynamic_lists" class="table table-hover display compact" style="width:100%;" summary="Dynamic Lists">
+        <thead>
+             <tr>
+                        <?php foreach ($tableHeaders as $tHeader => $thWidth) { ?>
+                            <th width="<?= $thWidth ?>"><?= gettext($tHeader); ?></th>
+                        <?php } ?>     
+                    </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach($lists as $list){
+            $encGroupId = isset($groupid) ? $_COMPANY->encodeId($groupid) : $_COMPANY->encodeId(0);
+            if($isAdminView){
+                $createdBy = $list->val('createdby') ? User::GetUser($list->val('createdby')) : null;
+                $modifiedBy = null;
+                if ($list->val('createdby') !=  $list->val('modifiedby')) {
+                    $modifiedBy = $list->val('modifiedby') ? User::GetUser($list->val('modifiedby')) : null;
+                }
+            }
+        ?>
+            <tr style="background: <?=$bgcolor[$list->val('isactive')]?>">
+                <td><?= $list->val('list_name'); ?> <small>(<?= $list->getScopeString() ?>)</small></td>
+                <td>
+                    <?= $list->val('list_description'); ?>
+                </td>
+                <?php if($isAdminView){ ?>
+                <td>
+                    <?= ($createdBy?->getFullName()) ?? '-' ?>
+                    <?= $modifiedBy ? ', '. $modifiedBy->getFullName() : ''; ?>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" type="button" id="showUsersButton" onclick="getDynamicListUsers('<?= $_COMPANY->encodeId($list->val('listid'))?>')">
+                        <?= gettext("Show Users")?>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" type="button" id="showUsersButton" onclick="getDynamicListRules('<?= $_COMPANY->encodeId($list->val('listid'))?>')">
+                        <?= gettext("Show Rules");?>
+                    </button>
+                </td>
+                <?php } ?>
+                <td>
+                    <div class="dropdown pull-right" id="action<?= $_COMPANY->encodeId($list->val('listid'))?>">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= $status[$list->val('isactive')]?>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                            <?php if ($isAdminView && $list->val('isactive') != 1 ) { ?>
+                                <a aria-label="Edit" class="btn dropdown-item" href="new_dynamic_list?edit=<?= $_COMPANY->encodeId($list->val('listid'))?>" class="" title="Edit Dynamic List"><i class="fa fa-edit" title="Edit"></i>&nbsp;Edit</a>
+                            <?php } ?>
+                            <?php if ($list->val('isactive') == 1 ) { ?>
+                                <button aria-label="Deactivate" class="btn btn-no-style dropdown-item deluser" onclick=activateDeactivateDynamicList('<?= $_COMPANY->encodeId($list->val("listid"))?>','deactivate','<?= $encGroupId ?>') class="confirm" title="Are you sure you want to deactivate this Dynamic List?"><i class="fa fa fa-lock" aria-hidden="true"></i>&nbsp;Deactivate</button>
+                            <?php } ?>
+                            <?php if ($list->val('isactive') == 2 ||  $list->val('isactive') == 0 ) { ?>
+                                <button aria-label="Activate" class="btn btn-no-style dropdown-item deluser" onclick=activateDeactivateDynamicList('<?= $_COMPANY->encodeId($list->val("listid"))?>','activate','<?= $encGroupId ?>') class="confirm" title="Are you sure you want to activate this Dynamic List?"><i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;Activate</button>
+                            <?php } ?>
+                            <?php if ($isAdminView && $list->val('isactive') == 2 ) { ?>
+                                <button aria-label="Delete" class="btn btn-no-style dropdown-item deluser" onclick=deleteDynamicList('<?= $_COMPANY->encodeId($list->val("listid"))?>') class="confirm" title="Are you sure you want to delete this Dynamic List?"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</button>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+</div>	
+
+<script>
+    function activateDeactivateDynamicList(listid,action, groupid){
+        let isAdminView = '<?=$isAdminView?>';
+	$.ajax({
+		url: 'ajax_dynamic_list.php?activateDeactivateDynamicList=1',
+		type: "POST",
+		data: {'listid':listid,'action':action,'groupid':groupid},
+        success : function(data) {
+			try {
+				let jsonData = JSON.parse(data);
+				swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+					if (jsonData.status == 1){
+                        if(isAdminView){
+                            location.reload();
+                            return;
+                        }
+						// 1. Refresh Dynamic List
+						refreshDynamicList(groupid)
+						// 2. Reopen manage list modal
+						manageDynamicListModal(groupid)
+					}
+				});
+			} catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+
+            setTimeout(() => {  
+                $(".swal2-confirm ").focus(); 
+            }, 100);
+		}
+	});
+}
+</script>

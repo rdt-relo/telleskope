@@ -1,0 +1,45 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.teleskope.affinities.dev",
+            "sha256_cert_fingerprints": [
+                "FB:B7:8D:91:A6:C1:C9:C0:21:25:7D:CF:FB:15:51:DA:B7:6C:D5:15:6D:40:E1:8A:DC:9C:F7:9F:60:53:E8:76",
+                "EE:5A:D6:FF:DF:0D:5A:CC:E7:4D:46:63:14:CB:07:D4:C3:4A:71:86:26:A4:07:BA:68:6D:FD:03:E4:92:94:29"
+            ]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.teleskope.affinities.mckesson",
+            "sha256_cert_fingerprints": [
+                "45:6D:45:35:EF:D7:E7:8B:DB:EE:F9:B1:D7:52:9C:68:B1:4E:F0:D0:ED:A9:B2:4E:C3:FF:7A:93:AA:3E:6D:4C",
+                "EE:5A:D6:FF:DF:0D:5A:CC:E7:4D:46:63:14:CB:07:D4:C3:4A:71:86:26:A4:07:BA:68:6D:FD:03:E4:92:94:29"
+            ]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.teleskope.affinities",
+            "sha256_cert_fingerprints": [
+                "EF:D2:C9:41:C7:82:E4:5E:2F:B4:65:AE:B0:E3:9F:06:51:8F:E6:A5:56:0F:93:8B:10:9D:A5:AB:49:80:09:92",
+                "EE:5A:D6:FF:DF:0D:5A:CC:E7:4D:46:63:14:CB:07:D4:C3:4A:71:86:26:A4:07:BA:68:6D:FD:03:E4:92:94:29"
+            ]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.teleskope.affinities.sephora",
+            "sha256_cert_fingerprints": [
+                "EE:5A:D6:FF:DF:0D:5A:CC:E7:4D:46:63:14:CB:07:D4:C3:4A:71:86:26:A4:07:BA:68:6D:FD:03:E4:92:94:29"
+            ]
+        }
+    }
+]

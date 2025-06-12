@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><?= $pageTitle; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+	function giveCallbackToFlutterClient(){ 
+		window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+			window.flutter_inappwebview.callHandler("dataUpdatedSuccessfully",{});
+        });
+	}
+	window.onload = giveCallbackToFlutterClient;
+</script>
+</head>
+<body></body>
+</html>

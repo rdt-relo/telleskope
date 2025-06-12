@@ -1,0 +1,559 @@
+<!-- <style>
+    .card-box-one { border: 1px solid #bfbfbf;height: 437px !important;}   
+</style> -->
+<script>
+    <?php if(count($groups)){ ?>
+    var colors = [
+        <?php    for($gc = 0;$gc < count($groups);$gc++){ ?>
+        '<?= $groups[$gc]['overlaycolor'];?>',
+        <?php    } ?>'#636262'
+    ]
+
+    <?php } ?>
+
+</script>
+<style>
+	.fa-ellipsis-v:after {
+		display: none;
+	}
+</style>
+
+
+<div tabindex="-1" id="theGraphModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">  
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="rsvp_report_title"><?= gettext("Quick View Report");?> <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?= sprintf(gettext('All the numbers below are in real time, and any real time changes will change past data, as well. For example, if a member (ie. John)  joins an %1$s in June, and for June and July, there are 100 members in the %1$s, but John leaves in August, the data below will show 99 members for June and July. If you wish to see where the %2$s were without retroactive changes, see the statistics on the dashboard of the %1$s.'), $_COMPANY->getAppCustomization()['group']['name-short'], $_COMPANY->getAppCustomization()['group']['name-short-plural'] ); ?>"></i></h4>
+                        <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="widget-simple-chart card-box">
+                                        <div class="col-md-4 "><h6><?= $pagetitle; ?> <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title=" <?=  sprintf(gettext('Below are a variety of ways to analyze the member reports for ERGs. If you wish to view or hide an %s data from the chart, click on the box in the legend on each chart.'),$_COMPANY->getAppCustomization()['group']['name-short']); ?>"></i> </h6> </div>
+                                       
+                                        <div class="col-md-4">
+                                            <?php if (count($groupCategoryRows) > 1) { ?>
+                                            <select class="form-control col-md-12" id="group_category" onchange="filterMembershipData()"  >
+                                                <?php foreach ($groupCategoryRows as $groupCategoryRow) { ?>
+                                                    <option value="<?=$groupCategoryRow['categoryid']?>" <?= $group_category_id == $groupCategoryRow['categoryid'] ? 'selected' : ''; ?> ><?=$groupCategoryRow['category_name']?></option>
+                                            <?php  } ?>
+                                            </select>
+                                            <?php } else { ?>
+                                                &nbsp;
+                                            <?php } ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select id="year_filter" class="form-control" onchange="filterMembershipData()">
+                                                <?php for($i=(date("Y")-date("Y",strtotime($_COMPANY->val('createdon'))));$i>=0;$i--){
+                                                    $sel = "";
+                                                    if ((date('Y')-$i) == $year){
+                                                        $sel = "selected";
+                                                    }
+                                                    ?>
+                                                <option value="<?= date('Y')-$i; ?>" <?= $sel; ?> >Year <?= (date('Y')-$i)?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+                                        <div class="clearfix"></div>
+                                        <div>
+                                            <div class="tab-content">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="widget-simple-chart card-box-one fixhight"
+                                                            style="height:525px;margin-top: 11px;">
+
+                                                            <div class="dropdown pull-right">
+                                                                <i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2"  data-toggle="dropdown"></i>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a id="monthlyNewMemberes" href="javascript:void(0)" >Export to CSV</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <?php if (count($groups) > 0) { ?>
+                                                                <canvas id="cartjs7"></canvas>
+                                                                <script>
+                                                                    var lavelVal = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                                                    var dataVal = [];
+                                                                    var searies = [];
+
+                                                                    <?php foreach($newmembers as $newMember){ ?>
+                                                                        searies.push("<?= htmlspecialchars_decode($newMember['groupname_short']); ?>");
+                                                                        dataVal.push([
+                                                                            <?php for($i=0; $i < 12; $i++ ) {?>
+                                                                                <?= (int)$newMember['newmember'][$i] ?>,
+                                                                            <?php } ?>    
+                                                                        ]);
+                                                                    <?php } ?>
+                                                                    var barChartData = {
+                                                                        "series": searies,
+                                                                        "labels": lavelVal,
+                                                                        "data": dataVal
+                                                                    };
+
+                                                                    var datasets = [];
+                                                                    <?php    for($gc = 0;$gc < count($groups);$gc++){ ?>
+                                                                    datasets.push({
+                                                                        label: barChartData.series[<?= $gc; ?>],
+                                                                        backgroundColor: "<?= $groups[$gc]['overlaycolor'];?>",
+                                                                        borderColor: "<?= $groups[$gc]['overlaycolor'];?>",
+                                                                        data: barChartData.data[<?= $gc; ?>]
+                                                                    });
+
+                                                                    <?php    } ?>
+
+                                                                    var stackedBarChartData = {
+                                                                        labels: barChartData.labels,
+                                                                        datasets: datasets
+                                                                    };
+                                                                    var configBarChart = {
+                                                                        type: 'bar',
+                                                                        data: stackedBarChartData,
+                                                                        options: {
+                                                                            title: {
+                                                                                display: true,
+                                                                                position: 'top',
+                                                                                text: ['Monthly new members per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>', 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                                                            },
+                                                                            maintainAspectRatio: false,
+                                                                            tooltips: {
+                                                                                mode: 'label',                        callbacks: {
+                                                                                    footer: function (tooltipItem /*, data*/) {
+                                                                                        var total = 0;
+                                                                                        tooltipItem.forEach(function (element /*, index, array*/) {
+                                                                                            total += element.yLabel;
+                                                                                        });
+                                                                                        return 'Total: ' + total;
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            scales: {
+                                                                                xAxes: [{
+                                                                                    stacked: true,
+                                                                                    ticks: {
+                                                                                        maxRotation: 60,
+                                                                                        autoSkip: false
+                                                                                    },
+                                                                                    gridLines: {
+                                                                                        color: "rgba(0, 0, 0, 0.06)",
+                                                                                        zeroLineColor: "rgba(0,0,0,0.1)"
+                                                                                    }
+                                                                                }],
+                                                                                yAxes: [{
+                                                                                    stacked: true,
+                                                                                    gridLines: {
+                                                                                        color: "rgba(0, 0, 0, 0.06)",
+                                                                                        zeroLineColor: "rgba(0,0,0,0.1)"
+                                                                                    },
+                                                                                    ticks: {
+                                                                                        suggestedMin: 0,
+                                                                                        beginAtZero: true,
+                                                                                        userCallback: function (label, index, labels) {
+                                                                                            // when the floored value is the same as the value we have a whole number
+                                                                                            if (Math.floor(label) === label) {
+                                                                                                return label;
+                                                                                            }
+
+                                                                                        },
+                                                                                    }
+
+                                                                                }]
+                                                                            },
+                                                                            legend: {
+                                                                                display: true,
+                                                                                position: 'bottom'
+                                                                            },
+                                                                            maintainAspectRatio: false,
+                                                                        },
+                                                                    };
+
+                                                                    var ctxBarChart = document.getElementById("cartjs7").getContext("2d");
+                                                                    new Chart(ctxBarChart, configBarChart);
+
+                                                                    // EXPORT TO CSV
+                                                                    var monthlyNewMemberesLevel = JSON.parse(JSON.stringify(lavelVal));
+                                                                    var monthlyNewMemberesData = JSON.parse(JSON.stringify(dataVal));
+                                                                    var monthlyNewMemberesSeris = JSON.parse(JSON.stringify(searies));
+
+                                                                    $('#monthlyNewMemberes').on( "click", function() {
+                                                                        monthlyNewMemberesLevel.unshift('<?= $year."-".$month."-".$day; ?>');
+                                                                        var finalData = [];
+                                                                        for(let i=0;i<monthlyNewMemberesData.length;i++){
+                                                                            var a = monthlyNewMemberesData[i];
+                                                                            var unsft = a.unshift(monthlyNewMemberesSeris[i]);
+                                                                            monthlyNewMemberesData[i] = convertArraytoObject(a);
+                                                                        }
+                                                                        exportCSVFile(monthlyNewMemberesLevel,monthlyNewMemberesData,'Monthly new members per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+                                                                    });
+
+                                                                </script>
+
+                                                            <?php } else { ?>
+                                                                <div class="col-md-2 col-md-offset-5"
+                                                                    style="padding-top: 150px; height: 300px; ">No data
+                                                                </div>
+                                                            <?php } ?>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="widget-simple-chart card-box-one fixhight"
+                                                            style="height:525px;margin-top: 11px;">
+                                                            <div class="dropdown pull-right">
+                                                                <i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a id="totalMemberPerErg" href="javascript:void(0)" >Export to CSV</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <?php if (count($groups) > 0) { ?>
+                                                                <canvas id="chartjs10"></canvas>
+                                                            <?php } else { ?>
+                                                                <div class="col-md-2 col-md-offset-5"
+                                                                    style="padding-top: 150px; height: 300px; ">No data
+                                                                </div>
+                                                            <?php } ?>
+
+                                                            <script>
+                                                                var labVal = [];
+                                                                var dataVal = [];
+                                                                var bgVal = [];
+                                                                <?php    for($m = 0;$m < count($totalmembers);$m++){ ?>
+                                                                labVal.push("<?= addslashes(htmlspecialchars_decode($totalmembers[$m]['groupname_short']))?>");
+                                                                dataVal.push(<?= (int)$totalmembers[$m]['totalmembers']?>);
+                                                                bgVal.push('<?= $totalmembers[$m]['color']; ?>');
+                                                                <?php    } ?>
+
+                                                                var data = {
+                                                                    labels: labVal,
+                                                                    datasets: [
+                                                                        {
+                                                                            label: "Total members",
+                                                                            backgroundColor: bgVal,
+                                                                            data: dataVal
+                                                                        }
+                                                                    ]
+                                                                };
+                                                                var options = {
+                                                                    title: {
+                                                                        display: true,
+                                                                        position: 'top',
+                                                                        text: ['Total members per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>', 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                                                    },
+                                                                    legend: {
+                                                                        display: false,
+                                                                    },
+                                                                    scales: {
+                                                                        dataset: [{
+                                                                            barPercentage: 0.4
+                                                                        }],
+                                                                        yAxes: [{
+                                                                            ticks: {
+                                                                                suggestedMin: 0,
+                                                                                beginAtZero: true,
+                                                                                userCallback: function (label, index, labels) {
+                                                                                    // when the floored value is the same as the value we have a whole number
+                                                                                    if (Math.floor(label) === label) {
+                                                                                        return label;
+                                                                                    }
+
+                                                                                },
+                                                                            }
+                                                                        }],
+                                                                    },
+                                                                    maintainAspectRatio: false,
+                                                                };
+
+                                                                var ctx = document.getElementById("chartjs10").getContext('2d');
+                                                                new Chart(ctx, {
+                                                                    type: 'bar',
+                                                                    data: data,
+                                                                    options: options
+                                                                });
+
+                                                                // EXPORT CSV
+                                                                var totalMemberPerErgLevel = JSON.parse(JSON.stringify(labVal));
+                                                                var totalMemberPerErgData = JSON.parse(JSON.stringify(dataVal));
+                                                                $('#totalMemberPerErg').on( "click", function() {
+                                                                    var finalData = [];
+                                                                    var toObj = convertArraytoObject(totalMemberPerErgData);
+                                                                    finalData[0] = toObj;
+                                                                    exportCSVFile(totalMemberPerErgLevel,finalData,'Total members per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+                                                                });
+                                                            </script>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="widget-simple-chart card-box-one fixhight"
+                                                            style="height:525px;margin-top: 11px;">
+                                                            <div class="dropdown pull-right">
+                                                                <i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a id="membershipTrendPerErg" href="javascript:void(0)" >Export to CSV</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <?php if (count($groups) > 0) { ?>
+                                                                <canvas id="cartjs8"></canvas>
+                                                            <?php } else { ?>
+                                                                <div class="col-md-2 col-md-offset-5"
+                                                                    style="padding-top: 150px; height: 300px; ">No data
+                                                                </div>
+                                                            <?php } ?>
+
+                                                            <script>
+                                                                var labels = ['<?= $lastyear ?>', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                                                var dataVal = [];
+
+                                                                <?php 
+                                                                   for($nm = 0;$nm < count($newmembers);$nm++){
+                                                                     ?>
+                                                                    var cu = <?= $newmembers[$nm]['lastYearMemerCount']; ?>;
+                                                                    var bordercolors = '<?= $newmembers[$nm]['color']; ?>';
+                                                                    var trendingData = [cu];
+                                                                    <?php for($mn = 0;$mn < 12; $mn++) { ?>
+                                                                        <?php if ($mn < $_month){ ?>
+                                                                            cu += <?= (int)$newmembers[$nm]['newmember'][$mn]; ?>;
+                                                                        <?php } else { ?>
+                                                                            cu = null;
+                                                                        <?php }  ?>
+                                                                        trendingData.push(cu);
+                                                                    <?php }  ?>
+
+                                                                dataVal.push({
+                                                                    label: "<?= htmlspecialchars_decode($newmembers[$nm]['groupname_short']); ?>",
+                                                                    data: trendingData,
+                                                                    borderColor: bordercolors,
+                                                                    fill: false
+                                                                });
+                                                                <?php } ?>
+                                                                var data = {
+                                                                    labels: labels,
+                                                                    datasets: dataVal
+                                                                };
+                                                                var options = {
+                                                                    title: {
+                                                                        display: true,
+                                                                        position: 'top',
+                                                                        text: ['Membership trend per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>', 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                                                    },
+                                                                    legend: {
+                                                                        display: true,
+                                                                        position: 'bottom'
+                                                                    },
+                                                                    maintainAspectRatio: false,
+                                                                };
+                                                                new Chart(document.getElementById("cartjs8"), {
+                                                                    type: 'line',
+                                                                    data: data,
+                                                                    options: options
+                                                                });
+
+                                                                // EXPORT TO CSV
+                                                                var membershipTrendPerErgLevel = JSON.parse(JSON.stringify(labels));
+                                                                var membershipTrendPerErgData = dataVal; //JSON.parse(JSON.stringify(dataVal));
+                                                                $('#membershipTrendPerErg').on( "click", function() {
+                                                                    membershipTrendPerErgLevel.unshift("<?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>");
+                                                                    var finalData = [];
+                                                                    for(let i=0;i<membershipTrendPerErgData.length;i++){
+                                                                        var l = membershipTrendPerErgData[i].label;
+                                                                        var d = membershipTrendPerErgData[i].data;
+                                                                        var fd = d.unshift(l);
+                                                                        finalData[i] = convertArraytoObject(d);
+                                                                    }
+                                                                    exportCSVFile(membershipTrendPerErgLevel,finalData,'Membership trend per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+                                                                });
+
+                                                            </script>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="widget-simple-chart card-box-one fixhight"
+                                                            style="height:525px;margin-top: 11px;">
+                                                            <div class="dropdown pull-right">
+                                                                <i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a id="membersByRegion" href="javascript:void(0)" >Export to CSV</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <?php if (count($groups) > 0) { ?>
+                                                                <canvas id="chart_member_by_region"></canvas>
+                                                            <?php } else { ?>
+                                                                <div class="col-md-2 col-md-offset-5"
+                                                                    style="padding-top: 150px; height: 300px; ">No data
+                                                                </div>
+                                                            <?php } ?>
+                                                            <script>
+                                                                var lavelVal = [];
+                                                                <?php  for($r = 0;$r < count($region);$r++){ ?>
+                                                                lavelVal.push('<?= $region[$r]['region']; ?>');
+                                                                <?php } ?>
+                                                                var dataVal = [];
+                                                                var searies = [];
+                                                                <?php    for($mcr = 0;$mcr < count($regionalmembers);$mcr++){ ?>
+                                                                searies.push("<?= htmlspecialchars_decode($regionalmembers[$mcr]['groupname_short']) ?>");
+                                                                dataVal.push([<?php foreach($regionalmembers[$mcr]['regionalmembers'] as $memrcount ){ ?> <?= (int)$memrcount; ?>, <?php } ?>]);
+                                                                <?php    } ?>
+
+                                                                var barChartData = {
+                                                                    "series": searies,
+                                                                    "labels": lavelVal,
+                                                                    "data": dataVal
+                                                                };
+
+                                                                var datasets = [];
+                                                                <?php for($gc = 0;$gc < count($groups);$gc++){ ?>
+                                                                datasets.push({
+                                                                    label: barChartData.series[<?= $gc; ?>],
+                                                                    backgroundColor: "<?= $groups[$gc]['overlaycolor'];?>",
+                                                                    borderColor: "<?= $groups[$gc]['overlaycolor'];?>",
+                                                                    data: barChartData.data[<?= $gc; ?>]
+                                                                });
+
+                                                                <?php    } ?>
+
+                                                                var stackedBarChartData = {
+                                                                    labels: barChartData.labels,
+                                                                    datasets: datasets
+                                                                };
+                                                                var configBarChart = {
+                                                                    type: 'bar',
+                                                                    data: stackedBarChartData,
+                                                                    options: {
+                                                                        title: {
+                                                                            display: true,
+                                                                            position: 'top',
+                                                                            text: ['<?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Members by Region', 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                                                        },
+                                                                        maintainAspectRatio: false,
+                                                                        tooltips: {
+                                                                        mode: 'label',
+                                                                            callbacks: {
+                                                                                footer: function (tooltipItem /*, data*/) {
+                                                                                var total = 0;
+                                                                                tooltipItem.forEach(function (element /*, index, array*/) {
+                                                                                total += element.yLabel;
+                                                                                });
+                                                                                return 'Total:' + total;
+                                                                                },
+                                                                            }
+                                                                        },
+                                                                       
+                                                                        scales: {
+                                                                            xAxes: [{
+                                                                                barPercentage: 0.4,
+                                                                                stacked: true,
+                                                                                ticks: {
+                                                                                    maxRotation: 60,
+                                                                                    autoSkip: false
+                                                                                },
+                                                                                gridLines: {
+                                                                                    color: "rgba(0, 0, 0, 0.06)",
+                                                                                    zeroLineColor: "rgba(0,0,0,0.1)"
+                                                                                }
+
+                                                                            }],
+                                                                            yAxes: [{
+                                                                                stacked: true,
+                                                                                gridLines: {
+                                                                                    color: "rgba(0, 0, 0, 0.06)",
+                                                                                    zeroLineColor: "rgba(0,0,0,0.1)"
+                                                                                },
+                                                                                ticks: {
+                                                                                    suggestedMin: 0,
+                                                                                    beginAtZero: true,
+                                                                                    userCallback: function (label, index, labels) {
+                                                                                        // when the floored value is the same as the value we have a whole number
+                                                                                        if (Math.floor(label) === label) {
+                                                                                            return label;
+                                                                                        }
+
+                                                                                    },
+                                                                                }
+
+                                                                            }]
+                                                                        },
+                                                                        legend: {
+                                                                            display: true,
+                                                                            position: 'bottom'
+                                                                        },
+                                                                        maintainAspectRatio: false,
+                                                                    }
+
+                                                                };
+
+                                                                var ctxBarChart = document.getElementById("chart_member_by_region").getContext("2d");
+                                                                new Chart(ctxBarChart, configBarChart);
+
+                                                                // EXPORT TO CSV
+                                                                var membersByRegionLevel = JSON.parse(JSON.stringify(lavelVal));
+                                                                var membersByRegionData = JSON.parse(JSON.stringify(dataVal));
+                                                                var membersByRegionSeries = JSON.parse(JSON.stringify(searies));
+
+                                                                $('#membersByRegion').on( "click", function() {
+                                                                    membersByRegionLevel.unshift('<?= $year."-".$month."-".$day; ?>');
+                                                                    var finalData = [];
+                                                                    for(let i=0;i<membersByRegionData.length;i++){
+                                                                        var a = membersByRegionData[i];
+                                                                        var unsft = a.unshift(membersByRegionSeries[i]);
+                                                                        membersByRegionData[i] = convertArraytoObject(a);
+                                                                    }
+                                                                    exportCSVFile(membersByRegionLevel,membersByRegionData,'<?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Members by Region');
+                                                                });
+                                                            </script>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         </div>
+</div>    
+<script>
+        function filterMembershipData(){
+            var categoryFilter = $("#group_category").val();
+            var yearFilter = $("#year_filter").val();
+            $.ajax({
+                url: 'ajax.php?usersGraphReport',
+                type: "GET",
+                data: {filter:categoryFilter,yrFilter:yearFilter},
+                success : function(data)  {
+                $("#loadAnyModal").html(data);
+                $('#theGraphModal').modal({
+                    backdrop: false,
+                    keyboard: false
+                    });
+                }
+            });
+        }
+  
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    $('.dropdown-toggle').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+    
+    $('#theGraphModal').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})
+    retainFocus('#theGraphModal');
+</script>
+</body>
+</html>
+    

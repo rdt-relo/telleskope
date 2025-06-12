@@ -1,0 +1,60 @@
+<div class="container-offset-lr mt-5">
+    <div class="row">              
+      <div class="col-12">
+        <div class="card p-4 mt-2">
+          <h4 ><?= $id ? 'Update' : 'New' ?> App Version</h4>
+  
+          <form method="post" action="">
+            <div class="mb-3 row">
+              <label class="col-sm-2 col-form-label">Platform</label>
+              <div class="col-sm-6">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="platform" value="ios" <?= $id &&  $edit[0]['platform'] == 'ios' ? 'checked' : ''; ?> required>
+                  <label class="form-check-label">ios</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="platform" value="android" <?= $id &&  $edit[0]['platform'] == 'android' ? 'checked' : ''; ?>>
+                  <label class="form-check-label">android</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="platform" value="any" <?= $id ?  ($edit[0]['platform'] == 'any' ? 'checked' : '') : 'checked'; ?>>
+                  <label class="form-check-label">any</label>
+                </div>
+              </div>
+            </div>
+  
+            <div class="mb-3 row">
+              <label class="col-sm-2 col-form-label required">App Version</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="e.g. 1.2.1" name="app_version" value="<?= $id ? $edit[0]['app_version'] : ''; ?>" required />
+              </div>
+            </div>
+  
+            <div class="mb-3 row">
+              <label class="col-sm-2 col-form-label required">Bundle ID</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Bundle id here.." name="bundle_id" value="<?= $id ? $edit[0]['bundle_id'] : ''; ?>" required />
+              </div>
+            </div>
+  
+            <div class="mb-3 row">
+              <label class="col-sm-2 col-form-label required">Subdomain</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="subdomain here" name="subdomain" value="<?= $id ? $edit[0]['subdomain'] : ''; ?>" <?= $id ? 'disabled' : 'required' ?> />
+              </div>
+            </div>
+  
+            <div class="mb-3 row">
+              <div class="offset-sm-2 col-sm-6">
+                <a href="app_versions" class="btn btn-secondary">Cancel</a>
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>$("#sidebar-wrapper ul li:nth-child(10)").addClass("myactive");</script>
+  

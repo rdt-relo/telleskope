@@ -1,0 +1,356 @@
+<?php /** @noinspection PhpUndefinedVariableInspection */ ?>
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.kickstart.min.js"></script>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="widget-simple-chart card-box">
+				<?php if (isset($error)){ ?>
+						<div id="hidemesage" class="col-sm-12">
+							<div class="alert alert-dismissible alert-danger">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								<?= $error; ?>
+							</div>
+						</div>
+				<?php } ?>
+
+				<div class="col-sm-12 divider"><h6>Add/Edit <?= $_COMPANY->getAppCustomization()['group']["name"]; ?></h6></div>
+				
+				<form id="newGroupForm" class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<?php	if(isset($_GET['edit'])){ ?>
+					<input type="hidden" name="edit" value="<?= $_COMPANY->encodeId($groupid); ?>">
+					<?php } ?>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Name<span style="color: #ff0000;"> *</span></label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" placeholder="Name" name="groupname"  required value="<?= $groupid ? $res_group[0]['groupname'] : (htmlspecialchars($_POST['groupname']??''));?>">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Short Name<span style="color: #ff0000;"> *</span></label>
+						<div class="col-sm-10">
+							<input class="form-control" pattern="[\S ]{1,13}" type="text" type="text" placeholder="Short Name ... maximum 13 letters or numbers" name="groupname_short"  required value="<?= $groupid ? $res_group[0]['groupname_short'] : (htmlspecialchars($_POST['groupname_short']??''));?>">
+						</div>
+					</div>
+
+				<div class="form-group" id="group_categories_dropdown">
+					<label class="col-sm-2 control-label">Group Category</label>
+					<div class="col-sm-10">
+						<select class="form-control" name="group_category_label">
+						<?php $currentCategoryId = $res_group[0]['categoryid'] ?? '';
+							foreach ($groupCategoryRows as $groupCategoryRow) { ?>
+								<option value="<?= $_COMPANY->encodeId($groupCategoryRow['categoryid']); ?>" <?= ($groupCategoryRow['categoryid'] == $currentCategoryId) ? 'selected' : ''; ?> ><?= $groupCategoryRow['category_name']; ?></option>
+						<?php  } ?>
+						</select>
+					</div>
+				</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Region</label>
+						<div class="col-sm-10">
+							<select aria-label="Region" class="form-control" name="regionid[]" multiple id="sel1">
+						<?php if (!empty($zoneRegions)){ ?>
+							<?php foreach ($zoneRegions as $zoneRegion){ ?>
+						<?php	if(isset($_GET['edit'])){
+									if(in_array($zoneRegion['regionid'],explode(',',$res_group[0]['regionid']))){
+										$sel = "selected";
+									}else{
+										$sel = "";
+									}
+								}else{
+									$sel = "";
+								} ?>
+								<option value="<?=$_COMPANY->encodeId($zoneRegion['regionid'])?>" <?= $sel; ?>><?=$zoneRegion['region'] ?></option>
+
+						<?php	} ?>
+						<?php }else{ ?>
+								<option value="0">No Region</option>
+
+						<?php } ?>
+							</select>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Cover Image (Web) </label>
+						<div class="col-sm-5">
+							<div id="cover_img" tabindex="0" class="slim"
+								data-label="Upload Cover Image"
+								data-max-file-size="2"
+								data-size="1000,188"
+								data-ratio="1000:188"
+                data-post="input,output"
+              >
+								<input  aria-label="<?= gettext('Upload Cover Image');?>" tabindex="-1" id="Image" class="text-box ignore" name="coverphoto" type="file" accept="image/jpeg,image/png">
+					   		</div>
+                        </div>
+
+                        <div class="col-sm-5">
+							<span style="color:red;">Note: You can add background image in .jpg,.jpeg,.png format. Maximum file size allowed is 1000px wide x 188px high.</span>
+                            <?php 	if($groupid>0 && $res_group[0]['coverphoto']!=""){ ?>
+                            <p class="mt-2">
+                                <img id="cover_photo_db" src="<?= $res_group[0]['coverphoto']; ?>" alt="Group cover image" height='60'>
+                                &emsp;
+                                <a class="btn btn-sm btn-danger deluser" id="delete-cover-btn2" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteCoverPhoto('<?= $_COMPANY->encodeId($groupid); ?>')" data-original-title="Are you sure you want to remove Cover Image?">
+                                    Remove Image
+                                </a>
+                            </p>
+                            <?php	}	?>
+                        </div>
+					</div>
+					<div class="clearfix"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Tile Background (Web)</label>
+                        <div class="col-sm-4">
+							<div id="tile_background" tabindex="0" class="slim"
+								data-label="Upload Tile Background"
+								data-max-file-size="2"
+								data-size="300,175"
+                data-ratio="300:175"
+                data-post="input,output"
+              >
+								<input  aria-label="<?= gettext('Upload Tile Background');?>" tabindex="-1" id="sliderphoto" class="text-box ignore" name="sliderphoto" type="file" accept="image/jpeg,image/png">
+					   		</div>
+						</div>
+                        <div class="col-sm-1">
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-5">
+						<span style="color:red;">Note: By default the cover image is used as the tile background. If you want to provide a different tile background you can set it here. You can add background image in.jpg,.jpeg,.png format. Maximum file size allowed is 300px wide x 175px high.</span>
+                            <?php 	if($groupid>0 && $res_group[0]['sliderphoto']!=""){ ?>
+                            <p class="mt-2">
+                                <img id="tile_background_db" src="<?= $res_group[0]['sliderphoto']; ?>" alt="Group tile background image" height='60'>
+                                &emsp;
+                                <a class="btn btn-sm btn-danger deluser" id="delete-tile-btn2" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteSliderPhoto('<?= $_COMPANY->encodeId($groupid); ?>')" data-original-title="Are you sure you want to remove Tile Background?">
+								    Remove Image
+                                </a>
+                            </p>
+                            <?php	}	?>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Cover Image (Mobile Application)</label>
+                        <div class="col-sm-5">
+                            <div id="app_coverimg" tabindex="0" class="slim"
+                                 data-label="Upload App Cover Image"
+                                 data-max-file-size="2"
+                                 data-size="1000,188"
+                                 data-ratio="1000:188">
+                                <input aria-label="<?= gettext('Upload App Cover Image');?>" class="text-box ignore"  tabindex="-1" name="app_coverphoto" id="app_coverphoto" type="file" accept="image/jpeg,image/png">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <span style="color:red;">Note: For mobile app display, you can add a different group cover photo in .jpg,.jpeg,.png format. Maximum file size allowed is 1000px wide x 188px high. Mobile application will scale the image to fit the width of the device, so keep the most important elements in the center and leave bottom 38 pixels for displaying drop-downs</span>
+                            <?php 	if($groupid>0 && $res_group[0]['app_coverphoto']!=""){ ?>
+                                <p class="mt-2">
+                                    <img id="app_coverphoto_db" src="<?= $res_group[0]['app_coverphoto']; ?>" alt="Cover image for mobile application" height='60'>
+                                    &emsp;
+                                    <a class="btn btn-sm btn-danger deluser" id="delete_app_coverphoto" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteAppCoverPhoto('<?= $_COMPANY->encodeId($groupid); ?>')" data-original-title="Are you sure you want to remove App group cover image?">
+                                        Remove Image
+                                    </a>
+                                </p>
+                            <?php	}	?>
+                        </div>
+                    </div>
+
+					<div class="clearfix"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Tile Background (Mobile Application)</label>
+                        <div class="col-sm-3">
+							<div id="group_tile_background" tabindex="0" class="slim"
+								data-label="Upload App Group Tile Background"
+								data-max-file-size="2"
+								data-size="200,175"
+								data-ratio="200:175">
+								<input aria-label="<?= gettext('Upload App Group Tile Background');?>" class="text-box ignore" tabindex="-1" name="app_sliderphoto" id="app_sliderphoto" type="file" accept="image/jpeg,image/png">
+					   		</div>
+						</div>
+                        <div class="col-sm-2">
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-5">
+						<span style="color:red;">Note: For mobile app display, you can add a different group image in .jpg,.jpeg,.png format. Maximum file size allowed is 200px wide x 175px high.</span>
+                            <?php 	if($groupid>0 && $res_group[0]['app_sliderphoto']!=""){ ?>
+                            <p class="mt-2">
+                                <img id="app_sliderphoto_db" src="<?= $res_group[0]['app_sliderphoto']; ?>" alt="Tile background image for mobile application" height='60'>
+                                &emsp;
+                                <a class="btn btn-sm btn-danger deluser" id="delete_app_sliderphoto" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteAppSliderPhoto('<?= $_COMPANY->encodeId($groupid); ?>')" data-original-title="Are you sure you want to remove App Group Image?">
+								    Remove Image
+                                </a>
+                            </p>
+                            <?php	}	?>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Logo (if any)</label>
+                        <div class="col-sm-3">
+                            <div id="logo_upload" tabindex="0" class="slim"
+                                 data-label="Upload Logo"
+                                 data-max-file-size="2"
+                                 data-size="150,100"
+                                 data-ratio="150:100">
+                                <input aria-label="<?= gettext('Upload Logo');?>" class="text-box ignore" tabindex="-1" id="groupicon" name="groupicon" type="file" accept="image/jpeg,image/png">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-5">
+                            <span style="color:red;">Note :You can add a logo in .jpg,.jpeg,.png format. Maximum logo size allowed is 150px wide x 100px high.</span>
+                            <?php 	if($groupid>0 && $res_group[0]['groupicon']!=""){ ?>
+							<p class="mt-2">
+							<img id="group_icon_db" src="<?= $res_group[0]['groupicon']; ?>" alt="Group icon image" height='60'>
+                            &emsp;
+                            <a class="btn btn-sm btn-danger" id="delete-logo-btn2" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteGroupIcon('<?= $_COMPANY->encodeId($groupid); ?>')" data-original-title="Are you sure you want to delete Logo?">
+								Remove Image
+                            </a>
+						    </p>
+                            <?php	}	?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Overlay Logo or Name (Web)</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="show_overlay_logo" required>
+                                <option value='1' <?=($showOverlayLogo === 1)?'selected':''?>>Overlay on Tile and Cover Image</option>
+                                <option value='2' <?=($showOverlayLogo === 2)?'selected':''?>>Overlay on Tile Only</option>
+                                <option value='3' <?=($showOverlayLogo === 3)?'selected':''?>>Overlay on Cover Image Only</option>
+                                <option value='0' <?=($showOverlayLogo === 0)?'selected':''?>>Disable Overlay</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Overlay Logo or Name (Mobile Application)</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="show_app_overlay_logo" required>
+                                <option value='1' <?=($showAppOverlayLogo === 1)?'selected':''?>>Overlay on Tile and Cover Image</option>
+                                <option value='2' <?=($showAppOverlayLogo === 2)?'selected':''?>>Overlay on Tile Only</option>
+                                <option value='3' <?=($showAppOverlayLogo === 3)?'selected':''?>>Overlay on Cover Image Only</option>
+                                <option value='0' <?=($showAppOverlayLogo === 0)?'selected':''?>>Disable Overlay</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Primary Color</label>
+						<div  id="cp2" class="col-sm-10 input-group colorpicker-component ">
+							 <input type="text" value="<?php if($groupid>0){ echo $res_group[0]['overlaycolor'];}else{ echo "#418bbb"; } ?>" class="form-control" name="overlaycolor" /> <span class="input-group-addon"><i class="color-code" tabindex="0" aria-hidden="true"></i></span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Secondary Color</label>
+						<div  id="cp2" class="col-sm-10 input-group colorpicker-component ">
+							 <input type="text" value="<?php if($groupid>0){ echo $res_group[0]['overlaycolor2'];}else{ echo "#418bbb"; } ?>" class="form-control" name="overlaycolor2" /> <span class="input-group-addon"><i class="color-code" tabindex="0" aria-hidden="true"></i></span>
+						</div>
+					</div>
+<?php if (0) { /* Disabling ability to modify description from Admin */?>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">About Description</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" placeholder="Description for About Us section" name="aboutgroup" id="redactor_content"><?php if($groupid>0){ echo $res_group[0]['aboutgroup'];}else{ echo @$_POST['aboutgroup']; }?></textarea>
+						</div>
+					</div>
+<?php } ?>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">From Email Label</label>
+						<div class="col-sm-10">
+							<input id="from_email_label" class="form-control editor" type="text" placeholder="Email label to send emails about posts and events" name="from_email_label" value="<?= $groupid ? $res_group[0]['from_email_label'] : (htmlspecialchars($_POST['from_email_label']??''));?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Reply To Email </label>
+						<div class="col-sm-10">
+							<input class="form-control"  type="email"  placeholder="Reply to email address" id="replyto_email" name="replyto_email"  value="<?= $groupid ? $res_group[0]['replyto_email'] : htmlspecialchars($_POST['replyto_email']??'');?>" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+                        <label class="control-label col-md-2" for="email"><?= gettext("Tags");?></label>
+                        <div class="col-md-10">
+                            <select aria-label='<?= gettext("Tags");?>' class="form-control" id="group_tags" name="group_tags[]" style="width: 100%;" multiple>
+								<?php foreach($allTags as $tag){ ?>
+									<?php 
+										$selected = "";
+										if (in_array($tag['tagid'],$selectedTags)){
+											$selected = "selected";
+										}
+									?>
+									<option value="<?= htmlspecialchars($tag['tag']) ?>" <?=$selected; ?> ><?= htmlspecialchars($tag['tag']) ?></option>
+								<?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
+					<div class="form-group">
+						<div class="text-center">
+							<a href="group" class="btn btn-primary">Cancel</a>&nbsp;
+				<?php if (isset($_GET['edit'])){ ?>
+							<button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+				<?php } ?>
+							<button type="button" onclick="createNewGroup('<?= $_COMPANY->encodeId($groupid); ?>', '<?= $currentCategoryId; ?>')" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/js/bootstrap-colorpicker.min.js"></script>
+		<script>
+			$(function() { $('.colorpicker-component').colorpicker({format: 'rgb'});});
+
+			// Select2 tag
+			$("#group_tags").select2({
+				placeholder: "<?= gettext('Add or search tags'); ?>",
+				allowClear: true,
+				tags: true,
+				createTag: function (params) {
+					return {
+					id: params.term,
+					text: params.term,
+					newOption: true
+					}
+				},
+				"language": {
+					"noResults": function(){
+						return "No existing tags found. To create new tag enter value without space.";
+					}
+				},
+				templateResult: function (data) {
+					var $result = $("<span></span>");
+
+					$result.text(data.text);
+
+					if (data.newOption) {
+					$result.append('<em style="float: right;">(Add New Tag)</em>');
+					}
+
+					return $result;
+			}
+			}).on('select2:opening', function(e) {
+				$(this).data('select2').$dropdown.find(':input.select2-search__field').attr('placeholder', "<?= gettext('Add or Search Tags') ?>..")
+			});			
+
+		$(".color-code").keypress(function (event) {
+			if (event.keyCode === 13) {
+				$(this).click();
+			}
+		});
+		</script>
+	</body>
+</html>

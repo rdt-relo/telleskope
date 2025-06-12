@@ -1,0 +1,75 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+<div class="tl-container-offset-lr" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-3">				
+                <div class="col-md-12 divider">
+                    <h1>Regions<a aria-label="Add new region" class="add-plus-circle-icon ms-2" href="region"><i class="fa fa-plus-circle ml-2 text-primary fs-6" title="Add new region" aria-hidden="true"></i></a></h1><hr class="text-light border-1 my-2">
+                </div>
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?> 
+                <div class="col-md-12">                
+                    <div class="table-responsive">
+                    <?php	if($_COMPANY->getAllRegions()){ ?>
+                        <table id="region-table" class="table display" summary="Company regions list">
+                            <thead>
+                                <tr>
+                                    <th width="80%" scope="col">Region Name</th>
+                                    <th width="20%" scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    
+                    <?php
+                    foreach ($_COMPANY->getAllRegions() as $region) {
+                    $encodedId = $_COMPANY->encodeId($region['regionid']);
+                    ?>
+                        <tr id="e<?=$encodedId; ?>" >
+                            <td id="td<?=$encodedId; ?>"><?= $region['region']; ?></td>
+                            <td>
+                            <a arial-label="Edit" href="region?edit=<?=$encodedId; ?>"><i class="fa fa-edit text-primary" title="Edit" ></i></a>
+                            </td>
+                        </tr>
+                    <?php		}	?>									
+                            </tbody>
+                        </table>
+                <?php	}else{	?>
+                        <br />
+                        <p style="color:red">No region added yet!</p>
+                <?php	} ?>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#region-table').DataTable( {
+                "order": [0, "asc"],
+                "bPaginate": true,
+                "bInfo" : false,
+                pageLength:10,
+                lengthChange:true,
+                columnDefs: [
+					{ targets: [1], orderable: false }
+					],
+				language: {
+					searchPlaceholder: "Type anything..",
+                    url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+				}				
+			} );
+		} );
+	</script>

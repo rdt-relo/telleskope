@@ -1,0 +1,197 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                    <a aria-label="Add new event custom field" class="add-plus-circle-icon" href="new_event_custom_field?topictype=<?= $_GET['topictype'] ?? 'EVT' ?>">
+                        <i class="fa fa-plus-circle fa-lg ml-2 mt-3" title="Add new event custom field" aria-hidden="true"></i>
+                    </a>
+                </div>
+                
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= ADDED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= $_SESSION['error_msg']; ?>
+                    </div>
+            <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                
+                        <table id="eventCustomField" class="table table-hover display compact" summary="This table displays the list of events custom fields">
+                            <thead>
+                                <tr>
+                                    <th width="5%" scope="col">#</th>
+                                    <th width="20%" scope="col">Field Name</th>
+                                    <th width="15%" scope="col">Field Type</th>
+                                    <th width="20%" scope="col">Field Options</th>
+                                    <th width="7%" scope="col">Required</th>
+                                    <th width="23%" scope="col">Note</th>
+                                    <th width="10%" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php
+                                $totalFields = count($data);
+                            if(count($data)>0){
+                                for($i=0;$i<$totalFields;$i++){
+                                    $encodedId = $_COMPANY->encodeId($data[$i]['custom_field_id']);
+                                    $custom_fields_options = $data[$i]['options'];
+                        ?>
+                                <tr id="<?= $encodedId; ?>" <?= ($data[$i]['isactive'])?'':'style="background-color: rgb(251, 199, 199); opacity: 0.5;"' ?> >
+                                    <td><i class="fa fa-solid fa-sort mr-2" aria-hidden="true" style="color:inherit;" onclick="openChangeCustomFieldOrderModal('<?= $encodedId; ?>',<?= ($i+1); ?>)" ><?= ($i+1); ?></i></td>
+                                    <td><?= htmlspecialchars($data[$i]['custom_field_name']); ?></td>
+                                    <td><?= $type[$data[$i]['custom_fields_type']] ?></td>
+                                    <td>
+                                        <?php if($custom_fields_options){ 
+                                            foreach($custom_fields_options as $option){ 
+                                                echo "&#9679;&nbsp;".htmlspecialchars($option['custom_field_option'])."<br>"; ?>
+                                            <?php if($option['custom_field_option_note']){ ?>
+                                                <small>&emsp;Note: <?= htmlspecialchars($option['custom_field_option_note']); ?></small><br>
+                                            <?php } ?>
+                                        <?php   } ?>
+                                        <?php } else {
+                                            echo '-';
+                                        } ?>
+                                    </td>
+                                    <td><?= $data[$i]['is_required'] ? 'Yes': 'No' ?></td>
+                                    <td><?= $data[$i]['custom_field_note'] ? ($data[$i]['custom_field_note']) :'-' ?></td>
+                                    <td width="8%">
+                                        <?php if ($data[$i]['isactive'] == 2){ ?>
+                                            <a aria-label="Edit" class="btn" href="new_event_custom_field?edit=<?= $encodedId ?>&topictype=<?= $data[$i]['topictype'] ?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+                                        
+                                            <button aria-label="Activate" class="btn btn-no-style deluser" onclick="activateDeactivateEventCustomField('<?=$encodedId;?>',1)" title="<strong>Are you sure you want to activate!</strong>" ><i class="fa fa-unlock" title="Activate" aria-hidden="true"></i></button>&nbsp;
+
+                                            <button aria-label="Delete"  class="btn btn-no-style deluser" onclick="deleteEventCustomField('<?=$encodedId;?>', '<?= $topictype ?>')" title="<strong>Are you sure you want to Delete!</strong>"><i class="fa fa-trash fa-l" title="Delete" ></i></button>&nbsp;
+                                        <?php } else { ?>
+                                            <button aria-label="Deactivate" class="btn btn-no-style deluser" onclick="activateDeactivateEventCustomField('<?=$encodedId;?>', 2)" title="<strong>Are you sure you want to deactivate!</strong>" ><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i></button>
+                                        <?php } ?>
+                                        </td>
+                                </tr>
+                               
+                        <?php	} ?>
+                                
+                    <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php if ($topictype === 'EVT') { ?>
+                <div class="col-md-2">
+                    <a  class="btn btn-info btn-sm" href="event" >Back to Events</a>
+                </div>    
+                <?php }elseif($topictype === 'ORG'){ ?>
+                    <div class="col-md-2">
+                        <a  class="btn btn-info btn-sm" href="manage_organizations" >Back to Organizations</a>
+                    </div>
+                <?php } ?>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="change_media_order" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?= gettext('Change custom field position');?></h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <form id="orderchangeform">
+                        <input type="hidden" id="custom_field_id">
+                        <input type="hidden" id="max_order_value" value="<?= $totalFields; ?>">
+                        <div class="form-group">
+                            <?= gettext("Current position is ")?><span  id="currentValue"></span>, <?= gettext("update position to: ")?>
+                            <input type="number" autocomplete="off" min="1" max="<?= $totalFields; ?>" class="form-control" id="neworderValue" placeholder="" aria-label="<?= sprintf(gettext('Enter new position value between 1 and %d'), $totalFields); ?>" oninput="this.value = 
+                            !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null">
+                            <small id="changeOrderHelptext" class="red"><?= sprintf(gettext('Enter new position value between 1 and %d'), $totalFields); ?></small>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick='changeCustomFieldPosition();'><?= gettext("Change Position"); ?></button>
+                <button type="button" class="btn btn-defalut" data-dismiss="modal"><?= gettext("Cancel"); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#eventCustomField').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "stateSave": true,
+        "columnDefs": [
+            { targets: [-1], orderable: false }
+        ],
+        "drawCallback": function( settings ) {
+            $(".deluser").popConfirm({content: ''});
+        },
+        language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+        },
+    } );
+
+
+    function openChangeCustomFieldOrderModal(i,p){
+        $("#custom_field_id").val(i);
+        $("#currentValue").html(p);
+       	$('#change_media_order').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    function changeCustomFieldPosition(){
+        $(document).off('focusin.modal');
+        var custom_field_id =  $("#custom_field_id").val();
+        var currentValue = $("#currentValue").html();
+        var newValue = $("#neworderValue").val();
+        var maxValue = $("#max_order_value").val();
+
+        if (newValue =='' || !parseInt(newValue) || parseInt(newValue) > parseInt(maxValue)){
+            swal.fire({title: '<?= gettext('Error')?>',text:"<?= gettext('Please enter a valid number')?>",allowOutsideClick:false});
+            return;
+        }
+        $.ajax({
+            url: 'ajax.php?changeCustomFieldPosition=1',
+            type: "POST",
+            data: {'custom_field_id':custom_field_id,'currentValue':currentValue,'newValue':newValue,'maxValue':maxValue},
+            success: function (response) {
+                try {
+                    let jsonData = JSON.parse(response);
+                    swal.fire({title: jsonData.title,text:jsonData.message,allowOutsideClick:false}).then(function(result) {
+                        if (jsonData.status == 1){
+                           location.reload();
+                        }
+                    });
+            
+                } catch(e) {
+                    swal.fire({title: 'Error', text: "Unknown error.",allowOutsideClick:false});
+                }
+            }
+        });
+
+    }
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "RW7GZ6KFDX.io.teleskope.affinities.dev",
+                "paths": [
+                    "/1/affinity/detail*",
+                    "/1/affinity/viewpost*",
+                    "/1/affinity/eventview*",
+                    "/1/affinity/newsletter*",
+                    "/1/affinity/viewdiscussion*",
+                    "/1/affinity/album*",
+                    "/1/affinity/resource*",
+                    "/1/affinity/resource_folder*"
+                ]
+            },
+            {
+                "appID": "RW7GZ6KFDX.io.teleskope.affinities.mckesson",
+                "paths": [
+                    "/1/affinity/detail*",
+                    "/1/affinity/viewpost*",
+                    "/1/affinity/eventview*",
+                    "/1/affinity/newsletter*",
+                    "/1/affinity/viewdiscussion*",
+                    "/1/affinity/album*",
+                    "/1/affinity/resource*",
+                    "/1/affinity/resource_folder*"
+                ]
+            },
+            {
+                "appID": "RW7GZ6KFDX.io.teleskope.affinities",
+                "paths": [
+                    "/1/affinity/detail*",
+                    "/1/affinity/viewpost*",
+                    "/1/affinity/eventview*",
+                    "/1/affinity/newsletter*",
+                    "/1/affinity/viewdiscussion*",
+                    "/1/affinity/album*",
+                    "/1/affinity/resource*",
+                    "/1/affinity/resource_folder*"
+                ]
+            },
+            {
+                "appID": "RW7GZ6KFDX.io.teleskope.affinities.sephora",
+                "paths": [
+                    "/1/affinity/detail*",
+                    "/1/affinity/viewpost*",
+                    "/1/affinity/eventview*",
+                    "/1/affinity/newsletter*",
+                    "/1/affinity/viewdiscussion*",
+                    "/1/affinity/album*",
+                    "/1/affinity/resource*",
+                    "/1/affinity/resource_folder*"
+                ]
+            }
+        ]
+    }
+}

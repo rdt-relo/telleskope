@@ -1,0 +1,158 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+<style>	
+    .security-title {
+        font-size: 15px;
+    }
+    .security-value {
+        font-size: 15px;
+        font-weight: 600;
+    }
+    sup {
+        color: #418bbb;
+    }
+</style>
+<div class="tl-container-offset-lr">
+	<div class="col-md-12">
+			<div class="widget-simple-chart card p-4">
+				<div class="clearfix"></div>
+				<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+						<?= UPDATED; ?>
+					</div>
+				<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+						<?= ADDED; ?>
+					</div>
+				<?php } elseif((time()- @$_SESSION['error']) < 5) { ?> 
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+						<?= $_SESSION['form_error']; ?>
+					</div>
+				<?php } ?> 
+                <div class="mb-5">
+                    <h1 class="d-inline">Administration Panel&nbsp;</h1>
+                    <a aria-label="<?= gettext('Update Setting');?>" href="update_security_setting?type=admin" class="btn btn-primary btn-sm float-end mb-4" >Update Setting</a>
+                    <div class="clearfix mb-4" style="border-bottom:1px solid #6b6b6b33; "></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Inactivity Timeout :</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['admin_inactivity_max']?> Minutes <?= $security['admin_inactivity_max'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['admin_inactivity_max']? '<sup>[default]</sup>' : '' ?></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Maximum Session Lifetime :</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['admin_session_max']?> Minutes <?= $security['admin_session_max'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['admin_session_max']? '<sup>[default]</sup>' : '' ?></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">IP Allow List:</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= str_replace(',','<br/>',$security['admin_whitelist_ip'])?><?= $security['admin_whitelist_ip'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['admin_whitelist_ip']? '<sup> [default]</sup>' : '' ?></p>
+                        </div>                        
+                    </div>
+
+                </div>
+                <div class="mb-5">
+                    <h1 class="d-inline">Applications</h1>
+                    <a aria-label="<?= gettext('Update Setting');?>" href="update_security_setting?type=affinity" class="btn btn-primary btn-sm float-end mb-4" >Update Setting</a>
+                    <div class="clearfix mb-4" style="border-bottom:1px solid #6b6b6b33; "></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Web Application Inactivity Timeout :</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['apps_inactivity_max']?> Minutes <?= $security['apps_inactivity_max'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['apps_inactivity_max']? '<sup>[default]</sup>' : '' ?></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Web Application Session Lifetime :</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['apps_session_max']?> Minutes <?= $security['apps_session_max'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['apps_session_max']? '<sup>[default]</sup>' : '' ?></p>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Mobile Application Session Lifetime :</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['mobile_session_max']?> Minutes <?= $security['mobile_session_max'] == $_COMPANY::DEFAULT_SECURITY_SETTINGS['mobile_session_max']? '<sup>[default]</sup>' : '' ?></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="security-title">Mobile Application Session Logout Time (UTC):</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="security-value"><?= $security['mobile_session_logout_time_in_min_utc'] ? sprintf("%02d:%02d", ((int)$security['mobile_session_logout_time_in_min_utc'])/60, ((int)$security['mobile_session_logout_time_in_min_utc'])%60) : '[Not set]'; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                  <h1 class="d-inline"><?= gettext('Admin External Roles') ?></h1>
+                  <a aria-label="Update Setting" href="update_security_setting?type=admin_external_roles" class="btn btn-primary btn-sm float-end mb-4"><?= gettext('Update Setting') ?></a>
+                  <div class="clearfix mb-4" style="border-bottom:1px solid #6b6b6b33; "></div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p class="security-title"><?= gettext('Company Admin External Roles :') ?></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="security-value"><?= $security['company_admin_external_roles'] ?: gettext('[Not set]') ?></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p class="security-title"><?= gettext('Zone Admin External Roles :') ?></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="security-value"><?= $security['zone_admin_external_roles'] ?: gettext('[Not set]') ?></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p class="security-title"><?= gettext('Group Lead External Roles :') ?></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="security-value"><?= $security['group_lead_external_roles'] ?: gettext('[Not set]') ?></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p class="security-title"><?= gettext('Chapter Lead External Roles :') ?></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="security-value"><?= $security['chapter_lead_external_roles'] ?: gettext('[Not set]') ?></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p class="security-title"><?= gettext('Channel Lead External Roles :') ?></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="security-value"><?= $security['channel_lead_external_roles'] ?: gettext('[Not set]') ?></p>
+                    </div>
+                  </div>
+              </div>
+			</div>		
+	</div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {			
+		
+		});
+	</script>		
+	</body>
+</html>

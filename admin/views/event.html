@@ -1,0 +1,130 @@
+	<link rel='stylesheet' href='<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css' />
+	<link href='<?=TELESKOPE_CDN_STATIC?>/vendor/js/fullcalendar-3.4.0/dist/fullcalendar.min.css' rel='stylesheet' />
+	<link href='<?=TELESKOPE_CDN_STATIC?>/vendor/js/fullcalendar-3.4.0/dist/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<style>
+		body {
+			margin: 0px 0px;
+			padding: 0;
+			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+			font-size: 14px;
+		}
+
+		#calendar {
+			max-width: 900px;
+			margin: 0 auto;
+		}
+
+	</style>		
+			
+	<div class="container col-md-offset-2 margin-top">
+		<div class="row">              
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box">
+                    <?php if(!$isEnabled) { ?>
+                        This section is disabled for your account. Please contact your Teleskope account manager if you want to enable this functionality.
+                    <?php } else { ?>
+					<div class="col-md-3">
+						<h6 style="margin-top: 4px;" >Manage Events</h6>
+					</div>
+					<div class="col-md-2">&nbsp;</div>
+					<div class="col-md-4">
+						<select class=" form-control calender-padding" id="bygroup">
+					<?php 	if(count($group)>0){ ?>
+								<option value="all">Sort by <?= $_COMPANY->getAppCustomization()['group']["name"]; ?></option>
+								<option value="all">All <?= $_COMPANY->getAppCustomization()['group']["name-plural"]; ?></option>
+					<?php 	for($g=0;$g<count($group);$g++){ ?>
+								<option value="<?= $group[$g]['groupid']; ?>"><?= $group[$g]['groupname']; ?></option>
+					<?php	} ?>
+					<?php	}else{ ?>
+								<option>-No <?= $_COMPANY->getAppCustomization()['group']["name"]; ?>-</option>
+					<?php	} ?>				
+						</select>
+					</div>
+					<!-- Filter by year -->
+					<div class="col-md-3">
+						<div class="form-group col-md-12 " style="float:right !important;">
+							<select class="form-control" id="filterByYear" style="font-size:small;border-radius: 5px;">
+								<?php
+								$current_year = date('Y');
+								for($i=(date("Y")-date("Y",strtotime($_COMPANY->val('createdon')))); $i>=0; $i--){
+									$sel = "";
+									if ($year_filter){
+									  if ($year_filter == ($current_year -$i)){
+										$sel = "selected";
+									  }
+									} else {
+									  if (($current_year -$i) == $current_year){
+										$sel = "selected";
+									  }
+									}
+								?>
+								<option value="<?= $_COMPANY->encodeId($current_year -$i); ?>" <?= $sel; ?> ><?=  $i==0 ? gettext("Current Year"). " (".($current_year -$i).")" : gettext("Calendar Year")." (".($current_year -$i).")"; ?></option>
+								<?php } ?>
+								<option value="<?= $_COMPANY->encodeId($current_year +1); ?>" <?= ($year_filter > $current_year) ? 'selected' : '' ?>>
+									<?= gettext("Future Years");?>  (><?php echo $current_year; ?>)
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px;"></div>
+					<div class="clearfix"></div>
+				<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= UPDATED; ?>
+					</div>
+				<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ADDED; ?>
+					</div>
+				<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+						<div id="hidemesage" class="alert alert-danger alert-dismissable">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+							<?= ERROR; ?>
+						</div>
+				<?php } ?>
+					<div>
+					<div id="ajax">
+						
+					</div>
+					</div>
+                    <?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Generate QR Code -->
+	<div id="generate-qr-code" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div id="loadQRCode">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src='<?=TELESKOPE_CDN_STATIC?>/vendor/js/moment-2.30.1/min/moment.min.js'></script>
+	<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-qrcode-master/jquery.qrcode.min.js"></script>
+	
+	<script>
+		$('#generate-qr-code').on('shown.bs.modal', function (e) {     					 
+			$('.close').focus();
+		})	
+	</script>
+	<script>
+		$(document).ready(function() {
+			$('#bygroup').val('all');
+			$('#bygroup').change(function (){
+				filterEvents();
+			});
+			$('#filterByYear').change(function (){
+				filterEvents();
+			});
+			filterEvents();
+		});
+	</script>
+</body>
+</html>

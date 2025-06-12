@@ -1,0 +1,177 @@
+<style>
+	.redactor-box{
+		border: 1px lightgray solid !important;
+		padding:10px;
+	}
+
+    #dynamic_list_form .control-label{
+        font-weight: bold;
+    }
+</style>
+<?php $encGroupId = (isset($groupid) && $groupid) ? $_COMPANY->encodeId($groupid) : $_COMPANY->encodeId(0); ?>
+	<div class="container col-md-offset-2 margin-top">
+		<div class="row">
+            <div class="col-md-12">
+				<div class="widget-simple-chart card-box">
+					<?php if($isAdminView){?>
+					<div class="col-md-12 divider"><h6><?= $pagetitle; ?></h6></div>
+					<?php } ?>
+						<form class="form-horizontal" method="post" id="dynamic_list_form" action="">
+							<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+							<input type="hidden" name="listId" value="<?= $_COMPANY->encodeId($id) ?>">
+                           
+							<div class="form-group">
+								<label class="col-md-12 control-label"><?= gettext("For Use In");?> <span style="color:red;">*</span></label>
+								<div class="col-md-12">
+                                    <?php if (isset($scope_lock)) { ?>
+                                        <input type="hidden" name="scope" value="<?= $scope_lock ?>">
+                                        <?=($scope_lock == 'zone') ? 'Zone' : 'Group'?>
+                                    <?php } else { ?>
+									<select name="scope" id="scope" class="form-control">
+										<option value="zone" <?= $edit ? ($edit->val('scope') == 'zone' ? 'selected' : '' ) : '' ?>>Zone</option>
+										<option value="group" <?= $edit ? ($edit->val('scope') == 'group' ? 'selected' : '') : '' ?>>Group</option>
+                                        <option value="zone_and_group" <?= $edit ? ($edit->val('scope') == 'zone_and_group' ? 'selected' : '') : '' ?>>Zone & Group</option>
+									</select>
+                                    <?php } ?>
+								</div>
+							</div>
+                         
+
+							<div class="form-group">
+								<label class="col-md-12 control-label"><?= gettext("List Name");?> <span style="color:red;">*</span></label>
+								<div class="col-md-12">
+									<input class="form-control" placeholder="List Name" name="list_name" value="<?= $edit ? $edit->val('list_name') : '';?>"  type="text" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-12 control-label"><?= gettext("List Description");?> <span style="color:red;">*</span></label>
+								<div class="col-md-12">
+									<textarea type="text" class="form-control" name="list_description" rows="2" id="non_redactor_list_description" required maxlength="300" placeholder="Add some text that best describes this list ..."><?= $edit ? $edit->val('list_description') : '';?></textarea>
+									<p class="red"><small><?= gettext("Note : Maximum 300 characters allowed!");?></small></p>
+								</div>
+							</div>
+
+							<div class="form-group">
+                                <label for="inputScope" class="col-md-12 control-label"><?= gettext("Criteria");?></label>
+                                <div class="col-md-12 p-0 m-0">
+                                    <div class="border-top mb-3 mx-3"></div>
+                                <?php foreach($catalog_categories as $catalog_category){ ?>
+                                    <div class="form-group ">
+                                        <label for="<?= $catalog_category; ?>" class="col-md-3 category-name"><?= $catalog_category; ?></label>
+                                        <div class="col-md-3">
+                                            <select class="form-control" name="<?= $catalog_category; ?>" id="<?= $catalog_category; ?>" onchange="showHideCategoryKeys(this.value,'<?= $catalog_category; ?>')">
+                                                <option value="0">Ignore</option>
+                                                <?php foreach (array_keys(UserCatalog::SET_TYPE_OPERATORS_MAP) as $oper) { ?>
+                                                <option value="<?=$oper?>" <?= $edit  ? (array_key_exists($catalog_category,$edit_criteria) && $edit_criteria[$catalog_category]['comparator'] == $oper ? 'selected' : '') : ''; ?> ><?=UserCatalog::SET_TYPE_OPERATORS_MAP[$oper]?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control multi_select" name="<?= $catalog_category; ?>_val[]" id="<?= $catalog_category; ?>_val" multiple="multiple" style="width:100%;" >
+                                                <option value="">Select a system role type</option>
+                                                <?php foreach(UserCatalog::GetAllCategoryKeys($catalog_category) as $key){
+                                                    $sel = '';
+                                                    if ($edit && !empty($edit_criteria) && array_key_exists($catalog_category,$edit_criteria) &&  in_array($key,$edit_criteria[$catalog_category]['keys'])){
+                                                        $sel = 'selected';
+                                                    }
+                                                ?>
+                                                <option value="<?= $key ;?>" <?= $sel; ?>><?= $key ;?></option>
+                                            <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                </div>
+                            </div>
+							
+							<div class="form-group">
+								<div class="col-lg-12 text-center">
+									<?php if($isAdminView){ ?>
+										<a href="manage_dynamic_lists" class="btn btn-secondary"><?= gettext("Cancel");?></a>
+									<?php } else{?>
+										<a onclick="closeAllActiveModal(); manageDynamicListModal('<?= $encGroupId ?>')" href="javascript:void(0);" class="btn btn-secondary"><?= gettext("Cancel");?></a>
+									<?php } ?>
+									<button type="submit" name="submit" class="btn btn-primary"><?= gettext("Submit")?></button>
+								</div>
+							</div>
+						</form>
+		
+				</div>	
+            </div>
+		</div>
+	</div>
+
+<script>
+	
+$('#dynamic_list_form').submit(function(event) {  	
+	event.preventDefault();
+	let groupId = '<?= $encGroupId ?>';
+	let isAdminView = '<?= $isAdminView ?>';
+	var dynamicListForm = $(this);
+		$.ajax({
+		url: 'ajax_dynamic_list.php?addDynamicList',
+			type: "POST",
+			data: dynamicListForm.serialize(),
+        	success : function(response) {
+			var jsonData = JSON.parse(response);
+			Swal.fire({
+				title: jsonData.title,
+				text: jsonData.message,
+			}).then(function(result) {
+				if (jsonData.status == 1) {
+					if(isAdminView){
+						//go back to the DL admin page
+						window.location.href="manage_dynamic_lists";
+					}else{
+						// 1. Close the form
+						closeAllActiveModal();
+						// 2. Refresh the dynamic list
+						refreshDynamicList(groupId);
+						// 3. reopen manage dynamic list
+						manageDynamicListModal(groupId)
+					}
+					
+				}
+				
+			});			
+			setTimeout(() => {  
+				$(".swal2-confirm").focus(); 
+			}, 100);
+		}
+	});
+	});
+</script>
+<script>
+	$(document).ready(function(){
+		$('#redactor_content').initRedactor('redactor_content', 'zone',['counter']);
+		$('.multi_select').select2(
+		{
+			placeholder: "Select or search options",
+			maximumSelectionLength: 20
+		}
+	);
+	});
+
+	function showHideCategoryKeys(v,c){
+		if (v){
+			$('#'+c+'_div').show();
+		}else{
+			$('#'+c+'_div').hide();
+		}
+	}
+
+	<?php if($success){ ?>
+		swal.fire({title: 'Success',text:'<?= $success; ?>'}).then(function(result) {
+			window.location.href = 'manage_dynamic_lists';
+		});
+	<?php } ?>
+
+	<?php if($error){ ?>
+		swal.fire({title: 'Error',text:'<?= $error; ?>'});
+
+	<?php } ?>
+</script>
+
+</body>
+</html>

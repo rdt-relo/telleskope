@@ -1,0 +1,282 @@
+<div class="container-offset-lr mt-4">
+    <div class="row">              
+        <div class="col-md-12"> 
+            <div class="widget-simple-chart card-box card p-4 mb-5">
+				<div class="col-md-12" style="border-bottom:1px solid  #e9e9e9; 	margin-bottom:20px">
+					<h1><?= $pageTitle; ?></h1>
+				</div>
+                <div class="col-md-12" >
+                    <form class="form-horizontal" id="emailSetting" action="" method="post">
+
+                       <div class="form-group mb-3">
+                            <label class="form-label col-md-3 required">Choose Zone</label>
+                            <div class="col-md-9">
+                                <select name="ZoneId" id="ZoneId" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <?php foreach ($zones as $zone) { ?>
+                                        <option value="<?= $zone['zoneid'] ?>" <?= $edit && $orig_zoneid == $zone['zoneid'] ? 'selected' : ''; ?>><?=$zone['zonename']?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class=" form-label col-md-3 required" >Choose Protocol</label>
+                            <div class="col-md-9">
+                                <select name="Mechanism" id="Mechanism" class="form-select" required onchange="showHideFields(this.value)">
+                                    <option value="">Select an option</option>
+                                    <option value="SFTP" <?= $edit && $edit['Mechanism'] == 'SFTP' ? 'selected' : ''; ?>>SFTP</option>
+                                    <option value="HTTPS" <?= $edit && $edit['Mechanism'] == 'HTTPS' ? 'selected' : ''; ?>>HTTPS</option>
+                                    <option value="OAuth2" <?= $edit && $edit['Mechanism'] == 'OAuth2' ? 'selected' : '' ?>>OAuth2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group  mb-3 js-https-fields js-sftp-fields">
+                            <label class=" form-label col-md-3 required" >SFTP Hostname or HTTPS Url</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control"  name="Hostname"  value="<?= $edit ? (($edit['Mechanism'] == 'SFTP') ? ($edit['SFTP']['Hostname'] ?? '') : ($edit['HTTPS']['URL'] ?? '')) : ''; ?>" placeholder="For SFTP enter hostname or  hostname:port, for HTTPS enter https://url" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 js-https-fields js-sftp-fields">
+                            <label class=" form-label col-md-3" >Username<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="Username" value="<?= $edit ? ($edit[$edit['Mechanism']]['Username'] ?? '') : ''; ?>" placeholder="User name here">
+                            </div>
+                        </div>
+
+                        <?php
+                            $authMethod = $edit['SFTP']['AuthMethod'] ?? 'sftp_password';
+                        ?>
+                        <div class="form-group mb-3 js-sftp-fields">
+                          <label class="col-md-3">Authentication Method<span style="color:red">&nbsp</span></label>
+                          <div class="col-md-9">
+                            <label>
+                              <input type="radio" name="sftp_auth_method" value="sftp_password" onchange="showHideSftpPasswordInput(event)"
+                                <?= ($authMethod === 'sftp_password') ? 'checked' : '' ?>
+                              >&nbsp;Password
+                            </label>
+                            <label>
+                              <input type="radio" name="sftp_auth_method" value="sftp_ssh_key" onchange="showHideSftpPasswordInput(event)"
+                                <?= ($authMethod === 'sftp_ssh_key') ? 'checked' : '' ?>
+                              >&nbsp;SSH Key
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-group mb-3 js-https-fields js-sftp-fields">
+                            <label class=" form-label col-md-3" >Password<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" name="Password" value="<?= $edit ? ($masked_password ?? '') : ''; ?>" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 js-sftp-fields">
+                            <label class=" form-label col-md-3" >Remote Folder<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="Folder" value="<?= $edit ? (($edit['Mechanism'] == 'SFTP') ? $edit['SFTP']['Folder'] : '') : ''; ?>" placeholder="SFTP folder name here, leave empty for https">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 js-sftp-fields">
+                            <label class="form-label col-md-3" >Remote File Name<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="Filename" value="<?= $edit ? (($edit['Mechanism'] == 'SFTP') ? $edit['SFTP']['Filename'] : '') : ''; ?>" placeholder="Remote file name here, leave empty for https">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 js-sftp-fields">
+                            <label class=" form-label col-md-3" >Is Remote File PGP Encrypted?<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="checkbox"  name="IsPgpEncrypted" <?= $edit ? ($edit['IsPgpEncrypted'] ? 'checked="true"' : '') : 'checked="true"'; ?> >
+                                <br>If remote file is not encrypted, then let the system know by unchecking this box. System will encrypt and add .pgp extension to Local File Name provided below.
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3 required">Client ID</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="ClientId" required value="<?= $edit ? ($edit['OAuth2']['ClientId'] ?? '') : ''; ?>" placeholder="App Client ID">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3 required">Client Secret</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="ClientSecret" required value="<?= $edit ? ($masked_client_secret ?? '') : ''; ?>" placeholder="App Client Secret">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3">Refresh Token</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="RefreshToken" value="<?= $edit ? ($masked_refresh_token ?? '') : ''; ?>" placeholder="Refresh Token" onkeyup="onChangeRefreshToken(event)">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                            <label class=" form-label col-md-3">Grant Type</label>
+                            <div class="col-md-9">
+                              <input type="text" class="form-control" name="oauth_grant_type" value="<?= $edit ? ($edit['OAuth2']['oauth_grant_type'] ?? '') : '' ?>" placeholder="Grant Type" <?= ($masked_refresh_token ?? '') ? 'readonly' : '' ?>>
+                                <br>
+                                <small>Valid values are: 'refresh_token' or 'client_credentials'</small>
+                            </div>
+                          </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3">Scope</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="oauth_scope" value="<?= $edit ? ($edit['OAuth2']['oauth_scope'] ?? '') : ''; ?>" placeholder="Scope">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3 required">Bearer Token URL</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="GetBearerTokenUrl" required value="<?= $edit ? ($edit['OAuth2']['GetBearerTokenUrl'] ?? '') : ''; ?>" placeholder="Bearer Token URL">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class=" form-label col-md-3 required">Download Report URL</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control" name="GetReportUrl" required value="<?= $edit ? ($edit['OAuth2']['GetReportUrl'] ?? '') : ''; ?>" placeholder="Download Report URL">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                          <label class="form-label col-md-3">Download Report - Custom Header Name</label>
+                          <div class="col-md-3">
+                            <input type="text" class="form-control" name="oauth_custom_header_name" value="<?= $edit ? ($edit['OAuth2']['oauth_custom_header_name'] ?? '') : ''; ?>" placeholder="Header Name">
+                          </div>
+                          <label class="form-label col-md-3">Custom Header Value</label>
+                          <div class="col-md-3">
+                            <input type="text" class="form-control" name="oauth_custom_header_value" value="<?= $edit ? ($edit['OAuth2']['oauth_custom_header_value'] ?? '') : ''; ?>" placeholder="Header Value">
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-oauth-fields">
+                            <label class="form-label col-md-3">Download Data Handling</label>
+                            <div class="col-md-9">
+                                <select name="oauth_data_handler" id="oauth_data_handler" class="form-select" required>
+                                    <option value="default" <?= (!$edit || ($edit['OAuth2']['oauth_data_handler'] == 'default')) ? 'selected' : ''; ?>>Default</option>
+                                    <option value="microsoft_api" <?= $edit && ($edit['OAuth2']['oauth_data_handler'] == 'microsoft_api') ? 'selected' : ''; ?>>Microsoft API</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class=" form-label col-md-3 required" >Local File Name</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="LocalFilename" value="<?= $edit ? $edit['LocalFilename'] : ''; ?>" placeholder="Local filename with folder eg. user-data-sync/ActiveUsers.csv or user-data-delete/TerminatedUsers.csv" required>
+                                Don't forget to add user-data-sync/ or user-data-delete/ prefix to the local filename to store the file appropriate location. See above note about .pgp encryption.
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class=" form-label col-md-3 required" >Schedule first job to start after these many seconds</label>
+                            <div class="col-md-9">
+                                <input type="number" min="0" class="form-control" name="delay" value="100" placeholder="Job Processing Delay in seconds" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class=" form-label col-md-3 required" >Repeat the job after these many days</label>
+                            <div class="col-md-9">
+                                <input type="number" min="0" class="form-control" name="RepeatDays"  value="<?= $edit ? $edit['RepeatDays'] : ''; ?>" placeholder="Repeat after days" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3" style="color:grey;">
+                            <label class=" form-label col-md-3">Notify Emails On Job Completion</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="NotifyEmails" value="<?= $edit ? $edit['NotifyEmails'] : ''; ?>" placeholder="Enter upto 3 emails seperated by comma that will be notified on job completion">
+                                <span style="color:red;">Set only if customer insists</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                          <a class="btn cancel_template btn-secondary" onclick="window.history.back();">Cancel</a> &emsp;
+                          <button class="btn create_template btn-primary" name="submit" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+
+    <?php if($successCode){ ?>
+        swal.fire({title: 'Success',text:"Data import job scheduled successfully"}).then(function(result) {
+            window.location.href = "manage_scheduled_jobs#importJobs";
+        });
+    <?php } ?>
+
+    function showHideFields(mechanism) {
+        $('.js-https-fields')
+            .hide()
+            .find('input')
+            .prop('disabled', true);
+
+        $('.js-sftp-fields')
+            .hide()
+            .find('input')
+            .prop('disabled', true);
+
+        $('.js-oauth-fields')
+            .hide()
+            .find('input')
+            .prop('disabled', true);
+
+        if (mechanism === 'SFTP') {
+            $('.js-sftp-fields')
+                .show()
+                .find('input')
+                .prop('disabled', false);
+
+            showHideSftpPasswordInput();
+        } else if (mechanism === 'HTTPS') {
+            $('.js-https-fields')
+                .show()
+                .find('input')
+                .prop('disabled', false);
+
+        } else if (mechanism === 'OAuth2') {
+            $('.js-oauth-fields')
+                .show()
+                .find('input')
+                .prop('disabled', false);
+        }
+    }
+
+    function showHideSftpPasswordInput() {
+
+      return; // Disabled on 09/06/2024 to allow optional password for SFTP method as well
+
+      if ($('input[name="sftp_auth_method"]:checked').val() === 'sftp_ssh_key') {
+        $('input[name="Password"]')
+          .prop('disabled', true)
+          .closest('.js-sftp-fields')
+          .hide();
+      } else {
+        $('input[name="Password"]')
+          .prop('disabled', false)
+          .closest('.js-sftp-fields')
+          .show();
+      };
+    }
+
+    $(document).ready(function() {
+      var selectedValue = $('#Mechanism').val();
+      showHideFields(selectedValue);
+    });
+
+    function onChangeRefreshToken(jsevent) {
+      var input = $(jsevent.target);
+      var refresh_token = input.val().trim();
+      if (refresh_token) {
+        $('input[name="oauth_grant_type"]')
+          .val('refresh_token')
+          .prop('readonly', true);
+      } else {
+        $('input[name="oauth_grant_type"]')
+          .val('')
+          .prop('readonly', false);
+      }
+    }
+</script>

@@ -1,0 +1,90 @@
+<style>
+    .past-jobs {
+      border: 1px solid #8080803b;
+    }
+  </style>
+  
+  <div class="container-offset-lr mt-5">
+    <div class="row">              
+      <div class="col-12">
+        <div class="card p-3 mt-2">
+          <div class="row">
+            <div class="col-md-6">
+              <h1>App Versions:</h1>
+            </div>
+            <div class="col-md-6 text-end">
+              <a class="btn btn-outline-primary" href="new_app_version.php">
+                <span>+</span> New App Version
+              </a>
+            </div>
+          </div>
+  
+          <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+              <?= UPDATED; ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } elseif((time()- @$_SESSION['added']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+              <?= ADDED; ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } ?>
+  
+          <div class="table-responsive mt-3">
+            <table id="jobs" class="table table-bordered table-hover display compact">
+              <thead class="table-light">
+                <tr>
+                  <th width="15%">Subdomain</th>
+                  <th width="20%">OS</th>
+                  <th width="20%">Version</th>
+                  <th width="15%">Bundle ID</th>
+                  <th width="15%">Status</th>
+                  <th width="15%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($rows as $row) { ?>
+                <tr>
+                  <td><?= $row['subdomain']; ?></td>
+                  <td><?= $row['platform']; ?></td>
+                  <td><?= $row['app_version']; ?></td>
+                  <td><?= $row['bundle_id']; ?></td>
+                  <td><?= $status[$row['isactive']]; ?></td>
+                  <td>
+                    <?php if ($row['isactive'] == 2){ ?>
+                      <a class="btn btn-primary btn-sm deluser" onclick="setCurrentAppVersion('<?= base64_encode($row['id']); ?>',1)" title="<b>Are you sure you want to approve this version?</b>">Approve</a>&emsp;
+                      <a class="btn btn-primary btn-sm" href="new_app_version.php?edit=<?= base64_encode($row['id']); ?>">Edit</a>
+                    <?php } elseif ($row['isactive'] == 0){ ?>
+                      <a class="btn btn-primary btn-sm deluser" onclick="setCurrentAppVersion('<?= base64_encode($row['id']); ?>',1)" title="<b>Are you sure you want to activate this version?</b>">Activate</a>&emsp;
+                      <a class="btn btn-primary btn-sm" href="new_app_version.php?edit=<?= base64_encode($row['id']); ?>">Edit</a>
+                    <?php } else { ?>
+                      <a class="btn btn-primary btn-sm deluser" onclick="setCurrentAppVersion('<?= base64_encode($row['id']); ?>',0)" title="<b>Are you sure you want to deactivate this version?</b>">Deactivate</a>&emsp;
+                    <?php } ?>
+                  </td>                           
+                </tr>                                
+                <?php } ?>                                
+              </tbody>
+            </table>	
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+  <script>
+    jQuery("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      jQuery("#wrapper").toggleClass("toggled");
+    });
+  
+    $("#sidebar-wrapper ul li:nth-child(10)").addClass("myactive");
+  
+    $('#jobs').DataTable({
+      "order": [],
+      "bPaginate": true,
+      "bInfo": false
+    });
+  </script>
+  

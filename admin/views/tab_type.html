@@ -1,0 +1,106 @@
+<style>
+	.modal-max-height {
+	min-height: 100px;
+}
+.modal-max-height {
+    max-height:450px;
+    overflow-y:scroll;
+}
+</style>
+
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">				
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+					<a aria-label="<?= gettext('Add new tab');?>" class="add-plus-circle-icon" href="add_edit_group_tabs?gid=<?= $_GET['gid'];?>">
+						<i class="fa fa-plus-circle fa-lg" title="Add new tab" aria-hidden="true"></i>
+					</a>
+				</div>
+		<div class="clearfix"></div>		
+		<div class="table-responsive " id="list-view">
+			<table id="table-custom-tab" class="table table-hover display compact" summary="This table display the list of custom group tabs">
+				<thead>
+					<tr>						
+						<th width="5%" scope="col">#</th>
+						<th width="30%" scope="col">Tabs Type</th>
+						<th width="25%" scope="col">Tabs Name</th>						
+						<th width="20%" scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+                $counter=0;
+                foreach ($group->getGroupCustomTabs(false) as $group_tab) {
+                    $counter++;
+                    $encodedtabid = $_COMPANY->encodeId($group_tab['tabid']);
+                    $encodedgroupid = $_COMPANY->encodeId($group_tab['groupid']);
+                    $color = ($group_tab['isactive']==1) ? "#ffffff" : "#ffffce";
+				?>
+					<tr id="<?=$counter;?>" style="background-color: <?= $color; ?>">
+						<td><?php echo $counter; ?></td>
+						<td>
+							<?= ucfirst(htmlspecialchars($group_tab['tab_type'])) ?>
+						</td>
+						<td>
+							<?= trim($group_tab['tab_name']); ?>
+						</td>					
+						<td>
+							<?php if($group_tab['isactive']==1){		?>
+								
+								<button aria-label="Deactivate" class="btn btn-no-style deluser" onclick="changeTabStatus('<?=$encodedgroupid?>','<?=$encodedtabid;?>',2)" title="<strong>Are you sure to Deactivate!</strong>"><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i></button>
+
+								<button aria-label="Delete" class="btn btn-no-style deluser" onclick="deleteTab('<?=$encodedgroupid?>','<?=$encodedtabid;?>')" title="<strong>Are you sure you want to permanently delete this tab!</strong>"><i class="fa fa-trash" title="Delete" aria-hidden="true"></i></button>
+								
+
+							<?php	} else {		?>	
+								
+								<a aria-label="Edit" style="margin-right: 10px;" class="" href="add_edit_group_tabs?gid=<?=$encodedgroupid?>&tid=<?=$encodedtabid;?>"><i class="fa fa-edit" title="Edit"></i></a>
+
+								<button aria-label="Activate" class="btn btn-no-style deluser" onclick="changeTabStatus('<?=$encodedgroupid?>','<?=$encodedtabid;?>',1)" title="<strong>Are you sure to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>
+
+								<button aria-label="Delete" class="btn btn-no-style deluser" onclick="deleteTab('<?=$encodedgroupid?>','<?=$encodedtabid;?>')" title="<strong>Are you sure you want to permanently delete this tab!</strong>"><i class="fa fa-trash" title="Delete" aria-hidden="true"></i></button>
+                            <?php	}   ?>
+						
+						</td>
+					</tr>
+
+				<?php
+                }
+				?>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		<div align="center">
+			<a href="group" class="btn btn-primary">Back</a>
+		</div>
+	</div>								
+</div>
+</div>
+</div>
+</div>
+ 
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#table-custom-tab').DataTable( {
+			"order": [],
+			"bPaginate": true,
+			"bInfo" : false,
+			"columnDefs": [
+            { targets: [-1], orderable: false }
+            ]	
+		});
+	});
+</script>
+<style>
+i {
+    display: inline-block;
+    cursor: pointer;
+    height: 16px;
+    vertical-align: text-top;
+    width: 16px;
+}
+</style>

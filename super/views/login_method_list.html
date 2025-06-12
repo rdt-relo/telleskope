@@ -1,0 +1,155 @@
+<div class="container-offset-lr mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card p-3">
+
+                <div class="row align-items-center mb-3">
+                    <div class="col-12 col-sm-9">
+                        <h1>Manage Company Login Settings</h1>
+                    </div>
+                    <div class="col-12 col-sm-3 text-sm-end mt-2 mt-sm-0">
+                        <a id="expireLoginMethodCache" class="btn btn-primary me-2" onclick="expireLoginMethodCache()">Flush Cache</a>
+                        <a class="btn btn-outline-primary" href="login_method_new">+ Login Method</a>
+                    </div>
+                </div>
+                <?php if(isset($_SESSION['added']) && (time()- @$_SESSION['added']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>  
+
+                <?php if(isset($_SESSION['updated']) && (time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>  
+                <?php if(isset($_SESSION['error']) && (time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= $_SESSION['error_msg']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>  
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover display compact" id="template_list">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Scope</th>
+                                <th>Method</th>
+                                <th>Edit</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                    <?php if (count($data)>0){ ?>
+                    <?php foreach($data as $row){ ?>
+                            <tr id="tr<?= $row['settingid']; ?>" style="background-color: <?= $row_scope_colors[$row['scope']] ?>;">
+                                <td>
+                                    <?php if ($row['isactive'] == 2) { ?>
+                                        <span class="text-danger"><?= $row['settingname']; ?>&nbsp;<sup>[inactive]</sup></span>
+                                    <?php } else { ?>
+                                        <?= $row['settingname']; ?>
+                                    <?php } ?>
+                                    <?php if ($row['debug_mode']) { ?>
+                                        <br><span class="bg-warning" style="font-size: small">Debug mode is on... turn it off asap.</span>
+                                    <?php } ?>
+                                </td>
+                                <td><?= $row['scope']?></td>
+                                <td>
+                                    <?= ucfirst($row['loginmethod']); ?>
+                                    <?php if ($row['loginmethod'] == 'saml2') { ?>
+                                        <input type="text" readonly style="display:none;" value="<?= BASEURL . '/user/saml2/metadata?realm='. $curr_company->val('subdomain') .'.'. $row['scope'].'.io&lmid='.$row['settingid'];?>" class="form-control url-input" id="copy<?= $row['settingid']; ?>">
+                                        <br><small><a onclick="copyLink('copy<?= $row['settingid']; ?>');" style="cursor:pointer;" class="text-primary" >Copy Metadata URL</a></small>
+                                    <?php } ?>
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="login_method_new?id=<?= base64_encode($row['settingid']); ?>">Configuration</a>
+                                    <a class="btn btn-primary btn-sm" href="customize_attributes?id=<?= base64_encode($row['settingid']); ?>">Customizations</a>
+                                </td>
+                                <td>
+                                    <?php if($row['isactive'] == 1){ ?>
+                                        <a class="btn btn-primary btn-sm btn-smconfirm" title="<b>Are you sure to deactivate this method!</b>" onclick="activateLoginMethod('<?= base64_encode($row['settingid']); ?>','2')">De-activate</a>
+                                    <?php } else { ?>
+                                        <a class="btn btn-primary btn-sm confirm" title="<b>Are you sure to activate this method!</b>" onclick="activateLoginMethod('<?= base64_encode($row['settingid']); ?>','1')">Activate</a>
+                                        <a class="btn btn-danger btn-sm confirm" title="<b>Are you sure to delete this method!</b>" onclick="deleteLoginMethod('<?= base64_encode($row['settingid']); ?>','tr<?= $row['settingid']; ?>')">Delete</a>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    <?php }  ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br></br>
+<!-- Scripts -->
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#template_list').DataTable({
+        "order": [],
+        "bPaginate": false,
+        "bInfo" : false
+    });
+    function expireLoginMethodCache() {
+        $.ajax({
+            url: 'action.php?expireLoginMethodCache=1',
+            type: "POST",
+            success: function(data) {
+                let btn = $("#expireLoginMethodCache");
+                if (data == 1) {
+                    btn.toggleClass("btn-primary btn-success");
+                } else {
+                    btn.toggleClass("btn-primary btn-warning");
+                }
+            }
+        });
+    }
+
+    function deleteLoginMethod(s, i) {
+        $.ajax({
+            url: 'action.php?deleteLoginMethod=1',
+            type: "POST",
+            data: {"settingid":s},
+            success: function(data) {
+                if (data == 1)
+                    $("#" + i).animate({ backgroundColor: "#fbc7c7" }, "fast").fadeOut(2000);
+                else
+                    alert('Cannot delete default login method');
+            }
+        });
+    }
+    function activateLoginMethod(s, i) {
+        $.ajax({
+            url: 'action.php?activateLoginMethod=1',
+            type: "POST",
+            data: {"settingid":s, "action":i},
+            success: function(data) {
+                if (data == -1) {
+                    alert(i == 1 ? "Error - Only one active login method allowed." : "Error - Cannot deactivate default methods.");
+                } else if (data == -2) {
+                    alert("Error - Connect method disabled at company level.");
+                }
+                window.location.reload();
+            }
+        });
+    }
+
+    function copyLink(i) {
+        const copyText = document.getElementById(i);
+        copyText.style.display = 'block';
+        copyText.select();
+        document.execCommand("Copy");
+        copyText.style.display = 'none';
+        Swal.fire({ title: 'Success', text: "Link copied successfully", icon: 'success' });
+    }
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    $("#sidebar_item_manage_company_m ul li:nth-child(1)").addClass("myactive");
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+
+<style>
+    .select2-container .select2-selection--single {
+        height: auto !important;
+        border-color: #d2d6de;
+    }
+</style>
+<div class="modal" id="add_budget_cureencies_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-label="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Foreign Currency:</label>
+                        <select class="form-control" style="width: 100%;" id="foreigncurrency" name="foreigncurrency" <?= $currency_id!=-1 ? 'disabled' : '';?>>>
+                            <option value="">Select Foreign Currency</option>
+                            <?php foreach(Budget2::FOREIGN_CURRENCIES as $currency){ 
+                                $sel = "";
+                                $conversion_rate = 0.00000;
+                                if (!empty($configured_currency)){
+                                    $sel = ($currency['cc'] == $configured_currency['cc']) ? "selected" : '';
+                                    $conversion_rate = $configured_currency['conversion_rate'];
+                                }
+
+                                $showCurrency = true;
+                                if ($currency_id == -1 && in_array($currency['cc'],$allowed_foreign_currencies_codes)){
+                                    $showCurrency = false;
+                                }
+
+                            ?>
+                            <?php if ($showCurrency ){ ?>
+                                <option value="<?= $currency['cc'] ?>" <?= $sel; ?> ><?= $currency['cc'].' ('.$currency['name'].')'; ?></option>
+                            <?php } ?>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">
+                            Conversion Rate to <?=$_COMPANY->getAppCustomization()['budgets']['currency']?>:
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The foreign currency amount will be multiplied by the conversion rate to get an equivalent <?= $_COMPANY->getAppCustomization()['budgets']['currency']?> amount."></i>
+                        </label>
+                        <input type="number" id="conversion_rate" placeholder="Conversion rate e.g. 0.1132" min="1" class="form-control" value="<?= $_USER->formatAmountForDisplay($conversion_rate,'',9); ?>">
+                    </div>           
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="addUpdateBudgetForeignCurrency('<?= $_COMPANY->encodeId($budget_year_id );?>','<?= $_COMPANY->encodeId($currency_id);?>');"><?= $submitButton; ?></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<script>
+$(document).ready(function() {
+    $('#foreigncurrency').select2({
+        placeholder: "Search foreign currency to select",
+        allowClear: true
+    });
+});
+
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

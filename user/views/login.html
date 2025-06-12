@@ -1,0 +1,96 @@
+<?php include __DIR__ . '/header.html'; ?>
+
+<?php
+    $show_policy_consent_checkbox = false;
+    $companyLoginMethods = $_COMPANY->getCompanyLoginMethods($_SESSION['app_type'], 1);
+?>
+
+<div class="container">
+    <div id="user-action-box" class="card card-container wow zoomIn animated">
+        <div class="head-logo">
+            <img src="<?= $logo ?>" height="50px"/>
+            <div class="title"><?= !empty($companyLoginMethods[0]['login_screen_heading']) ? $companyLoginMethods[0]['login_screen_heading'] : 'Login to '.$_COMPANY->val('companyname').' '.$_SESSION['app-name'].' platform' ?></div>
+        </div>
+
+        <?php if (!empty($success_message)) { ?>
+            <div class="alert alert-success">
+                <?= $success_message; ?>
+            </div>
+        <?php } ?>
+        <?php if (!empty($error_message)) { ?>
+            <div class="alert alert-danger">
+                <?= $error_message; ?>
+            </div>
+        <?php } ?>
+
+        <?php
+       
+        if (!empty($companyLoginMethods)) {
+            $show_policy_consent_checkbox = !empty(Arr::SearchColumnReturnColumnVal($companyLoginMethods, '-1', 'login_silently', 'settingid'));
+            include __DIR__ . '/loginform/loginPrivacyPolicyNote.html';
+            $totalMethods = count($companyLoginMethods);
+            $i = 0;
+            foreach ($companyLoginMethods as $loginMethod) {
+                $i++;
+                if ($loginMethod['loginmethod'] == 'username') {
+                    include __DIR__ . '/loginform/normalLogin.html';
+                } elseif ($loginMethod['loginmethod'] == 'saml2') {
+                    include __DIR__ . '/loginform/saml2Login.html';
+                } elseif ($loginMethod['loginmethod'] == 'microsoft') {
+                    include __DIR__ . '/loginform/microsoftLogin.html';
+                } elseif ($loginMethod['loginmethod'] == 'connect'){
+                    include __DIR__ . '/loginform/connectLogin.html';
+                } elseif ($loginMethod['loginmethod'] == 'otp'){
+                    include __DIR__ . '/loginform/otp.html';
+                }
+
+                if ($totalMethods > $i) {
+                    echo '
+                    <div style="text-align: center; margin-top:20px; border-top: 1px solid rgb(126, 126, 126)">
+                    <div style="display: inline-block;color:rgb(112, 112, 112); position: relative; top: -13px; background-color: white; padding: 0px 10px">OR</div>
+                    </div>
+                    ';
+                }
+            }
+        } else {
+            echo '
+            <div class="alert alert-danger">'."No login method found. Please contact your administrator".'</div>
+            ';
+        }
+        ?>
+
+        <div class="mt-3" style="text-align: center; margin-top:8px; border-top: 1px solid #dedede"></div>
+        <div class="text-center grecaptcha-label mb-0">Confidential – For Internal Use Only</div>
+        <div id="footer-logo"></div>
+    </div>
+    <div style="height:2px;"> </div>
+</div>
+
+    <?php if ($show_policy_consent_checkbox){ ?>
+    <script>
+        $("#acceptPrivacyPolicyBlock").css('display', 'block');
+        $(".loginSubmitBtn").addClass("disabled");
+       
+        $("#acceptPrivacyPolicy").click(function() {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $(".loginSubmitBtn").removeClass("disabled");
+            } else {
+                $(".loginSubmitBtn").addClass("disabled");
+            }
+        });
+        $('.loginSubmitBtn').click(function(e){
+            if($(this).hasClass('disabled')){
+                swal.fire({text:"Please accept the Privacy Policy & Terms of Service to continue"}).then( function(result) {
+                    $("#acceptPrivacyPolicy").focus();
+                });
+                e.preventDefault();
+            } else {
+                let u = $(this).attr("href");
+                $(this).attr("href", u+'&policy_accepted=yes');
+            }
+        });
+    </script>
+    <?php } ?>
+</body>
+</html>

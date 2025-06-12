@@ -1,0 +1,31 @@
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Login Identities<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="login_identities[]" value="external_email" <?= (isset($row['login_identities']) && in_array('external_email', $row['login_identities'])) ? 'checked' : ''; ?>>
+            <label class="form-check-label">External Email [default]</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="login_identities[]" value="email" <?= (isset($row['login_identities']) && in_array('email', $row['login_identities'])) ? 'checked' : ''; ?>>
+            <label class="form-check-label">Company Email</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="login_identities[]" value="phone_number" <?= (isset($row['login_identities']) && in_array('phone_number', $row['login_identities'])) ? 'checked' : ''; ?> disabled>
+            <label class="form-check-label"><span class="text-warning">Phone Number (future use)</span></label>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">OTP From Email Label<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="otp_from_email_label" placeholder="From email name to be used for OTP emails" value="<?= $row['otp_from_email_label'] ?? ''; ?>">
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-form-label col-md-2">Application Name<span class="text-danger">*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="application_name" placeholder="Application name for OTP emails" value="<?= $row['application_name'] ?? ''; ?>">
+    </div>
+</div>

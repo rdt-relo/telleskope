@@ -1,0 +1,83 @@
+This file describes how to build/get certain libraries required by various modules
+
+In order to build a new PECL object, follow the process on AWS Linux2 machine that already has PHP installed:
+
+$sudo yum install -y php-devel php-pear gcc gpgme gpgme-devel
+
+
+redis - Redis library
+---------------------------
+$sudo pecl install redis
+
+This will create a /usr/lib64/php/modules/redis.so lib and you need to call it in php.ini as
+extension=redis.so
+
+~~ Installing existing redis.so ~~
+download redis.so from release server and save it. Note: Only production servers have access to this S3 repository
+but you can ask teleskope devops team to get the file downloaded for you.
+$aws s3 cp s3://sw-teleskope-prd1/libs/php-8.1/redis.so ~/redis.so
+$sudo cp ~/redis.so /usr/lib64/php/modules/redis.so
+
+gnupg - GPG/PGP library
+---------------------------
+PHP does not ship with a standard GPG/PGP library but one can be obtained from pecl.
+PECL gnupg requires to be built and it has dependencies on gpgme or you can install a pre-built gnupg.so
+
+~~ Building a new gnupg.so ~~
+
+$sudo pecl install gnupg
+
+This will create a /usr/lib64/php/modules/gnupg.so lib and you need to call it in php.ini as
+extension=gnupg.so
+
+~~ Installing existing gnupg.so ~~
+download gnupg.so from release server and save it. Note: Only production servers have access to this S3 repository
+but you can ask teleskope devops team to get the file downloaded for you.
+$aws s3 cp s3://sw-teleskope-prd1/libs/php-8.1/gnupg.so ~/gnupg.so;
+$sudo cp ~/gnupg.so /usr/lib64/php/modules/gnupg.so
+
+~~ Generating Keys ~~
+PGP runs on the concept of public/private keys and since gpg version 2, if the private key is password protected then
+a human intervention is required to input the password. This makes it invoncenient for automation, so we will use keys
+that are not password protected. Here is how to generate them. For this example we will be storing keys in ~/keys
+directory.
+$mkdir ~/keys
+$cd ~/keys
+# Create a key using gen-key. When creating this key, do not provide password, just press enter. Also give a descriptive
+name like teleskope_uploader_2021 leave the comment and email empty. Choose all other default settings. For expiry choose 5 years
+$gpg --gen-key
+# Export the public and private keys
+$gpg --export -a "teleskope_uploader_2021" > teleskope_uploader_2021_public.pem
+$gpg --export-secret-key -a "teleskope_uploader_2021" > teleskope_uploader_2021_private.pem
+Now share the teleskope_uploader_2021_public.key with customers and secure the teleskope_uploader_2021_private.key
+
+And use the private key to build the server (see below)
+
+~~ Preparing a machine ~~
+sudo bash
+mkdir /opt/www
+export GNUPGHOME=/opt/www/.gnupg
+gpg --import << EOMEOM
+ { contents of private key}
+EOMEOM
+chown -R apache:root /opt/www/.gnupg
+
+~~ Testing ~~
+An easy test to see if gnupg is working correctly with keys generated above is to run the following lines from php
+command line (i.e. php -a) while in ~/keys directory. If successful it should print Encryption Decryption Successful
+
+Env::Put("GNUPGHOME=/opt/www/.gnupg");
+// For encrypting
+$gpg = new gnupg();
+$gpg->seterrormode(gnupg::ERROR_EXCEPTION);
+$info = $gpg -> keyinfo("teleskope_uploader_2021");
+$gpg->addencryptkey($info[0]['subkeys'][0]['fingerprint']);
+$gpg->setarmor(0);
+$enc = $gpg->encrypt('Encryption Decryption Successful');
+
+// For decrypting
+$gpg = new gnupg();
+$gpg->seterrormode(gnupg::ERROR_EXCEPTION);
+$info = $gpg -> keyinfo("teleskope_uploader_2021");
+$gpg->adddecryptkey($info[0]['subkeys'][0]['fingerprint'],null);
+echo $gpg->decrypt($enc);

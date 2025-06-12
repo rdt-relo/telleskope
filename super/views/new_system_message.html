@@ -1,0 +1,261 @@
+<!-- redactor  -->
+<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/css/revolvapp.min.css" />
+<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.css" />
+<style>
+    .redactor-box {
+        border: 1px solid #d2d6de;
+        padding: 8px;
+    }
+    .checkbox-inline{
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
+</style>
+<div class="container-offset-lr mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm p-4 mt-2">
+                <h4 ><?= $pageTitle; ?></h4>
+                <?php if((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= $_SESSION['error_message']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+                <form method="post" id="system_message_form">
+                    <input type="hidden" name="message_id" value="<?= base64_encode($id)?>">
+                    <div class="mb-3 row">
+                        <label for="message_type" class="col-sm-2 col-form-label text-end required">Message Type</label>
+                        <div class="col-sm-10">
+                            <select name="message_type" id="message_type" class="form-select" onchange="selectRecipientType(this.value)" <?= $edit ? 'disabled' : '' ?> required>
+                                <option value="">Select Message Type</option>
+                                <option value="2" <?= $edit && $edit[0]['message_type'] == 2 ? 'selected' : ''; ?>>Product Update</option>
+                                <option value="4" <?= $edit && $edit[0]['message_type'] == 4 ? 'selected' : ''; ?>>Training Update</option>
+                                <option value="5" <?= $edit && $edit[0]['message_type'] == 4 ? 'selected' : ''; ?>>Webinar Update</option>
+                                <option value="1" <?= $edit && $edit[0]['message_type'] == 1 ? 'selected' : ''; ?>>System Maintenance !!</option>
+                                <option value="3" <?= $edit && $edit[0]['message_type'] == 3 ? 'selected' : ''; ?>>Incident Management !!!</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label text-end">To</label>
+                        <div class="col-sm-10 d-flex flex-wrap gap-2">
+                            <?php
+                                $types = [
+                                    'Business' => 'Business Contact',
+                                    'Technical' => 'Technical Contact',
+                                    'Security' => 'Security Contact',
+                                    'CompanyAdmins' => 'Company Admins',
+                                    'ZoneAdmins' => 'Zone Admins',
+                                    'ProductUpdate' => 'Product Update Mailing List',
+                                    'TrainingUpdate' => 'Training Update Mailing List',
+                                    'WebinarUpdate' => 'Webinar Update Mailing List'
+                                ];
+                                $i = 1;
+                                foreach ($types as $value => $label) {
+                                    $checked = in_array($value, $recipient_type) ? 'checked' : '';
+                                    echo '<div class="form-check col-12 m-0">
+                                            <input class="form-check-input recipient_type" type="checkbox" name="recipient_type[]" id="recipient_type_' . $i . '" value="' . $value . '" ' . $checked . '>
+                                            <label class="form-check-label" for="recipient_type_' . $i . '">' . $label . '</label>
+                                        </div>';
+                                    $i++;
+                                }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="subject" class="col-sm-2 col-form-label text-end required">Subject</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" placeholder="Enter some interesting subject here" name="subject" id="subject" value="<?= $edit  ? $edit[0]['subject'] : ''; ?>" type="text" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row" id="messageBox" style="display:<?= $edit ? '' : 'none'; ?>;">
+                        <label class="col-sm-2 col-form-label text-end">Message</label>
+                        <div class="col-sm-10">
+                            <div id="revolvapp_content"></div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="system_messages" class="btn btn-secondary">Cancel</a>
+                        <button type="button" name="draft" onclick="saveSystemMessage()" class="btn btn-primary">Save Draft</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- revolvapp js -->
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/revolvapp-tele-2023-11-15.min.js"></script>
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.js"></script>
+<script defer src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/reorder/reorder.min.js"></script>
+<script defer src="../vendor/js/revolvapp_config/revolvapp_config.js"></script>
+
+<script>
+    var app;
+    function selectRecipientType(v){
+        var hide_recipient_types = [1,2,3,4,5,6,7,8];
+        var check_recipient_types = [1,2,3,4,5,6,7,8];
+        
+            $.each(hide_recipient_types, function( index, value ) {
+                console.log($('#recipient_type_'+value));
+                $('#recipient_type_'+value).show(); 
+            });
+    
+            $.each(check_recipient_types, function( index, value ) {
+                $('#recipient_type_'+value).prop('checked', false); 
+            });
+        $('.recipient_type').prop('checked', false);
+        if (v == 1) {
+            hide_recipient_types = [6,7,8];
+            check_recipient_types = [1,2,4,5]
+        } else if (v == 2){ //product update
+            hide_recipient_types = [2,3,7,8];
+            check_recipient_types = [6]
+        } else if ( v == 3) {
+            hide_recipient_types = [6,7,8];
+            check_recipient_types = [3]
+        } else if (v == 4){ //training update
+            hide_recipient_types = [2,3,6,8];
+            check_recipient_types = [7]
+        }else if (v == 5){ //Webinar update
+            hide_recipient_types = [2,3,6,7];
+            check_recipient_types = [8]
+        }
+        $.each(hide_recipient_types, function( index, value ) {
+            $('#recipient_type_'+value).hide();
+            $('#recipient_type_'+value).prop('checked', false);
+        });
+        $.each(check_recipient_types, function( index, value ) {
+            $('#recipient_type_'+value).show();
+            $('#recipient_type_'+value).prop('checked', true);
+        });
+        if (v){
+            initRevolvapp(v);
+        } else {
+            $('#messageBox').hide();
+        }
+
+    }
+    (function ($) {
+        "use strict";
+        $(document.body).delegate('[type="checkbox"][readonly="readonly"]', 'click', function(e) {
+            e.preventDefault();
+        });
+    }(window.jQuery));
+
+</script>
+
+<script>
+    <?php
+        if ($edit) { 
+            $template = htmlspecialchars_decode(str_replace("'","\'",$edit[0]['message_template']));
+    ?>
+        app = Revolvapp('#revolvapp_content', {
+            plugins: ['variable', 'reorder'],
+            variable: {
+                //items: ['RECIPIENT_NAME', 'RECIPIENT_FIRST_NAME', 'RECIPIENT_LAST_NAME', 'RECIPIENT_EMAIL']
+                items: []
+            },
+            content:   '<?=  $template ?  $template : "<re-html><re-head></re-head></re-html>"; ?>',  
+            editor: {
+                path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+            },
+            toolbar: {
+                sticky: true,
+                stickyTopOffset: 75
+            },
+            image: {
+                upload: "action.php?uploadSystemMessageMedia=1",
+                url: false
+            },
+            subscribe: {
+                'image.upload.error': function(error) {
+                    swal.fire({title: 'Error!',text:error.params.response.message});
+                }
+            },
+            blocks: {
+                hidden: ['three-text','three-images','three-headings-text','three-images-text','three-images-headings-text','social']
+            }
+        });
+    <?php
+        }
+    ?>
+    function initRevolvapp(v){ 
+        $('#messageBox').show();
+        var template = {'1':'TEMPLATE_SYSTEM_MAINTENANCE','2':'TEMPLATE_PRODUCT_UPDATES','3':'TEMPLATE_INCIDENT_MANAGEMENT','4':'TEMPLATE_TRAINING_UPDATES','5':'TEMPLATE_WEBINAR_UPDATES'};
+        
+        if (typeof app != 'undefined' || app != null) {
+            $.get('./templates/'+template[v], function(textData) {
+                app.editor.setTemplate(textData);
+            }, 'text');
+            return;
+        }
+        app = Revolvapp('#revolvapp_content', {
+            plugins: ['variable', 'reorder'],
+            variable: {
+                //items: ['RECIPIENT_NAME', 'RECIPIENT_FIRST_NAME', 'RECIPIENT_LAST_NAME', 'RECIPIENT_EMAIL']
+                items: []
+            },
+            editor: {
+                path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+                template: './templates/'+template[v]
+            },
+            toolbar: {
+                sticky: true,
+                stickyTopOffset: 75
+            },
+            image: {
+                upload: "action.php?uploadSystemMessageMedia=1",
+                url: false
+            },
+            subscribe: {
+                'image.upload.error': function(error) {
+                    swal.fire({title: 'Error!',text:error.params.response.message});
+                }
+            },
+            blocks: {
+                hidden: ['three-text','three-images','three-headings-text','three-images-text','three-images-headings-text','social']
+            }
+            
+        });
+    }
+
+    function saveSystemMessage() {
+        var message_type = $('#message_type').val();
+        if (!message_type){
+            swal.fire({title: 'Error', text: "Please select a message type!"});
+            return;
+        }
+        if (!$('#subject').val()){
+            swal.fire({title: 'Error', text: "Please enter a valid subject!#"});
+            return;
+        }
+        var appEditor = Revolvapp('#revolvapp_content');
+        var html = appEditor.editor.getHtml().replace(/(\r\n|\n|\r)/gm,"");         
+        let source = appEditor.editor.getTemplate().replace(/(\r\n|\n|\r)/gm,"");
+        
+        var formData = $('form#system_message_form').serialize()+'&message_type='+message_type+'&message='+encodeURIComponent(html)+'&template='+encodeURIComponent(source);
+        $.ajax({
+            url: 'action?saveSystemMessage=1',
+            type:'POST',
+            data:formData,
+            success: function(data){
+
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title:jsonData.title,text:jsonData.message}).then(function (result) {
+                        if (jsonData.status == 1){
+                            window.location.href = "system_messages";
+                        }
+                    });
+                } catch(e) { 
+                    swal.fire({title: 'Error', text: "Unknown error."});
+                }
+            }
+        });
+
+    }
+        
+</script>

@@ -1,0 +1,47 @@
+<style>
+    #point_config .control-label {
+    text-transform: capitalize;
+}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="widget-simple-chart card-box">
+                <?php if(isset($_GET['msg'])){?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                            <?= $_GET['msg']; ?>                      
+                     </div>
+                     <?php } ?>
+				<div class="col-sm-12 divider"><h6><?= gettext("Group Lead Points Configuration
+                    ");?></h6></div>
+<form class="form-horizontal" id="point_config" method="POST" action="" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+    <?php
+    foreach (Group::SYS_GROUPLEAD_TYPES as $groupLeadTypeId => $groupLeadTypeName) {
+        $groupLeadTypes = $groupLeadPointsConfiguration[$groupLeadTypeId] ?? [];
+        if (!count($groupLeadTypes)) { continue; }
+    ?>
+        <div class="row">
+            <div class="form-group col-md-12"><strong><?= $groupLeadTypeName ?></strong></div>
+            <?php foreach ($groupLeadTypes as $leadType) { ?>
+            <div class="form-group col-md-12">
+                <label for="leadtypeid_<?= $leadType['typeid']; ?>" class="control-label col-md-5"><?= htmlspecialchars($leadType['type']); ?>: </label>
+                <input id="leadtypeid_<?= $leadType['typeid']; ?>" type="number" class="form-control col-md-1" step="any" name="<?= $leadType['typeid']; ?>" value="<?= $leadType['daily_earnings']; ?>" required>
+                <div class="col-md-6">&nbsp;</div>
+            </div>
+            <?php } ?>
+        </div>
+    <hr class="skip-custom-style">
+    <?php } ?>
+    <div class="form-group">
+        <div class="text-center">
+            <a href="points.php" class="btn btn-primary">Back</a>&nbsp;
+            <input type="submit" class="btn btn-primary" value="Update">
+        
+        </div>
+    </div>
+</form>
+
+<script>  
+   updatePageTitle('<?= addslashes($pageTitle); ?>');
+</script>

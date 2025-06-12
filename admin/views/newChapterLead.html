@@ -1,0 +1,82 @@
+<style>
+.btn-group.bootstrap-select {
+    min-width: 490px !important;
+}
+span.filter-option.pull-left {
+    max-width: 360px !important;
+    margin-left: 10px;
+}
+button.btn.dropdown-toggle.bs-placeholder.btn-default {
+    color: #333;
+    height: 45px;
+    padding-top: 0px;
+}
+.btn-default {
+    background-image: linear-gradient(#fff, #fff 60%, #fff);
+    background-repeat: no-repeat;
+    border: 1px solid #d2d6de;
+    color: #333;
+    filter: none;
+}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+				<div class="col-md-12 divider"><h6><?= $pagetitle; ?></h6></div>
+				
+				<form class="form-horizontal" method="post" action="" >
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">User <span style="color:red;">*</span></label>						
+						
+						<div class="col-lg-6">
+							<input class="form-control" autocomplete="off" value="<?= $leadid ? $edit[0]['firstname'].' '.$edit[0]['lastname']: '';?>" onkeyup="searchUsersToLeadChapter('<?=$_GET["gid"];?>','<?=$_GET["cid"];?>',this.value)" placeholder="Search user"  type="text" required <?= $leadid ? 'readonly' : '';?> >
+							<div id="show_dropdown"> </div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Role <span style="color:red;">*</span></label>
+						<div class="col-lg-6">
+							<select class="form-control" name="typeid" required>
+							<?php if (count($grouplead_type)>0){ ?>
+									<option value=''>Select a Role</option>
+							<?php	for($i=0;$i<count($grouplead_type);$i++){
+                                        $sel= '';
+                                      	if ($leadid && ($grouplead_type[$i]['typeid']==$edit[0]['grouplead_typeid']))
+										    $sel='selected';
+							?>
+										<option  value="<?=$_COMPANY->encodeId($grouplead_type[$i]['typeid'])?>" <?= $sel; ?> ><?=  htmlspecialchars($grouplead_type[$i]['type'])?></option>
+							<?php	} ?>
+                            <?php }else{ ?>
+										<option value=''>-- No roles available --</option>
+                            <?php } ?>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Role Title</label>
+						<div class="col-lg-6">
+						<input placeholder="Role Title" class="form-control" type="text" id="" value="<?= $edit ? htmlspecialchars($edit[0]['roletitle']) : ''?>" name="roletitle">
+						</div>
+					</div>
+
+					<p>&nbsp;</p>
+					<div class="form-group">
+						<label class="col-lg-2 control-label"></label>
+						<div class="col-lg-6">
+							<button type="button" onclick="goBack()" class="btn btn-primary">Cancel</button>&nbsp;
+							<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+					
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

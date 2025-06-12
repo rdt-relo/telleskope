@@ -1,0 +1,91 @@
+<re-html>
+<re-head>
+    <re-title>
+         Text
+    </re-title>
+    <re-font href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i"></re-font>
+    <re-style>
+            @media all and (max-width:639px) {.mobile-padding-small {padding-left: 20px !important;padding-right: 20px !important;}}
+    </re-style>
+</re-head>
+<re-body background-color="#f6f6f6" padding="0">
+    <re-header background-color="#ffffff" padding="30px 0 10px 0">
+        <re-block>
+            <re-block align="left" padding="5px 20px 5px 30px">
+                <re-image src="GROUP_LOGO" href="[%COMPANY_URL%]" width="125px"></re-image>
+            </re-block>
+        </re-block>
+    </re-header>
+    <re-main background-color="#ffffff" padding="40px" class="mobile-padding-small">
+        <re-block>
+            <re-heading level="h2" margin="0 0 10px 0" color="#000001">
+                Welcome!
+            </re-heading>
+            <re-text margin="0 0 20px 0">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&nbsp;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </re-text>
+            <re-spacer></re-spacer>
+            <re-grid>
+                <re-column padding="0 0 20px 0" width="33%">
+                    <re-heading level="h3" margin="0 0 5px 0" color="#000001">
+                        Headline
+                    </re-heading>
+                    <re-text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </re-text>
+                </re-column>
+                <re-column-spacer></re-column-spacer>
+                <re-column padding="0 0 20px 0" width="33%">
+                    <re-heading level="h3" margin="0 0 5px 0" color="#000001">
+                        Headline
+                    </re-heading>
+                    <re-text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </re-text>
+                </re-column>
+                <re-column-spacer></re-column-spacer>
+                <re-column padding="0 0 20px 0" width="33%">
+                    <re-heading level="h3" margin="0 0 5px 0" color="#000001">
+                                Headline
+                    </re-heading>
+                    <re-text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </re-text>
+                </re-column>
+            </re-grid>
+            <re-spacer></re-spacer>
+            <re-heading level="h2" margin="0 0 10px 0" color="#000001">
+                Hot Topic:
+            </re-heading>
+            <re-text margin="0 0 20px 0">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </re-text>
+            <re-spacer></re-spacer>
+        </re-block>
+        <re-block>
+            <re-spacer></re-spacer>
+        </re-block>
+        <re-block padding="0">
+            <re-heading level="h2" margin="0 0 10px 0" color="#000001">
+                  Headline
+            </re-heading>
+            <re-spacer></re-spacer>
+        </re-block>
+        <re-block>
+            <re-image placeholder="true"></re-image>
+        </re-block>
+    </re-main>
+    <re-footer padding="30px 20px 40px 20px" background-color="#000001" border-radius="0px">
+        <re-block align="center">
+            <re-text color="#ffffff" font-size="12px">
+                You are receiving this email because you joined <a href="[%GROUP_URL%]" style="color: rgb(0, 145, 255);">[%GROUP_NAME%]</a>. To unsubscribe, update your profile at <a href="[%COMPANY_URL%]profile" style="color: #fff;">[%COMPANY_NAME%]</a> Affinities site.
+            </re-text>
+        </re-block>
+        <re-block align="center" padding="20px 0 0 0">
+            <re-text color="#ffffff" font-size="9px">
+                Powered by Teleskope
+            </re-text>
+        </re-block>
+    </re-footer>
+</re-body>
+</re-html>

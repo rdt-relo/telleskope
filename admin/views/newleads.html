@@ -1,0 +1,168 @@
+<style>
+.btn-group.bootstrap-select {
+    min-width: 490px !important;
+}
+span.filter-option.pull-left {
+    max-width: 360px !important;
+    margin-left: 10px;
+}
+button.btn.dropdown-toggle.bs-placeholder.btn-default {
+    color: #333;
+    height: 45px;
+    padding-top: 0px;
+}
+.btn-default {
+    background-image: linear-gradient(#fff, #fff 60%, #fff);
+    background-repeat: no-repeat;
+    border: 1px solid #d2d6de;
+    color: #333;
+    filter: none;
+}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+				<?php if (!empty($error)){ ?>
+						<div id="hidemesage" class="col-md-12">
+							<div class="alert alert-dismissible alert-danger">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								<?= $error; ?>
+							</div>
+						</div>
+				<?php } ?>
+			
+				<div class="col-md-12"><h6><?= $pagetitle; ?></h6></div>
+				<div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px;"></div>
+				
+				<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<br>
+					<br>
+                    <?php if(!isset($_GET['lid'])){ ?>
+					<p>Only currently enrolled members can be assigned leader privileges. To add a new leader, search for a user from the list, and assign the desired role and privileges. If the user you wish to add is not in the search list, then the user has not yet joined the platform yet and should be invited to join before being assigned a leader role.</p>
+                    <?php } ?>
+                    <div class="form-group">
+						<label class="col-lg-2 control-label">User <span style="color: #ff0000;"> *</span></label>
+						
+						
+						<div class="col-lg-6">
+						<?php if(isset($_GET['lid'])){ ?>
+							<label class="control-label"><strong> <?= $users[0]['firstname']; ?> <?= $users[0]['lastname'];?> </strong></label>
+							<input type="hidden" name="userid" value="<?= $_COMPANY->encodeId($users[0]['userid']); ?>">
+						<?php } else { ?>
+							<input class="form-control" autocomplete="off" onkeyup="searchUsers(this.value)" placeholder="Search user"  type="text" required>
+							<div id="show_dropdown"> </div>
+						<?php } ?>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Role <span style="color: #ff0000;"> *</span></label>
+						<div class="col-lg-6">
+							<select class="form-control"  onchange="showHideSelectRegion(this.value)" name="typeid" id="typeid" required>
+							<?php if (count($grouplead_type)>0){ ?>
+									<option value=''>Select a Role</option>
+							<?php	for($i=0;$i<count($grouplead_type);$i++){
+                                        $sel= '';
+                                        if ($grouplead_type[$i]['sys_leadtype'] === '4')
+                                            continue; // Skip Chapter Leads
+										if (isset($_GET['lid']) && ($grouplead_type[$i]['typeid']==$edit[0]['grouplead_typeid']))
+										    $sel='selected';
+							?>
+										<option  value="<?=$_COMPANY->encodeId($grouplead_type[$i]['typeid'])?>" <?= $sel; ?> ><?=  htmlspecialchars($grouplead_type[$i]['type'])?></option>
+							<?php	} ?>
+                            <?php }else{ ?>
+										<option value=''>-- No roles available --</option>
+                            <?php } ?>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Role Title </label>
+						<div class="col-lg-6">
+						<input placeholder="Role Title" class="form-control" type="text" id="" value="<?= $edit ? htmlspecialchars($edit[0]['roletitle']) : '' ?>" name="roletitle">
+						</div>
+					</div>
+					
+					<div class="form-group" style="display:<?= isset($_GET['lid']) && $checkLeadType == 3 ? '' : 'none'; ?>" id="select_region">
+						<label class="col-lg-2 control-label">Region</label>
+						<div class="col-lg-6">
+							<select class="form-control" name="regionids[]" multiple id="sel1">
+						<?php if (count($region)>0){ ?>
+							<?php for($i=0;$i<count($region);$i++){ ?>
+						<?php	if(isset($_GET['lid'])){
+									if(in_array($region[$i]['regionid'],explode(',',$edit[0]['regionids']))){
+										$sel = "selected";
+									}else{
+										$sel = "";
+									}
+								}else{ 
+									$sel = "";
+								} ?>
+								<option value="<?=$_COMPANY->encodeId($region[$i]['regionid'])?>" <?= $sel; ?>><?=$region[$i]['region'] ?></option>
+								
+						<?php	} ?>
+						<?php }else{ ?>
+								<option value="0">No Region</option>
+						
+						<?php } ?>
+							</select>
+							<a href="#" onclick="clearSelected();">Clear</a>
+						</div>
+					</div>
+
+					<p>&nbsp;</p>
+					<div class="form-group">
+						<label class="col-lg-2 control-label"></label>
+						<div class="col-lg-6">
+							<a href="manageleads?gid=<?=$_COMPANY->encodeId($group->id())?>" class="btn btn-primary">Cancel</a>&nbsp;
+				<?php if (isset($_GET['lid'])){ ?>
+							<button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+				<?php } ?>
+							<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+					
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+		
+<script>
+function clearSelected(){
+	var elements = document.getElementById("sel1").options;
+
+	for(var i = 0; i < elements.length; i++){
+	  elements[i].selected = false;
+	}
+}
+
+function showHideSelectRegion(v){
+	$("#typeid option:first").attr("disabled", "true");
+    if ('' == v) {
+        return false;
+    }
+
+	$.ajax({
+		url: 'ajax.php?checkGroupleadType='+v,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		cache: false,
+        success : function(data) {
+			if (data == 3){
+				$("#select_region").show();
+			} else{
+				$('select#sel1 option').removeAttr("selected")
+				$("#select_region").hide();
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

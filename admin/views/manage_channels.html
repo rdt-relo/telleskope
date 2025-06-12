@@ -1,0 +1,138 @@
+<style>
+	.modal-max-height {
+	min-height: 100px;
+}
+.modal-max-height {
+    max-height:450px;
+    overflow-y:scroll;
+}
+#table-event .dt-type-numeric{
+	text-align: left;
+}
+</style>
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">
+				<!--div class="col-md-12 latest"><h6>Manage Survey</h6></div-->
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+					<a aria-label="Add new <?= $_COMPANY->getAppCustomization()['channel']["name-short"]?>" class="add-plus-circle-icon" href="newChannel?gid=<?= $_GET['gid'];?>"  >
+						<i  class="fa fa-plus-circle fa-lg ml-2" title="Add new <?= $_COMPANY->getAppCustomization()['channel']["name-short"]?>" aria-hidden="true"></i>
+					</a>
+				</div>
+				<div class="clearfix"></div>
+			<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= UPDATED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?=  $_SESSION['add-msg']; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ERROR; ?>
+					</div>
+			<?php } ?>
+						
+		<div class="table-responsive " id="list-view">
+			<table id="table-event" class="table table-hover action-btns display compact" summary="This table display the list of <?= $_COMPANY->getAppCustomization()['channel']["name-short"]?>">
+				<thead>
+					<tr>						
+						<th width="5%" scope="col">#</th>
+						<th width="30%" scope="col"><?= $_COMPANY->getAppCustomization()['channel']["name-short"]?> Name</th>
+						<th width="20%" scope="col">Created By</th>
+						<th width="15%" scope="col">Colour</th>
+						<th width="15%" scope="col">Manage Leaders</th>
+						<th width="15%" scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if ($channels) {
+						foreach ($channels as $channel){
+							if(!isset($counter)) $counter=0;
+							$counter++;
+							$encodedChannelId = $_COMPANY->encodeId($channel['channelid']);
+							if($channel['isactive']==1){$color="#ffffff";}
+							else{$color="#ffffce";}
+				?>
+					<tr id="<?=$counter;?>" style="background-color: <?= $color; ?>">
+						<td><?php echo $counter; ?></td>
+						<td>
+							<?= htmlspecialchars($channel['channelname']) ?>
+						</td>
+						<td>
+							<?= trim($channel['firstname'].' '.$channel['lastname']); ?>
+						</td>
+						<td><span style="background-color: <?php echo $channel['colour']; ?>;width: 30px;height: 30px; display: block;"></span></td>
+						
+						<td>
+							<a class="btn btn-info btn-sm" href="manageChannelLeads?gid=<?=$_GET['gid']?>&cid=<?=$encodedChannelId;?>">Manage Leaders</a>
+						</td>
+						<td width="15%">
+                            <a style="margin-right: 10px;" class="" href="newChannel?gid=<?=$_GET['gid']?>&cid=<?=$encodedChannelId;?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+
+                            <?php if ($_COMPANY->getAppCustomization()['integrations']['group']['enabled']) { ?>
+                            <a  style="margin-right: 10px;" aria-label="Integration" class="" href="integration?gid=<?=$_GET['gid']?>&chid=<?=$encodedChannelId;?>"><i title="Integration" class='fas fa-sign-out-alt' style='font-size:16px'></i></a>&nbsp;
+                            <?php } ?>
+
+							<?php if($channel['isactive']==1){		?>
+							<button aria-label="Deactivate" class="deluser btn btn-no-style" onclick="changeGroupChannelStatus('<?=$_GET['gid']?>','<?=$encodedChannelId;?>',0,this)" title="<strong>Are you sure to Deactivate!</strong>"><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i></button>
+							<?php	} else {		?>
+                            <button aria-label="Activate" class="deluser btn btn-no-style" onclick="changeGroupChannelStatus('<?=$_GET['gid']?>','<?=$encodedChannelId;?>',1,this)" title="<strong>Are you sure to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>
+
+                            <button aria-label="Delete" class="btn btn-no-style" onclick="initChannelPermanentDeleteConfirmation('<?=$_GET['gid']?>','<?=$encodedChannelId;?>')" ><i class="fa fa-trash fa-l" title="Delete" ></i></button>
+                            <?php	}   ?>
+						
+						</td>
+					</tr>
+
+				<?php
+						}
+					}
+				?>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		<div align="center">
+			<a href="group" class="btn btn-primary">Back</a>
+		</div>
+	</div>								
+</div>
+</div>
+</div>
+</div>
+ 
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#table-event').DataTable( {
+			"order": [],
+			"bPaginate": true,
+			"bInfo" : false,
+			"pageLength": 200, // Set the number of entries per page to 200
+            "lengthChange": false, // Hide the entries per page dropdown  
+			"columnDefs": [
+			{ targets: [2,3,4,5], orderable: false }
+		],		
+		language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+        },			
+		});
+	});
+</script>
+<style>
+i {
+    display: inline-block;
+    cursor: pointer;
+    height: 16px;
+    vertical-align: text-top;
+    width: 16px;
+}
+</style>

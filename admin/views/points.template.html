@@ -1,0 +1,83 @@
+
+<div class="col-md-12">
+    <div class="widget-simple-chart card-box-one fixhight">
+    <div class="table-responsive">
+        <table id="points_table" class="table table-hover display compact" style="width:100%;table-layout: fixed;" summary="This table display the list of event expenses">
+            <thead>
+                <tr>
+                    <th width="15%" scope="col">Programs</th>                  
+                    <th width="10%" scope="col">Start Date</th>
+                    <th width="10%" scope="col">End Date</th>
+                    <th width="10%" scope="col">Points Total</th>
+                    <th width="10%" scope="col">Points Spent</th>
+                    <th width="10%" scope="col">Points Remaining</th>
+                    <th width="10%" scope="col">Member Points Configuration</th>
+                    <th width="10%" scope="col">Group Leader Points Configuration</th>
+                    <th width="10%" scope="col">Action</th>
+                    
+                    </tr>
+            </thead>
+            <tbody>
+            <?php 
+                foreach ($programs as $program) {
+                    $program = PointsProgram::Hydrate($program['points_program_id'], $program);
+                    ?>
+                    <tr
+                      style="
+                        <?= $program->isInactive() ? 'background-color: #fde1e1;' : '' ?>
+                        <?= $program->isDraft() ? 'background-color: #ffffce;' : '' ?>
+                      "
+                    >
+                    <?php
+                    echo '<td>'.
+                        '<img src="'.$program->val('points_image_url').'" style="height:1.2em;margin:auto 5px; padding:0 0 .1em 0;">' .
+                        $program->val('title').
+                        '</td>';
+                    echo '<td>'. $program->val('start_date').'</td>';
+                    echo '<td>'. $program->val('end_date').'</td>';?>
+                    <td><?= $_USER->formatAmountForDisplay($program->val('points_total')) ?></td>
+                    <?php $total_points_credited = $program->getTotalPointsCredited(); ?>
+                    <td><?= $_USER->formatAmountForDisplay($total_points_credited) ?></td>
+                    <td><?= $_USER->formatAmountForDisplay($program->val('points_total') - $total_points_credited) ?></td>
+                    <td>
+                        <a aria-label="<?= gettext('member points configuration');?>" class="pull-right mr-1" href="member_points_configuration?points_program_id=<?= $program->encodedId();?>"><i class="fa fa-cog" style="margin-right: 70px;" title="Configuration"></i></a> </td>
+                    <td>  
+                        <a aria-label="<?= gettext('group lead points configuration');?>" class="pull-right mr-1" href="group_lead_points_configuration?points_program_id=<?= $program->encodedId();?>"><i class="fa fa-cog" style="margin-right: 70px;" title="Configuration"></i></a> </td>
+
+         <td> <a aria-label="<?= gettext('Edit');?>" href="edit_points_program?points_program_id=<?= $program->encodedId();?>"><i class="fa fa-edit" title="Edit"></i>
+                    </a> &nbsp;&nbsp;
+
+                    <button
+                      class="btn btn-no-style js-pop-confirm"
+
+                      <?php if ($program->isActive()) { ?>
+                        <?php
+                          $updated_points_program_status = PointsProgram::STATUS_INACTIVE;
+                          $icon_class = 'fa-lock';
+                          $icon_title = gettext('Deactivate');
+                        ?>
+                        title="<?= gettext('Are you sure you want to Deactivate!') ?>"
+                      <?php } else { ?>
+                        <?php
+                          $updated_points_program_status = PointsProgram::STATUS_ACTIVE;
+                          $icon_class = 'fa-unlock-alt';
+                          $icon_title = gettext('Activate');
+                        ?>
+                        title="<?= gettext('Are you sure you want to Activate!') ?>"
+                      <?php } ?>
+                      aria-label="<?= $icon_title ?>"
+                      onclick="changePointsProgramStatus('<?= $program->encodedId() ?>', <?= $updated_points_program_status ?>)"
+                    >
+                      <i class="fa <?= $icon_class ?>" aria-hidden="true" title="<?= $icon_title ?>"></i>
+                    </button>
+
+                    <a aria-label="<?= gettext('delete');?>" class="deluser" onclick="" title="" data-original-title="<strong>Are you sure to delete?</strong>">
+                       </a></td>              
+                  <?php  echo '</tr>';
+                }              
+            ?>               
+            </tbody>
+        </table>
+    </div>	
+</div>
+</div>

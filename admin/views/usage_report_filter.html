@@ -1,0 +1,119 @@
+<style>
+	.btn-no-style2 {background: none; border: 1px solid #ced4da; padding: 0.7em 1em; text-align: left; border-radius: 0;}
+	.group_category_box .btn-group{width: 100%;}
+	.group_category_box .dropdown-menu>.active>a{ background-color: transparent; color: #000;}
+    #group_category_box label { padding-left: 10px;}
+</style>
+<div class="row">
+    <div class="col-md-12" >
+        <div class="col-md-4">
+            <input type="hidden" id="section" value="<?=$_COMPANY->encodeId(2)?>">
+        </div>
+        
+        <div class="col-md-4">&nbsp;</div>
+
+        <div class="col-md-4">
+            <select id="year_filter" class="form-control" onchange="filterData()">
+                <?php for($i=(date("Y")-date("Y",strtotime($_COMPANY->val('createdon'))));$i>=0;$i--){
+                    $sel = "";
+                    if ((date('Y')-$i) == $year){
+                        $sel = "selected";
+                    }
+                    ?>
+                <option value="<?= date('Y')-$i; ?>" <?= $sel; ?> >Year <?= (date('Y')-$i)?></option>
+                <?php } ?>
+            </select>
+        </div>
+        
+    </div>
+    <div class="col-md-12" style="margin-bottom:10px; margin-top:10px;"></div>
+    <div class="col-md-12">
+        <div class="col-md-4 group_category_box" id="group_category_box">
+            <?php if (count($groupCategoryRows)) { ?>
+            <select class="form-control" id="group_category" onchange="filterData()" multiple>
+                <?php foreach ($groupCategoryRows as $groupCategoryRow) { 
+                    $isSelected = in_array($groupCategoryRow['categoryid'], $group_category_id) ? 'selected' : '';
+                    ?>
+                    <option value="<?= $groupCategoryRow['categoryid']; ?>" <?= $isSelected ?> ><?= $groupCategoryRow['category_name']; ?></option>
+            <?php  } ?>
+            </select>
+            
+        </div>
+
+        <div class="col-md-4">
+            <select class="form-control" id="groupdata" onchange="filterData()"  >
+                <option value="<?=$_COMPANY->encodeId(0)?>" <?= 0 == $groupid ? 'selected' : ''; ?> >All <?=$_COMPANY->getAppCustomization()['group']["name-short-plural"]; ?></option>
+                <?php foreach ($groups as $group) { ?>
+                <option value="<?=$_COMPANY->encodeId($group['groupid'])?>" <?= $group['groupid']== $groupid ? 'selected' : ''; ?> ><?=$group['groupname_short']?></option>
+                <?php  } ?>
+            </select>
+        </div>
+       
+        <div class="col-md-4">
+            <select class="form-control" id="department" onchange="filterData()"  >
+                <option value="<?=$_COMPANY->encodeId(0)?>" <?= 0 == $departmentid ? 'selected' : ''; ?> >All Departments</option>
+                <?php foreach ($departments as $department) { ?>
+                <option value="<?=$_COMPANY->encodeId($department['departmentid'])?>" <?= $department['departmentid']== $departmentid ? 'selected' : ''; ?> ><?=$department['department']?></option>
+                <?php  } ?>
+            </select>
+        </div>
+       
+    </div>
+    <?php } ?>
+   
+ </div>
+ <script>
+    	$("#group_category").multiselect({
+        nonSelectedText: "<?= gettext('Select a Category') ?>",
+        numberDisplayed: 1,
+        nSelectedText: "<?= gettext('Categories selected')?>",
+        disableIfEmpty: true,
+        allSelectedText: "<?= gettext('All Categories selected')?>",
+        selectAllText: '<?= gettext("Select All");?>',
+        includeSelectAllOption: true,
+        includeSelectAllIfMoreThan: 1,
+        enableFiltering: false,
+        enableCaseInsensitiveFiltering: false,
+		buttonClass: 'btn btn-no-style2',
+    });
+
+
+    function filterData(){
+        var categoryFilter = $("#group_category").val();
+        var yearFilter = $("#year_filter").val();
+        var g = $("#groupdata").val();
+        var s = $("#section").val();
+        var d = $("#department").val();
+        //parms ='&filter='+categoryFilter+'&groupid='+g+'&departmentid='+d;
+        $.ajax({
+			url: 'ajax.php?eventsRSVPReport',
+			type: "GET",
+			data: {d:yearFilter,filter:categoryFilter,groupid:g,departmentid:d,section:s},
+			success : function(data) {
+                $('#group_category').multiselect('destroy');
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					keyboard: false,
+					backdrop: false
+				});
+                $('#group_category').multiselect({
+					nonSelectedText: "<?= gettext('Select a Category') ?>",
+					numberDisplayed: 1,
+					nSelectedText: "<?= gettext('Categories selected')?>",
+					disableIfEmpty: true,
+					allSelectedText: "<?= gettext('All Categories selected')?>",
+					selectAllText: '<?= gettext("Select All");?>',
+                    includeSelectAllOption: true,
+                    maxHeight: 400,
+                    selectAllValue: 'multiselect-all'
+                });
+			}
+		});
+    }
+
+    function changeSection(){
+        var s = $("#section").val();
+        window.location.href = 'usage_reports?section='+s;
+    }
+    retainFocus('#theGraphModal');
+ </script>

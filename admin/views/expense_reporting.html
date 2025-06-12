@@ -1,0 +1,405 @@
+<script>
+<?php if(count($groups)){ ?>
+	var	colors = [	
+		<?php 	for($gc=0;$gc<count($groups);$gc++){ ?>
+					'<?= $groups[$gc]['overlaycolor'];?>',
+		<?php	} ?>'#636262'
+		]
+			
+<?php } ?>
+
+</script>
+
+<style>
+	.fa-ellipsis-v:after {
+		display: none;
+	}
+</style>
+<div tabindex="-1" id="theGraphModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">  
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="rsvp_report_title"><?= gettext("Quick View Expense Report");?>  <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?= gettext('All the numbers below are in real time, and any real time changes will take place immediately in this report.'); ?>"></i></h4>
+                        <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">			
+<div class="container">
+	<div class="row">  
+	<?php if(!empty($budgetYears)){ ?>            
+		<div class="col-md-12">
+		<div class="widget-simple-chart card-box">
+			<div class="col-md-6"><h6><?= $pagetitle; ?></h6></div>
+				<div class="col-md-6">
+					<div class="col-md-6 pull-right">
+                        <?php if (count($groupCategoryRows)) { ?>
+						<select class="form-control col-md-12" id="group_category" onchange="filterBudgetData()"  >
+						    <?php foreach ($groupCategoryRows as $groupCategoryRow) { ?>
+								<option value="<?= $groupCategoryRow['categoryid']; ?>" <?= $group_category_id == $groupCategoryRow['categoryid'] ? 'selected' : ''; ?> ><?= $groupCategoryRow['category_name']; ?></option>
+						    <?php  } ?>
+						</select>
+                        <?php } else { ?>
+                            &nbsp;
+                        <?php } ?>
+					</div>
+					<div class="pull-right col-md-6 ">
+						<select id="year_filter" class="form-control" onchange="filterBudgetDataByYear()">
+					<?php 
+						$d = date("Y-m-d",strtotime($_COMPANY->val('createdon')));
+						foreach($budgetYears as $budgetYear){
+							$sel = "";
+							if ($yearId == $budgetYear['budget_year_id'] ){
+								$sel = "selected";
+							} ?>
+							<option value="<?= $_COMPANY->encodeId($budgetYear['budget_year_id']); ?>" <?= $sel; ?> ><?= htmlspecialchars($budgetYear['budget_year_title']) ?></option>
+				<?php 	}  ?>
+						</select> 
+					</div>
+				</div>	
+
+		<div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+		<div class="clearfix"></div>
+	<div>
+  
+<div class="tab-content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="spentExpenseTotal" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+		<?php if(count($groups)>0){ ?>
+				<canvas id="expenseGraph1" ></canvas>
+				<script>
+                        var labVal = [];
+                        var spent = [];
+                        <?php foreach ($groups as $g) { ?>
+                        labVal.push("<?= addslashes(htmlspecialchars_decode($g['groupname_short'])); ?>");
+                        spent.push(<?= $g['totalExpenses']; ?>);
+                        <?php	} ?>
+                        var data = {
+                            labels: labVal,
+                            datasets: [
+                                {
+                                    label: "Expense",
+                                    backgroundColor: "#ff9800",
+                                    data: spent
+                                }
+                            ]
+                        };
+                        var options = {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: ['Expense by <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            maintainAspectRatio:false,
+                        };
+
+                        var ctx = document.getElementById("expenseGraph1").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: data,
+                            options: options
+                        });
+
+						// EXPORT CSV
+						var spentExpenseTotalLevel = JSON.parse(JSON.stringify(labVal));
+						var spentData = JSON.parse(JSON.stringify(spent));
+						$('#spentExpenseTotal').on( "click", function() {
+							var finalData = [];
+							spentExpenseTotalLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+							spentData.unshift('Spent');
+							finalData[0] = convertArraytoObject(spentData);
+							exportCSVFile(spentExpenseTotalLevel,finalData,'Expense by <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+						});
+                    </script>
+		<?php 	} else {?>
+				<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data in Expenses by <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> </div>
+		<?php	} ?>				
+			</div>
+		</div>
+	
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="expenseByEventType" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+			<?php if (count($eventTypes)>0){ ?>
+
+				<canvas id="expenseGraph2" style="width:100%; height: 350px; margin: 0 auto"></canvas>
+				<script>
+                        var labVal = [];
+                        var spent = [];
+                        <?php foreach ($eventTypes as $eType) { ?>
+                        labVal.push("<?= addslashes(htmlspecialchars_decode($eType['eventtype'])); ?>");
+                        spent.push(<?= $eType['total_used_amount']; ?>);
+                        <?php	} ?>
+                        var data = {
+                            labels: labVal,
+                            datasets: [
+                                {
+                                    label: "Expense",
+                                    backgroundColor: "#ff9800",
+                                    data: spent
+                                }
+                            ]
+                        };
+                        var options = {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: ['Expense by Event Type','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            maintainAspectRatio:false,
+                        };
+
+                        var ctx = document.getElementById("expenseGraph2").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: data,
+                            options: options
+                        });
+
+						// EXPORT CSV
+						var spentEventTypeTotalLevel = JSON.parse(JSON.stringify(labVal));
+						var spentEventTypeData = JSON.parse(JSON.stringify(spent));
+						$('#expenseByEventType').on( "click", function() {
+							var finalData = [];
+							spentEventTypeTotalLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+							spentEventTypeData.unshift('Spent');
+							finalData[0] = convertArraytoObject(spentEventTypeData);
+							exportCSVFile(spentEventTypeTotalLevel,finalData,'Expense by Event Type');
+						});
+                    </script>
+
+			<?php } else {?>
+				<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data in Expenses by Event Type</div>
+			<?php } ?>
+				
+			</div>
+		</div>
+
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="expenseByExpenseType" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+                <?php if (count($aggregatedExpenseTypes)>0){ ?>
+                    <canvas id="expenseGraph3"></canvas>
+					<script>
+                        var labVal = [];
+                        var spent = [];
+                        <?php foreach ($aggregatedExpenseTypes as $expenseType) { ?>
+                        labVal.push("<?= addslashes(htmlspecialchars_decode($expenseType['type'])); ?>");
+                        spent.push(<?= $expenseType['item_used_amount']; ?>);
+                        <?php	} ?>
+                        var data = {
+                            labels: labVal,
+                            datasets: [
+                                {
+                                    label: "Expense",
+                                    backgroundColor: "#ff9800",
+                                    data: spent
+                                }
+                            ]
+                        };
+                        var options = {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: ['Expense by Expense Type','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            maintainAspectRatio:false,
+                        };
+
+                        var ctx = document.getElementById("expenseGraph3").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: data,
+                            options: options
+                        });
+
+						// EXPORT CSV
+						var spentExpenseTypeTotalLevel = JSON.parse(JSON.stringify(labVal));
+						var spentExpenseTypeData = JSON.parse(JSON.stringify(spent));
+						$('#expenseByExpenseType').on( "click", function() {
+							var finalData = [];
+							spentExpenseTypeTotalLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+							spentExpenseTypeData.unshift('Spent');
+							finalData[0] = convertArraytoObject(spentExpenseTypeData);
+							exportCSVFile(spentExpenseTypeTotalLevel,finalData,'Expense by Expense Type');
+						});
+                    </script>
+                    
+                <?php } else {?>
+                    <div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data in Expenses by Expense Type</div>
+                <?php } ?>
+
+            </div>
+        </div>
+
+		<div class="col-md-12">
+            <div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+				<div class="dropdown pull-right">
+					<i aria-label="dropdown button" tabindex="0" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a id="expensesByMonth" href="javascript:void(0)" >Export to CSV</a></li>
+					</ul>
+				</div>
+                <?php if (count($monthlyExpenses)>0){ ?>
+                    <canvas id="expenseGraph4"></canvas>
+					<script>
+                        
+                       
+                        var spentMonths = [];
+                        var labVal = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        <?php for($i = 1;$i < 13;$i++) { ?>
+                                    spentMonths.push(<?= Arr::SearchColumnReturnColumnVal($monthlyExpenses, $i, 'month', 'total_used_amount') ?: 0; ?>);
+                            <?php } ?>
+
+                        var data = {
+                            labels: labVal,
+                            datasets: [
+                                {
+                                    label: "Expense",
+                                    backgroundColor: "#ff9800",
+                                    data: spentMonths
+                                }
+                            ]
+                        };
+                        var options = {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: ['Expense by Month','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            maintainAspectRatio:false,
+                        };
+
+                        var ctx = document.getElementById("expenseGraph4").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: data,
+                            options: options
+                        });
+
+						// EXPORT CSV
+						var spentExpenseTotalByMonthLevel = JSON.parse(JSON.stringify(labVal));
+						var spentMonthlyData = JSON.parse(JSON.stringify(spentMonths));
+						$('#expensesByMonth').on( "click", function() {
+							var finalData = [];
+							spentExpenseTotalByMonthLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+							spentMonthlyData.unshift('Spent');
+							finalData[0] = convertArraytoObject(spentMonthlyData);
+							exportCSVFile(spentExpenseTotalByMonthLevel,finalData,'Expense by Month');
+						});
+                    </script>
+                    
+                <?php } else {?>
+                    <div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data in expense by month</div>
+                <?php } ?>
+
+            </div>
+        </div>
+
+	</div>	
+</div>
+</div>
+</div>
+		</div>
+	<?php } else { ?>
+		<script>
+			swal.fire({title: 'Error',text:"No budget year found. Please configure budget year from Budget page first.", confirmButtonText: "Go to Budget Page",}).then(function(result) {
+				window.location.href="budget";
+			});	
+	</script>
+	<?php } ?>
+	</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+	function filterBudgetData(){
+		var yearFilter = $("#year_filter").val();
+		var categoryFilter = $("#group_category").val();
+		$.ajax({
+		url: 'ajax.php?expenseGraphReportModal',
+		type: "GET",
+		data: {filter:categoryFilter,yearFilter:yearFilter},
+			success : function(data) {
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					backdrop: false,
+					keyboard: false
+				});
+			}
+		});
+	}
+
+	function filterBudgetDataByYear(){
+		var yearFilter = $("#year_filter").val();
+		var categoryFilter = $("#group_category").val();
+		$.ajax({
+		url: 'ajax.php?expenseGraphReportModal',
+		type: "GET",
+		data: {filter:categoryFilter,yearFilter:yearFilter},
+			success : function(data) {
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					backdrop: false,
+					keyboard: false
+				});
+			}
+		});
+	}
+</script> 
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+	$('.dropdown-toggle').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+    
+    $('#theGraphModal').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})
+
+	retainFocus('#theGraphModal');
+</script>
+</body>
+
+</html>

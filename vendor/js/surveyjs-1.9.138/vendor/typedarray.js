@@ -1,0 +1,1 @@
+Moved Permanently. Redirecting to https://cdn.jsdelivr.net/gh/inexorabletash/polyfill@master/typedarray.js

@@ -1,0 +1,108 @@
+
+<div class="container-offset-lr mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-3 mb-5">
+
+                <?php if (isset($_GET['msg'])): ?>
+                    <div id="hidemesage" class="mb-3">
+                        <?php if (base64_decode($_GET['msg']) == 5): ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?= "<font color='#ff0000'>" . getmsg(base64_decode($_GET['msg'])) . "</font>"; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                <?= getmsg(base64_decode($_GET['msg'])); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="mb-0">Manage Users</h1>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="table" class="table table-bordered table-hover display compact w-100">
+                        <thead>
+                            <tr>
+                                <th width="30%">Employee Name</th>
+                                <th width="15%">Picture</th>
+                                <th width="15%">Position</th>
+                                <th width="10%">Role</th>
+                                <th width="10%">Masquerade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (count($rows) > 0): ?>
+                                <?php foreach ($rows as $i => $row): ?>
+                                    <tr id="<?= $i + 1; ?>">
+                                        <td>
+                                            <b><?= trim($row['firstname'] . " " . $row['lastname']); ?></b><br>
+                                            <small><?= trim($row['email']); ?></small>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                if ($row['firstname'] == "") {
+                                                    $name = $row['email'];
+                                                    $picdata = substr($row['email'], 0, 2);
+                                                } else {
+                                                    if (empty($row['picture'])) {
+                                                        $picdata = substr($row['firstname'], 0, 1) . substr($row['lastname'], 0, 1);
+                                                    } else {
+                                                        $picdata = $row['picture'];
+                                                    }
+                                                    $name = trim($row['firstname'] . " " . $row['lastname']);
+                                                }
+                                            ?>
+                                            <?php if (empty($row['picture'])): ?>
+                                                <img data-name="<?= $picdata; ?>" class="initial" />
+                                            <?php else: ?>
+                                                <img src="<?= $picdata; ?>" class="img-thumbnail" style="height:50px;width:50px;">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?= $row['jobtitle']; ?></td>
+                                        <td><span class="text-success"><?= $row['admin_label']; ?></span></td>
+                                        <td>
+                                            <?php if (Auth::HasPermission(Permission::MasqAdmin) && $row['accounttype'] != '1'): ?>
+                                                <a href="masq_admin_login?id=<?= $row['enc_admin_userid']; ?>" class="text-primary text-decoration-none" target="_blank">Admin</a><br>
+                                            <?php endif; ?>
+                                            <?php if (Auth::HasPermission(Permission::MasqAffinity)): ?>
+                                                <a href="masq_affinity_login?id=<?= $row['enc_affinity_userid']; ?>" class="text-primary text-decoration-none" target="_blank">Affinities</a><br>
+                                            <?php endif; ?>
+                                            <?php if (Auth::HasPermission(Permission::MasqOfficeraven)): ?>
+                                                <a href="masq_officeraven_login?id=<?= $row['enc_officeraven_userid']; ?>" class="text-primary text-decoration-none" target="_blank">Officeraven</a><br>
+                                            <?php endif; ?>
+                                            <?php if (Auth::HasPermission(Permission::MasqTalentpeak)): ?>
+                                                <a href="masq_talentpeak_login?id=<?= $row['enc_talentpeak_userid']; ?>" class="text-primary text-decoration-none" target="_blank">Talentpeak</a><br>
+                                            <?php endif; ?>
+                                            <?php if (Auth::HasPermission(Permission::MasqPeoplehero)): ?>
+                                                <a href="masq_peoplehero_login?id=<?= $row['enc_peoplehero_userid']; ?>" class="text-primary text-decoration-none" target="_blank">Peoplehero</a><br>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#table').DataTable({
+        "order": [],
+        "bPaginate": true,
+        "bInfo": false
+    });
+});
+</script>
+<script>
+$("#sidebar-wrapper ul li:nth-child(3)").addClass("myactive");
+</script>

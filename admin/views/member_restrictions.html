@@ -1,0 +1,115 @@
+<style>
+.card-box h6 {
+    font-size: 14px;
+}
+.form-group-emphasis {
+    background: #eeeeee55;
+    border-radius: 3px;
+    padding: 0 0 10px 0;
+    width: 100%;
+    margin-bottom: 25px;
+}
+</style>
+<div class="container  col-md-offset-2 margin-top">
+    <div class="row">	  
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box ">
+                <div class="col-md-12 divider">
+                    <h4><?= $pagetitle; ?>&nbsp;</h4>
+                    <h6><?= $subheading; ?>&nbsp;</h6>
+                </div>
+                
+                <div class="clearfix"></div>                       
+                
+                <div class="container">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <!-- restrictions UI -->
+                        <div class="col-12 form-group-emphasis pt-3">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                <?php foreach($catalog_categories as $category){ ?>
+                                    <div class="form-group">
+                                        <label for="<?= trim($category); ?>" class="col-lg-2 control-label"><?= $category; ?></label>
+                                        <div class="col-lg-5">
+                                            <select class="form-control" name="<?= $category; ?>" id="<?= trim($category); ?>" onchange="showHideCategoryKeys(this.value,'<?= $category; ?>')">
+                                                <option value="0">Ignore</option>
+                                                <option value="1" <?= !empty($editRestrictions[$category]) && $editRestrictions[$category]['type'] == 1 ? 'selected' : ''; ?> >In</option>
+                                                <option value="2" <?= !empty($editRestrictions[$category]) && $editRestrictions[$category]['type'] == 2 ? 'selected' : ''; ?>>Not In</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <select class="form-control multi_select" name="<?= $category; ?>_val[]" id="<?= $category;?>_val" multiple="multiple" style="width:100%;" >
+                                                <option value="">Select a value</option>
+                                                <?php foreach(UserCatalog::GetAllCategoryKeys($category) as $key){ 
+                                                    $sel = '';
+                                                    if (!empty($editRestrictions[$category]) && in_array($key,$editRestrictions[$category]['keys'])){
+                                                        $sel = 'selected';
+                                                    }
+                                                ?>
+                                                <option value="<?= $key ;?>" <?= $sel; ?>><?= $key ;?></option>
+                                            <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                  <div class="form-group py-3" style="background: lightyellow !important;">
+                                    <label class="col-lg-2 control-label">
+                                      <?= gettext('Run for existing group members?') ?> &nbsp;&nbsp;
+                                    </label>
+                                    <div class="col-lg-10">
+                                    <input type="checkbox" name="process_existing_groupmembers">
+                                    <span class="text-muted skip-custom-style" style="color: red !important;">
+                                      <?= gettext('Caution: If checked, all existing group members who do not meet the updated restrictions would be removed from the group.') ?>
+                                    </span>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div style="margin: 0 auto; text-align: center;">
+                            <a href="group" class="btn btn-primary">Back</a>
+                            <input type="submit" class="btn btn-primary" name="submit" value="Apply Restrictions">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+	$('#restrictions_list').DataTable( {
+		"order": [],
+		"bPaginate": true,
+		"bInfo" : false,
+		"columnDefs": [
+			{ targets: [3], orderable: false, defaultContent: "-",                      
+                targets: "_all" }
+		],
+
+	} );
+
+    setTimeout(() => {
+                $('.multi_select').select2(
+                    {
+                        placeholder: "<?= gettext('Select or search options'); ?>",
+                        maximumSelectionLength: 100
+                    }
+                );
+            },200);
+});
+
+function showHideCategoryKeys(v,c){
+    if (v){
+        $('#'+c+'_div').show();
+    }else{
+        $('#'+c+'_div').hide();
+    }
+}
+
+</script>                

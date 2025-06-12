@@ -1,0 +1,286 @@
+ <div class="container-offset-lr mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card p-4 mb-5">
+                    <div class="border-bottom mb-4">
+                        <h4 ><?= $pageTitle; ?></h4>
+                    </div>
+                    <div>
+                        <form class="row g-3" id="emailSetting" action="" method="post">
+
+                            <div class="col-12">
+                                <label class="form-label">Action<span class="text-danger">*</span></label>
+                                <select name="Action" id="Action" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <option value="user-data-sync" <?= $edit && $edit['Action'] == 'user-data-sync' ? 'selected' : ''; ?>>User Data Sync</option>
+                                    <option value="user-data-delete" <?= $edit && $edit['Action'] == 'user-data-delete' ? 'selected' : ''; ?>>User Data Delete</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Local File Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="LocalFilename" value="<?= $edit ? $edit['LocalFilename'] : ''; ?>" placeholder="Filename as stored on S3" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">File Format<span class="text-danger">*</span></label>
+                                <select name="FileFormat" id="FileFormat" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <option value="1" <?= $edit && $edit['FileFormat'] == '1' ? 'selected' : ''; ?>>CSV</option>
+                                    <option value="2" <?= $edit && $edit['FileFormat'] == '2' ? 'selected' : ''; ?>>TSV</option>
+                                    <option value="4" <?= $edit && $edit['FileFormat'] == '4' ? 'selected' : ''; ?>>JSON</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">JSON Path</label>
+                                <input type="text" class="form-control" name="JSON_Path" value="<?= $edit ? $edit['JSON_Path'] : ''; ?>" placeholder="If file is JSON type, else leave empty">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Delete Missing Entries After Days<span class="text-danger">*</span></label>
+                                <input type="number" min="0" class="form-control" name="DeleteMissingEntries" value="<?= $edit ? $edit['DeleteMissingEntries']??0 : ''; ?>" placeholder="Delete after days, 0 = never" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Is file in zip format?</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Zip" id="zipTrue" value="1" <?= $edit ? ($edit['Zip'] == '1' ? 'checked' : '') : ''; ?>>
+                                    <label class="form-check-label" for="zipTrue">True</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Zip" id="zipFalse" value="0" <?= $edit ? ($edit['Zip'] == '0' ? 'checked' : '') : 'checked'; ?>>
+                                    <label class="form-check-label" for="zipFalse">False</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Schedule first job delay (seconds)<span class="text-danger">*</span></label>
+                                <input type="number" min="0" class="form-control" name="delay" value="100" placeholder="Job Processing Delay" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Repeat the job after days<span class="text-danger">*</span></label>
+                                <input type="number" min="0" class="form-control" name="RepeatDays" value="<?= $edit ? $edit['RepeatDays'] : ''; ?>" placeholder="Repeat after days" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Source ID<span class="text-danger">*</span></label>
+                                <input style="background: rgba(255,255,170,0.6)" type="number" min="0" class="form-control" name="source_id" value="<?= $edit ? ($edit['source_id'] ?? 0) : 0; ?>" placeholder="Source ID (Default = 0)" required>
+                                <small class="text-danger">Caution: Use distinct source IDs to avoid data overwrite.</small>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Notify Emails On Job Completion</label>
+                                <input type="text" class="form-control" name="NotifyEmails" value="<?= $edit['NotifyEmails'] ?? ''; ?>" placeholder="Up to 3 emails separated by comma">
+                                <small class="text-danger">Set only if customer insists.</small>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Meta (defines how to process the file)<span class="text-danger">*</span></label>
+                                <div>
+                                    <div class="col-md-12">
+                                            <span id="metaformat" style="display: none;">
+            <pre>
+                {
+                    "Fields": {
+                        "externalid": {
+                            "ename": "ExternalID"
+                        },
+                        "firstname": {
+                            "ename": "Preferred First Name",
+                            "or_ename": "Legal First Name"
+                        },
+                        "lastname": {
+                            "ename": "Last Name",
+                            "pattern": ["/(\w).* (\w).*/", "/(\w).*/"],
+                            "replace": ["$1$2", "John $1"]
+                        },
+                        "pronouns": {
+                            "ename": "Pronouns"
+                        },
+                        "email": {
+                            "ename": "email"
+                        },
+                        "jobtitle": {
+                            "ename": "jobTitle"
+                        },
+                        "employeetype": {
+                            "ename": "employeeType"
+                        },
+                        "department": {
+                            "ename": "department"
+                        },
+                        "branchname": {
+                            "ename": "officeLocation"
+                        },
+                        "city": {
+                            "ename": "city"
+                        },
+                        "state": {
+                            "ename": "state"
+                        },
+                        "country": {
+                            "ename": "country"
+                        },
+                        "region": {
+                            "ename": "region"
+                        },
+                        "opco": {
+                            "ename": "opco"
+                        },
+                        "external_roles": {
+                            "ename": "externalRoles"
+                        },
+                        "employee_hire_date" : {
+                            "ename": "employeeHireDate"
+                        },
+                        "employee_start_date" : {
+                            "ename": "employeeStartDate"
+                        },
+                        "employee_termination_date" : {
+                            "ename": "employeeTerminationDate"
+                        },
+                        "manager" : {
+                            "externalid": {
+                                "ename": "manager_ExternalID"
+                            },
+                            "email": {
+                                "ename": "mnager_Email"
+                            }
+                        },
+                        "extended": {
+                            "MU": {
+                                "ename": "Market Unit Location",
+                                "catalog" : {
+                                    "keyname" : "Market Unit",
+                                    "keytype" : "string or int"
+                                }
+                            },
+                            "Initials": {
+                                "ename": "Firstname",
+                                "pattern": "/(\w).*/",
+                                "replace": "I$1"
+                            },
+                            "OU1": {
+                                "ename": "Org Unit Level 1"
+                            },
+                            "CON": {
+                                "constant": "Some constant value"
+                            },
+                            "STRT_DT": {
+                                "ename": "Employee Start Date"
+                            }
+                        },
+                        "delete_record": {
+                            "ename": "Some field name",
+                            "pattern": "/^some filter$/",
+                            "replace": "yes"
+                        },
+                        "skip_record": {
+                            "ename": "Some field name",
+                            "pattern": "/^some filter$/",
+                            "replace": "yes"
+                        }
+                    },
+                    "AddUsers": [
+                        {
+                            "Filters": {
+                                "1": {
+                                    "ename": "Email",
+                                    "pattern": "/.*@teleskope.io/",
+                                    "replace": "1"
+                                }
+                            },
+                            "zoneid": 2,
+                            "sendWelcomeEmails": true
+                        },
+                        {
+                            "Filters": {
+                                "7": {
+                                    "constant": "7"
+                                }
+                            },
+                            "zoneid": 3,
+                            "sendWelcomeEmails": false
+                        }
+                    ],
+                    "AssignGroups":
+                    [
+                        {
+                            "Filters": {
+                                "Northeast": {
+                                    "ename": "Market Unit Location"
+                                },
+                                "North America": {
+                                    "ename": "Market Location"
+                                }
+                            },
+                            "groupname": {
+                                "ename": "Metro City"
+                            },
+                            "zoneid": 3,
+                            "sendWelcomeEmails": false,
+                            "autoRemove": false,
+                            "enforceSingleGroupMembershipInZone": false,
+                            "sendLeaveEmails" : false
+                        },
+                        {
+                            "Filters": {
+                                "USA": {
+                                    "ename": "Country"
+                                }
+                            },
+                            "groupid": {
+                                "constant": "1"
+                            },
+                            "zoneid": 3,
+                            "sendWelcomeEmails": true,
+                            "autoRemove": true,
+                            "enforceSingleGroupMembershipInZone": true,
+                            "registerForTeamRolename" : "Mentor",
+                            "sendLeaveEmails" : false
+                        }
+                    ],
+                "resetEmailIfEmpty": false,
+                "resetExtendedFields": true,
+                "RemoveNonCompliantGroupMembers": {
+                    "ZoneIdList": [1,2,3, numeric values of zoneids for which all groups will be processed],
+                    "GroupIdList": [1,2,3, numeric values of groupids which will be processed]
+                    }
+                }
+            </pre>
+                                            </span>
+                                            Example format <i class="fa fa-info-circle" aria-hidden="true" onclick="$('#metaformat').toggle();"></i>
+                                    </div>
+
+                                    <div id="metaformat" style="display:none;">
+                                        <pre> <!-- your meta JSON remains same here --> </pre>
+                                    </div>
+
+                                    <textarea class="form-control" name="Meta" rows="20" placeholder="Meta data here" required><?= $edit ? stripslashes(json_encode($edit['Meta'],JSON_PRETTY_PRINT)) : '';?></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center mt-4">
+                                <a class="btn cancel_template btn-secondary"  onclick="window.history.back();">Cancel</a> &emsp;
+                                <button class="btn create_template btn-primary" name="submit" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    <?php if(!empty($metaJSONError)){ ?>
+        Swal.fire({title: 'Error', text:"<?=$metaJSONError?>"});
+    <?php } ?>  
+    <?php if($successCode){ ?>
+        Swal.fire({title: 'Success', text:"User sync file job scheduled successfully"}).then(function() {
+            window.location.href = "manage_scheduled_jobs#userSyncFileJobs";
+        });
+    <?php } ?>  
+</script>

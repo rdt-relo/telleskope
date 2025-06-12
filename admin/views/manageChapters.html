@@ -1,0 +1,219 @@
+
+<style>
+.close:focus {
+    display: inline-block;
+    outline: 3px solid !important;
+}
+</style>
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">
+				<div class="col-md-12 divider" id="Add-new-chapter">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+					<button class="btn btn-no-style add-plus-circle-icon" aria-label="Add new <?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?>" onclick=selectRegion("<?= $_GET['gid']; ?>")  >
+						<i  class="fa fa-plus-circle fa-lg ml-2" title="Add new <?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?>" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="clearfix"></div>
+			<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= UPDATED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?=  $_SESSION['add-msg']; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ERROR; ?>
+					</div>
+			<?php } ?>
+						
+		<div class="table-responsive " id="list-view">
+			<table id="table-event" class="table table-hover action-btns display compact" summary="Group chapters list">
+				<thead>
+					<tr>						
+						<th width="2%" scope="col">#</th>
+						<th width="28%" scope="col"><?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> (Region)</th>
+						<th width="25%" scope="col">Office location</th>
+						<th width="5%" scope="col">Colour</th>
+						<th width="10%" scope="col">Created By</th>
+						<th width="15%" scope="col">Leaders</th>
+						<th width="15%" scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if ($chapters) {
+						foreach ($chapters as $chapter){
+							if(!isset($counter)) $counter=0;
+							$counter++;
+							$encodedChapterId = $_COMPANY->encodeId($chapter['chapterid']);
+							if($chapter['isactive']==0){$color="#ffffce";}
+							else if($chapter['isactive']==100){$color="#fde1e1";}
+							else{$color="#ffffff";}
+				?>
+					<tr id="<?=$counter;?>" style="background-color: <?= $color; ?>">
+						<td><?php echo $counter; ?></td>
+						<td>
+							<?php if ($chapter['regionids']==0 && $chapter['userid']==0){
+								echo $chapter['chaptername'];
+							 } else{
+								echo $chapter['chaptername']." (".$chapter['region'].")";
+							  } ?>
+						</td>
+						<td>
+							<?php if ($chapter['regionids']==0 && $chapter['userid']==0){
+								echo "All Unmapped";
+							} else { /* Since we are passing the result to javascript to show as html, need double htmlentitles */?>
+								<button class="btn btn-info btn-sm" onclick="showOfficeLocations('<?= addslashes(htmlspecialchars(htmlspecialchars($chapter['branchname']))) ?>')" ><?= $chapter['branchname']!='-' ?  count(explode('||',$chapter['branchname'])): 0; ?> locations</button>
+                           <?php } ?>
+						</td>
+						<td><span style="background-color: <?php echo $chapter['colour']; ?>;width: 30px;height: 30px; display: block;"></span></td>
+						<td><?= ($db->get("SELECT CONCAT(`firstname`,' ',`lastname`) as `name` FROM `users` WHERE `companyid`='{$_COMPANY->id()}' AND `userid` ='{$chapter['userid']}'")[0]['name'])??''?></td>
+						<td>
+							<?php if ($chapter['regionids']==0 && $chapter['userid']==0){ } else{ ?>
+								<a class="btn btn-info btn-sm" href="manageChapterLeads?gid=<?=$_GET['gid']?>&cid=<?=$encodedChapterId;?>">Manage Leaders</a>
+							<?php } ?>
+						</td>
+						<td width="15%">
+							<?php if ($chapter['regionids']==0 && $chapter['userid']==0){ } else{ ?>
+
+							<a style="margin-right: 10px;" class="" href="newChapter?gid=<?=$_GET['gid']?>&cid=<?=$encodedChapterId;?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+
+                            <?php if ($_COMPANY->getAppCustomization()['integrations']['group']['enabled']) { ?>
+							<a style="margin-right: 10px;" class="" href="integration?gid=<?=$_GET['gid']?>&cid=<?=$encodedChapterId;?>"><i title="Integration" class='fas fa-sign-out-alt' style='font-size:16px'></i></a>&nbsp;
+							<?php } ?>
+
+                            <?php if($chapter['isactive']==1){		?>
+							<button aria-label="Deactivate" class="btn btn-no-style deluser" onclick="changeGroupChapterStatus('<?=$_GET['gid']?>','<?=$encodedChapterId;?>',0,this)" title="<strong>Are you sure to Deactivate!</strong>"><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i></button>
+							<?php	}else{		?>
+                            <button aria-label="Activate" class="btn btn-no-style deluser" onclick="changeGroupChapterStatus('<?=$_GET['gid']?>','<?=$encodedChapterId;?>',1,this)" title="<strong>Are you sure to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>&nbsp;
+                            <button aria-label="Delete" class="btn btn-no-style" onclick="initChapterPermanentDeleteConfirmation('<?=$_GET['gid']?>','<?=$encodedChapterId;?>')"><i class="fa fa-trash fa-l" title="Delete" ></i></button>
+							<?php	}		?>
+							<?php } ?>
+						</td>
+					</tr>
+
+				<?php
+						}
+					}
+				?>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		<div align="center">
+			<a href="group" class="btn btn-primary">Back</a>
+		</div>
+	</div>								
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!--modal for Region select -->
+<div class="modal fade" id="add-chapter" role="dialog" aria-label="<?= gettext('Select Region');?>">
+	<div class="modal-dialog">
+    	<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Select Region</h4>
+				<button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+			  
+			</div>
+			<div class="modal-body" id='replace'>			 
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-info" onclick="submitSelectRegion('newChapter')" >Submit</button>
+			</div>
+		  </div>
+	</div>
+</div>
+
+<div id="regionModal" class="modal fade" role="dialog" aria-label="<?= gettext('Office Locations');?>">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Office Locations</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				
+			</div>
+			<div class="modal-body" style="min-height: 100px; max-height:450px; overflow-y:scroll;">
+				<div class="col-md-12" id="regionsList">
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="modal-footer text-center">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"><?= gettext("Close")?></button>
+			  </div>
+		</div>
+	</div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$("#li-chapter").addClass("active1");
+	
+	jQuery(document).ready(function() {
+	jQuery(".deluser").popConfirm({content: ''});
+	});
+	
+</script>
+
+<script>
+	$(document).ready(function() {
+		$('#table-event').DataTable( {
+			"order": [],
+			"bPaginate": true,
+			"bInfo" : false,
+			"pageLength": 200, // Set the number of entries per page to 200
+            "lengthChange": false, // Hide the entries per page dropdown 
+			"columnDefs": [
+			{ targets: [2,3,4,5,6], orderable: false }
+		],		
+		language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+        },
+			
+		});
+	});
+</script>
+<script>
+	function showOfficeLocations(r){
+		if (r !='-'){
+			var array = r.split('||');
+			var region = '';
+			for(var i=0;i<array.length;i++){
+                region += '<p>'+(i+1)+'.&emsp;'+array[i]+'</p>';
+			}
+			$("#regionsList").html(region);
+			$('#regionModal').modal('show');
+		}
+	}
+
+	$('#regionModal').on('shown.bs.modal', function () {
+		$('.close').trigger('focus');
+	});
+
+	$('#add-chapter').on('shown.bs.modal', function () {
+		$('.close').trigger('focus');
+	});
+</script>
+
+<link rel="stylesheet" media="screen" type="text/css" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/css/bootstrap-colorpicker.min.css" />
+<style>
+i {
+    display: inline-block;
+    cursor: pointer;
+    height: 16px;
+    vertical-align: text-top;
+    width: 16px;
+}
+</style>

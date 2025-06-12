@@ -1,0 +1,220 @@
+<!-- Budget Modal -->
+<style>
+    .borderless {
+        border: none;
+    }
+    .group-bdgt {
+        height: 30px !important;
+    }
+    .chapter-card-body {
+        padding: .25rem !important;;
+    }
+    .card-link:focus{outline: 3px solid !important;}
+</style>
+<div id="yearlyBudgetModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;"> Update
+                    <?= $_COMPANY->getAppCustomization()['group']['name'] ?> Budget <?= htmlspecialchars($companyBudget->val('budget_year_title'));?>
+                </h4>
+                <button type="button" class="close" aria-label="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row row-no-gutters mb-2">
+                        <div class="col-md-8">
+                            <strong> Total Budget</strong> <span style="color:grey">[T]</span>
+                            <i class="fa fa-question-circle" data-toggle="tooltip" title="Total budget set for the year"></i>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>
+                            <?= $_COMPANY->getCurrencySymbol(); ?> <span id="t-amt"><?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudget()) ?></span>
+                            </strong>
+                            &ensp;<button aria-label="Budget updated"  class="btn btn-no-style" id="manage-budget-edit" onclick="showBudgetForm()" style="color:#0077b5!important;"> [Update]</button>
+                        <span id="hidemesage" style="color:green; display:none;">&emsp;Budget updated.</span>
+                        </div>
+                        <div class="col-md-8">
+                        &emsp;Global expenses <span style="color:grey">[E]</span>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" title="Budget approved for global events or global expenses"></i>
+                        </div>
+                        <div class="col-md-4">
+                            <?= $_COMPANY->getCurrencySymbol(); ?> <span id="assigned-bgt"><?= $_USER->formatAmountForDisplay($companyBudget->getTotalExpenses()['spent_from_allocated_budget']) ?></span>
+                        </div>
+                        <div class="col-md-8">
+                        &emsp;Budget allocated to <?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?> <span style="color:grey">[G]</span>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" title="Budget allocated to <?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?>. The allocation can be changed below."></i>
+                        </div>
+                        <div class="col-md-4">
+                            <?= $_COMPANY->getCurrencySymbol(); ?> <span id="allocated-bgt"><?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudgetAllocatedToSubAccounts()) ?></span>
+                        </div>
+                        <div class="col-md-8">
+                        &emsp;Budget available for allocation <span style="color:grey">[A = T-(E+G)]</span>
+                        <i class="fa fa-question-circle" data-toggle="tooltip" title="Budget available for allocation to <?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?>, global events or global expenses"></i>
+                        </div>
+                        <div class="col-md-4">
+                            <?= $_COMPANY->getCurrencySymbol(); ?> <span id="remained-bgt"><?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudgetAvailable()) ?></span>
+                        </div>
+                    </div>
+
+                    <form id="form-budget" class="form-horizontal" method="post" action="" style="display:none">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <input type="hidden" id="year" value="<?= $yearid;?>">
+                        <div class="col-md-8">
+                            Yearly Budget : <input type="number" name="budget" id="budgetval" class="form-control"
+                                value="<?= $_USER->formatAmountForDisplay($companyBudget->getTotalBudget(),'') ?>"
+                                min="0.00" step="1000.00" placeholder="0.00">
+                        </div>
+
+                        <div class="col-md-4">
+                            <br />
+                            <button type="button" name="submit" onclick="submitBudget()"
+                                class=" btn btn-info">Update</button>&nbsp;
+                            <button type="button" onclick="hideBudgetForm()" class="btn btn-info">Cancel</button>&nbsp;
+                        </div>
+                    </form>
+
+                    <form id="group-budget" class="form-horizontal" method="post" action="">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <input type="hidden" name="year" value="<?= $yearid;?>">
+                        <table class="table display" summary="Budget list">
+                            <tr class="borderless">
+                                <th width="50%" scope="col">
+                                    <?= $_COMPANY->getAppCustomization()['group']['name-short'] ?>
+                                </th>
+                                <th width="35%" scope="col">
+                                    Total Budget
+                                    <i class="fa fa-question-circle" data-toggle="tooltip" title="Total Budget assigned to the <?= $_COMPANY->getAppCustomization()['group']['name-short'] ?>"></i>
+                                </th>
+                                <th width="15%" scope="col">&nbsp;</th>
+                            </tr>
+                            <?php
+                            if(count($companyBudget->getChildBudgets())>0){
+                                $j=0;
+                                $chapterOrChannelLabel = $_COMPANY->getAppCustomization()['chapter']['enabled'] ? $_COMPANY->getAppCustomization()['chapter']['name-short'] : '';
+                                foreach ($companyBudget->getChildBudgets() as $childBudget){
+                                    $j++;
+                            ?>
+                            <tr>
+                                <td>
+                                    <span id="done<?= $j;?>">
+                                        <?php if ($childBudget->val('budget_id')){ ?>
+                                            <img src="images/done.png" height="14px" id="done-img<?= $j;?>">
+                                        <?php } ?>
+                                    </span>
+                                    <span <?= $childBudget->isActive() ? '' : 'style="color:red;"'?> ><?= $childBudget->val('budget_name'); ?></span>
+                                    <input type="hidden" value="<?= $childBudget->val('groupid'); ?>" id="budgetgroupid<?= $j; ?>">
+                                </td>
+                                <td>
+                                    <input type="number" name="groupbudgetamt" id="groupbudgetamt<?= $j; ?>" class="form-control group-bdgt" value="<?= $childBudget->val('budget_id') ? $_USER->formatAmountForDisplay($childBudget->getTotalBudget(),'') : '' ?>" min="0.00" step="1000" placeholder="">
+                                </td>
+
+                                <td>
+                                    <button id="groupbudgetamt<?= $j; ?>-btn" type="button" name="submit" onclick="updateGroupBudget('<?= $j; ?>','<?= $_COMPANY->encodeId($childBudget->val('groupid')) ?>')" class="btn btn-info btn-sm center disable-update-button deluser">&emsp;Update&emsp;</button><span id="hidemesage<?= $j; ?>" style="color:#63c375; display:none;">&emsp;Updated</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-top: 0;padding-top: 0;">
+                                Total <?= $childBudget->val('budget_name'); ?> expenses:
+                                <?= $_COMPANY->getCurrencySymbol(); ?><?= $_USER->formatAmountForDisplay($childBudget->getTotalExpenses()['spent_from_allocated_budget']) ?>
+                                </td>
+                            </tr>
+
+                            <?php if (count($childBudget->getChildBudgets())>0){ $c=0; ?>
+                            <tr>
+                                <td colspan="3" style="border-top: 0;padding-top: 0;">
+                                    <div id="accordion<?= $childBudget->val('groupid') ?>">
+                                        <div class="card" style="border:none; ">
+                                            <div class="card-header" style="border-bottom: none;padding:0px 0px 0px 0px;">
+                                                Total allocated to <?= $childBudget->val('budget_name'); ?> <?= $chapterOrChannelLabel ?>:
+                                                <?= $_COMPANY->getCurrencySymbol(); ?><span id="allocated-bgt-<?=$j?>"><?= $_USER->formatAmountForDisplay($childBudget->getTotalBudgetAllocatedToSubAccounts()) ?></span>
+                                                <a class="card-link" data-toggle="collapse" href="#collapseOne<?= $childBudget->val('groupid') ?>"> [Update] </a>
+                                            </div>
+                                            <div id="collapseOne<?= $childBudget->val('groupid') ?>" class="collapse" data-parent="#accordion<?= $childBudget->val('groupid') ?>">
+                                                <div class="card-body chapter-card-body">
+                                                    <table class="table table-narrow display" width="100%" summary="Chapter Budget list">
+                                                        <tr class="borderless">
+                                                            <th width="15%" scope="col"><?= $chapterOrChannelLabel?></th>
+                                                            <th width="15%" scope="col">
+                                                                Used
+                                                                <i class="fa fa-question-circle" data-toggle="tooltip" title="Budget approved for <?= $chapterOrChannelLabel ?> events or expenses"></i>
+                                                            </th>
+                                                            <th width="30%" scope="col">
+                                                                Total
+                                                                <i class="fa fa-question-circle" data-toggle="tooltip" title="Total Budget assigned to the <?= $chapterOrChannelLabel ?>"></i>
+                                                            </th>
+                                                            <th width="20%" scope="col">&nbsp;</th>
+                                                        </tr>
+
+                                                        <?php foreach ($childBudget->getChildBudgets() as $childBudget2){ $c++; ?>
+                                                        <tr class="borderless">
+                                                            <td>
+                                                                <span <?= $childBudget2->isActive() ? '' : 'style="color:red;"'?> ><?= $childBudget2->val('budget_name'); ?></span>
+                                                            </td>
+                                                            <td><?= $_COMPANY->getCurrencySymbol(); ?><?= $_USER->formatAmountForDisplay($childBudget2->getTotalExpenses()['spent_from_allocated_budget']);?></td>
+                                                            <td>
+                                                                <input type="number" name="chapterbudgetamt" id="chapterbudgetamt_<?= $j.'_'.$c ?>" class="form-control group-bdgt" value="<?= $childBudget2->val('budget_id') ? $_USER->formatAmountForDisplay($childBudget2->getTotalBudget(),'') : ''?>" min="0" step="100" placeholder="" >
+                                                            </td>
+                                                            <td>
+                                                                <button onclick="updateGroupChapterBudget('<?=$j?>','<?=$c?>','<?= $_COMPANY->encodeId($childBudget->val('groupid')); ?>','<?= $_COMPANY->encodeId($childBudget2->val('chapterid')); ?>')" id="chapterbudgetamt_<?= $j.'_'.$c ?>-btn" type="button" name="submit" title="Update budget and notify leaders by email?" class=" btn btn-info btn-sm center chapter-disable-update-button deluser">&emsp;Update&emsp;</button>
+                                                                <span id="hidechaptermesage_<?= $j.'_'.$c ?>" style="color:#63c375; display:none;">&emsp;Updated</span>
+                                                            </td>
+                                                        </tr>
+                                                        <?php   } ?>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php   } ?>
+                            <?php 	}	?>
+
+                            <?php 	}else{  ?>
+                            <tr>
+                                <td colspan="4">
+                                        <p style="text-align:center; color: red;">-- No <?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?>!--</p>
+                                </td>
+                            </tr>
+                            <?php	}?>
+                        </table>
+                        <div class="text-center">
+                            <button type="button" onclick="closeGrupBudgetForm()" class="budget btn btn-info"
+                                style="width:100px;"><?= gettext("Close")?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var $button = $('.disable-update-button');
+            $button.prop('disabled', true);
+            $("input").focus(function () {
+                $button.prop('disabled', true);
+                var id = $(this).attr('id');
+                $("#" + id + "-btn").prop('disabled', false);
+            });
+
+            var $button = $('.chapter-disable-update-button');
+            $button.prop('disabled', true);
+            $("input").focus(function () {
+                $button.prop('disabled', true);
+                var id = $(this).attr('id');
+                $("#" + id + "-btn").prop('disabled', false);
+            });
+            // $(".deluser").popConfirm({content: ''});
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $('#yearlyBudgetModal').on('shown.bs.modal', function () {     					 
+		    $('.close').focus();
+	    })
+    </script>
+</div>

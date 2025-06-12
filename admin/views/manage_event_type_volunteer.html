@@ -1,0 +1,92 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;"><?= $pagetitle; ?>&nbsp;</h6>
+                    <?php if ($allow_volunteer_edits) { ?>
+                        <button aria-label="Add new volunteer type" class="btn btn-no-style" onclick="addUpdateEventTypeVolunteerModal('<?= $_COMPANY->encodeId($typeid); ?>')">
+                        <i class="fa fa-plus-circle fa-lg" title="Add new volunteer type" aria-hidden="true"></i>
+                    </button>
+                    <?php } ?>
+                </div>
+                
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= UPDATED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ADDED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ERROR; ?>
+                    </div>
+                <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                        <table id="tableeventvolunteer" class="table table-hover display compact" summary="This table display the list of event volunteers types">
+                            <thead>
+                                <tr>
+                                    <th width="10%" scope="col">#</th>
+                                    <th width="45%" scope="col">Volunteer Type</th>
+                                    <th width="30%" scope="col">Volunteer Count</th>
+                                    <th width="15%" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if(count($eventVolunteerRequests) > 0) {
+                                    for($i = 0; $i < count($eventVolunteerRequests); $i++) { 
+                                        $volunteerData = Event::GetEventVolunteerType($eventVolunteerRequests[$i]['volunteertypeid']);
+                                ?>
+                                    <tr id="e<?= ($i+1); ?>">
+                                        <td><?= ($i+1); ?></td>
+                                        <td><?= $volunteerData['type']; ?></td>
+                                        <td><?= $eventVolunteerRequests[$i]['volunteer_needed_count']; ?></td>
+                                        <td>
+                                            <?php if ($allow_volunteer_edits) { ?>
+                                                <button aria-label="Edit" class="btn btn-no-style" onclick="openEditEventTypeVolunteerModal('<?= $_COMPANY->encodeId($typeid); ?>', '<?= $_COMPANY->encodeId($volunteerData['volunteertypeid']); ?>')">
+                                                <i class="fa fa-edit" title="Edit" aria-hidden="true"></i>
+                                                </button>
+                                            <?php } ?>
+                                            &nbsp;
+                                            <?php if ($allow_volunteer_edits) { ?>
+                                                <button aria-label="Remove" class="btn btn-no-style deluser" onclick="removeVolunteerFromEventType('<?= $_COMPANY->encodeId($typeid); ?>', '<?= $_COMPANY->encodeId($volunteerData['volunteertypeid']); ?>')" title="<strong>Are you sure to remove!</strong>" ><i class="fa fa-trash" title="Remove" aria-hidden="true"></i></button>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                <?php   } ?>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button  class="btn btn-info btn-sm" onclick="goBack()" class="button">Back to Event Types</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#tableeventvolunteer').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        columnDefs: [
+            { targets: [3], orderable: false }
+        ],
+        language: {
+                searchPlaceholder: "Type anything..",
+                url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+            },
+    } );
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?php include __DIR__.'/header.html'; ?>
+
+<div class="container">
+    <div id="user-action-box" class="card card-container wow zoomIn animated">
+        <div class="head-logo">
+            <img src="<?=$logo?>" height="50px"/>
+            <div class="title">Policy Consent</div>
+
+        </div>
+
+        <div id="hidemesage" class="alert alert-danger" style="display: none;">
+            <p id="message"></p>
+        </div>
+
+        <form class="form-horizontal" action="" method="post">
+            <?php $show_policy_consent_checkbox = true; ?>
+            <?php include __DIR__.'/loginform/loginPrivacyPolicyNote.html';?>
+
+            <div class="form-group">
+                <button type="submit" id="validateButton" class="btn btn-primary btn-block center-block">Submit</button>
+            </div>
+        </form>
+
+        <div class="text-center grecaptcha-label mb-0">Confidential – For Internal Use Only</div>
+        <div id="footer-logo"></div>
+    </div>
+</div>
+
+</body>
+</html>

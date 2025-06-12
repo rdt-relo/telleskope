@@ -1,0 +1,277 @@
+<div class="container-offset-lr mt-4">
+    <div class="row">              
+        <div class="col-md-12"> 
+            <div class="widget-simple-chart card p-4 mb-5">
+				<div class="col-md-12" style="border-bottom:1px solid  #e9e9e9; 	margin-bottom:20px">
+					<h1><?= $pageTitle; ?></h1>
+				</div>
+                <div class="col-md-12" >
+                    <form class="form-horizontal" id="emailSetting" action="" method="post">
+
+                        <div class="form-group mb-3" id="form_group_choose_zone">
+                            <label class="form-label col-md-3 required" >Choose Zone</label>
+                            <div class="col-md-9">
+                                <select name="ZoneId" id="ZoneId" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <?php foreach ($zones as $zone) { ?>
+                                        <option value="<?= $zone['zoneid'] ?>" <?= $edit && $orig_zoneid == $zone['zoneid'] ? 'selected' : ''; ?>><?=$zone['zonename']?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_choose_report">
+                            <label class=" form-label col-md-3 required" >Report</label>
+                            <div class="col-md-9">
+                                <select name="ReportId" id="ReportId" class="form-select" required>
+                                    <option value="">Select one of the reports available for data transfer</option>
+                                    <?php foreach ($transferReports as $report) { ?>
+                                        <option value="<?=$report['reportid'] ?>" <?= $edit && $edit['ReportId'] == $report['reportid'] ? 'selected' : ''; ?>>
+                                            <?= $report['reportname'] . ' - ' . $report['zonename'] . ' Zone' ?> (<?= $reporttype[$report['reporttype']] ?? 'Unknown' ?> Report)
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <span class="alert-warning">Note: Select a report that is configured in the selected Zone... otherwise it will not work</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_choose_report_format">
+                            <label class=" form-label col-md-3 required" >Report Format</label>
+                            <div class="col-md-9">
+                                <select name="ReportFormat" id="ReportFormat" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <option value="1" <?= $edit && $edit['ReportFormat'] == '1' ? 'selected' : ''; ?>>CSV</option>
+                                    <option value="2" <?= $edit && $edit['ReportFormat'] == '2' ? 'selected' : ''; ?>>TSV</option>
+                                    <option value="4" <?= $edit && $edit['ReportFormat'] == '4' ? 'selected' : ''; ?>>JSON</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 form-check js-csv-fields">
+                            <input type="checkbox" class="form-check-input" id="add_trailer" name="add_trailer" <?= !empty($edit['addTrailer']) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="add_trailer">Add trailer to CSV file</label>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_choose_protocol">
+                            <label class=" form-label col-md-3 required" >Choose Protocol</label>
+                            <div class="col-md-9">
+                                <select name="Mechanism" id="Mechanism" class="form-select" required>
+                                    <option value="">Select an option</option>
+                                    <option value="SFTP" <?= $edit && $edit['Mechanism'] == 'SFTP' ? 'selected' : ''; ?>>SFTP</option>
+                                    <option value="EMAIL" <?= $edit && $edit['Mechanism'] == 'EMAIL' ? 'selected' : ''; ?>>EMAIL</option>
+                                    <option value="HTTPS" <?= $edit && $edit['Mechanism'] == 'HTTPS' ? 'selected' : ''; ?> disabled>HTTPS</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-fields" id="form_group_choose_sftp_host">
+                            <label class="form-label col-md-3 required" >SFTP Hostname or HTTPS Url</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="sftp_hostname" name="Hostname"  value="<?= $edit ? ($edit[$edit['Mechanism']]['Hostname'] ?? '') : ''; ?>" placeholder="For SFTP enter hostname or  hostname:port, for HTTPS enter https://url" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-fields" id="form_group_choose_sftp_username">
+                            <label class="form-label col-md-3 required" >SFTP Username</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="sftp_username" name="SFTP_Username" value="<?= $edit ? ($edit[$edit['Mechanism']]['Username'] ?? '') : ''; ?>" placeholder="User name here" required>
+                            </div>
+                        </div>
+
+                        <?php
+                            $authMethod = $edit['SFTP']['AuthMethod'] ?? 'sftp_password';
+                        ?>
+                        <div class="form-group mb-3 js-sftp-fields">
+                          <label class="col-md-3">Authentication Method<span style="color:red">&nbsp</span></label>
+                          <div class="col-md-9">
+                            <label>
+                              <input type="radio" name="sftp_auth_method" value="sftp_password" checked
+                                <?= ($authMethod === 'sftp_password') ? 'checked' : '' ?>
+                              >&nbsp;Password
+                            </label>
+                            <label>
+                              <input type="radio" name="sftp_auth_method" value="sftp_ssh_key"
+                                <?= ($authMethod === 'sftp_ssh_key') ? 'checked' : '' ?>
+                              >
+                              &nbsp;SSH Key
+                            </label>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-fields" id="form_group_choose_sftp_password">
+                            <label class="form-label col-md-3" >SFTP Password<span style="color:red">&nbsp* (optional for ssh key)</span></label>
+                            <div class="col-md-9">
+                                <input type="<?= ($edit && $orig_password) ? 'password' : 'text'?>" class="form-control" id="sftp_password" name="SFTP_Password" value="<?= $edit ? $orig_password : ''; ?>" placeholder="SFTP Password" autocapitalize="false" autocomplete="false">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group mb-3 js-sftp-fields" id="form_group_choose_sftp_folder">
+                            <label class="form-label col-md-3" >SFTP Remote Folder<span style="color:red">&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="sftp_remote_folder" name="Folder" value="<?= $edit ? ($edit[$edit['Mechanism']]['Folder'] ?? '') : ''; ?>" placeholder="SFTP folder name here, leave empty for https">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-fields" id="form_group_choose_sftp_remote_filename">
+                            <label class="form-label col-md-3 required" >SFTP Remote File Name</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="sftp_remote_filename" name="SFTP_Filename" value="<?= $edit ? ($edit[$edit['Mechanism']]['Filename'] ?? '') : ''; ?>" placeholder="SFTP file name here" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group mb-3 js-email-fields" id="form_group_choose_email_attachment_filename">
+                            <label class="form-label col-md-3 required" >Email Attachment File Name</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="email_remote_filename" name="Email_Filename" value="<?= $edit ? ($edit[$edit['Mechanism']]['Filename'] ?? '') : ''; ?>" placeholder="Email attachment filename here (dont forget to add .pgp extension for PGP encrypted files)" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-email-fields form-check">
+                            <input type="checkbox" class="form-check-input" id="add_timestamp_to_filename" name="add_timestamp_to_filename" <?= !empty($edit['addTimeStampToFileName']) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="add_timestamp_to_filename">Include timestamp in File name</label>
+                        </div>
+
+
+                        <div class="form-group mb-3 js-email-fields" id="form_group_email_recipients">
+                            <label class="form-label col-md-3 required">Email Recipients</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control"  id="email_recipients" name="email_recipients" value="<?= $edit ? implode(',', ($edit[$edit['Mechanism']]['EmailRecipients'] ?? [])) : ''; ?>" placeholder="Enter upto 5 recipient email address seperated by commas" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-email-fields" id="form_group_email_subject">
+                            <label class="form-label col-md-3 required">Email Subject</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="email_subject" name="email_subject" value="<?= $edit ? ($edit[$edit['Mechanism']]['EmailSubject'] ?? '') : ''; ?>" placeholder="Enter email subject" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-email-fields" id="form_group_email_body">
+                            <label class="form-label col-md-3 required">Email Body</label>
+                          <div class="col-md-9">
+                                <textarea type="text" rows="7" id="email_body" class="form-control" name="email_body" placeholder="Enter email body" required><?= $edit ? ($edit[$edit['Mechanism']]['EmailBody'] ?? '') : ''; ?></textarea>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-sftp-email-fields" id="form_group_pgp_key">
+                            <label class="form-label col-md-3 required" >Recipient PGP Encryption Public Key</label>
+                          <div class="col-md-9">
+                                <textarea type="text" rows="7"  class="form-control" name="pgpEncryptionKey" placeholder="PGP Encryption Key here, leave empty if don't need encryption"><?= $edit ? $pgpEncryptionKey : ''; ?></textarea>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_is_zip">
+                            <label class="form-label col-md-3" >Zip Compression (optional)</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="ReportZip" type="radio" <?= $edit && $edit['ReportZip'] == '1' ? 'checked' : ''; ?> value="1">
+                                    <label class="form-check-label" for="inlineCheckbox1">True</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="ReportZip" type="radio" <?= $edit  ? ( $edit['ReportZip'] == '0' ? 'checked' : '') : 'checked' ; ?> value="0" >
+                                    <label class="form-check-label" for="inlineCheckbox2">False</label>
+                                </div>
+                                <span style="color:grey;">If set, file will be zip compressed.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 js-zip-fields" id="form_group_choose_zip_password">
+                            <label class="form-label col-md-3" >Zip Password (optional)<span >&nbsp</span></label>
+                            <div class="col-md-9">
+                                <input type="<?= ($edit && $orig_zip_password) ? 'password' : 'text'?>" class="form-control" id="zip_password" name="ReportZipPassword" value="<?= $edit ? $orig_zip_password : ''; ?>" placeholder="ZIP Password" autocapitalize="false" autocomplete="false">
+                                <span style="color:grey;">If set, the zip file will be password protected using AES 256 encrption. Resulting file can be unzipped using  winrar.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_start_time">
+                            <label class="form-label col-md-3 required" >Schedule first job to start after these many seconds</label>
+                            <div class="col-md-9">
+                                <input type="number" min="0" class="form-control" name="delay" value="100" placeholder="Job Processing Delay in seconds" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3" id="form_group_repeat_days">
+                            <label class="form-label col-md-3 required" >Repeat the job after these many days</label>
+                            <div class="col-md-9">
+                                <input type="number" min="0" class="form-control" name="RepeatDays"  value="<?= $edit ? $edit['RepeatDays'] : ''; ?>" placeholder="Repeat after days" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3" style="color:grey;" id="form_group_notify_email">
+                            <label class="form-label col-md-3">Notify Emails On Job Completion </label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="NotifyEmails" value="<?= $edit ? ($edit['NotifyEmails'] ?? '') : ''; ?>" placeholder="Enter upto 3 emails seperated by comma that will be notified on job completion">
+                                <span style="color:red;">Set only if customer insists</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a class="btn cancel_template btn-secondary" href="manage_scheduled_jobs">Cancel</a>&emsp;
+                            <button class="btn create_template btn-primary" name="submit" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+
+    $(document).ready(function() {
+        // Run on change
+        $('#Mechanism').on('change', toggleSftpOrEmailOptions);
+        $('#ReportFormat').on('change', toggleCsvOptions);
+        // Run on page load in case value is pre-selected
+        toggleSftpOrEmailOptions();
+        toggleCsvOptions();
+    });
+
+    function toggleSftpOrEmailOptions()
+    {
+        let s = $('#Mechanism').val();
+
+        if (s == 'SFTP') {
+            $('.js-sftp-fields').show().find(':input').prop('disabled', false);
+            $('.js-sftp-email-fields').show().find(':input').prop('disabled', false);
+            $('.js-email-fields').hide().find(':input').prop('disabled', true);
+
+        } else if (s == 'EMAIL') {
+            $('.js-email-fields').show().find(':input').prop('disabled', false);
+            $('.js-sftp-email-fields').show().find(':input').prop('disabled', false);
+            $('.js-sftp-fields').hide().find(':input').prop('disabled', true);
+        } else {
+            $('.js-sftp-fields').hide().find(':input').prop('disabled', false);
+            $('.js-email-fields').hide().find(':input').prop('disabled', false);
+            $('.js-sftp-email-fields').hide().find(':input').prop('disabled', false);
+        }
+    }
+
+    function toggleCsvOptions() {
+        if ($('#ReportFormat').val() === '1') {
+            $('.js-csv-fields').show().find(':input').prop('disabled', false);
+        } else {
+            $('.js-csv-fields').hide().find(':input').prop('disabled', true);
+        }
+    }
+
+
+    <?php if($successCode){ ?>
+        swal.fire({title: 'Success',text:"Data export job scheduled successfully"}).then(function(result) {
+            window.location.href = "manage_scheduled_jobs";
+        });
+    <?php } elseif ($errorCode) { ?>
+        swal.fire({title: 'Error',text:"<?=$errorText?>"}).then(function(result) {
+    });
+    <?php } ?>
+
+
+    $("#sftp_password, #zip_password").on("blur", function() {
+        if ($(this).val().length > 0) {
+            $(this).attr("type", "password");
+        }
+    });
+</script>

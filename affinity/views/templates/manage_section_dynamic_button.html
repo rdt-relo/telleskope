@@ -1,0 +1,56 @@
+<div class="col-md-12 dynamic-button-container">
+    <div class="col-md-12">
+	    <div class="pull-right row">
+			<div><?= $newbtn ?? ''; ?></div>
+			<div style="margin-left: 10px;"><?= $qrcode ?? ''; ?></div>
+			<div style="margin-left: 10px;"><?= $refresh ?? '';?></div>
+			<?php   if(isset($_GET['manageGlobalAnnouncements'])){  ?>
+			<div style="margin-left: 10px;">
+				<?php
+                $page_tags = 'manage_announcement';
+                ViewHelper::ShowTrainingVideoButton($page_tags);
+				?>
+			</div>
+			<?php } else if(isset($_GET['manageGlobalEvents'])){  ?>
+			<div style="margin-left: 10px;">
+				<?php
+                $page_tags = 'manage_event,manage_event_speaker,manage_event_volunteer';
+                ViewHelper::ShowTrainingVideoButton($page_tags);
+				?>
+			</div>
+			<?php } else if(isset($_GET['getGroupNewsletters'])){  ?>
+			<div style="margin-left: 10px;">
+				<?php
+                $page_tags = 'manage_newsletter';
+                ViewHelper::ShowTrainingVideoButton($page_tags);
+				?>
+			</div>
+			<?php } else if(isset($_GET['getGroupSurveys'])){  ?>
+			<div style="margin-left: 10px;">
+				<?php
+                $page_tags = 'manage_survey';
+                ViewHelper::ShowTrainingVideoButton($page_tags);
+				?>
+			</div>
+			<?php } else if(isset($_GET['groupMessageList'])){  ?>
+				<div style="margin-left: 10px;">
+					<?php
+                    $page_tags = 'manage_email_direct';
+                    ViewHelper::ShowTrainingVideoButton($page_tags);
+					?>
+				</div>
+			<?php
+		}else if(isset($_GET['manageRecognitions'])){  ?>
+			<div style="margin-left: 10px;">
+				<?php
+                $page_tags = 'manage_recognitions';
+                ViewHelper::ShowTrainingVideoButton($page_tags);
+				?>
+			</div>
+		<?php
+	}
+			?>
+	    </div>
+	 </div>
+
+</div>

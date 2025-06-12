@@ -1,0 +1,180 @@
+
+<!-- SurveyJs Stuff-->
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css">
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css">
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/knockout-latest.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.i18n.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-knockout-ui.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.min.js"></script>
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.css">
+<!-- <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.9.110/survey-creator.min.i18n.min.js"></script> -->
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-knockout.min.js"></script>
+
+<style>
+    .svc-logic-paneldynamic div.svc-logic-operator {
+        height: unset;
+    }
+    div[data-name="navigateToUrl"] { display:none; } 
+    #convertInputType {
+        display: none !important;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 >New Custom Matching Attribute&nbsp;</h6>
+                </div>
+                <div class="col-md-12">
+                    <div id="surveyContainer" style="width:100%;">
+                        <div id="creatorElement" style="height: 100vh;"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center p-3">
+                    <button type="button" class="btn btn-primary" onclick="saveMatchingCustomAttributes()" >Submit</button>
+                    <a href="manage_team_contents?groupid=<?= $_COMPANY->encodeId($groupid); ?>&s=4" class="btn btn-primary" >Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <script>
+    // Survey
+    var __options = {
+        showLogicTab: false,
+        // show the embedded survey tab. It is hidden by default
+        showEmbededSurveyTab: false,
+        // hide the test survey tab. It is shown by default
+        showTestSurveyTab: false,
+        // hide the JSON text editor tab. It is shown by default
+        showJSONEditorTab: false,
+        // show the "Options" button menu. It is hidden by default
+        showOptions: false,
+        // Question Types
+        // questionTypes: ["text", "comment", "boolean","checkbox", "radiogroup", "dropdown", "rating", "ranking"],
+        questionTypes: ["checkbox", "radiogroup", "rating","comment","dropdown","html"],
+
+        showSidebar : false,
+        allowControlSurveyTitleVisibility:false,
+        showSurveyTitle:'never'
+    };
+    
+     Survey.slk("<?= Config::Get('SURVEY_JS_LICENSE_KEY') ?>");
+    // Hide page title
+    Survey.settings.allowShowEmptyTitleInDesignMode = false;
+    // Hide add logo feature
+    // Survey.Serializer.removeProperty("survey", "logo");
+    // Survey.Serializer.removeProperty("selectbase", "choicesByUrl");
+    // Global create the SurveyJS Creator and render it in div with id equals to "creatorElement"
+    var __creator = new SurveyCreator.SurveyCreator( __options);
+        __creator.render("creatorElement");
+    var __id = 0;
+    var __groupid = 0;
+
+    // Hide add logo feature
+    Survey.Serializer.removeProperty("survey", "logo");
+    Survey.Serializer.removeProperty("selectbase", "choicesByUrl");
+    Survey.JsonObject.metaData.findProperty("question", "name").readOnlyValue = true;
+    Survey.JsonObject.metaData.findProperty("itemvalue", "value").readOnlyValue = true;
+    
+    //A black list of properties displayed in Logic categories for different survey elements
+    var propertyStopList = [
+        // "visibleIf",
+        // "enableIf",
+        // "requiredIf",
+        // "bindings",
+        // "defaultValueExpression",
+        // "columnsVisibleIf",
+        // "rowsVisibleIf",
+        // "hideIfChoicesEmpty",
+        //"choicesVisibleIf",
+        //"choicesEnableIf",
+        // "minValueExpression",
+        // "maxValueExpression",
+        // "calculatedValues",
+        // "triggers"
+        "cookieName",
+    ];
+
+    __creator
+        .onShowingProperty
+        .add(function (sender, options) {
+            options.canShow = propertyStopList.indexOf(options.property.name) == -1;
+        });
+
+    __creator.onElementAllowOperations.add(function (_, options) {
+        options.allowChangeType = false;
+    });
+
+    function initSurveyCreator(json,groupid) {
+        // Color customization
+        // var defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors["default"];
+        // defaultThemeColorsSurvey["$main-color"] = "#0077b5";
+        // defaultThemeColorsSurvey["$main-hover-color"] = "#0D5380";
+        // defaultThemeColorsSurvey["$text-color"] = "#505050";
+        // defaultThemeColorsSurvey["$header-color"] = "#0077b5";
+        // defaultThemeColorsSurvey["$header-background-color"] = "#505050";
+        // defaultThemeColorsSurvey["$body-container-background-color"] = "#f8f8f8";
+        // Survey.StylesManager.applyTheme();
+
+        // var defaultThemeColorsEditor = SurveyCreator.StylesManager.ThemeColors["default"];
+        // defaultThemeColorsEditor["$primary-color"] = "#0077b5";
+        // defaultThemeColorsEditor["$secondary-color"] = "#0077b5";
+        // defaultThemeColorsEditor["$primary-hover-color"] = "#0D5380";
+        // defaultThemeColorsEditor["$primary-text-color"] = "#505050";
+        // defaultThemeColorsEditor["$selection-border-color"] = "#0077b5";
+        // SurveyCreator.StylesManager.applyTheme();
+        //You may use any of these: "default", "orange", "darkblue", "darkrose", "stone", "winter", "winterstone"
+        // SurveyCreator.StylesManager.applyTheme("darkblue");
+        //Show toolbox in the right container. It is shown on the left by default
+        __creator.showToolbox = true;
+        //Show property grid in the right container, combined with toolbox
+        // __creator.showPropertyGrid = "right";
+        //Make toolbox active by default
+        // __creator.rightContainerActiveItem("toolbox"); // depricated
+       
+        var questionjson = {};
+        if (json){
+            questionjson = json;
+        }
+        __creator.JSON = questionjson;
+        __groupid = groupid;
+        __creator.saveSurveyFunc = saveMatchingCustomAttributes;
+
+        // Remove toolbar items except undo/redo buttons
+        __creator.toolbarItems.splice(2, 5);
+    }
+
+    function saveMatchingCustomAttributes() {
+        var quesionJSON = JSON.stringify(JSON.parse(__creator.text));
+        if ( quesionJSON.indexOf('elements') != -1){
+        
+            $.ajax({
+                url: 'ajax.php?saveMatchingCustomAttributes=1',
+                type: "post",
+                data: {'quesionJSON': quesionJSON, 'groupid': '<?= $_COMPANY->encodeId($groupid); ?>'},
+                success: function (data) {
+                    swal.fire({title: 'Success', text: 'Custom attributes updated successfully.'}).then(function (result) {
+                        window.location.href = "manage_team_contents?groupid=<?= $_COMPANY->encodeId($groupid); ?>&s=4";
+                    });
+                }
+            });
+        } else {
+            swal.fire({title: 'Error!',text:"Please enter question(s)!"});
+        }
+    }
+</script>
+
+<script>
+    var json = <?= $jsonObj; ?>;
+    // Init Survey
+    initSurveyCreator(json,'<?= $_COMPANY->encodeId($groupid); ?>');
+
+</script>
+
+
+
+</body>
+</html>

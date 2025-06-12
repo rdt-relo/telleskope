@@ -1,0 +1,198 @@
+{
+    "emptyTable": "Walang available na data sa talahanayan",
+    "info": "Ipinapakita ang _START_ hanggang _END_ ng _TOTAL_ na mga entry",
+    "infoEmpty": "Ipinapakita ang 0 hanggang 0 ng 0 na mga entry",
+    "infoFiltered": "(na-filter mula sa _MAX_ kabuuang mga entry)",
+    "infoThousands": ",",
+    "lengthMenu": "Ipakita ang _MENU_ entry",
+    "loadingRecords": "Naglo-load...",
+    "processing": "Pinoproseso...",
+    "search": "Maghanap:",
+    "zeroRecords": "Walang nakitang katugmang mga tala",
+    "thousands": ",",
+    "paginate": {
+        "first": "Una",
+        "last": "Huling",
+        "next": "Susunod",
+        "previous": "Nakaraang"
+    },
+    "aria": {
+        "sortAscending": ": i-activate para pagbukud-bukurin ang column pataas",
+        "sortDescending": ": i-activate para pag-uri-uriin ang column pababa"
+    },
+    "autoFill": {
+        "cancel": "Kanselahin",
+        "fill": "Punan ang lahat ng mga cell ng <i>%d<\/i>",
+        "fillHorizontal": "Punan ang mga cell nang pahalang",
+        "fillVertical": "Punan ang mga cell nang patayo"
+    },
+    "buttons": {
+        "collection": "Koleksyon <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'\/>",
+        "colvis": "Visibility ng Column",
+        "colvisRestore": "Ibalik ang visibility",
+        "copy": "Kopya",
+        "copyKeys": "Pindutin ang ctrl o u2318 + C upang kopyahin ang data ng talahanayan sa clipboard ng iyong system.<br><br>Upang kanselahin, i-click ang mensaheng ito o pindutin ang escape.",
+        "copySuccess": {
+            "1": "Kinopya ang 1 row sa clipboard",
+            "_": "Kinopya ang %d row sa clipboard"
+        },
+        "copyTitle": "Kopyahin sa clipboard",
+        "csv": "CSV",
+        "excel": "Excel",
+        "pageLength": {
+            "-1": "Ipakita ang lahat ng mga hilera",
+            "_": "Ipakita ang %d row"
+        },
+        "pdf": "PDF",
+        "print": "Print"
+    },
+    "searchBuilder": {
+        "add": "Magdagdag ng Kundisyon",
+        "button": {
+            "0": "Tagabuo ng Paghahanap",
+            "_": "Tagabuo ng Paghahanap (%d)"
+        },
+        "clearAll": "Alisin lahat",
+        "condition": "Kundisyon",
+        "conditions": {
+            "date": {
+                "after": "Pagkatapos",
+                "before": "dati",
+                "between": "sa pagitan ng",
+                "empty": "Walang laman",
+                "equals": "katumbas",
+                "not": "Hindi",
+                "notBetween": "Hindi sa Pagitan",
+                "notEmpty": "Hindi Walang laman"
+            },
+            "number": {
+                "between": "sa pagitan ng",
+                "empty": "Walang laman",
+                "equals": "katumbas",
+                "gt": "Mahigit sa",
+                "gte": "Higit Sa Katumbas Sa",
+                "lt": "Mas mababa sa",
+                "lte": "Mas mababa sa Katumbas Sa",
+                "not": "Hindi",
+                "notBetween": "Hindi sa Pagitan",
+                "notEmpty": "Hindi Walang laman"
+            },
+            "string": {
+                "contains": "Naglalaman",
+                "empty": "Walang laman",
+                "endsWith": "Nagtatapos Sa",
+                "equals": "katumbas",
+                "not": "Hindi",
+                "notEmpty": "Hindi Walang laman",
+                "startsWith": "Nagsisimula Sa"
+            },
+            "array": {
+                "without": "Kung wala",
+                "notEmpty": "Hindi Walang laman",
+                "not": "Hindi",
+                "contains": "Naglalaman",
+                "empty": "Walang laman",
+                "equals": "katumbas"
+            }
+        },
+        "data": "Data",
+        "deleteTitle": "Tanggalin ang panuntunan sa pag-filter",
+        "leftTitle": "Outdent na Pamantayan",
+        "logicAnd": "At",
+        "logicOr": "O kaya",
+        "rightTitle": "Pamantayan sa Indent",
+        "title": {
+            "0": "Tagabuo ng Paghahanap",
+            "_": "Tagabuo ng Paghahanap (%d)"
+        },
+        "value": "Halaga"
+    },
+    "searchPanes": {
+        "clearMessage": "Alisin lahat",
+        "collapse": {
+            "0": "SearchPanes",
+            "_": "SearchPanes (%d)"
+        },
+        "count": "{total}",
+        "countFiltered": "{shown} ({total})",
+        "emptyPanes": "Walang SearchPanes",
+        "loadMessage": "Nilo-load ang SearchPanes",
+        "title": "Mga Filter Aktibo - %d"
+    },
+    "select": {
+        "cells": {
+            "1": "1 napili ang cell",
+            "_": "%d napiling mga cell"
+        },
+        "columns": {
+            "1": "1 napiling column",
+            "_": "%d mga napiling column"
+        }
+    },
+    "datetime": {
+        "previous": "Nakaraang",
+        "next": "Susunod",
+        "hours": "Oras",
+        "minutes": "minuto",
+        "seconds": "Pangalawa",
+        "unknown": "-",
+        "amPm": [
+            "am",
+            "pm"
+        ],
+        "weekdays": [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+        ],
+        "months": [
+            "Enero",
+            "Pebrero",
+            "Marso",
+            "Abril",
+            "May",
+            "Hunyo",
+            "Hulyo",
+            "Agosto",
+            "Setyembre",
+            "Oktubre",
+            "Nobyembre",
+            "Disyembre"
+        ]
+    },
+    "editor": {
+        "close": "Isara",
+        "create": {
+            "button": "Bago",
+            "title": "Gumawa ng bagong entry",
+            "submit": "Lumikha"
+        },
+        "edit": {
+            "button": "I-edit",
+            "title": "I-edit ang Entry",
+            "submit": "Update"
+        },
+        "remove": {
+            "button": "Tanggalin",
+            "title": "Tanggalin",
+            "submit": "Tanggalin",
+            "confirm": {
+                "_": "Sigurado ka bang gusto mong tanggalin ang %d row?",
+                "1": "Sigurado ka bang gusto mong tanggalin ang 1 row?"
+            }
+        },
+        "error": {
+            "system": "May naganap na error sa system (<a target=\"\\\" rel=\"nofollow\" href=\"\\\">Karagdagang informasiyon<\/a>)."
+        },
+        "multi": {
+            "title": "Maramihang Halaga",
+            "info": "Ang mga napiling item ay naglalaman ng iba't ibang mga halaga para sa input na ito. Upang i-edit at itakda ang lahat ng item para sa input na ito sa parehong halaga, mag-click o mag-tap dito, kung hindi, pananatilihin nila ang kanilang mga indibidwal na halaga.",
+            "restore": "I-undo ang Mga Pagbabago",
+            "noMulti": "Ang input na ito ay maaaring i-edit nang isa-isa, ngunit hindi bahagi ng isang grupo. "
+        }
+    }
+}

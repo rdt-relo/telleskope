@@ -1,0 +1,154 @@
+<style>
+	.input-group-prepend .input-group-text {
+		border: none !important;
+		border-radius: unset !important;
+	}
+	.redactor-box {
+    border: 1px solid rgba(196, 193, 193, 0.18);
+}
+.redactor-in {
+    margin-left: 10px;
+}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="widget-simple-chart card-box">
+				<div class="col-sm-12 divider"><h6><?= gettext("Update Points Program");?></h6></div>
+				
+				<form id="newGroupForm" class="form-horizontal" method="post" action="" enctype="multipart/form-data" onsubmit="return validatePointsProgramForm(event)">
+					<input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+					<?php	if(isset($_GET['edit'])){ ?>
+					<input type="hidden" name="edit" value="<?= $_COMPANY->encodeId($groupid); ?>">
+					<?php } ?>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Name<span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text" placeholder="Name" name="title"  required value="<?= $program->val('title') ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-8">
+							<textarea id="redactor_content_add_update_points" class="form-control" type="text" placeholder="Description" name="description"><?= $program->val('description'); ?></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Start Date<span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" id="start_date" type="text" placeholder="Start Date" name="start_date" value="<?= $program->val('start_date'); ?>" required autocomplete="off" readonly
+							  <?= $program->isDraft() ? '' : 'disabled' ?>
+							>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">End Date<span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" id="end_date" type="text" placeholder="End Date" name="end_date" value="<?= $program->val('end_date'); ?>" required autocomplete="off" readonly
+							  <?= $program->isDraft() ? '' : 'disabled' ?>
+							>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Total Points<span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" type="number" placeholder="Total Points" name="points_total"  required value="<?= $program->val('points_total'); ?>">
+						</div>
+					</div>
+					<?php if ($_COMPANY->getAppCustomization()['points']['enable_point_conversion_rate']) { ?>
+					<div class="form-group">
+						<label for="point_conversion_rate" class="col-sm-2 control-label">Point conversion rate<span style="color:red;">*</span>
+                            &nbsp;<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The currency amount will be multiplied by the conversion rate to get an equivalent <?= $_COMPANY->getAppCustomization()['budgets']['currency']?> amount."></i>
+                        </label>
+						
+						<div class="col-sm-8">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><?= $_COMPANY->getCurrencySymbol(); ?> </span>
+                                <input id="point_conversion_rate" class="form-control" type="number" step="any" name="point_conversion_rate" value="<?= $program->val('point_conversion_rate') ?>" required>
+			                </div>
+						</div>
+					</div> 
+					<?php } ?>
+					
+					<div class="form-group">
+						<label for="points_image" class="col-sm-2 control-label">Image
+                            &nbsp;<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The image will be displayed next to the points program name to build brand recognition for the program."></i>
+                        </label>
+						<div class="col-sm-8">
+                            <?php if ($program->val('points_image_url')) { ?>
+                            <img src="<?= $program->val('points_image_url') ?>" alt="Points Image" width="100px" height="100px" style="border: 1px dashed black;">
+							<br>
+                            <br>
+                            <?php } ?>                            
+							<input id="points_image" class="form-control-file" type="file" placeholder="Points Image" name="points_image" accept="image/png">
+                            <span style="display: block;font-size: smaller;">Add an image in .png format, with a maximum width of 100 pixels and a maximum height of 100 pixels.</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">	
+							<a href="points.php" class="btn btn-primary">Back</a>&nbsp;							
+							<input type="submit" class="btn btn-primary" value="Update Points Program">												
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+<script>
+	$(document).ready(function(){
+		$('#redactor_content_add_update_points').initRedactor('redactor_content_add_update_points', 'zone',['counter']);
+		$(".redactor-voice-label").text("<?= gettext('Add Description');?>");
+
+		$('#start_date').datepicker({
+			prevText: 'click for previous months',
+			nextText: 'click for next months',
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			dateFormat: 'yy-mm-dd'
+		});
+
+		$('#end_date').datepicker({
+			prevText: 'click for previous months',
+			nextText: 'click for next months',
+			showOtherMonths: true,
+			selectOtherMonths: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+
+  $(function() {
+    var hash = window.location.hash.substr(1);
+
+    var hash_params = hash.split('&').reduce(function (res, item) {
+      var parts = item.split('=');
+      res[parts[0]] = parts[1];
+      return res;
+    }, {});
+
+    if (!('error' in hash_params)) {
+      return;
+    }
+
+    var error_messages = {
+      invalid_file_format: 'Only PNG and SVG files are allowed',
+      oversized_image: 'Image width or height is greater than 100 px',
+    };
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      html: error_messages[hash_params['error']]
+    });
+
+    window.location.hash = '';
+  });
+</script>

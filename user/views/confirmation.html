@@ -1,0 +1,88 @@
+<?php include __DIR__.'/header.html'; ?>
+
+<style>
+    #confcodelink {
+        color: #007bff;
+        text-decoration: none;
+    }
+    #confcodelink:hover {
+        color: #0056b3;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container">
+    <div id="user-action-box" class="card card-container wow zoomIn animated">
+        <div class="head-logo">
+            <img src="<?=$logo?>" height="50px"/>
+            <div class="title"><?=$title;?></div>
+            <p>Hi <b><?= $user->getFullName() ?></b>, we need to confirm your
+                email address. We emailed you a unique code that you need to enter below. If you cannot find the email
+                please request a new code below.</p>
+        </div>
+
+        <?php if(!empty($success_message)){ ?>
+        <div class="alert alert-success">
+            <?= $success_message; ?>
+        </div>
+        <?php } ?>
+        <?php if(!empty($error_message)){ ?>
+        <div class="alert alert-danger">
+            <?= $error_message; ?>
+        </div>
+        <?php } ?>
+
+        <form id="recaptcha-enabled-form"  class="form-horizontal"  action="" method="POST">
+            <div class="form-group">
+                <input class="form-control"  placeholder="Confirmation code" name="confirmationcode" type="text" autocomplete="off" required>
+            </div>
+            <div class="grecaptcha-label">
+                This site is protected by reCAPTCHA and the Google
+                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+            </div>
+            <div class="form-group">
+                <button type="submit" data-sitekey="<?=RECAPTCHA_SITE_KEY?>" data-callback='onRecaptchaSubmit' class="btn btn-primary btn-block center-block g-recaptcha">Submit</button>
+            </div>
+            <div class="form-group">
+                <div class="control">
+                    <div style="border-top: 1px solid#888; margin-top:15px; padding-top:15px;">
+                        <a id="confcodelink" onclick="sendNewConfirmationCode('<?= $_SESSION['confirmation']; ?>')">
+                            Email me a new code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="text-center grecaptcha-label mb-0">Confidential – For Internal Use Only</div>
+        <div id="footer-logo"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function sendNewConfirmationCode(i) {
+        $("body").css("cursor", "wait");
+        $.ajax({
+            url: 'ajax_user.php',
+            type: 'GET',
+            data: 'sendNewConfirmationCode=' + i,
+
+            success: function (data) {
+                let response = JSON.parse(data);
+                $("body").css("cursor", "default");
+                if ("success" == response.status) {
+                    swal.fire({icon:'success', title: 'Success',text:"We have sent you a new confirmation code, please check your inbox"});
+                } else {
+                    swal.fire({icon:'error', title: 'Error',text:response.details});
+                }
+            },
+            error: function (data) {
+                swal.fire({icon:'error', title: 'Error!',text:'Internal server error!. Please try after some time.'});
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

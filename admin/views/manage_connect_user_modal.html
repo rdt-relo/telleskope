@@ -1,0 +1,48 @@
+<div class="modal" id="manageConnectUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                  <table class="table display">
+                    <tr>
+                      <th>
+                        <input type="text" class="form-control" id="connectEmail" value="<?= $connectUser ? $connectUser->val('external_email') : ''; ?>">
+                      </th>
+                      <th>&nbsp;</th>
+                      <th>
+                        <button type="button" class="btn btn-primary confirm" onclick="changeConnectUserEmail('<?= $_COMPANY->encodeId($uid); ?>');" title="Are you sure to change connect email?">Change Email</button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Resend email verification</th>
+                      <th>&nbsp;</th>
+                      <th><button type="button" class="btn btn-primary confirm" onclick="resendConnectEmailVerification('<?= $_COMPANY->encodeId($uid); ?>');" title="Are you sure to resend email verification?" >Resend</button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Delete the user connect</th>
+                      <th>&nbsp;</th>
+                      <th><button type="button" class="btn btn-primary confirm" onclick="deleteConnectUser('<?= $_COMPANY->encodeId($uid); ?>');" title="Are you sure to delete connect user?" >Delete</button></th>
+                    </tr>
+                  </table>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= gettext("Close")?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <script>
+
+  </script>

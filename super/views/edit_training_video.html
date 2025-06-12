@@ -1,0 +1,138 @@
+<!-- Redactor CSS & JS (unchanged) -->
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/redactor-3-5-2/redactor.min.css" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/redactor-3-5-2/redactor.tele.min.js?v=1"></script>
+<style>
+    .redactor-box {
+        border: 1px solid #d2d6de;
+        padding: 8px;
+    }
+    .textareaheight {
+      height: 100px !important;
+    }
+</style>
+
+<div class="container-offset-lr mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3 mt-2">
+                <div class="mb-3">
+                    <h4 ><?= $pageTitle; ?></h4>
+                </div>
+
+                <form class="row g-3">
+                    <div class="col-md-2 text-md-end">
+                        <label for="file_name" class="col-form-label text-md-end">File Name</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="file_name" name="file_name" disabled value="<?= $rows[0]['filename']; ?>">
+                    </div>
+
+                    <div class="col-md-2 text-md-end">
+                        <label for="file_label" class="col-form-label text-md-end">Label</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="file_label" name="file_label" placeholder="Video File Label" value="<?= $rows[0]['label']; ?>" required>
+                    </div>
+                    <div class="col-md-2 text-md-end">
+                        <label for="tags" class="col-form-label text-md-end">Tags</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="tags" name="tags" placeholder="Video Tags" value="<?= $hashtag_string; ?>">
+                    </div>
+
+                    <div class="col-md-2 text-md-end">
+                        <label for="is_active" class="col-form-label">Is Active</label>
+                    </div>
+                    <div class="col-md-10 d-flex align-items-center">
+                        <input class="form-check-input me-2" type="checkbox" id="is_active" name="is_active" <?= $rows[0]['is_active'] ? "checked" : ""; ?>>
+                    </div>
+                    <div class="col-md-2 text-md-end">
+                        <label for="redactor_content" class="col-form-label">Video Player Code</label>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea class="form-control" id="redactor_content" name="code" placeholder="Edit video player code here ..." required><?= $rows[0]['widget_code'] ? $rows[0]['widget_code'] : $sample_editor_code; ?></textarea>
+                    </div>
+                    <div class="col-12 text-center mt-3">
+                        <a href="manage_training_videos" class="btn btn-secondary">Cancel</a>
+                        <input hidden disabled name="video_id" id="video_id" value="<?= $rows[0]['video_id']; ?>" type="text">
+                        <a id="submit" class="btn btn-primary">Save</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JS Code remains unchanged -->
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+</script>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(8)").addClass("myactive");
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#redactor_content').initRedactor('redactor_content', 'post');
+
+        $('#submit').on('click', function(){
+            let video_id = $('#video_id').val();
+            let label = $('#file_label').val();
+            let tags = $('#tags').val();
+            let is_active = $('#is_active').is(':checked');
+            let widget_code = $('#redactor_content').val();
+
+            let form_data = JSON.stringify({
+                "action": "updateTrainingVideo",
+                "video_id": video_id,
+                "label": label,
+                "tags": tags,
+                "is_active": is_active,
+                "widget_code": widget_code
+            });
+
+            $.ajax({
+                url: 'edit_training_video?param=' + video_id,
+                type: "POST",
+                data: { data: form_data },
+                success: function() {
+                    swal.fire({ title: 'Success', text: "Saved Successfully." }).then(function() {
+                        window.location.href = "manage_training_videos";
+                    });
+                },
+                error: function() {
+                    swal.fire({ title: 'Error', text: "Something went wrong. Please try again." }).then(function() {
+                        window.location.reload();
+                    });
+                }
+            });
+        });
+    });
+    (function ($) {
+    $.fn.initRedactor = function (id, context) {
+        $R('#' + id,{
+                linkNewTab: true,
+                linkTarget: '_blank',
+                linkTitle: true,
+                linkNofollow: true,
+                linkSize: 256,
+                linkValidation: true,
+                styles: false,
+                source: true,
+                minHeight: '500px',
+                buttons: ['html','redo', 'undo', 'format', 'bold', 'italic', 'underline', 'ul', 'ol', 'line', 'link'],
+                formatting: ['p', 'blockquote'],
+                pasteLinkTarget: '_blank',
+                pasteImages: true, //Since we have clipboardUpload set to true.
+                pastePlainText: false,
+                pasteBlockTags: ['ul', 'ol', 'li', 'p','blockquote'],
+                pasteInlineTags: ['a', 'br', 'b', 'u', 'i'],
+                dragUpload: false,
+                multipleUpload: false,
+                clipboardUpload: false
+            });
+    };
+})(jQuery);
+</script>

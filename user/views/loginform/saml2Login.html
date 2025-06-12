@@ -1,0 +1,6 @@
+<?php if (!empty(trim($loginMethod['login_btn_label']))) {?>
+<a href="login_re?lm_type=saml2&lm_id=<?=$loginMethod['settingid'] ?? 0; ?>" style="text-decoration:none" class="loginSubmitBtn loginBtn loginBtn--common">
+    <?=htmlspecialchars($loginMethod['login_btn_label'] ?? 'Login using SAML Single Sign-on')?>
+</a>
+<?php } ?>
+<small class="mt-1"><?=htmlspecialchars($loginMethod['login_btn_description']?? $_COMPANY->val('companyname').' uses SAML2 Single Sign-on. To login, click on the above button and use your company email if requested. ')?></small>

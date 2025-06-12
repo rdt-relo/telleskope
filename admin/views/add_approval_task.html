@@ -1,0 +1,66 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                </div>
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= $_SESSION['form_error']; ?>
+                    </div>
+                <?php } ?>
+
+                <div class="col-md-9">
+                        <form id="tasksForm" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                            <input type="hidden" name="approval_config_id" value="<?=$_COMPANY->encodeId($configId)?>">
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="approval_task_name">Enter Task Name:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="approval_task_name" id="approval_task_name" placeholder="Enter Task Name (Required)" value="<?= $taskid ? $task[0]['approval_task_name']: ''?>">        
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="approval_task_details">Enter Task Details:</label>
+                                <div class="col-sm-10">
+                                    <textarea id="approval_task_details" class="form-control" type="text" placeholder="Task Details" name="approval_task_details" value=""><?= $taskid ? $task[0]['approval_task_details'] : ''?></textarea>     
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="isrequired">Is the task required:</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" name="isrequired" id="isrequired" value="1" <?= $taskid ? ($task[0]['isrequired'] ? 'checked' : '') : '' ?>>        
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="proof_isrequired">Is Proof for the task required:</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" name="proof_isrequired" id="proof_isrequired" value="1" <?= $taskid ? ($task[0]['proof_isrequired'] ? 'checked' : '') : '' ?>>        
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Add Task">
+                                <a class="btn btn-info btn-sm" href="topic_approval_tasks?topicType=<?=$topicType?>&approval_stage=<?=$_COMPANY->encodeId($stage)?>&approval_config_id=<?=$_COMPANY->encodeId($configId)?>">Cancel</a>
+                            </div>
+                        </form>          
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#approval_task_details').initRedactor('approval_task_details', 'group',['counter']);
+        $(".redactor-voice-label").text("<?= gettext('Approval Task Details');?>");
+    });
+    </script>
+<script>
+// Add an event listener to the form submission
+document.getElementById("tasksForm").addEventListener("submit", function(event) {
+console.log("Form submitted")
+});
+</script>

@@ -1,0 +1,55 @@
+<re-html>
+    <re-head>
+        <re-title>
+            My Email
+        </re-title>
+        <re-font href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i"></re-font>
+    </re-head>
+    <re-body background-color="#ffffff" padding="10px 0 30px 0">
+        <re-preheader>
+            .
+        </re-preheader>
+        <re-header background-color="#ffffff" padding="20px 0 0px 0px" background-image="" background-size="cover">
+            <re-block padding="10px 20px 20px 20px">
+                <re-image src="GROUP_LOGO" href="[%COMPANY_URL%]" width="125px"></re-image>
+                <re-text color="#000001" margin="0" align="left">
+                    <b>[%GROUP_NAME%]</b><br>
+                </re-text>
+            </re-block>
+        </re-header>
+        <re-main background-color="#fff" border-radius="6px">
+            <re-block align="center" padding="20px" border-radius="0px">
+                <re-text color="#000001" align="left" margin="5px 0 6px 0" font-size="18px">
+                    <b>Hello [%RECIPIENT_NAME%]!</b><br>
+                </re-text>
+                <re-text color="#585858" align="left" margin="0 0 15px 0" font-size="14px">
+                    Welcome and congratulations on becoming a member of [%GROUP_NAME%].&nbsp;
+                    Thank you again for becoming a part of our community! We cannot wait to watch you grow with us!&nbsp;
+                    <br>
+                    &nbsp;<br>
+                    Sincerely,<br>
+                    &nbsp;<br>
+                    [Officer Name]<br>
+                    [Title]<br>
+                </re-text>
+            </re-block>
+        </re-main>
+        <re-footer padding="10px 20px 10px 20px" background-color="#ffffff" border-radius="0px">
+            <re-block align="center" padding="5px 0 0 0">
+                <re-text color="#88888b" font-size="9px">
+                    This email is company confidential and is intended for internal distribution only.<br>
+                </re-text>
+            </re-block>
+            <re-block align="center">
+                <re-text color="#88888b" font-size="9px" margin="5px 0 0 0">
+                    You received this email because you joined <a href="[%GROUP_URL%]" style="color: rgb(0, 145, 255);">[%GROUP_NAME%]</a>. To unsubscribe, update your profile at <a
+                            href="[%COMPANY_URL%]profile" style="color: rgb(0, 145, 255);">[%COMPANY_NAME%]</a>
+                    Affinities site.<br>
+                </re-text>
+                <re-text color="#88888b" font-size="9px" margin="5px 0 0 0">
+                    Powered by Teleskope
+                </re-text>
+            </re-block>
+        </re-footer>
+    </re-body>
+</re-html>

@@ -1,0 +1,58 @@
+<div tabindex="-1" id="dynamicListRules" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><?= $modalTitle; ?></h5>
+                <button type="button" id="btn_close" class="close" aria-label="close" data-dismiss="modal">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php if (!empty($invalidCatalogs)) { ?>
+                <div class="col-md-12">
+                    <div class="alert-danger p-3">This list references user catalogs that are no longer available: <?= Arr::AsHtmlList($invalidCatalogs)?></div>
+                </div>
+                <?php } ?>
+                <div class="col-md-12">
+                        <?php foreach($catalog_categories as $catalog_category){ ?>
+                            <div class="form-group">
+                                <label for="<?= $catalog_category; ?>" class="col-md-12 control-label"><?= $catalog_category; ?></label>
+                                <div class="col-md-2">
+                                    <select class="form-control" name="<?= $catalog_category; ?>" id="<?= $catalog_category; ?>" onchange="showHideCategoryKeys(this.value,'<?= $catalog_category; ?>')" disabled>
+                                        <option value="0">Ignore</option>
+                                        <?php foreach (array_keys(UserCatalog::SET_TYPE_OPERATORS_MAP) as $oper) { ?>
+                                        <option value="<?=$oper?>" <?= $list  ? (array_key_exists($catalog_category,$list_criteria) && $list_criteria[$catalog_category]['comparator'] == $oper ? 'selected' : '') : ''; ?>><?=UserCatalog::SET_TYPE_OPERATORS_MAP[$oper]?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="form-control multi_select" name="<?= $catalog_category; ?>_val[]" id="<?= $catalog_category; ?>_val" multiple="multiple" style="width:100%;" disabled>
+                                        <option value="">Select a system role type</option>
+                                        <?php foreach(UserCatalog::GetAllCategoryKeys($catalog_category) as $key){
+                                            $sel = '';
+                                            if ($list && !empty($list_criteria) && array_key_exists($catalog_category,$list_criteria) &&  in_array($key,$list_criteria[$catalog_category]['keys'])){
+                                                $sel = 'selected';
+                                            }
+                                        ?>
+                                        <option value="<?= $key ;?>" <?= $sel; ?>><?= $key ;?></option>
+                                    <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+		$('.multi_select').select2(
+		{
+			placeholder: "Select or search options",
+			maximumSelectionLength: 20
+		}
+	);
+    $('.multi_select').prop('disabled', true);
+	});
+</script>

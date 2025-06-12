@@ -1,0 +1,91 @@
+<style>
+    .disabledlink {
+        pointer-events: none;
+        cursor: default;
+		background: #418bbbba !important;
+    }
+</style>
+ 
+    <div class="container  col-md-offset-2 margin-top">
+        <div class="row">	  
+            <div class="col-md-12">
+                <div class="widget-simple-chart card-box ">
+            <?php if (isset($_GET['msg'])){
+                    if (base64_decode($_GET['msg'])==5){?>
+                    <div id="hidemesage" class="col-md-12">
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <?php echo getmsg(base64_decode($_GET['msg'])); ?>
+                        </div>
+                    </div>
+            <?php }else{?>
+                    <div id="hidemesage" class="col-md-12">	
+                        <div class="alert alert-dismissible alert-info">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <?php echo getmsg(base64_decode($_GET['msg']));?>
+                        </div>
+                    </div>
+            <?php } } ?>
+                    <div class="col-md-12 divider">
+                        <h6><?= $pagetitle; ?> &nbsp;</h6>
+                        <a href="new_company_report">
+                            <i class="fa fa-plus-circle fa-lg" title="Create new report" aria-hidden="true"></i>
+                        </a>
+                    </div> 
+                    <div class="col-md-12 table-pad">
+                        <div class="table-responsive">
+                            <table id="table" class="table table-hover display compact" summary="Company reports link_section">											
+                                <thead>
+                                    <tr>
+                                        <th width="20%" class="color-black" scope="col">Report Name</th>
+                                        <th width="40%" class="color-black" scope="col">Report Description</th>
+                                        <th width="15%" class="color-black" scope="col">Report Type</th>
+                                        <th width="15%" class="color-black" scope="col">Report Purpose </th>
+                                        <th width="10%" class="color-black" scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($data as $row){ ?>
+                                    <tr>
+                                        <td><?= $row['reportname']; ?></td>
+                                        <td><?= $row['reportdescription']; ?></td>
+                                        <td><?= $type[$row['reporttype']]; ?></td>
+                                        <td><?= ucfirst($row['purpose']); ?></td>
+                                        <td>
+                                            <a class="" href="new_company_report?id=<?= $row['reportid']; ?>"><i class="fa fa-edit" title="Edit" aria-hidden="true"></i></a>
+                                                &nbsp;
+                                            <a class="deluser" href="ajax?deleteReportMeta=<?= $row['reportid']; ?>" title="<strong>Are you sure to delete!</strong>"><i class="fa fa-trash" title="Delete" aria-hidden="true"></i></a>
+                                                
+                                        </td>
+                                        
+                                    </tr>
+                                <?php } ?>	
+                                </tbody>										
+                            </table>
+                        </div>
+                    </div>
+                </div>								
+            </div>
+        </div>
+    </div>
+</div>
+	
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#table').DataTable( {
+					"order": [],
+					"bPaginate": true,
+					"bInfo" : false					
+				});
+			});
+		</script>
+        <script>
+            <?php if(( (time()- @$_SESSION['updated']) < 5) || ( (time()- @$_SESSION['added']) < 5) ){ ?>
+                showSweetAlert("Success!","<?= $_SESSION['msg']; ?>");
+            <?php } ?>
+       
+            <?php if((time()- @$_SESSION['error']) < 5){ ?>
+                showSweetAlert("Error!","<?= $_SESSION['msg']; ?>",'error');
+            <?php } ?>
+        </script>

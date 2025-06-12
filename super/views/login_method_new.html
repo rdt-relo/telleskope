@@ -1,0 +1,88 @@
+    <style>
+    .radio-inline {
+        min-width: 80px !important;
+    }
+    </style>
+    <div class="container-offset-lr mt-4">
+        <div class="row">              
+            <div class="col-12"> 
+                <div class="card p-3">
+                    <div class="card-header border-bottom mb-3">
+                        <h1 class="mb-0"><?= $page_title; ?></h1>
+                    </div>
+    
+                    <div class="card-body">
+                        <form method="post" action="" id="emailSetting">
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Method Name</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="settingname" required value="<?= $row ?  $row['settingname'] : '';?>" placeholder="Method Name">
+                                </div>
+                            </div>
+    
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Scope</label>
+                                <div class="col-md-10">
+                                    <select name="scope" id="scope" class="form-select" required>
+                                        <option value="">Select an option</option>
+                                        <option value="teleskope" <?= ($row && $row['scope']=='teleskope') ? 'selected' : ''; ?>>Teleskope</option>
+                                        <option value="affinities" <?= ($row && $row['scope']=='affinities') ? 'selected' : ''; ?>>Affinities</option>
+                                        <option value="officeraven" <?= ($row && $row['scope']=='officeraven') ? 'selected' : ''; ?>>Officeraven</option>
+                                        <option value="talentpeak" <?= ($row && $row['scope']=='talentpeak') ? 'selected' : ''; ?>>Talentpeak</option>
+                                        <option value="peoplehero" <?= ($row && $row['scope']=='peoplehero') ? 'selected' : ''; ?>>Peoplehero</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Login Type</label>
+                                <div class="col-md-10">
+                                    <?php if (empty($id)) { ?>
+                                        <select name="loginmethod" id="loginmethod" onchange="loadLoginSettingForm(this.value,'<?= $id; ?>')" class="form-select" required>
+                                            <option value="">Select an option</option>
+                                            <option value="saml2" <?= ($row && $row['loginmethod']=='saml2') ? 'selected' : ''; ?>>SAML2</option>
+                                            <option value="microsoft" <?= ($row && $row['loginmethod']=='microsoft') ? 'selected' : ''; ?>>o365</option>
+                                            <?php if ($curr_company->isConnectEnabled()) { ?>
+                                                <option value="connect" <?= ($row && $row['loginmethod']=='connect') ? 'selected' : ''; ?>>Connect (deprecated - do not use)</option>
+                                            <?php } ?>
+                                            <option value="otp" <?= ($row && $row['loginmethod']=='otp') ? 'selected' : ''; ?>>One-Time Password (OTP)</option>
+                                            <option value="username" <?= ($row && $row['loginmethod']=='username') ? 'selected' : ''; ?>>Username/Password</option>
+                                        </select>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="loginmethod" value="<?=$row['loginmethod']?>">
+                                        <div class="form-control-plaintext"><?= $row['loginmethod']; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Allowed Email Domains</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="allowed_email_domains" name="allowed_email_domains" maxlength="1000" value="<?= $row ? $row['allowed_email_domains'] : ''; ?>" placeholder="Enter company email domains that are allowed to use this login method">
+                                </div>
+                            </div>
+
+                            <div id="dynamic_form_fields"></div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Login Screen Heading</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="login_screen_heading" name="login_screen_heading" value="<?= $row ? $row['login_screen_heading'] : '';?>" placeholder="Enter the heading on the login screen. (Maximum 100 characters)">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <a class="btn cancel_template btn-secondary" href="login_method_list">Cancel</a>&emsp;
+                                <input type="submit" class="btn create_template btn-primary" name="submit" value="Save" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br></br>
+    <script>
+    <?php if($id){ ?>
+        loadLoginSettingForm('<?= $row['loginmethod']; ?>','<?= base64_encode($id); ?>');
+    <?php } ?>
+        $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    </script>
+    

@@ -1,0 +1,517 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
+<style>
+i.fa.fa-trash.confirm {
+        float: right; 
+        margin-top: 5px; 
+        color:#B6B6B6; 
+        cursor: pointer;}
+
+i.fa.fa-trash.confirm:hover{
+        color: #0077b5;
+    }
+.slim {
+    border-radius: 50%;
+}
+.profile-pic {
+border-radius: 80%;
+height: 150px;
+width: 150px;
+}
+#profilePictureForm .confirm {
+    cursor: pointer;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.main-breadcrumb ol{
+    background-color: #fff;
+}
+h3.profile-name {
+    clear: both;
+    width: 100%;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.dark-color {
+    clear: both;
+    width: 100%;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.4rem;
+    border-bottom: 1px solid #efefef;
+    padding: 0 0 8px 16px;
+}
+/* For profile section */
+.about-list {
+    padding-top: 10px;
+  }
+  .about-list .media {
+    padding: 15px 0;
+  }
+  .about-list label {
+    color: #000;
+    font-weight: 600;
+    width: 40%;
+    font-size: 16px;
+    margin: 0;
+    position: relative;
+  }
+  .about-list label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 11px;
+    width: 1px;
+    height: 12px;
+    background: #000;
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+    margin: auto;
+    opacity: 0.5;
+  }
+  .about-list p {
+    margin: 0 0 0 5px;
+    font-size: 16px;
+  }
+  .profile-btn-del {
+        background: #ffffff;
+        border-radius: 100%;
+        margin-top: -4rem;
+        overflow: visible;
+        position: relative;
+        top: 1px;
+    }
+  .profile-btn-upload {
+        background: #ffffff;
+        border-radius: 100%;
+        margin-top: -4rem;
+    }
+    .profile-btne:hover{
+        background-color: #72aada;
+    }
+  .inputfile {
+    margin-top: -30px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+.inputfile2 {
+    margin-left: 25px;
+}
+#profilePictureForm .confirm {
+    cursor: pointer;
+    }
+    .inputfile + span {font-size: 1.25rem; text-overflow: ellipsis;  white-space: nowrap;   display: inline-block; overflow: hidden; width: 50px; height: 50px; pointer-events: none;
+    cursor: pointer; line-height: 45px; text-align: center;}
+.inputfile + span svg { fill: #fff;}
+</style>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.kickstart.tksp.min.js"></script>
+<script>
+    function removeProfilePicture(){
+
+        let finaldata     = new FormData();
+        finaldata.append('selectedUserId',"<?= $_COMPANY->encodeId($user->val('userid'));?>");
+
+        $.ajax({
+            url: 'ajax_upload.php?removeProfilePicture=1',
+            type: "POST",
+            enctype: 'multipart/form-data',
+            data: finaldata,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+                if (data =='0'){
+                    swal.fire({title: 'Error!',text:'Invalid file. The file size is too big (2MB maximum).'});
+                } else if (data =='1') {
+                    swal.fire({title: 'Error!',text:'Maximum allowed size of profile picture is 2MB!'});
+                } else if (data =='2'){
+                    swal.fire({title: 'Error!',text:'Only .jpg,.jpeg,.png files are allowed!'});
+                } else { // success
+                    swal.fire({title: 'Success',text:'Profile picture removed successfully.'}).then(function(result) {
+                        location.reload();
+                    });
+                }
+
+                // for album sweet alert
+                setTimeout(() => {
+                    $(".swal2-confirm").focus();
+                }, 300)
+            }
+        });
+    }
+function uploadProfilePicture(){
+    
+    let profileINput = $("input[name=userProfile]").val();
+    if (profileINput){
+        
+        let media  = JSON.parse(profileINput);
+        
+        let base64 = media.output.image;
+        let type   = media.output.type;
+        let block  = base64.split(";");
+
+        // get the real base64 content of the file
+        let realData = block[1].split(",")[1];
+        
+        // Convert to blob
+        let blob = b64toBlob(realData, type);
+        
+        const file = new File([blob],media.input.name,{ type: type });
+        
+        let finaldata     = new FormData();
+        finaldata.append('picture',file);
+        finaldata.append('selectedUserId',"<?= $_COMPANY->encodeId($user->val('userid'));?>");
+        $.ajax({
+            url: 'ajax_upload.php?uploadProfilePicture=1',
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            data: finaldata,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+                if (data =='0'){
+                    swal.fire({title: 'Error!',text:'Invalid file. The file size is too big (2MB maximum).'});
+                } else if (data =='1') {
+                    swal.fire({title: 'Error!',text:'Maximum allowed size of profile picture is 2MB!'});
+                } else if (data =='2'){
+                    swal.fire({title: 'Error!',text:'Only .jpg,.jpeg,.png files are allowed!'});
+                } else { // success
+                    swal.fire({title: 'Success',text:'Profile picture changed successfully.'}).then(function(result) {
+                        location.reload();
+                    });
+                }
+
+                // for album sweet alert
+                setTimeout(() => {
+                    $(".swal2-confirm").focus();
+                }, 300)
+            }
+        });
+    }else{
+        swal.fire({title: 'Error!',text:'Please upload your profile image!'});
+    }
+    
+    setTimeout(() => {
+        $(".swal2-confirm").focus();
+    }, 300)
+}
+   
+function uploadProfileImage() {
+    // Get the modal element
+    var uploadModalEl = document.getElementById('upload_modal');
+    // Initialize Bootstrap 5 Modal with options
+    var uploadModal = new bootstrap.Modal(uploadModalEl, {
+        backdrop: 'static',
+        keyboard: false
+    });
+    // Show it
+    uploadModal.show();
+
+    // After a short delay, focus the close button
+    setTimeout(function() {
+        var closeBtn = uploadModalEl.querySelector('.btn-close');
+        if (closeBtn) {
+            closeBtn.focus();
+        }
+    }, 500);
+}
+
+</script>
+<script>
+    let parent = document.getElementById("addfocus"),
+drag = document.getElementById("userProfileImage");
+parent.addEventListener("drop", () => {
+    $('#uploadProfilePhoto').removeAttr('disabled');
+});
+        $('#userProfileImage').on("change",
+            function(){
+                if ($(this).val()) {
+                    $('#uploadProfilePhoto').removeAttr('disabled');
+                    $('#uploadProfilePhoto').focus();
+                }
+            }
+        );
+
+  </script>
+<script>
+    document.getElementById('userProfileImage').addEventListener('focus', function() {
+        document.getElementById('addfocus').classList.add("fileupload-outline");
+    });
+    document.getElementById('userProfileImage').addEventListener('blur', function() {
+        document.getElementById('addfocus').classList.remove("fileupload-outline");
+      
+    });
+trapFocusInModal("#upload_modal");
+</script>
+
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-12">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb" class="main-breadcrumb mt-2">
+                <ol class="breadcrumb p-3">
+                    <li class="breadcrumb-item">
+                        <a class="add-plus-circle-icon text-primary text-decoration-none" href="<?= ($section == 'global') ? 'manageglobalusers' : 'manageusers';?>">
+                            <?=($section == 'global') ? 'Global' : 'Zone'?> Users
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+
+            <div class="row g-3">
+                <!-- User profile image card -->
+                <div class="col-md-5 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <?= User::BuildProfilePictureImgTag($user->val('firstname'),$user->val('lastname'), $user->val('picture'),'profile-pic demo2', 'User Profile Picture'); ?>
+
+                            <div class="text-center mt-3">
+                                <form method="post" enctype="multipart/form-data" id="profilePictureForm">
+                                    <?php if( $user->val('picture')){ ?>
+                                        <label class="profile-btn-del me-4">
+                                            <a href="javascript:void(0);" class="confirm" title="<?=gettext('Are you sure to remove profile picture?')?>" data-confirm-yesBtn="<?=gettext('Yes')?>" data-confirm-noBtn="<?=gettext('No')?>" onclick="removeProfilePicture()">
+                                                <i class="fa fa-trash text-dark" style="width:20px;height:20px;padding-top:5px;"></i>
+                                            </a>
+                                        </label>
+                                    <?php } ?>
+
+                                    <a role="button" href="javascript:void(0);" class="inputfile <?= $user->val('picture') ? 'inputfile2' : '' ?>" aria-label="Upload Profile Image" onclick="uploadProfileImage()" user_id="<?= $_COMPANY->encodeId($user->val('userid')); ?>" id="showoutline">
+                                        <span class="profile-btn-upload <?= $user->val('picture') ? 'ms-4' : '' ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </form>
+                            </div>
+
+                            <div class="mt-3">
+                                <h3 class="profile-name fs-4"><?= $user->getFullName(true) ?></h3>
+                                <p class="text-secondary mb-1"><?= $user->val('jobtitle') ?></p>
+                                <p class="text-muted small"><?= $user->getBranchName(); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User details card -->
+                <div class="col-md-7">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3 class="text-dark fs-4">About <?= $user->val('firstname'); ?></h3>
+                            <hr class="">
+                            <div class="row ">
+                                <div class="col-md-6">
+                                    <div class="row mb-3"> 
+                                        <label class="bold col-4 fw-bold  pe-0"><?= gettext('Full Name'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->val('firstname') . ' ' . $user->val('lastname') ?></p>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Email'); ?>:</label>
+                                        <p class="bold col-8"><?= htmlspecialchars($user->getEmailForDisplay(true)) ?></p>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Job Title'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->val('jobtitle') ?></p>
+                                    </div>
+                                    <div class="row">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Department'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->getDepartmentName(); ?></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Office Location'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->getBranchName(); ?></p>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Timezone'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->val('timezone') ?></p>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Language'); ?>:</label>
+                                        <p class="bold col-8"><?= $user->val('language') ?></p>
+                                    </div>
+                                    <div class="row">
+                                        <label class="bold col-4 fw-bold pe-0"><?= gettext('Home zone'); ?>:</label>
+                                        <p class="bold col-8"><?= $_COMPANY->getZone($_USER->getMyConfiguredZone($_ZONE->val('app_type')))->val('zonename') ?? '-' ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Joined Groups -->
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body px-0">
+                            <h3 class="text-dark px-3 fs-4">
+                                <?= sprintf(gettext("Joined %s"),($section == 'global') ? 'Groups across all Zones' : $_COMPANY->getAppCustomization()['group']['name-short-plural']) ?>
+                            </h3>
+                            <div class="table-responsive px-3">
+                                <table id="joined_group_list" class="table table-hover table-sm" summary="Joined Group List section">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%"><?=($section == 'global') ? 'Group' : $_COMPANY->getAppCustomization()['group']['name-short']?> <?= gettext('Name'); ?></th>
+                                            <th width="20%"><?= gettext('Joined Date'); ?></th>
+                                            <th width="20%"><?= gettext('Allow Emails'); ?></th>
+                                            <th width="20%"><?= gettext('Privacy'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($user_memberships as $data): ?>
+                                            <?php
+                                                $groupZone = $_COMPANY->getZone($data['zoneid']);
+                                                if (!$groupZone) continue;
+
+                                                if($data['anonymous']){
+                                                    $data['groupname'] = "Anonymous";
+                                                    $data['chapters'] = $data['chapters'] ?? [];
+                                                    $data['channels'] = $data['channels'] ?? [];
+                                                }
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <p class="mb-1">
+                                                        <?php if ($section == 'global'): ?>
+                                                            <small>[<?= $data['zonename'] ?>]</small><br>
+                                                        <?php endif; ?>
+                                                        <strong><?= $data['groupname']; ?></strong>
+                                                        (Member<?= ($groupLead = Group::GetGroupLeadDetailByUserid($data['groupid'], $user->id())) ? ', ' . $groupLead['type'] : ''; ?>)
+                                                    </p>
+
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['chapter']['enabled']): ?>
+                                                        <?php foreach($data['chapters'] as $chapter): ?>
+                                                            <p class="ms-3 mb-1">
+                                                                <i class="fas fa-globe me-1"></i> <?= $chapter['chaptername']; ?> (Member<?= ($chapterLead = Group::GetChapterLeadDetailByUserid($chapter['chapterid'], $user->id())) ? ', ' . $chapterLead['type'] : ''; ?>)
+                                                            </p>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['channel']['enabled']): ?>
+                                                        <?php foreach($data['channels'] as $channel): ?>
+                                                            <p class="ms-3 mb-1">
+                                                                <i class="fas fa-layer-group me-1"></i> <?= $channel['channelname']; ?> (Member<?= ($channelLead = Group::GetChannelLeadDetailByUserid($channel['channelid'], $user->id())) ? ', ' . $channelLead['type'] : ''; ?>)
+                                                            </p>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?= $db->covertUTCtoLocalAdvance('M d, Y g:i a', "", $data['groupjoindate'], $_SESSION['timezone']); ?></td>
+                                                <td>
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['event']['enabled']): ?>
+                                                        <input type="checkbox" <?= $data['notify_events'] ? 'checked' : '' ?> disabled> <?= gettext('Events'); ?><br>
+                                                    <?php endif; ?>
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['post']['enabled']): ?>
+                                                        <input type="checkbox" <?= $data['notify_posts'] ? 'checked' : '' ?> disabled> <?= Post::GetCustomName(true); ?><br>
+                                                    <?php endif; ?>
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['newsletters']['enabled']): ?>
+                                                        <input type="checkbox" <?= $data['notify_news'] ? 'checked' : '' ?> disabled> <?= gettext('Newsletters'); ?><br>
+                                                    <?php endif; ?>
+                                                    <?php if ($_COMPANY->getAppCustomizationForZone($data['zoneid'])['discussions']['enabled']): ?>
+                                                        <input type="checkbox" <?= $data['notify_discussion'] ? 'checked' : '' ?> disabled> <?= gettext('Discussions'); ?><br>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><input type="checkbox" <?= $data['anonymous'] ? 'checked' : '' ?> disabled> <?= gettext('Anonymous Member'); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Attended -->
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="card mt-3">
+                        <div class="card-body px-3">
+                            <h3 class="text-dark fs-4"><?= gettext("Events Attended") ?></h3>
+                            <div class="table-responsive">
+                                <?php include_once __DIR__.'/templates/profile_joined_event.template.php'; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="upload_modal" tabindex="-1">
+    <div class="modal-dialog" role="document" aria-label="<?= gettext('Upload Profile Photo') ?>">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><?= gettext('Upload Profile Photo'); ?></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?= gettext('Close dialog') ?>"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" id="uploadprofilePictureForm">
+                    <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+                    <input type="hidden" name="selectedUserID" value="<?= $_COMPANY->encodeId($user->val('userid')); ?>">
+                    <div class="profile-pic d-block mx-auto">
+                        <div class="slim" id="addfocus" data-label="" data-max-file-size="2" data-size="240,240" data-ratio="1:1">
+                            <input type="file" name="userProfile" id="userProfileImage" accept="image/jpeg,image/png" aria-label="<?= gettext('Drop your image here'); ?>" />
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button id="uploadProfilePhoto" type="button" class="btn btn-primary" onclick="uploadProfilePicture()"><?= gettext('Upload Photo'); ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script> 
+  $(document).ready(function () {
+    
+      var joinedgTable = $('#joined_group_list').DataTable({
+          "order": [],
+          "bPaginate": false,
+          "bInfo": false,
+          "bFilter": false,
+          "aoColumnDefs": [{"bSortable": false, "aTargets": [-1, -2, -3, -4]}],
+          'language': {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+          },
+          "initComplete": function(settings, json) {
+              var paginationLinks = $("#joined_group_list_paginate > span > a");
+              paginationLinks.each(function() {
+                  var pNo = $(this).html();
+                  $( this ).attr("aria-label","Page "+pNo) ;
+                  $('.current').attr("aria-current","true");
+              });
+          }
+      });
+      var dCount = joinedgTable.rows().count();
+      var resultVerb = ' row is';
+      if (dCount>1){
+          resultVerb = ' rows are'
+      }
+      $('#joinedGroupInfo').html(dCount+ resultVerb+' available');
+  });
+  </script>

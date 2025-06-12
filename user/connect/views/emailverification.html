@@ -1,0 +1,38 @@
+<?php include __DIR__.'/header.html'; ?>
+
+<div class="container">
+    <div id="user-action-box" class="card card-container wow zoomIn animated">
+        <div class="head-logo">
+            <img src="<?=$_COMPANY->val('logo') ?? '../../image/teleskope-logo.png'?>" height="50px"/>
+            <div class="title">Connect your email</div>
+        </div>
+        <?php if (!empty($success_message)) { ?>
+            <div class="alert alert-success">
+                <?= $success_message; ?>
+            </div>
+        <?php } ?>
+        <?php if (!empty($error_message)) { ?>
+            <div class="alert alert-danger">
+                <?= $error_message; ?>
+            </div>
+        <?php } ?>
+        <form class="form-horizontal" action="?token=<?=$_GET['token']?>" method="POST">
+            <div class="form-group">
+                <p>We will now connect your email address <?=$tokenConnectUser->val('external_email')?> with your <?=$_COMPANY->val('companyname')?> enterprise account for Teleskope Applications.</p>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="externalid" id="externalid" placeholder="Verify your <?=$_COMPANY->val('connect_attribute')?>" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" name="submit_ack" value="submit" class="loginBtn loginBtn--common btn-block center-block g-recaptcha">Continue</button>
+            </div>
+        </form>
+        <div class="text-center grecaptcha-label mb-0">Confidential – For Internal Use Only</div>
+        <div id="footer-logo"></div>
+    </div>
+    <div style="height:2px;"> </div>
+</div>
+
+
+</body>
+</html>

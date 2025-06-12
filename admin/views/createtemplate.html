@@ -1,0 +1,147 @@
+<!-- revolvapp css -->
+<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/css/revolvapp.min.css" />
+<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.css" />
+<style>
+    .create_template {
+        background-color: #337ab7;
+        color: #fff;
+        margin-top: 15px;
+    }
+    .cancel_template{
+        background-color:#80808047;
+        color: #000;
+        margin-top: 15px;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12"> 
+            <div class="widget-simple-chart card-box">
+				<div class="col-md-12" style="border-bottom:1px solid  #e9e9e9; 	margin-bottom:20px">
+					<h6>New Template</h6>
+				</div>
+                <div class="col-md-12" >
+                    <form class="form-horizontal" id="email_template_form" method="post">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <input type="hidden" name="templateid" value="<?= $_COMPANY->encodeId(0);?>">
+                        <div class="form-group">
+                            <label class=" control-lable col-md-2" >Template Name<span style="color:red;">*</span></label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="templatename" name="templatename"  value="" placeholder="Enter Template name here" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="templatetype" class="col-md-2 control-lable" >Template Type<span style="color:red;">*</span></label>
+                            <div class="col-md-10">
+                                <select type="text" class="form-control" id="templatetype" name="templatetype" onchange="initRevolApp(this.value)">
+                                    <option value="">Select Template Type</option>
+                                    <option value="newsletter">Newsletter</option>
+                                    <option value="comm_welcome_email">Communications - Welcome Email</option>
+                                    <option value="comm_leave_email">Communications - Leave Email</option>
+                                    <option value="comm_anniversary_email">Communications - Others</option>
+                                </select>                                
+                            </div>
+                        </div>                        
+                        <div class="text-center template-note" style="display:none"> 
+                            <label class="col-md-2 control-lable" ></label>
+                            <p class="col-md-10"><u>Note 1:</u> In addition to the variables available from the menu below, if you want to use
+                                variables for logos, then use <b>COMPANY_LOGO</b> or <b>GROUP_LOGO</b> in URL field of image. These variables
+                            will be replaced with actual group logo or company logo at time of content creation. </p>
+                        
+                            <label class="col-md-2 control-lable" ></label>
+                            <p class="col-md-10"><u>Note 2:</u> In addition to the variables available from the menu below, if you want to use
+                                variables for group color, then use <b>#000001</b> as the primary color and <b>#000002</b> as the secondary color. They will be replated by actual group color at time of content creation. </p>
+                        </div>
+                        <div id="newsletter-template" class="form-group">                
+                            <label class="col-md-2 control-lable" >Create Template</label>
+                            <div class="col-md-10">                         
+                                <div id="common_email_template"></div>
+                            </div>
+                            <div class="text-center">                            
+                            <button class="btn create_template text-center" type="button" onclick="getHtml();">Save Draft Template</button>
+                            &emsp;
+                            <a class="btn cancel_template text-center" href="manage_templates">Cancel</a>
+                            </div>
+                        </div>                       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- revolvapp js -->
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/revolvapp-tele-2023-11-15.min.js"></script>
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.js"></script>
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/reorder/reorder.min.js"></script>
+<script defer src="../vendor/js/revolvapp_config/revolvapp_config.js"></script>
+
+<!-- call -->
+<script>
+let app;
+function initRevolApp(type){ 
+    $("select option:first").attr("disabled", "true");
+$.ajax({
+        url: 'ajax.php?getTemplateData=true',
+        type: 'GET',
+        data: {"type":type},
+        success: function(data) {  
+            if (typeof app === 'undefined' || app === null) {          
+                app =  Revolvapp('#common_email_template', {
+                    source: true,
+                    plugins: ['variable', 'reorder'],
+                    content: data,
+                    variable: {
+                        items: ['COMPANY_NAME','GROUP_NAME', 'CHAPTER_NAME', 'COMPANY_URL', 'GROUP_URL', 'PUBLISH_DATE_TIME']
+                    }, 
+                    editor: {
+                        path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+                        maxHeight: '8000px'
+                    },
+                    toolbar: {
+                        sticky: true,
+                        stickyTopOffset: 75
+                    },
+                    image: {
+                        upload: "ajax.php?uploadEmailTemplateMedia=1"
+                    },
+                    
+                });
+            }else{
+                app.editor.setTemplate(data);
+            }
+        }        
+    });     
+}
+   
+    function getHtml(e) {
+        var templatename = $('#templatename').val().trim();
+        var templatetype = $('#templatetype').val();
+        if(templatename == ''){
+            swal.fire({title: 'Alert!',text:'Please enter newsletter name.'});
+            e.preventDefault();
+        }else if (templatetype == ''){
+            swal.fire({title: 'Alert!',text:'Please select a template.'});
+            e.preventDefault();
+        } else {           
+            var app = Revolvapp('#common_email_template');           
+            
+            let source = app.editor.getTemplate().replace(/(\r\n|\n|\r)/gm,"");
+            var formData = $('form#email_template_form').serialize()+'&template='+encodeURIComponent(source);
+            $.ajax({
+                url: 'ajax.php?addUpdateTemplate=true',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    swal.fire({title: 'Success!',text:'Template saved as draft successfully.'})
+                    .then(() =>{
+                        window.location.href = "manage_templates";
+                    });
+                },
+                error: function ( data )
+                {                  
+                    swal.fire({title: 'Error!',text:'There has been an internal server error. Please wait and try again later.'});
+                }
+            });
+        }
+    }
+</script>

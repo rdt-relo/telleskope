@@ -1,0 +1,67 @@
+<div class="container-offset-lr mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card p-3">
+                <div class="col-12">
+                    <h1><?= $pageTitle; ?></h1>
+                </div>
+
+                <div class="col-12">
+                    <?php if (!isset($_POST['submit']) || (isset($_POST['submit']) && !$key_record)) { ?>
+                        <form method="post" action="">
+                            <input type="hidden" name="pskeyid" value="<?= isset($_GET['pskeyid']) ? $_GET['pskeyid'] : ''; ?>">
+
+                            <div class="row mb-3">
+                                <label for="inputPurpose" class="col-lg-2 col-form-label text-md-end required">Purpose</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" placeholder="PSK Purpose" name="purpose" type="text" required value="<?= isset($purpose) ? $purpose : ''; ?>">
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-3">
+                                <a href="manage_psks.php" class="btn btn-secondary">Back</a>
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    <?php } ?>
+
+                    <?php if ($key_record) { ?>
+                        <div id="pskDetails" class="mt-4">
+                            <p><strong>PSK ID:</strong> <?= $key_record['pskeyid']; ?></p>
+                            <p><strong>PSK:</strong> <?= $key_record['pskey']; ?></p>
+                            <button class="btn btn-primary mb-2" id="copyPskBtn">Copy the PSK</button>
+                            <a class="btn btn-primary mb-2" href="manage_psks.php">Back to manage keys</a>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // For copying plaintext key if successful
+    $(document).ready(function() {
+        $("#copyPskBtn").click(function() {
+            var psk = "<?= $key_record['pskey']; ?>";
+            var tempInput = document.createElement("input");
+            tempInput.value = psk;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("PSK copied to clipboard!");
+        });
+    });
+</script>
+
+<script>
+    jQuery('#menu-toggle').click(function(e) {
+        e.preventDefault();
+        jQuery('#wrapper').toggleClass('toggled');
+    });
+</script>
+
+<script>
+ $("#sidebar-wrapper ul li:nth-child(10)").addClass("myactive");
+</script>

@@ -1,0 +1,174 @@
+<div class="container-offset-lr mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="widget-simple-chart card p-5 py-4">
+                <div class="col-12 border-bottom mb-4">
+                    <h4 class="text-light-brown ">Update Email Settings</h4>
+                </div>
+                <div class="col-12">
+                    <form id="emailSetting">
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label">Choose Protocol</label>
+                            <div class="col-md-10">
+                                <select name="email_protocol" onchange="changeProtocol(this.value);" id="email_protocol" class="form-select">
+                                    <option value="1" <?= $setting['custom_smtp'] ? 'selected' : ''; ?>>SMTP</option>
+                                    <option value="2" <?= $setting['custom_imap'] ? 'selected' : ''; ?>>IMAP</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="smtp" style="display:<?= ($setting['custom_smtp'] || $setting['custom_imap']==0) ? 'block' : 'none'; ?>">
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP From Email<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="email" class="form-control" name="smtp_from_email" value="<?= $setting['smtp_from_email'] ? $setting['smtp_from_email'] : ''; ?>" placeholder="Email here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Reply-To Email<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="email" class="form-control" name="smtp_replyto_email" value="<?= $setting['smtp_replyto_email'] ? $setting['smtp_replyto_email'] : ''; ?>" placeholder="Replyto email here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Host<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="smtp_host" value="<?= $setting['smtp_host'] ? $setting['smtp_host'] : ''; ?>" placeholder="Host here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Port<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="smtp_port" value="<?= $setting['smtp_port'] ? $setting['smtp_port'] : ''; ?>" placeholder="Port here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Username<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="smtp_username" value="<?= $setting['smtp_username'] ? $setting['smtp_username'] : ''; ?>" placeholder="User name here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Secure<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <label class="form-check form-check-inline">
+                                        <input type="radio" name="smtp_secure" value="tls" <?= ($setting['smtp_secure']==='tls') ? 'checked' : ''; ?> class="form-check-input">TLS
+                                    </label>
+                                    <label class="form-check form-check-inline">
+                                        <input type="radio" name="smtp_secure" value="ssl" <?= ($setting['smtp_secure']==='ssl') ? 'checked' : ''; ?> class="form-check-input">SSL
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">SMTP Password</label>
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-primary" onclick="openPasswordModal()">Update Password</button>
+                                    &emsp;
+                                    <span style="color:green; display: <?= $setting['smtp_password'] ? 'inline' : 'none'; ?>" id="s_smtp">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                    <span style="color:red;display:<?= $setting['smtp_password'] ? 'none' : 'inline'; ?>" id="e_smtp">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="imap" style="display:<?= $setting['custom_imap'] ? 'block' : 'none'; ?>">
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">IMAP Host<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="imap_host" value="<?= $setting['imap_host'] ? $setting['imap_host'] : ''; ?>" placeholder="Host here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">IMAP Port<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="imap_port" value="<?= $setting['imap_port'] ? $setting['imap_port'] : ''; ?>" placeholder="Port here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">IMAP Username<span style="color:red">&nbsp*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="imap_username" value="<?= $setting['imap_username'] ? $setting['imap_username'] : ''; ?>" placeholder="User name here">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">IMAP Password</label>
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-primary" onclick="openPasswordModal()">Update Password</button>
+                                    &emsp;
+                                    <span style="color:green; display: <?= $setting['imap_password'] ? 'inline' : 'none'; ?>" id="s_imap">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                    <span style="color:red; display: <?= $setting['imap_password'] ? 'none' : 'inline'; ?>" id="e_imap">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn cancel_template btn-secondary" onclick="window.history.back();">Cancel</a> &emsp;
+                            <button class="btn create_template btn-primary" onclick="updateEmailSetting()" type="button">Update Email Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="passwordModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Update Password</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="mb-3 row">
+                <label class="col-sm-4 col-form-label" for="pwd">Password:</label>
+                <div class="col-sm-7">
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+                </div>
+              </div>
+            <div class="mb-3 row">
+              <label class="col-sm-4 col-form-label" for="pwd">Confirm Password:</label>
+              <div class="col-sm-7">
+                <input type="password" class="form-control" id="confirm_password" name="" placeholder="Confirm password">
+              </div>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" onclick="updateEmailSettingPasssword()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function changeProtocol(v){
+        if (v == 1){
+            $("#smtp").show();
+            $("#imap").hide();
+        } else {
+            $("#smtp").hide();
+            $("#imap").show();
+        }
+    }
+    function openPasswordModal() {
+        $("#password").val('');
+        $("#confirm_password").val('');
+        $('#passwordModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+</script>
+
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+</script>

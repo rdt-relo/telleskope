@@ -1,0 +1,155 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+				<div class="col-md-12"><h6><?= $link_id?'Edit':'Add';?> Footer Link</h6></div>
+
+                <?php if(isset($error)){ ?>
+                <div id="hidemesage" class="col-md-12">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <?php echo $error; ?>
+                    </div>
+                </div>
+                <?php } ?>
+
+				<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<div class="form-group" >
+						<label class="col-lg-2 control-label">Title<span style="color: #ff0000;"> *</span></label>
+						<div class="col-lg-10">
+							<input class="form-control" type="text" placeholder="Footer link title here.." name="link_title"  value="<?= htmlspecialchars($link_id>0 ? $edit['link_title'] : ($_POST['link_title'] ?? '')); ?>" required >
+						</div>
+                    </div>
+                    <div class="form-group" >
+						<label for="link_section" class="col-lg-2 control-label">Link Section<span style="color: #ff0000;"> *</span></label>
+						<div class="col-lg-10">
+							<select name="link_section" id="link_section" class="form-control" required >
+								<option value="">Choose where to place in footer</option>
+								<option value="left" <?= ($link_id>0  && $edit['link_section'] === 'left') ? 'selected' : ''; ?>>Left</option>
+								<option value="middle" <?= ($link_id>0  && $edit['link_section'] === 'middle') ? 'selected' : ''; ?> >Middle</option>
+								<option value="right" <?= ($link_id>0  && $edit['link_section'] === 'right') ? 'selected' : ''; ?> >Right</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="form-group" >
+						<label for="link_type" class="col-lg-2 control-label">Link Type<span style="color: #ff0000;"> *</span></label>
+						<div class="col-lg-10">
+							<select id="link_type" name="link_type" class="form-control" onchange="changeLinkType(this.value)" required >
+								<option value="" disabled selected>Select Link Type</option>
+								<?php 
+								$selected = $link_id > 0 && $edit['link_type'] =='1' ? 'selected' : '';
+								$disabled = $link_id > 0 && $edit['link_type'] !='1' ? 'disabled' : '';
+								?>
+								<option value="1"<?= $selected . $disabled ?> >External Link</option>
+								<?php 
+								$selected = $link_id > 0 && $edit['link_type'] =='3' ? 'selected' : '';
+								$disabled = $link_id > 0 && $edit['link_type'] !='3' ? 'disabled' : '';
+								?>
+								<option value="3" <?= $selected . $disabled ?> >Email</option>
+								<?php 
+								$selected = $link_id > 0 && $edit['link_type'] =='2' ? 'selected' : '';
+								$disabled = $link_id > 0 && $edit['link_type'] !='2' ? 'disabled' : '';
+								?>
+								<option value="2" <?= $selected . $disabled ?> >Attachment</option>
+							</select>
+						</div>
+					</div>
+					<div id="emailInputs" style="display:<?= ($link_id>0  && $edit['link_type'] == '3') ? 'block' : 'none'; ?>">
+					<div class="form-group">
+						<label for="emailId" class="col-lg-2 control-label">Email Address</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" name="emailId" id="emailId" placeholder="Enter your email" value="<?= htmlspecialchars($link_id>0 ? $edit['mailto'] : ($_POST['mailto'] ?? '')); ?>">
+                            <small style="color: grey">Multiple email addresses can be seperate by a semi-colon</small>
+						</div>
+					</div>
+					<div class="form-group">	
+						<label for="subject" class="col-lg-2 control-label">Email Subject</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" name="subject" id="subject" placeholder="Enter subject here" value="<?= htmlspecialchars($link_id>0 ? $edit['subject'] : ($_POST['subject'] ?? '')); ?>">
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label for="subject" class="col-lg-2 control-label">Email Body</label>
+                        <div class="col-lg-10">
+                            <textarea name="email_body" id="email_body" rows="4" style="width:100%;margin:5px 0;padding:3px;" placeholder="Enter email body here"><?= htmlspecialchars($link_id>0 ? $edit['email_body'] : ($_POST['email_body'] ?? '')); ?></textarea>
+                            Note: The following characters are not allowed: <pre>newline, %, ^, & </pre>
+                        </div>
+                    </div>
+                    </div> <!-- wrapper div for email id and subject inputs  -->
+
+					<div class="form-group" id="linkType" style="display:<?= ($link_id>0  && $edit['link_type'] == '1') ? 'block' : 'none'; ?>">
+						<label for="link" id="external_link_lebel" class="col-lg-2 control-label">External Link</label>
+						<div class="col-lg-10">
+							<input id="link" class="form-control" type="text" placeholder="https://xyz.com" name="link" value="<?= $link_id>0 ? $edit['link'] : '' ?>" >
+						</div>
+                    </div>
+					<div class="form-group" id="fileType" style="display:<?= ($link_id>0  && $edit['link_type'] == '2') ? 'block' : 'none'; ?>;">
+                        <label class="col-lg-2 control-label">Attachment<br><sup>(PDF Files, 20MB Max)</sup></label>
+						<div class="col-lg-10">
+							<input id="attachment" type="file" name="attachment" accept=".pdf">
+						    <?php 	if($link_id>0 ){ ?>
+                            <p><a href="<?=$edit['link']; ?>" target="_blank" rel="noopener noreferrer">Existing Attachment</a></p>
+						    <?php	}	?>
+                        </div>
+					</div>
+					<div class="form-group text-center">
+						<a href="branding" class="btn btn-primary">Cancel</a>
+						<button type="submit" id="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function changeLinkType(link_type){
+		if (link_type == 1){
+			$("#fileType").hide();
+			$("#linkType").show();
+			$("#emailInputs").hide();
+				$("#link").attr("placeholder", "https://xyz.com");
+				$(".help-block-text").html('');
+				<?php if($link_id == 0){ ?>
+					$('#link').val('');
+				<?php } ?>
+				// adding validation required attr for selected fields to
+				$("#link").prop('required', true);
+				$("#subject").prop('required', false);
+			$("#emailId").prop('required', false);
+		} else if (link_type == 2){
+			$("#fileType").show();
+			$("#linkType").hide();
+			$(".help-block-text").html('');
+			$("#emailInputs").hide();
+			$("#link").prop('required', false);
+			$("#subject").prop('required', false);
+			$("#emailId").prop('required', false);
+		}else{
+			$("#fileType").hide();
+			$("#linkType").hide();
+			$("#emailInputs").show();
+			$("#link").prop('required', false);
+			$("#subject").prop('required', true);
+			$("#emailId").prop('required', true);
+		}
+	}
+</script>
+
+<script>
+    $("#email_body").keydown(function(e){
+        // Enter pressed
+        if (
+            e.keyCode == 13 ||  // Disable enter key
+            (e.shiftKey && (e.keyCode === 53 || e.keyCode === 54 || e.keyCode === 55)) // Disable % ^ &
+        )
+        {
+            e.preventDefault();
+        }
+    });
+</script>
+
+	</body>
+</html>

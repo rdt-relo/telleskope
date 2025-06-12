@@ -1,0 +1,13 @@
+{
+    "require": {
+        "aws/aws-sdk-php": "^3.268",
+        "rakit/validation": "^1.4",
+        "phpseclib/phpseclib": "^3.0",
+        "aws/aws-php-sns-message-validator": "^1.8",
+        "psr/log": "^3.0",
+        "phpmailer/phpmailer": "^6.7",
+        "defuse/php-encryption": "^2.3",
+        "spatie/icalendar-generator": "^2.6",
+        "erusev/parsedown": "^1.7"
+    }
+}

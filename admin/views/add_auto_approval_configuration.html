@@ -1,0 +1,103 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                </div>
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= $_SESSION['form_error']; ?>
+                    </div>
+                <?php } ?>
+
+                <div class="col-md-9">
+                        <form id="criterionForm" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                            <input type="hidden" name="approval_config_id" value="<?=$_COMPANY->encodeId($configId)?>">
+                            <input type="hidden" name="approval_stage" value="<?=$_COMPANY->encodeId($stage)?>">
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="customFieldDropdown">Select Custom Field:</label>
+                                <div class="col-sm-10">        
+                                    <select class="form-control" id="customFieldDropdown" name="custom_field_id">
+                                        <option value="" disabled selected>Select Custom Field</option>
+                                    <?php
+                                    foreach ($data as $customField) {
+                                        $customFieldName = $customField['custom_field_name'];
+                                        $customFieldId = $customField['custom_field_id']; ?>
+                                        <option value="<?= $_COMPANY->encodeId($customFieldId) ?>"><?= $customFieldName ?></option>;
+                                    <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-lable col-sm-2" for="customFieldDropdown">Select Option:</label>
+                                <div class="col-sm-10">
+                                    <div id="optionsContainer">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-info btn-sm" href="<?=$topic_config_redirect?>">Cancel</a>
+                            <input class="btn btn-primary" type="submit" name="submit" value="Add Criterion" <?=$submitStatus?>>
+                        </form>          
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+      function fetchCustomFieldOptions(selectedFieldId) {
+    $.ajax({
+        url: 'ajax.php?getEventCustomFieldOption',
+        method: 'POST',
+        data: { event_custom_field_id: selectedFieldId },
+        success: function(response) {
+            document.getElementById("optionsContainer").innerHTML = response;
+        },
+        error: function() {
+            console.log('Error fetching custom field options');
+        }
+    });
+    }
+
+    // Add an event listener to the customFieldDropdown select element
+    document.getElementById("customFieldDropdown").addEventListener("change", function () {
+        let selectedFieldId = this.value;
+        fetchCustomFieldOptions(selectedFieldId);
+    });
+    </script>
+    <script>
+        
+    </script>
+    <script>
+// Add an event listener to the form submission
+document.getElementById("criterionForm").addEventListener("submit", function(event) {
+    var customFieldSelect = document.getElementById("customFieldDropdown");
+    var selectedFieldId = customFieldSelect.value;
+    var checkboxes = document.querySelectorAll('#customFieldOptionsCheckbox input[name="customFieldOption[]"]');
+    var hasCheckboxes = checkboxes.length > 0;
+    var atLeastOneChecked = false;
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            atLeastOneChecked = true;
+            break;
+        }
+    }
+
+    if (!hasCheckboxes && selectedFieldId === '') {
+        // No checkboxes and no dropdown selected
+        event.preventDefault();
+        Swal.fire({
+            title: 'Error',
+            text: 'Please select a custom field.',
+            icon: 'error'
+        });
+    } 
+});
+    </script>

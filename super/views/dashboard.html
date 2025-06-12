@@ -1,0 +1,37 @@
+<div class="container-offset-lr mt-5">
+    <div class="row g-4 mt-2">
+      <!-- Active Clients -->
+      <div class="col-sm-6 mt-2">
+        <div class="card shadow-sm d-flex flex-row align-items-center min-h-15">
+          <div class="me-3 col-3 min-h-15 text-center bg-light-blue">
+            <img src="../image/quotes.png" class="img-fluid py-5"  alt="Active Clients">
+          </div>
+          <div class="text-end flex-grow-1 col-9 text-center ">
+            <h5 class="text-success mb-1 text-light-blue fs-5 text-uppercase">Active Clients</h5>
+            <p class="fs-5 mb-0 text-light-blue fs-5"><?= $client_count; ?></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-2">
+        <div class="card shadow-sm d-flex flex-row align-items-center min-h-15">
+          <div class="me-3 col-3 min-h-15 text-center bg-plum">
+            <img src="../image/order.png" class="img-fluid py-5"  alt="Total Users">
+          </div>
+          <div class="text-end flex-grow-1 col-9 text-center">
+            <h5 class="text-success mb-1 text-plum fs-5 text-uppercase">Total Users</h5>
+            <p class="fs-5 mb-0 text-plum fs-5 "><?= $user_count; ?></p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    jQuery("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+</script>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(1)").addClass("myactive");
+</script>

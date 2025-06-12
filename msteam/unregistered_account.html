@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Not Registered</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0078d4; /* Microsoft Teams blue */
+            --danger-color: #e81123;   /* A strong red for alerts */
+            --text-color: #323130;
+            --background-color: #f3f2f1;
+            --card-background: #ffffff;
+            --border-color: #edebe9;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: var(--text-color);
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border-top: 5px solid var(--danger-color);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon-wrapper {
+            margin-bottom: 25px;
+        }
+
+        .icon-wrapper svg {
+            width: 80px;
+            height: 80px;
+            color: var(--danger-color);
+        }
+
+        h1 {
+            color: var(--danger-color);
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .support-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .support-link:hover {
+            background-color: #005ea6; /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+
+        .support-link:active {
+            transform: translateY(0);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #605e5c;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon-wrapper">
+            <!-- You can replace this with a more specific MS Teams icon if available, or a generic alert icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+        </div>
+        <h1>Account Not Registered</h1>
+        <p>
+            We're unable to log you in because your account is not registered with us.
+            This usually happens if you're not yet part of our organization's MS Teams users.
+        </p>
+        <p>
+            To register your account and gain access, please contact our support team. They will guide you through the process.
+        </p>
+        <a href="mailto:support@teleskope.atlassian.net?subject=MS%20Teams%20Account%20Registration%20Request" class="support-link">
+            Contact Support Team
+        </a>
+        <p class="footer-note">
+            Please include your registered email address in your support request for faster assistance.
+        </p>
+    </div>
+</body>
+</html>

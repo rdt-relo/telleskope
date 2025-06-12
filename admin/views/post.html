@@ -1,0 +1,113 @@
+
+			<div class="container  col-md-offset-2 margin-top">
+				<div class="row">	  
+					<div class="col-md-12">
+						<div class="widget-simple-chart card-box ">
+							<div class="col-md-12 divider pl-0">
+								
+								<div class="col-md-8 "><h6><?= sprintf(gettext("Manage %s"),Post::GetCustomName(true))?></h6></div>
+								<div class="col-md-4 ">
+									<a href="ajax?download_announcement_report" class="btn btn-sm btn-info pull-right">Download Report</a>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+							<div id="hidemesage" class="alert alert-info alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+								<?= UPDATED; ?>
+							</div>
+						<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+							<div id="hidemesage" class="alert alert-info alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+								<?= ADDED; ?>
+							</div>
+						<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+								<div id="hidemesage" class="alert alert-danger alert-dismissable">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+									<?= ERROR; ?>
+								</div>
+						<?php } ?>
+									
+							
+							<div class="table-responsive col-md-12">
+								<table id="postTable" class="table table-hover display compact" summary="<?=Post::GetCustomName(true)?> list">
+									<thead>
+										<tr>
+											<th width="30%" class="color-black" scope="col">Title</th>
+											<th width="12%" class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?></th>
+											<th width="10%" class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?></th>
+											<th width="10%" class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['channel']["name-short"]?></th>
+											<th width="13%" class="color-black" scope="col">Posted&nbsp;On</th>
+											<th width="15%" class="color-black" scope="col">Post&nbsp;By</th>
+											<th width="10%" class="color-black" scope="col">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+					
+						</div>								
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--div class="container-fluid col-md-offset-2 margin-top logo-footer">
+			<img src="../image/logo-footer.png">
+		</div-->
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				var dtable = 	$('#postTable').DataTable( {
+					serverSide: true,
+					bFilter: true,
+					bInfo : false,
+					bDestroy: true,
+					order: [[ 4, "DESC" ]],
+					language: {
+							searchPlaceholder: " Search ..."
+						},
+						columnDefs: [
+						{ targets: [6], orderable: false }
+						],
+					ajax:{
+						url :"ajax.php?getAnnouncements", // json datasource
+						type: "POST",  // method  , by default get
+						error: function(data){  // error handling
+							$(".table-grid-error").html("");
+							$("#table-members-server").append('<tbody class="table-grid-error"><tr><th colspan="6">No data found!</th></tr></tbody>');
+							$("#table-grid_processing").css("display","none");
+						},complete : function(){
+							$('.initial').initial({
+								charCount: 2,
+								textColor: '#ffffff',
+								seed: 0,
+								height: 30,
+								width: 30,
+								fontSize: 15,
+								fontWeight: 300,
+								fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+								radius: 0
+							});
+							$(".deluser").popConfirm({content: ''});
+						}
+					},
+				} );
+
+				$(".dataTables_filter input")
+				.unbind()
+				.bind("input", function(e) {
+					if(this.value.length >= 3 || e.keyCode == 13) {
+						dtable.search(this.value).draw();
+					}
+					if(this.value == "") {
+						dtable.search("").draw();
+					}
+					return;
+				});
+				
+			} );
+		</script>
+	</body>
+</html>

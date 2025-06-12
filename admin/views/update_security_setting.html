@@ -1,0 +1,229 @@
+<style>
+    .white_listed {
+        padding-left: 0px;
+        margin-bottom: 5px;
+    }
+</style>
+	<div class="tl-container-offset-lr">
+		<div class="row mb-3">              
+			<div class="col-lg-12">
+				<div class="card p-4">
+          <div class="border-bottom mb-3">
+            <h1>
+              <?php if ($type === 'admin_external_roles') { ?>
+                <?= gettext('Update Admin External Roles') ?>
+              <?php } else { ?>
+              Update <?= $type =='admin' ? 'Administration' : 'Applications'; ?> Security
+              <?php } ?>
+            </h1>
+          </div>
+					<div class="clearfix"></div>
+					<?php if((time()- @$_SESSION['error']) < 5) { ?> 
+						<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+              <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+							<?= $_SESSION['form_error']; ?>
+						</div>
+                    <?php } ?> 
+                    
+                    <div class="col-md-12">
+                       <form class="form-horizontal" method="post" action="">
+                            <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <?php if ($type == 'admin'){ ?>
+                            <div class="row mb-3">
+								<label class="col-md-4 control-label">Maximum Admin Panel Inactivity<span style="color:red;">*</span></label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="Max Inactivity minutes e.g 60" name="admin_inactivity_max" value="<?= $security ? $security['admin_inactivity_max'] : '120';?>"  type="number" min="15" required>
+								</div>
+                            </div>
+              <div class="row mb-3">
+								<label class="col-md-4 control-label">Maximum Admin Panel Session<span style="color:red;">*</span></label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="Maximum Admin Panel Session e.g 60 minutes" name="admin_session_max" value="<?= $security ? $security['admin_session_max'] : '1440';?>" min="60" type="number" required>
+								</div>
+							</div>
+
+                          <div class="row mb-3">
+                          <label for="whitelist_ip" class="col-md-4 control-label">IP Allow List</label>
+                              <div class="col-md-6">
+                              <input class="form-control" placeholder="In CIDR Notation e.g. 10.20.30.40/32" id="whitelist_ip" name="whitelist_ip" value="" />
+                              </div>
+                              <div class="col-md-2">
+                                  <button type="button" onclick="addIP()" class="btn btn-sm btn-primary">Add IP</button>
+                              </div>
+                          </div>
+                            <div id="whitelisted_div" style="display:<?= $security['admin_whitelist_ip'] ? 'block' : 'none'; ?>">
+                              <div class="row mb-3">
+                                <div class="col-md-4 ">
+                                <label for="admin_whitelist_ip" class="control-label">
+                                    List of IP addresses allowed:
+                                    </label>  
+                                  </div>                          
+                              
+                                    <div class="col-md-8" id="whitelisted_row">
+                                    <?php if ($whitelisted_ips){ ?>
+                                        <?php for($i=0;$i<count($whitelisted_ips);$i++){ ?>
+                                            <div id="d_<?= ($i+1);?>" class="row mb-3 white_listed" >
+                                                <div class="col-md-4">
+                                                    <input id="admin_whitelist_ip" class="form-control ips" type="text" readonly name="admin_whitelist_ip[]" value="<?= $whitelisted_ips[$i];?>">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <button type="button" onclick='removeIp("<?= ($i+1);?>")' class="btn btn-sm btn-link">Remove IP</button>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        <?php } elseif ($type === 'affinity') { ?>
+							<div class="row mb-3">
+								<label class="col-md-4 control-label">Web Application Inactivity Timeout<span style="color:red;">*</span></label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="Maximum Application Inactivity e.g 60" name="apps_inactivity_max" value="<?= $security ? $security['apps_inactivity_max'] : '2880';?>"  type="number" min="15" required>
+								</div>
+                            </div>
+                            <div class="row mb-3">
+								<label class="col-md-4 control-label">Web Application Session Lifetime<span style="color:red;">*</span></label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="Maximum Application Session e.g 60 minutes" name="apps_session_max" value="<?= $security ? $security['apps_session_max'] : '10080';?>" min="60" type="number" required>
+								</div>
+							</div>
+                            <div class="row mb-3">
+                                <label class="col-md-4 control-label">Mobile Application Session Lifetime<span style="color:red;">*</span></label>
+                                <div class="col-md-8">
+                                    <input class="form-control" placeholder="Maximum Mobile Application Session e.g 1440 minutes for 1 day" name="mobile_session_max" value="<?= $security ? $security['mobile_session_max'] : '43200';?>" min="1440" type="number" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="start_date_hour" class="col-md-4 control-lable">Mobile Application Session Logout Time (UTC)</label>
+                                <div class="col-md-2 pr-0">
+                                    <select class="form-control" id="start_date_hour" name='mobile_session_logout_time_hr' required style="width:100%">
+                                    <?php for($m=0;$m<24;$m++){ ?>
+                                        <option value="<?= sprintf('%02d', $m); ?>" <?= $mobile_session_logout_time_hr == sprintf('%02d', $m) ? 'selected' : ''; ?> >&nbsp;<?= sprintf('%02d', $m) ?> Hour</option>
+                                    <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-2  pr-0">
+                                    <select class="form-control" id="start_date_minutes" name="mobile_session_logout_time_min" style="width:100%" required>
+                                        <?php for($s=0;$s<60;$s++){ ?>
+                                            <option value="<?= sprintf('%02d', $s); ?>" <?= $mobile_session_logout_time_min == sprintf('%02d', $s) ? 'selected' : ''; ?> >&nbsp;<?= sprintf('%02d', $s); ?> Minute</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+
+
+                        <?php } elseif ($type === 'admin_external_roles') { ?>
+                          <div class="row mb-3">
+                            <label class="col-md-4 control-label"><?= gettext('Company Admin External Roles') ?></label>
+                            <div class="col-md-8">
+                              <input class="form-control js-admin-external-roles-input" placeholder="Enter comma-separated external roles" name="company_admin_external_roles" value="<?= $security['company_admin_external_roles'] ?>" type="text" onblur="onInputBlur(event)" data-rolename="Company Admin">
+                              <small class="form-text text-muted skip-custom-style js-hint-text"></small>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-md-4 control-label"><?= gettext('Zone Admin External Roles') ?></label>
+                            <div class="col-md-8">
+                              <input class="form-control js-admin-external-roles-input" placeholder="Enter comma-separated external roles" name="zone_admin_external_roles" value="<?= $security['zone_admin_external_roles'] ?>" type="text" onblur="onInputBlur(event)" data-rolename="Zone Admin">
+                              <small class="form-text text-muted skip-custom-style js-hint-text"></small>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-md-4 control-label"><?= gettext('Group Lead External Roles') ?></label>
+                            <div class="col-md-8">
+                              <input class="form-control js-admin-external-roles-input" placeholder="Enter comma-separated external roles" name="group_lead_external_roles" value="<?= $security['group_lead_external_roles'] ?>" type="text" onblur="onInputBlur(event)" data-rolename="Group Lead">
+                              <small class="form-text text-muted skip-custom-style js-hint-text"></small>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-md-4 control-label"><?= gettext('Chapter Lead External Roles') ?></label>
+                            <div class="col-md-8">
+                              <input class="form-control js-admin-external-roles-input" placeholder="Enter comma-separated external roles" name="chapter_lead_external_roles" value="<?= $security['chapter_lead_external_roles'] ?>" type="text" onblur="onInputBlur(event)" data-rolename="Chapter Lead">
+                              <small class="form-text text-muted skip-custom-style js-hint-text"></small>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-md-4 control-label"><?= gettext('Channel Lead External Roles') ?></label>
+                            <div class="col-md-8">
+                              <input class="form-control js-admin-external-roles-input" placeholder="Enter comma-separated external roles" name="channel_lead_external_roles" value="<?= $security['channel_lead_external_roles'] ?>" type="text" onblur="onInputBlur(event)" data-rolename="Channel Lead">
+                              <small class="form-text text-muted skip-custom-style js-hint-text"></small>
+                            </div>
+                          </div>
+                        <?php } ?>                            
+							<div class="form-group text-center">
+                                <a href="security" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+							</div>
+                        </form>
+                    </div>		
+				</div>	
+			</div>
+		</div>
+	</div>
+
+    <script>
+        <?php require_once __DIR__ . '/../../include/common/js/ip.js.php'; ?>
+
+        function addIP() {
+            var ip = $("#whitelist_ip").val();
+            if(isIP(ip)){
+                var c = 1;
+                $(":input.ips").each(function(i, val) {
+                    c++;
+                });
+
+                $("#whitelisted_div").show();
+                var d = '<div id="d_'+c+'" class="col-md-12 white_listed" ><div class="col-md-4"><input class="form-control ips" type="text" readonly name="admin_whitelist_ip[]" value="'+ip+'"></div><div class="col-md-8"><button type="button" onclick=removeIp("'+c+'") class="btn btn-sm btn-link">Remove IP</button></div></div>';
+                $("#whitelisted_row").prepend(d);
+                $("#whitelist_ip").val('');
+            } else {
+                swal.fire({title: 'Error!',text:"Please enter an valid ip address in CIDR notation e.g. 10.20.30.40/[16-32]"});
+            }
+        }
+        function removeIp(i) {
+            var id = '#d_'+i;
+            $(id).remove();
+        }
+
+        function onInputBlur(event) {
+          var input = $(event.target);
+
+          if (input.hasClass('js-admin-external-roles-input')) {
+            updateHintText(input);
+          }
+        }
+
+        function updateHintText(input) {
+          var hint_text_elem = input.next('.js-hint-text');
+          var external_roles = input.val();
+
+          external_roles = input.val()
+            .split(',')
+            .map(function (str) {
+              return str.trim();
+            }).filter(function (str) {
+              return str;
+            });
+
+          if (external_roles.length) {
+            hint_text_elem.text(input.data('rolename') + ' must have external-roles of ' + external_roles.join(' OR '));
+          } else {
+            hint_text_elem.text('');
+          }
+        }
+
+        $('.js-admin-external-roles-input').each(function () {
+          updateHintText($(this));
+        })
+ </script> 
+</body>
+</html>

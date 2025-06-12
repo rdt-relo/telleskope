@@ -1,0 +1,63 @@
+<div class="container-offset-lr mt-4">
+    <div class="row justify-content-center">              
+        <div class="col-lg-12"> 
+            <div class="card p-4">
+                <div class="border-bottom mb-3">
+                    <h1><?= $pagetitle; ?></h1>
+                </div>
+                <div>
+                    <form id="zone_form" action="" method="post">
+                        
+                        <div class="mb-3 row">
+                            <label for="zonename" class="col-md-2 col-form-label text-md-end required">Zone Name</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="zonename" name="zonename"
+                                    value="<?= $edit ? $edit[0]['zonename'] : ''; ?>"
+                                    placeholder="Zone name here" 
+                                    required 
+                                    <?= $edit && $edit[0]['isactive']==1 ? 'disabled' : ''; ?>>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="app_type" class="col-md-2 col-form-label text-md-end required">Zone Type</label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="app_type" name="app_type" required 
+                                    <?= $edit && $edit[0]['isactive']==1 ? 'disabled' : ''; ?>>
+                                    <option value="">Select Zone Type</option>
+                                    <?php foreach($allApps as $key => $label){ 
+                                        if ($key == 'teleskope') continue;
+                                        $sel = ($edit && $edit[0]['app_type'] == $key) ? "selected" : ""; 
+                                    ?>
+                                        <option value="<?= $key; ?>" <?= $sel; ?>><?= $label; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="home_zone" class="col-md-2 col-form-label text-md-end required">Is Home Zone</label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="home_zone" name="home_zone" required
+                                    <?= $edit && $edit[0]['isactive']==1 ? 'disabled' : ''; ?>>
+                                    <option value="1" <?= ($edit && $edit[0]['home_zone']==1) ? "selected" : "" ?>>Home Zone (Default)</option>
+                                    <option value="0" <?= ($edit && $edit[0]['home_zone']==0) ? "selected" : "" ?>>Other Zone</option>
+                                    <option value="-1" <?= ($edit && $edit[0]['home_zone']==-1) ? "selected" : "" ?>>Hidden Zone</option>
+                                </select>
+                                <small class="form-text text-muted">
+                                    Note: If there are more than one zones present for an application, users must select a home zone on first login. Once selected, it cannot be changed. Set to Hidden Zone if you don't want users to select it as home zone.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a class="btn cancel-template btn-secondary" href="manage_zones">Cancel</a> &emsp;
+                            <button class="btn create-template btn-primary" type="submit" name="creteZone">Save Draft</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+</script>

@@ -1,0 +1,152 @@
+<style>
+    #company-info input[type=checkbox] {
+        margin: 10px 0 0;
+        line-height: normal;
+    }
+</style>
+
+<div class="container-offset-lr mt-5">
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card p-4 mt-2">
+                <?php if (isset($error)) { ?>
+                    <div id="hidemesage" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong style="color: #ff0000;"><?php echo $error; ?></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <h4 class="mb-3 text-light-brown">Add Company Information</h4>
+                <form id="company-info" method="post" action="" enctype="multipart/form-data">
+
+                    <input type="hidden" name="companyid" value="<?= htmlspecialchars($_GET['cid'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="page" value="<?= htmlspecialchars($_GET['page'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+
+                    <?php
+                    function formInput($label, $name, $type = 'text', $required = true, $row = null) {
+                        $value = '';
+                        if (isset($_GET['cid']) && $row && isset($row[0][$name])) {
+                            $value = $row[0][$name];
+                        } elseif (isset($_POST[$name])) {
+                            $value = $_POST[$name];
+                        }
+                        $value = htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+                        $requiredAttr = $required ? 'required' : '';
+                        echo <<<HTML
+                        <div class="mb-3 row">
+                            <label class="col-lg-3 col-form-label text-md-end $requiredAttr">$label</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" placeholder="$label" name="$name" value="$value" type="$type" $requiredAttr>
+                            </div>
+                        </div>
+HTML;
+                    }
+
+                    formInput("Company Name", "companyname", 'text', true, $row);
+                    formInput("Contact Person", "contactperson", 'text', true, $row);
+                    formInput("Company Email", "email", 'email', true, $row);
+                    ?>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end">Subdomain</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" placeholder="https://subdomain.teleskope.io" name="subdomain" value="<?= isset($_GET['cid']) ? htmlspecialchars($row[0]['subdomain'], ENT_QUOTES, 'UTF-8') : htmlspecialchars($_POST['subdomain'] ?? '', ENT_QUOTES, 'UTF-8') ?>" onchange="checkSubdomain(this)" required>
+                        </div>
+                    </div>
+
+                    <?php
+                    formInput("Contact Number", "contact", 'text', true, $row);
+                    ?>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end">Company Address</label>
+                        <div class="col-lg-6">
+                            <textarea class="form-control" name="address" required><?= isset($_GET['cid']) ? htmlspecialchars($row[0]['address'], ENT_QUOTES, 'UTF-8') : htmlspecialchars($_POST['address'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                        </div>
+                    </div>
+
+                    <?php
+                    formInput("City Name", "city", 'text', true, $row);
+                    formInput("State Name", "state", 'text', true, $row);
+                    formInput("Zip Code", "zipcode", 'text', true, $row);
+                    formInput("Country Name", "country", 'text', true, $row);
+                    ?>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end">Upload Logo</label>
+                        <div class="col-lg-6">
+                            <input name="logo" type="file" accept=".png,.jpg,.jpeg" <?= isset($_GET['cid']) ? '' : 'required' ?>>
+                        </div>
+                    </div>
+
+                    <?php if (isset($_GET['cid'])) { ?>
+                        <div class="mb-3 row">
+                            <label class="col-lg-3 col-form-label text-md-end">Uploaded Logo</label>
+                            <div class="col-lg-6">
+                                <img class='img-thumbnail' src="<?= htmlspecialchars($row[0]['logo'], ENT_QUOTES, 'UTF-8') ?>" height='70'>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end">Vendor Support Email</label>
+                        <div class="col-lg-6">
+                            <select name="vendor_support_email" class="form-select" required>
+                                <option value="support@teleskope.atlassian.net" <?= (isset($_GET['cid']) && $row[0]['vendor_support_email'] == 'support@teleskope.atlassian.net') ? 'selected' : '' ?>>support@teleskope.atlassian.net</option>
+                                <option value="eeosupport@affirmity.com" <?= (isset($_GET['cid']) && $row[0]['vendor_support_email'] == 'eeosupport@affirmity.com') ? 'selected' : '' ?>>eeosupport@affirmity.com</option>
+                                <option value="" <?= (isset($_GET['cid']) && $row[0]['vendor_support_email'] == '') ? 'selected' : '' ?>>Disable</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <?php
+                    formInput("Email From Prefix", "from_email_prefix", 'text', false, $row);
+                    ?>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end">Connect Attribute Name</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" placeholder="Set this attribute only if you want to enable connect module" name="connect_attribute" value="<?= isset($_GET['cid']) ? htmlspecialchars($row[0]['connect_attribute'], ENT_QUOTES, 'UTF-8') : htmlspecialchars($_POST['connect_attribute'] ?? '', ENT_QUOTES, 'UTF-8') ?>" type="text">
+                            <div class="text-danger mt-1">Set this value only if you want to enable the connect module.</div>
+                            <small class="text-muted">This should match externalid in the user database (e.g. Employee Id, Username)</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end pt-0">Show Teleskope TOS</label>
+                        <div class="col-lg-6 d-flex align-items-start">
+                            <input type="checkbox" class="form-check-input mt-1" name="show_teleskope_tos_link" value="1" <?= isset($row[0]['show_teleskope_tos_link']) && $row[0]['show_teleskope_tos_link'] == 1 ? "checked" : "" ?>>
+                            <span class="ms-2 text-danger">Disable only if the customer insists and after getting Teleskope management approval.</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-lg-3 col-form-label text-md-end  pt-0">Show Teleskope Privacy Policy</label>
+                        <div class="col-lg-6 d-flex align-items-start">
+                            <input type="checkbox" class="form-check-input mt-1" name="show_teleskope_privacy_link" value="1" <?= isset($row[0]['show_teleskope_privacy_link']) && $row[0]['show_teleskope_privacy_link'] == 1 ? "checked" : "" ?>>
+                            <span class="ms-2 text-danger">Disable only if the customer insists and after getting Teleskope management approval.</span>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="text-center">
+                        <a href="manage.php" class="btn btn-secondary">Cancel</a>
+                        <?php if (!isset($_GET['cid'])) { ?>
+                            <button type="reset" class="btn btn-primary">Reset</button>
+                        <?php } ?>
+                        <button type="submit" name="add" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+    $("#sidebar-wrapper ul li:nth-child(3)").addClass("myactive");
+</script>

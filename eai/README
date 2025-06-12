@@ -1,0 +1,4 @@
+# This directory contains enterprise APIs
+# Each API module is in its own file, e.g. uploaded
+# Authentication is done by authenticate.php to see if there is a valid token in the database for the called API
+# After authentication a valid company variable is available.

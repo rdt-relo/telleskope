@@ -1,0 +1,176 @@
+<style>
+    pre {
+        white-space: pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        background-color: transparent!important;
+        border-width: 0 !important;
+    }
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: lightgray;
+    }
+
+
+
+    th, td {
+        /* Allow wrapping */
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
+    }
+</style>
+
+<div class="container-offset-lr mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-9">
+                        <h1 class="m-0">Manage Scheduled Jobs</h1>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Schedule New Job
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="newDataExportJob.php">+ New Data Export Job</a></li>
+                                <li><a class="dropdown-item" href="newDataImportJob.php">+ New Data Import Job</a></li>
+                                <li><a class="dropdown-item" href="newUserSyncFileJob.php">+ New User Sync File Job</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="tab" id="jobs_data" style="margin-top:20px;">
+                        <div class="table-responsive">
+                            <table id="table" class="table table-bordered table-hover table-sm compact display">
+                                <thead>
+                                    <tr>
+                                        <th width="15%">Job Type</th>
+                                        <th width="30%">Attributes</th>
+                                        <th width="35%">Meta</th>
+                                        <th width="10%">Status</th>
+                                        <th width="10%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $format = array('1'=>'CSV','2'=>'TSV','4'=>'JSON');
+                                    $jobType = array(
+                                        '125'=>'User Sync File',
+                                        '124'=>'Data Import',
+                                        '123'=>'Data Export'
+                                    );
+                                    $status = array('0'=>'Scheduled','1'=>'Processing','100'=>'Processed');
+                                    foreach($data as $row){
+
+                                        $detail = Arr::Json2Array($row['details']);
+                                        $Meta = $detail['Meta'] ?? array();
+                                        $Attr = $detail;
+                                        unset($Attr['Meta']);
+                                        unset($Attr['SecurityHash']);
+
+                                        $row_status = $status[$row['status']];
+                                        if ($row['status'] == 0) {
+                                            $row_status .= '<br>to run at '. $row['processafter'] . '<br> UTC';
+                                        } elseif ($row['status'] == 100) {
+                                            $row_status .= ' (' . $row['processedby']. ')' . '<br>on '. $row['processedon'] . '<br> UTC';
+                                        }
+
+                                        if ($row['status'] != 1) {
+                                            $processedon = empty($row['processedon']) ? ' - ' : $row['processedon'] . ' UTC';
+                                            $row_status .= '<br><br>Last run time: ' . $processedon;
+                                        }
+
+                                        if ($row['status'] == 1) {
+                                            $row_status .= '<br>started on: ' . $row['processedon'] . ' UTC';
+                                        }
+
+                                        $zonename = Arr::SearchColumnReturnColumnVal($zones, $row['zoneid'], 'zoneid', 'zonename');
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <b><?= $jobType[$row['jobtype']] ?></b>
+                                            <br> ---------<br>
+                                            <small><b>Zone:</b><br><?= $zonename ?></small>
+                                            <br> ---------<br>
+                                            <small><b>Job Id:</b><br><?= $row['jobid'] ?></small>
+                                        </td>
+
+                                        <td>
+                                            <div style="height:240px; overflow-y:scroll; display:block;">
+                                                <pre><?= stripslashes(json_encode($Attr, JSON_PRETTY_PRINT)); ?></pre>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div style="height:240px; overflow-y:scroll; display:block;">
+                                                <pre><?= stripslashes(json_encode($Meta, JSON_PRETTY_PRINT)); ?></pre>
+                                            </div>
+                                        </td>
+
+                                        <td <?= $row['status'] == 100 ? 'style="color:#ff0000;"' : '' ?>>
+                                            <?= $row_status; ?>
+                                        </td>
+
+                                        <td>
+                                            <?php if($row['status'] == 100){ ?>
+                                                <?php if (intval($row['jobtype']) == Job::TYPE_USERSYNC_FILE) { ?>
+                                                    <a class="btn btn-sm btn-primary my-1" href="newUserSyncFileJob?jobid='<?= base64_encode($row['jobid'])?>'">Clone</a>
+                                                <?php } elseif (intval($row['jobtype']) == Job::TYPE_DATA_EXPORT) { ?>
+                                                    <a class="btn btn-sm btn-primary my-1" href="newDataExportJob?jobid=<?= base64_encode($row['jobid'])?>">Clone</a>
+                                                <?php } elseif (intval($row['jobtype']) == Job::TYPE_DATA_IMPORT) { ?>
+                                                    <a class="btn btn-sm btn-primary my-1" href="newDataImportJob?jobid='<?= base64_encode($row['jobid'])?>'">Clone</a>
+                                                <?php } ?>
+
+                                                <?php if (time() - strtotime($row['processafter'] . ' UTC') > 7*86400) { ?>
+
+                                                    <a class="btn btn-sm btn-danger my-1" onclick="return ('DELETE' == prompt('Type DELETE to continue'));" href="?delete_jobid=<?= base64_url_encode($row['jobid'])?>">Delete Permanently</a>
+                                                <?php } else { ?>
+                                                    <br>
+                                                    <div class="text-muted" style="font-size: small;">Deleted jobs can be permanently deleted after 7 days of soft delete.</div>
+                                                <?php } ?>
+
+                                            <?php } else { ?>
+                                                <?php if($row['status'] == 0){ ?>
+                                                    <a class="btn btn-sm btn-primary my-1 confirm" title="Are you sure to rerun this job?" onclick="rerunScheduledJob('<?= base64_encode($row['jobid'])?>')">Rerun</a>
+                                                <?php } ?>
+
+                                                <a class="btn btn-sm btn-danger my-1 confirm" title="Are you sure to delete this job?" onclick="deleteScheduledJob('<?= base64_encode($row['jobid'])?>')">Delete</a>
+                                                <br>
+                                                <span class="text-muted" style="font-size: x-small;">
+                                                    Note: Deleted Jobs can be cloned. In order to make changes to a job, delete it first and then clone it.
+                                                </span>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- card -->
+        </div> <!-- col-12 -->
+    </div> <!-- row -->
+</div> <!-- container -->
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "order": [],
+            "bPaginate": true,
+            "bInfo": false,
+            "pageLength": 25
+        });
+    });
+</script>
+</div> <!-- container -->
+</div>

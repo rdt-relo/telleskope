@@ -1,0 +1,400 @@
+<style>
+	.fa-ellipsis-v:after {
+		display: none;
+	}
+</style>
+<?php
+const chart_bgcolor_1 = '#ffadadff';
+const chart_bgcolor_2 = '#ffd6a5ff';
+const chart_bgcolor_3 = '#caffbfff';
+const chart_bgcolor_4 = '#9bf6ffff';
+const chart_bgcolor_5 = '#a0c4ffff';
+const chart_bgcolor_6 = '#bdb2ffff';
+const chart_bgcolor_7 = '#ffc6ffff';
+const chart_bgcolor_8 = '#fdffb6ff';
+?>
+<div tabindex="-1" id="theGraphModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">  
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="rsvp_report_title"><?= gettext("Quick View Report");?> <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?= gettext('All the numbers below are in real time, and any real time changes will take place immediately in this report.'); ?>"></i></h4>
+                    <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+
+
+
+
+    <div class="row">
+       <div class="col-md-12">
+          <div class="widget-simple-chart card-box">
+             <div class="col-md-12">
+                <h6><?= gettext("RSVP Reports");?></h6>
+             </div>
+             <div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+             <div class="clearfix"></div>
+             <?php 
+                include __DIR__.'/usage_report_filter.html';
+             ?>
+             <div>
+                <div class="tab-content">
+                   <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget-simple-chart card-box-one fixhight"
+                           style="margin-top: 11px;">
+                           <div class="dropdown pull-right">
+                                <i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a id="uniqueRsvpsAttendees" href="javascript:void(0)" >Export to CSV</a></li>
+                                </ul>
+                            </div>
+                           <canvas id="cartjs7" style="min-width: 193px; height: 413px; margin: 0 auto"></canvas>
+                           <script>
+                                var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                var datasets = [];
+                                var uniqueRsvps = [];
+                                var uniqueAttendees = [];
+                                var totalEvents = [];
+
+                            <?php for($i = 1;$i < 13;$i++) { ?>
+                                    uniqueRsvps.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'unique_rsvps') ?: 0; ?>);
+                                    uniqueAttendees.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'unique_attendees') ?: 0 ; ?>);
+                                    totalEvents.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'total_events') ?: 0 ; ?>);
+                            <?php } ?>
+
+                                datasets.push({label: "Unique RSVP's",backgroundColor:'<?=chart_bgcolor_1?>',data:uniqueRsvps,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Unique Attendees",backgroundColor:'<?=chart_bgcolor_2?>',data:uniqueAttendees,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Total Events",data:totalEvents, type: 'line', backgroundColor: "#ffffff00",order: 1,yAxisID: 'line-y-axis'});
+                                var stackedBarChartData = {
+                                    labels: labels,
+                                    datasets: datasets
+                                };
+                              
+                                var configBarChart =     {
+                                    type: 'bar',
+                                    data: stackedBarChartData,
+                                    options: {
+                                        title: {
+                                                display: true,
+                                                position: 'top',
+                                                text: ["Unique RSVP's and Unique Attendees ", 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                            },
+                                        barValueSpacing: 20,
+                                        legend: {
+                                            display: true,
+                                            position: 'bottom',
+                                        },
+                                        scales: {
+                                            yAxes: [
+                                            {
+                                                id: 'line-y-axis',
+                                                type: 'linear',
+                                                position: 'right',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    }
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "Events",
+                                                },
+                                            }, {
+                                                id: 'bar-y-axis',
+                                                type: 'linear',
+                                                position: 'left',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    },
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "RSVP's, Attendees",
+                                                }
+                                                
+                                            }
+                                            ]
+                                        }
+                                    }
+                                }
+                              var ctxBarChart = document.getElementById("cartjs7").getContext("2d");
+                              new Chart(ctxBarChart, configBarChart);
+
+                                // EXPORT TO CSV
+                                var uniqueRsvpsAttendeesLevel = JSON.parse(JSON.stringify(labels));
+                                var uniqueRsvpsAttendeesUniqueRsvps = JSON.parse(JSON.stringify(uniqueRsvps));
+                                var uniqueRsvpsAttendeesUniqueAttendees = JSON.parse(JSON.stringify(uniqueAttendees));
+                                var uniqueRsvpsAttendeesTotalEvents = JSON.parse(JSON.stringify(totalEvents));
+                                $('#uniqueRsvpsAttendees').on( "click", function() {
+                                    var finalData = [];
+                                    uniqueRsvpsAttendeesLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+                                    uniqueRsvpsAttendeesUniqueRsvps.unshift('Unique RSVPs');
+                                    uniqueRsvpsAttendeesUniqueAttendees.unshift('Unique Attendees');
+                                    uniqueRsvpsAttendeesTotalEvents.unshift('Total Events');
+                                    finalData[0] = convertArraytoObject(uniqueRsvpsAttendeesUniqueRsvps);
+                                    finalData[1] = convertArraytoObject(uniqueRsvpsAttendeesUniqueAttendees);
+                                    finalData[2] = convertArraytoObject(uniqueRsvpsAttendeesTotalEvents);
+                                    exportCSVFile(uniqueRsvpsAttendeesLevel,finalData,'Unique RSVPs and Unique Attendees');
+                                });
+                           </script>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+                     <div class="col-md-12">
+                        <div class="widget-simple-chart card-box-one fixhight"
+                           style="margin-top: 11px;">
+                           <div class="dropdown pull-right">
+                                <i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a id="averageRSVPsAttendees" href="javascript:void(0)" >Export to CSV</a></li>
+                                </ul>
+                            </div>
+                           <canvas id="cartjs1"  style="min-width: 193px; height: 413px; margin: 0 auto"></canvas>
+                           <script>
+                                var lavelVal = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                var datasets = [];
+                                var averageRsvps = [];
+                                var averageAttendees = [];
+                                var totalEvents = [];
+
+                            <?php for($i = 1;$i < 13;$i++) { ?>
+                                    averageRsvps.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'average_rsvps') ?: 0; ?>);
+                                    averageAttendees.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'average_attendees') ?: 0; ?>);
+                                    totalEvents.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'total_events') ?: 0 ; ?>);
+                            <?php } ?>
+
+                                datasets.push({label: "Average RSVP's",backgroundColor:'<?=chart_bgcolor_1?>',data:averageRsvps,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Average Attendees",backgroundColor:'<?=chart_bgcolor_2?>',data:averageAttendees,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Total Events",data:totalEvents, type: 'line', backgroundColor: "#ffffff00",order: 1,yAxisID: 'line-y-axis'});
+                                var stackedBarChartData = {
+                                    labels: lavelVal,
+                                    datasets: datasets
+                                };
+                              
+                                var configBarChart =     {
+                                    type: 'bar',
+                                    data: stackedBarChartData,
+                                    options: {
+                                        title: {
+                                                display: true,
+                                                position: 'top',
+                                                text: ["Average RSVP's and Average Attendees ", 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                            },
+                                        barValueSpacing: 20,
+                                        legend: {
+                                            display: true,
+                                            position: 'bottom',
+                                        },
+                                        scales: {
+                                            yAxes: [
+                                            {
+                                                id: 'line-y-axis',
+                                                type: 'linear',
+                                                position: 'right',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    }
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "Events",
+                                                },
+                                            }, {
+                                                id: 'bar-y-axis',
+                                                type: 'linear',
+                                                position: 'left',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    },
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "RSVP's, Attendees",
+                                                }
+                                                
+                                            }
+                                            ]
+                                        }
+                                    }
+                                }
+                                var ctxBarChart = document.getElementById("cartjs1").getContext("2d");
+                                new Chart(ctxBarChart, configBarChart);
+
+                                // EXPORT TO CSV
+                                var averageRSVPsAttendeesLevel = JSON.parse(JSON.stringify(labels));
+                                var averageRSVPsAttendeesAverageRsvps = JSON.parse(JSON.stringify(averageRsvps));
+                                var averageRSVPsAttendeesAverageAttendees = JSON.parse(JSON.stringify(averageAttendees));
+                                var averageRSVPsAttendeesTotalEvents = JSON.parse(JSON.stringify(totalEvents));
+                                $('#averageRSVPsAttendees').on( "click", function() {
+                                    var finalData = [];
+                                    averageRSVPsAttendeesLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+                                    averageRSVPsAttendeesAverageRsvps.unshift('Average RSVPs');
+                                    averageRSVPsAttendeesAverageAttendees.unshift('Average Attendees');
+                                    averageRSVPsAttendeesTotalEvents.unshift('Total Events');
+                                    finalData[0] = convertArraytoObject(averageRSVPsAttendeesAverageRsvps);
+                                    finalData[1] = convertArraytoObject(averageRSVPsAttendeesAverageAttendees);
+                                    finalData[2] = convertArraytoObject(averageRSVPsAttendeesTotalEvents);
+                                    exportCSVFile(averageRSVPsAttendeesLevel,finalData,'Average RSVPs and Average Attendees');
+                                });
+                              
+                           </script>
+                           
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>  
+                     <div class="col-md-12">
+                        <div class="widget-simple-chart card-box-one fixhight"
+                           style="margin-top: 11px;">
+                           <div class="dropdown pull-right">
+                                <i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a id="totalRSVPsAttendees" href="javascript:void(0)" >Export to CSV</a></li>
+                                </ul>
+                            </div>
+                           <canvas id="cartjs2"  style="min-width: 193px; height: 413px; margin: 0 auto"></canvas>
+                           <script>
+                                var lavelVal = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                var datasets = [];
+                                var totalRsvps = [];
+                                var totalAttendees = [];
+                                var totalEvents = [];
+
+                            <?php for($i = 1;$i < 13;$i++) { ?>
+                                    totalRsvps.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'total_rsvps') ?: 0; ?>);
+                                    totalAttendees.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'total_attendees') ?: 0; ?>);
+                                    totalEvents.push(<?= Arr::SearchColumnReturnColumnVal($rows, $i, 'month', 'total_events') ?: 0 ; ?>);
+                            <?php } ?>
+
+                                datasets.push({label: "Total RSVP's",backgroundColor:'<?=chart_bgcolor_1?>',data:totalRsvps,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Total Attendees",backgroundColor:'<?=chart_bgcolor_2?>',data:totalAttendees,yAxisID: 'bar-y-axis',order: 2});
+                                datasets.push({label: "Total Events",data:totalEvents, type: 'line', backgroundColor: "#ffffff00",order: 1,yAxisID: 'line-y-axis'});
+                                var stackedBarChartData = {
+                                    labels: lavelVal,
+                                    datasets: datasets
+                                };
+                              
+                                var configBarChart =     {
+                                    type: 'bar',
+                                    data: stackedBarChartData,
+                                    options: {
+                                        title: {
+                                                display: true,
+                                                position: 'top',
+                                                text: ["Total RSVP's and Total Attendees", 'As of <?= $monthName . " " . ltrim(sufixNumber($day), '0') . " " . $year; ?>'],
+                                            },
+                                        barValueSpacing: 20,
+                                        legend: {
+                                            display: true,
+                                            position: 'bottom',
+                                        },
+                                        scales: {
+                                            yAxes: [
+                                            {
+                                                id: 'line-y-axis',
+                                                type: 'linear',
+                                                position: 'right',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    }
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "Events",
+                                                },
+                                            }, {
+                                                id: 'bar-y-axis',
+                                                type: 'linear',
+                                                position: 'left',
+                                                ticks: {
+                                                    min: 0,
+                                                    userCallback: function(label, index, labels) {
+                                                        if (Math.floor(label) === label) {
+                                                            return label;
+                                                        }
+
+                                                    },
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: "RSVP's, Attendees",
+                                                }
+                                                
+                                            }
+                                            ]
+                                        }
+                                    }
+                                }
+                              var ctxBarChart = document.getElementById("cartjs2").getContext("2d");
+                              new Chart(ctxBarChart, configBarChart);
+
+                                // EXPORT TO CSV
+                                var totalRSVPsAttendeesLevel = JSON.parse(JSON.stringify(labels));
+                                var totalRSVPsAttendeesTotalRsvps = JSON.parse(JSON.stringify(totalRsvps));
+                                var totalRSVPsAttendeesTotalAttendees = JSON.parse(JSON.stringify(totalAttendees));
+                                var totalRSVPsAttendeesTotalEvents = JSON.parse(JSON.stringify(totalEvents));
+                                $('#totalRSVPsAttendees').on( "click", function() {
+                                    var finalData = [];
+                                    totalRSVPsAttendeesLevel.unshift('<?= $year."-".$month."-".$day; ?>')
+                                    totalRSVPsAttendeesTotalRsvps.unshift('Total RSVPs');
+                                    totalRSVPsAttendeesTotalAttendees.unshift('Total Attendees');
+                                    totalRSVPsAttendeesTotalEvents.unshift('Total Events');
+                                    finalData[0] = convertArraytoObject(totalRSVPsAttendeesTotalRsvps);
+                                    finalData[1] = convertArraytoObject(totalRSVPsAttendeesTotalAttendees);
+                                    finalData[2] = convertArraytoObject(totalRSVPsAttendeesTotalEvents);
+                                    exportCSVFile(totalRSVPsAttendeesLevel,finalData,'Total RSVPs and Total Attendees');
+                                });
+                           </script>
+                        </div>
+                     </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    $('.dropdown-toggle').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+    
+    $('#theGraphModal').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})
+    retainFocus('#theGraphModal');
+</script>
+ </body>
+ </html>

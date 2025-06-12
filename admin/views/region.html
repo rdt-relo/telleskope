@@ -1,0 +1,38 @@
+<div class="tl-container-offset-lr">
+	<div class="row">
+	  <div class="col-md-12">
+		<div class="widget-simple-chart card p-3">
+		  <?php if (isset($_GET['msg'])) { ?>
+			<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+			  <?= $_GET['msg']; ?>
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		  <?php } ?>
+  
+		  <div class="col-12">
+			<h1><?= $id ? "Edit" : "Add" ?> Region</h1><hr class="text-light boder-1 my-2"></hr>
+		  </div>
+		  <div class="row">
+			<form  method="post" action="">
+				<input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+	
+				<div class="row mb-3">
+				<label class="col-lg-2 col-form-label text-md-end">Region Name <span class="text-danger">*</span></label>
+				<div class="col-lg-6">
+					<input class="form-control" placeholder="Region name" name="region" type="text" value="<?= $id ? $edit[0]['region'] : ''; ?>" required>
+				</div>
+				</div>
+	
+				<div class="row mb-3">
+				<label class="col-lg-2"></label>
+				<div class="col-lg-6">
+					<button type="button" onclick="goBack()" class="btn btn-secondary">Cancel</button>
+					<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+				</div>
+				</div>
+			</form>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>

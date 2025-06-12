@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teleskope Survey</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= Url::GetFavIconUrl(); ?>">
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+
+    <!-- Teleskope styles, comes after bootstrap from parent folder -->
+    <link href="../css/teleskope.css" rel="stylesheet">
+    <!-- Bootstrap ... in the last -->
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SurveyJs-->
+    <link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css">
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+
+    <style>
+        body {
+            background: #fff !important;
+        }
+
+        .sv-question, .sv-btn, .sv-container-modern, .svd_container, .sv_main, .sv-title, .sv-completedpage {
+            font-family: 'Lato-Regular' !important;
+        }
+
+        .sv-root-modern .sv-completedpage {
+            background: #fff !important;
+        }
+    </style>
+
+</head>
+<body>
+<?php if ($error) { ?>
+    <script>
+        var message = {'message': 'Error', 'method': 'getSurveyQuestion', 'success': '1'};
+        window.flutter_inappwebview.callHandler("surveySuccess", message);
+    </script>
+<?php } else { ?>
+
+    <div class="jumbotron text-center">
+        <img src="<?= $logo ?>" height="40px"/>
+        <p>Teleskope Survey</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 surveyTitle">
+                <h3 class="text-center"><?= $survey->val('surveyname'); ?></h3>
+            </div>
+            <div class="col-sm-12 mb-5">
+                <div id="surveyContainer"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            Survey.StylesManager.applyTheme("modern");
+            var surveyJSON = <?= $survey_json; ?>;
+
+            var survey = new Survey.Model(surveyJSON);
+            $("#surveyContainer").Survey({
+                model: survey,
+                onComplete: saveSurveyResponse
+            });
+
+            function saveSurveyResponse(survey) {
+                var responseJson = JSON.stringify(survey.data);
+                $.ajax({
+                    url: 'ajax.php?saveNativeSurveyResponse=1',
+                    type: "post",
+                    data: {'responseJson': responseJson, 'surveyid': '<?= $enc_surveyid ?>', 'uid': '<?= $enc_resp_uid ?>'},
+                    success: function (data) {
+                        <?php if ($next_link === 'flutter') { ?>
+
+                        window.flutter_inappwebview.callHandler("surveySuccess", {
+                            'message': 'Thank you for completing the survey!',
+                            'method': 'getSurveyQuestion',
+                            'success': '1'
+                        });
+
+                        <?php } else { ?>
+
+                        window.location='<?=$next_link?>';
+
+                        <?php } ?>
+                    }
+                });
+            }
+        });
+    </script>
+<?php } ?>
+
+</body>
+</html>

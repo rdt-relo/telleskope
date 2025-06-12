@@ -1,0 +1,30 @@
+<div class="modal" id="connectUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12">
+            <form id="connectUserForm" method="post">
+              <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+              <input type="hidden" name="connectUser" value="<?= $_COMPANY->encodeId($uid); ?>">
+              <div class="form-group">
+                <label for="usr">Personal Email:</label>
+                <input type="email" class="form-control" id="personalemail" name="personalemail" placeholder="Enter personal email here" required>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="submitConnectUser()" ><?= gettext("Submit")?></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= gettext("Close")?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <script>
+
+  </script>

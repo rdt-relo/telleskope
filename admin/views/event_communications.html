@@ -1,0 +1,114 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                    <button aria-label="Add communication template" class="btn btn-link p-0" onclick="addUpdateEmailEventCommunicationTemplateModal('')" >
+                        <i class="fa fa-plus-circle fa-lg ml-2 mt-3" title="Add communication template" aria-hidden="true" style="font-size: 16px;"></i>
+                    </button>
+                </div>
+                
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="table-responsive ">
+                
+                        <table id="email_template_list_view" class="table table-hover display compact" summary="This table display the list of event volunteers types">
+                            <thead>
+                                <tr>
+                                    <th width="20%" scope="col">Template Type</th>
+                                    <th width="70%" scope="col">Email Subject</th>
+                                    <th width="10%" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php 
+                            $i = 0;
+                            foreach($emailTemplates as $key => $template){ ?>
+                                <tr id="id<?= ($i+1); ?>" >
+                                    <td><?= ucfirst($key); ?></td>
+                                    <td><pre><?= $template['subject']; ?></pre></td>
+                                    <td>
+                                        <button aria-label="Edit" class="btn btn-link" onclick="addUpdateEmailEventCommunicationTemplateModal('<?= $key; ?>')"><i class="fa fa-edit" title="Edit"></i></button>
+                                        <button aria-label="Delete" class="btn btn-link deluser" title="<strong>Are you sure you want to delete this template?</strong>"  onclick="deleteEmailEventCommunicationTemplateModal('<?= $key; ?>')"><i class="fa fa-trash" title="delete"></i></button>
+                                    
+                                    </td>
+                                </tr>                 
+                        <?php $i++;  } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        
+        $('#email_template_list_view').DataTable( {
+          "paging":   false,
+          "ordering": false,
+          "info":     false  
+        } );
+    } );
+
+
+    function updateCommunicationTemplateStatus(id, topictype, status){
+        $.ajax({
+			url: 'ajax.php?updateCommunicationTemplateStatus=1',
+			type: "POST",
+			data: {email_template_id:id,topictype:topictype,status:status},
+			success : function(data) {
+				try {
+					let jsonData = JSON.parse(data);
+					swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+						if (jsonData.status == 1){
+							location.reload();
+						}
+					});
+				} catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+			}
+		});
+    }
+
+
+    function addUpdateEmailEventCommunicationTemplateModal(communication_type_key){
+        $.ajax({
+			url: 'ajax.php?addUpdateEmailEventCommunicationTemplateModal=1',
+			type: "GET",
+			data: {communication_type_key:communication_type_key},
+			success : function(data) {
+				try {
+					let jsonData = JSON.parse(data);
+					swal.fire({title: jsonData.title,text:jsonData.message});
+				} catch(e) { 
+                    $('#loadAnyModal').html(data);
+                    $('#addUpdateEmailEventCommunicationTemplateModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                }
+			}
+		});
+    }
+
+    function deleteEmailEventCommunicationTemplateModal(key) {
+        $.ajax({
+			url: 'ajax.php?deleteEmailEventCommunicationTemplateModal=1',
+			type: "POST",
+			data: {communication_type_key:key},
+			success : function(data) {
+				try {
+					let jsonData = JSON.parse(data);
+					swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+						if (jsonData.status == 1){
+							location.reload();
+						}
+					});
+				} catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+			}
+		});
+    }
+</script>

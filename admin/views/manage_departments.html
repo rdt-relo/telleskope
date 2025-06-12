@@ -1,0 +1,83 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-3">                            
+                <div class="col-md-12 divider">
+                    <h1>Department <a aria-label="Add new department" class="add-plus-circle-icon" href="department"><i class="fa fa-plus-circle fs-6 text-primary title="Add new department" aria-hidden="true"></i></a></h1><hr class="border-1 text-light my-2">
+                </div>
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+						<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+						<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?> 
+                
+                <div class="col-md-12" >
+					<div class="table-responsive">
+						<?php	if(!empty($_COMPANY->getAllDepartments())){ ?>
+							<table id="dept-table" class="table table-hover display compact" summary="Departments list">
+								<thead>
+									<tr>
+										<th width="80%" scope="col">Department Name</th>
+										<th width="20%" scope="col"></th>
+									</tr>
+								</thead>
+
+								<tbody>
+								<?php
+								foreach ($_COMPANY->getAllDepartments() as $dept) {
+									$encodedId = $_COMPANY->encodeId($dept['departmentid']);
+								?>
+								<tr id="ed<?=$encodedId;?>">
+									<td id="tdd<?=$encodedId;?>"><?= $dept['department']; ?></td>
+									<td>
+										<a aria-label="edit" class="btn" href="department?edit=<?=$encodedId;?>">
+											<i class="fa fa-edit text-primary" title="Edit"></i>
+										</a>
+										&nbsp;&nbsp;
+										<button aria-label="Delete" class="btn btn-no-style deluser" onclick="deleteDepartment('<?=$encodedId;?>');" title="<strong>Are you sure to delete?</strong>">
+											<i class="fa fa-trash fa-l text-primary" title="Delete"></i>
+										</button>
+									</td>
+								</tr>
+								<?php }	?>
+							</tbody>
+						</table>
+					<?php	}else{	?>
+							<br />
+							<p style="color:red">No department added yet!</p>
+					<?php	} ?>
+					</div>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#dept-table').DataTable( {
+				"order": [0, "asc"],
+				"bPaginate": true,
+				"bInfo" : false,
+				pageLength:10,
+				lengthChange:true,
+				columnDefs: [
+                    { targets: [-1], orderable: false }
+                ],
+				language: {
+					searchPlaceholder: "Type anything..",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+				}
+				
+			} );
+		} );
+		
+	</script>

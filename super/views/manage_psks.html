@@ -1,0 +1,75 @@
+<div class="container-offset-lr mt-4">
+    <div class="row">              
+        <div class="col-12">
+            <div class="card p-3">
+                <h1>Manage PSKs</h1>
+                <div class="col-12 text-md-end mt-2 mt-md-0">
+                    <a class="btn btn-primary btn-sm" href="new_company_psk">Create New PSK</a>
+                </div>
+
+                <?php if((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show mx-3" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <div class="table-responsive p-3">
+                    <table class="table table-bordered table-hover display compact" id="PSKeys">
+                        <thead>
+                            <tr>
+                                <th width="10%">Key id</th>
+                                <th width="10%">Purpose</th>
+                                <th width="50%">Created on</th>
+                                <th width="20%">Deleted on</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($company_psks as $company_psk){ ?>
+                                <tr>
+                                    <td><?= $company_psk->val('pskeyid') ?></td>
+                                    <td><?= $company_psk->val('purpose') ?></td>
+                                    <td><?= $company_psk->val('createdon') ?></td>
+                                    <td><?= $company_psk->val('deletedon') ?? "-" ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="new_company_psk?pskeyid=<?= $company_psk->val('pskeyid') ?>">Update purpose</a></li>
+                                                <li><a class="dropdown-item reencryptkey" href="manage_psks.php?pskeyid=<?= $company_psk->val('pskeyid') ?>&action=re_encrypt_key">Re-Encrypt key</a></li>
+                                                <li><a class="dropdown-item delkey" href="manage_psks.php?pskeyid=<?= $company_psk->val('pskeyid') ?>&action=delete_key">Delete Key</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>	
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#PSKeys').DataTable({
+            "order": [],
+            "bPaginate": true,
+            "bInfo": false
+        });
+    });
+</script>
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+</script>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(10)").addClass("myactive");
+</script>

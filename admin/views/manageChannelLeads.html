@@ -1,0 +1,145 @@
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">
+				<!--div class="col-md-12 latest"><h6>Manage Survey</h6></div-->
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+					<a class="add-plus-circle-icon" href="newChannelLead?gid=<?=$_GET['gid']?>&cid=<?=$_GET['cid']?>" >
+						<i class="fa fa-plus-circle fa-lg" title="Add a new <?= $_COMPANY->getAppCustomization()['channel']["name-short"]?> Leader" aria-label="Add new <?= $_COMPANY->getAppCustomization()['channel']["name-short"]?> Leader"></i>
+					</a>
+				</div>
+				
+				<div class="clearfix"></div>
+			<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= UPDATED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= ADDED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ERROR; ?>
+					</div>
+			<?php } ?>
+						
+		<div class="table-responsive">
+			<table id="channel_leads" class="table table-hover display compact" summary="<?= sprintf(gettext('%1$s %2$s leaders list'), $_COMPANY->getAppCustomization()['group']['name-short'], $_COMPANY->getAppCustomization()['channel']['name-short']);?>">
+				<thead>
+                    <tr>
+                        <th width="20%" class="color-black" scope="col">Name</th>
+                        <th width="10%" class="color-black" scope="col">Role</th>
+						<th width="15%" class="color-black" scope="col">Role Title</th>
+						<th width="15%" class="color-black" scope="col">Lead Since</th>
+						<th width="10%" class="color-black" scope="col">Create Content</th>
+						<th width="5%" class="color-black" scope="col">Publish Content</th>
+						<th width="5%" class="color-black" scope="col">Manage</th>
+						<th width="5%" class="color-black" scope="col">Manage Budget</th>
+                        <th width="15%" class="color-black" scope="col">Action</th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+        
+            <?php	if(count($leads)>0){ ?>
+            <?php	for($i=0;$i<count($leads);$i++){ ?>
+                <tr id="<?=$_COMPANY->encodeId($leads[$i]['leadid']);?>" >
+                <td>
+					<?= User::BuildProfilePictureImgTag($leads[$i]['firstname'], $leads[$i]['lastname'], $leads[$i]['picture'],'memberpicture_small');?>
+					<?php
+                    echo rtrim($leads[$i]['firstname']." ".$leads[$i]['lastname']) ;
+        			?>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($types[$leads[$i]['grouplead_typeid']]['type'])?>
+                    </td>
+					<td>
+						<?= htmlspecialchars($leads[$i]['roletitle']);?>
+                    </td>
+                    <td>
+						<?= date('F',strtotime($leads[$i]['assigneddate'])).", ".sufixNumber(date('j',strtotime($leads[$i]['assigneddate'])))." ".date('Y',strtotime($leads[$i]['assigneddate'])); ?>
+					</td>
+					<td>
+						<?= $types[$leads[$i]['grouplead_typeid']]['sys_leadtype'] > 1 ? ($types[$leads[$i]['grouplead_typeid']]['allow_create_content'] ? "<span style='color:green;'>Yes</span>" : "<span style='color:brown;'>No</span>") : '-'; ?>
+					</td>
+					<td>
+						<?=  $types[$leads[$i]['grouplead_typeid']]['sys_leadtype'] > 1 ? ( $types[$leads[$i]['grouplead_typeid']]['allow_publish_content'] ? "<span style='color:green;'>Yes</span>" : "<span style='color:brown;'>No</span>") : '-'; ?>
+					</td>
+					<td>
+						<?=  $types[$leads[$i]['grouplead_typeid']]['sys_leadtype'] > 1 ? ($types[$leads[$i]['grouplead_typeid']]['allow_manage'] ? "<span style='color:green;'>Yes</span>" : "<span style='color:brown;'>No</span>") : '-'; ?>
+                    </td>
+					<td>
+						<?=  $types[$leads[$i]['grouplead_typeid']]['sys_leadtype'] > 1 ? ($types[$leads[$i]['grouplead_typeid']]['allow_manage_budget'] ? "<span style='color:green;'>Yes</span>" : "<span style='color:brown;'>No</span>") : '-'; ?>
+                    </td>
+                    <td width="8%"><a href="newChannelLead?gid=<?=$_GET['gid']?>&cid=<?=$_GET['cid']?>&lid=<?=$_COMPANY->encodeId($leads[$i]['leadid']);?>"><i class="fa fa-edit" title="Edit" aria-label="Edit"></i></a>&emsp;<button aria-label="delete" class="btn btn-no-style deluser" onclick="deleteChannelLead(<?=($i+1)?>,'<?=$_COMPANY->encodeId($leads[$i]['leadid']);?>','<?= $_COMPANY->encodeId($channelid); ?>','<?= $_COMPANY->encodeId($groupid); ?>')" title="<strong>Are you sure to delete!</strong>"><i class="fa fa-trash" title="Delete" aria-label="Delete"></i></button></td>
+            </tr>
+            
+            <?php   } ?>
+            <?php   } ?>
+                </tbody>
+			</table>
+		</div>
+		<br/>
+		<div align="center">
+			<a  href="manage_channels?gid=<?= $_GET['gid']?>&cid=<?= $_GET['cid'] ?>" class="btn btn-primary">Back</a>
+		</div>
+	</div>								
+</div>
+</div>
+</div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#channel_leads').DataTable( {
+			"order": [],
+			"bPaginate": true,
+			"bInfo" : false,
+			"pageLength": 200, // Set the number of entries per page to 200
+            "lengthChange": false, // Hide the entries per page dropdown
+			"columnDefs": [
+			{ targets: [8], orderable: false }
+		],	
+		language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+        },		
+		});//Helper function to keep table row from collapsing when being sorted
+		var fixHelperModified = function(e, tr) {
+			var $originals = tr.children();
+			var $helper = tr.clone();
+			$helper.children().each(function(index)
+			{
+			$(this).width($originals.eq(index).width())
+			});
+			return $helper;
+		};
+
+		//Make diagnosis table sortable
+		$("#channel_leads tbody").sortable({
+			helper: fixHelperModified,
+			stop: function(event,ui) {renumber_table('#channel_leads')}
+		}).disableSelection();
+	});
+
+//Renumber table rows
+function renumber_table(tableID) {
+	var ids = [];
+    $(tableID + " tr").each(function() {
+		var id = $(this).closest('tr').attr('id');
+		if (id){
+			ids.push(id);
+		}
+	});
+	if(ids.length > 0){
+		updateChannelLeadsPriority(ids,'<?= $_COMPANY->encodeId($groupid);?>','<?= $_COMPANY->encodeId($channelid)?>');
+	}
+}
+</script>

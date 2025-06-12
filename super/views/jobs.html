@@ -1,0 +1,82 @@
+<style>
+    .past-jobs {
+        border: 1px solid #8080803b;
+    }
+</style>
+
+<div class="container-offset-lr mt-4">
+    <div class="row justify-content-md-center">
+        <div class="col-md-12 mt-2">
+            <div class="card p-4">
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <h1><?= $pageTitle ?>:</h1>
+                    </div>
+                    <div class="col-sm-8 text-left">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="pastJobsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Showing jobs from past <?= $days ?> day(s), change to
+                            </button>
+                            <ul class="dropdown-menu past-jobs" aria-labelledby="pastJobsDropdown">
+                                <li><a class="dropdown-item" href="<?= $my_link ?>&past=1">1 day</a></li>
+                                <li><a class="dropdown-item" href="<?= $my_link ?>&past=2">2 days</a></li>
+                                <li><a class="dropdown-item" href="<?= $my_link ?>&past=3">3 days</a></li>
+                                <li><a class="dropdown-item" href="<?= $my_link ?>&past=7">7 days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="jobs" class="table table-bordered table-hover display compact">
+                        <thead>
+                            <tr>
+                                <th width="20%">Company</th>
+                                <th width="20%">Job Id</th>
+                                <th width="15%">Created On</th>
+                                <th width="15%">Process After</th>
+                                <th width="15%">Processing Time</th>
+                                <th width="15%">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php for($i = 0; $i < count($rows); $i++) { ?>
+                            <tr>
+                                <td><?= $rows[$i]['companyname']; ?></td>
+                                <td><?= $rows[$i]['jobid']; ?></td>
+                                <td><?= $rows[$i]['createdon']; ?></td>
+                                <td><?= $rows[$i]['processafter']; ?></td>
+                                <td><?= $rows[$i]['processing_time']; ?></td>
+                                <td><?= $status[$rows[$i]['status']]; ?><?= $rows[$i]['status'] == 100 ? '/' . $rows[$i]['processedby'] : '' ?></td>
+                            </tr>                                
+                        <?php } ?>                                
+                        </tbody>
+                    </table>	
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap 5 dropdown functionality if not already -->
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+
+    $(document).ready(function() {
+        $('#jobs').DataTable({
+            "order": [],
+            "bPaginate": true,
+            "bInfo": false
+        });
+
+        $("#sidebar-wrapper ul li:nth-child(6)").addClass("myactive");
+        
+    });
+</script>
+
+</body>
+</html>

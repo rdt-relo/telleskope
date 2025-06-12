@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Manage Company</title>
+		<link rel="stylesheet" href="../css/custom-bootstrap.css">
+	    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/simple-sidebar.css" rel="stylesheet"/>
+		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet"/>
+        <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
+		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
+		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+		
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+		<link href="../vendor/js/tabulator-5.5/css/tabulator.min.css" rel="stylesheet">
+		<link href="../vendor/js/tabulator-5.5/css/tabulator_semanticui.min.css" rel="stylesheet">
+		
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-5.3./dist/js/bootstrap.bundle.min.js"></script>
+		<!-- settings for popconfirm to work with bootstrap 3.4.1+, should be immediately after bootstrap -->
+		<script type="text/javascript">
+			$.fn.tooltip.Constructor.DEFAULTS.whiteList.p = ['style'];
+			$.fn.tooltip.Constructor.DEFAULTS.whiteList.button = [];
+		</script>
+		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+		<script src="js/superajax.js"></script>
+		<script type="text/javascript" src="../vendor/js/tabulator-5.5/js/tabulator.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(".panel-heading .panel-title .collapsed").click(function(){
+					$("li.panel.panel-default").addClass("active");
+				});
+				
+				//initial for blank profile picture
+				$('.initial').initial({
+				charCount: 2,
+				textColor: '#ffffff',
+				seed: 0,
+				height: 50,
+				width: 50,
+				fontSize: 20,
+				fontWeight: 300,
+				fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+				radius: 0
+				});
+				
+				
+				$('.progress .progress-bar').progressbar(); 
+
+			});
+			</script>
+		</head>
+	<?php 
+		$_company = Company::GetCompany($_SESSION['companyid']);
+	?>
+	<body>
+		<div id="wrapper" class="mt-5">
+			<!-- Sidebar -->
+			<div id="sidebar-wrapper" class="bg-white mt-3">
+				<ul class="sidebar-nav list-unstyled">
+					<li class="sidebar-brand1 p-3 text-center">
+						<div class="user-detail">
+							<div class="dropup">
+								<a href="#" class="profile-company">
+									<img height="60" width="auto" src="<?= $_company->val('logo'); ?>" style="max-width:215px;">
+									<span class="user-info-span">
+										<h5 class="m-0"><?= $_company->val('companyname'); ?></h5>
+									</span>
+								</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="managecompany?cid=<?= base64_encode($_SESSION['companyid']) ?>" class="active">Company Account <span class="visually-hidden">(current)</span></a>
+					</li>
+		
+					<?php if (Auth::HasPermission(Permission::ViewCompanyUsers)) { ?>
+					<li><a class="waves-effect waves-primary" href="manageusers">Admin Users</a></li>
+					<?php } ?>
+		
+					<?php if (Auth::HasPermission(Permission::CheckUser)) { ?>
+					<li><a href="user_check" class="waves-effect waves-primary">Check User</a></li>
+					<?php } ?>
+		
+					<li class="nav-item dropdown" id="sidebar_item_manage_company_m">
+						<a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Settings
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+							<?php if (Auth::HasPermission(Permission::ManageLoginMethods)) { ?>
+								<li><a class="dropdown-item" href="login_method_list">Login Methods</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageZones)) { ?>
+								<li><a class="dropdown-item" href="manage_zones">Zones</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageCompanySettings)) { ?>
+								<li><a class="dropdown-item" href="manage_company_settings">Company Settings</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageDomains)) { ?>
+								<li><a class="dropdown-item" href="manage_domains">Domains</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageEmailSettings)) { ?>
+								<li><a class="dropdown-item" href="emailsetting">Email Settings</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageEaiAccounts)) { ?>
+								<li><a class="dropdown-item" href="manage_eai_credentials">EAI Accounts</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ManageScheduledJobs)) { ?>
+								<li><a class="dropdown-item" href="manage_scheduled_jobs">Manage Scheduled Jobs</a></li>
+							<?php } ?>
+							<?php if (Auth::HasPermission(Permission::ViewHrisFileBrowser)) { ?>
+								<li><a class="dropdown-item" href="hris_file_browser">HRIS File Browser</a></li>
+							<?php } ?>
+						</ul>
+					</li>
+					<?php if (Auth::HasPermission(Permission::MergeUser)) { ?>
+					<li><a href="merge_user" class="waves-effect waves-primary">Merge User</a></li>
+					<?php } ?>
+					<?php if (Auth::HasPermission(Permission::ViewCompanyJobs)) { ?>
+					<li><a href="jobs?job_companyid=session" class="waves-effect waves-primary">Company Jobs</a></li>
+					<?php } ?>
+					<?php if (Auth::HasPermission(Permission::ViewCloudwatchLogs)) { ?>
+					<li><a href="cloudwatch?company-id=<?= $_SESSION['companyid'] ?>">Cloudwatch Logs</a></li>
+					<li><a href="cloudwatch-tabulator?company-id=<?= $_SESSION['companyid'] ?>">Cloudwatch Tabulator</a></li>
+					<?php } ?>
+					<?php if (Auth::HasPermission(Permission::ManagePSKs)) { ?>
+					<li><a href="manage_psks">Manage PSKs</a></li>
+					<?php } ?>
+					<?php if (Auth::IsSuperSuperAdmin()) { ?>
+					<li><a href="company_search?company_id=<?= $_SESSION['companyid'] ?>">Search</a></li>
+					<?php } ?>
+					<li>
+						<a href="manage.php" class="waves-effect waves-primary">
+							<i class="fa fa-tachometer fa-lg" aria-hidden="true"></i> Back to Manage
+						</a>
+					</li>
+				</ul>
+			</div>
+		
+			<!-- Main Content -->
+			<div class="content-page" id="content-scroll-page">
+				<div class="content content-container">
+					<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+						<div class="container-fluid">
+							<a class="navbar-brand d-lg-none" href="index.php">
+								<img src="../image/logo.png" width="200" height="48" alt="Logo" />
+							</a>
+		
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+		
+							<div class="collapse navbar-collapse" id="main-navbar">
+								<a class="navbar-brand d-none d-lg-block" href="index.php">
+									<img src="../image/logo.png" class="img-fluid" width="200" height="48" alt="Logo" />
+								</a>
+		
+								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+									<li class="nav-item">
+										<a id="menu-toggle" href="#menu-toggle" class="nav-link">
+											<img src="../image/nav-bar.png" alt="Toggle" />
+										</a>
+									</li>
+								</ul>
+		
+								<ul class="navbar-nav ms-auto logout">
+									<li class="nav-item">
+										<a class="nav-link" href="logout.php">
+											<img src="../image/logout.png" alt="Logout"><span>Logout</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+		
+					<script>
+						jQuery("#menu-toggle").click(function (e) {
+							e.preventDefault();
+							jQuery("#wrapper").toggleClass("toggled");
+						});
+					</script>
+		
+					<style>
+						.logoclass {
+							padding: 15px;
+							width: 250px;
+							background: #0077b5;
+						}
+		
+						@media (max-width: 640px) {
+							.logoclass {
+								padding: 10px;
+							}
+						}
+					</style>
+		
+					<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+					<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>

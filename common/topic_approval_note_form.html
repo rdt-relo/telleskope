@@ -1,0 +1,60 @@
+<form id="approvalForm" onsubmit="updateApprovalStatus(event)">
+    <input type="hidden" id="topicTypeId" name="topicTypeId" value="<?= $_COMPANY->encodeId($topicTypeId) ?>">
+    <input type="hidden" id="approvalid" name="approvalid" value="<?= $_COMPANY->encodeId($approvalid) ?>">
+    <input type="hidden" id="approvalStatus" name="action">
+    <input type="hidden" name="topicType" value="<?= $topicType ?>">
+    <input type="hidden" id="approvalStage" name="approvalStage" value="<?= $_COMPANY->encodeId($approvalStage) ?>">   
+
+    <!-- Select next stage approvers throogh multiselect-->
+    <?php  if(!empty($nextStageApprovers)){ ?>
+        <div class="form-group" id="nextStageApproverSelector">
+        <label for="selectApprovers" style="font-weight: bold;">Select Stage <?= $nextApprovalStage ?> Approvers: </label>
+
+        <?php
+        if($approver_max_approvers_limit > 0) {
+        ?>
+        <select name="selectedApproversId[]" class="form-control col-md-12 options-header-option" id="selectApprovers" multiple>
+            <?php
+            $pre_select_approver = '';
+            if ($approver_max_approvers_limit >= count($nextStageApprovers)) {
+                $pre_select_approver = 'selected';
+            }
+            foreach ($nextStageApprovers as $nextStageApprover) {
+                $event_approver_data = User::GetUser($nextStageApprover['approver_userid']);
+                if (!$event_approver_data) continue;
+                $approverRole = $nextStageApprover['approver_role'] ? ' ('.$nextStageApprover['approver_role'].')' : '';
+                ?>
+                <option data-section="1" value="<?= $_COMPANY->encodeId($event_approver_data->id()); ?>" <?=$pre_select_approver?>>&ensp; <?= $event_approver_data->getFullName(); ?><?= $approverRole ?></option>
+            <?php	} ?>
+        </select>
+
+        <?php
+        } else { #$approver_max_approvers_limit == 0
+            $nextStageApproverUserids = array_column($nextStageApprovers, 'approver_userid');
+            $nextStageApproverUseridsFirstMaxEncoded = implode(',', $_COMPANY->encodeIdsInArray(array_slice($nextStageApproverUserids, 0, Approval::APPROVERS_SELECTED_MAX_LIMIT)));
+            $nextStageApproverUseridsFirstMaxEncodedLabel = gettext('All approvers auto selected based on configuration.');
+            if (count($nextStageApproverUserids) > Approval::APPROVERS_SELECTED_MAX_LIMIT) {
+                $nextStageApproverUseridsFirstMaxEncodedLabel = '<span style="color:red;">' . sprintf(gettext('Too many approvers were configured. The system will automatically select the first %1$s.'), Approval::APPROVERS_SELECTED_MAX_LIMIT) . '</span>';
+            }
+        ?>
+            <input type="hidden" name="selectedApproversIdDefaultList" value="<?= $nextStageApproverUseridsFirstMaxEncoded; ?>">
+            <?= $nextStageApproverUseridsFirstMaxEncodedLabel; ?>
+        <?php } ?>
+
+        </div>
+    <?php	} ?>
+
+    <div class="note-wrapper" id="note_wrapper">
+        <div class="form-group">
+            <label ><?=gettext("Note");?></label>
+            <textarea  class="form-control" maxlength="1000" id="approverNote" name="approverNote" placeholder="<?=gettext('Add a note')?>"></textarea>
+            <small style="color:red"><?=gettext("Maximum 1000 characters allowed!");?></small>
+        </div>
+            <?= TopicApprovalLog::CreateEphemeralTopic()->renderAttachmentsComponent('v26') ?>
+    </div>                          
+    <div class="text-center mb-5">
+        <button type="submit" id="submitButton" class="btn btn-primary" style="<?= (($tasksEnabled && count($allTasks)>0) || !$showApproveButton) ? 'display: none;' : '' ?>">Approve</button>
+        <button type="submit" id="resetButton" class="btn btn-primary" style="<?= $tasksEnabled && count($allTasks)>0 ? 'display: none;': '' ?>">Deny</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload()">Close</button>
+    </div>    
+</form>

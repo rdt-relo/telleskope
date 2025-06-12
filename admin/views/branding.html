@@ -1,0 +1,654 @@
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css">
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.kickstart.min.js"></script>
+<style>
+	.ui-sortable tr {
+		cursor:pointer;
+	}   
+	.ui-sortable tr:hover {
+		background:rgba(244,251,17,0.45);
+	}
+</style>
+<?php $zone = $_ZONE->getZoneCustomization();?>
+		<div class="container col-md-offset-2 margin-top">
+			<div class="row">	  
+				<div class="col-md-12">
+					<div class="widget-simple-chart card-box">
+
+						<div class="col-md-4"><h6><?= gettext("Zone Tile");?> </h6></div>
+						 <div class="clearfix"></div>					
+
+						<div class="col-md-12 mb-3" style="border-bottom:1px solid #6b6b6b33;"></div>			
+						
+				<div class="col-md-12">
+					<div class="col-md-6">
+						<form class="form-horizontal" method="post" id="zone-tile-form" enctype="multipart/form-data">
+							<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">	
+							<!-- Zone Wide Tile Background -->
+							<div class="col-md-12"><h5><?= gettext("Zone Wide Tile Background");?></h5></div>
+							<div class="col-md-12 mb-3">
+								<?php if($zone['style']['zone_tile_bg_image'] != ""){ ?>
+									<div  id="oldTileImg" style="display:block">
+										<img id="zone_tile_bg_img" src="<?php echo $zone['style']['zone_tile_bg_image']; ?>" alt="Zone Wide Tile Background" style="background-size:100% 100%;height:62px;width:496px;">
+									</div>
+		
+									<div class="row mt-2" id="updateZoneTile">
+										<div class="col-md-6">
+											<button type="button" onclick="updateZoneTileImage('zone_tile_bg_image')" class='btn btn-sm btn-info' > <?= gettext("Change Image");?></button>	
+											
+											&nbsp;
+											<button aria-label="Remove Image" class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="updateZoneStyle('remove_img')"  data-original-title="Are you sure you want to remove zone wide tile background?">
+												<?= gettext("Remove Image");?>
+											</button>
+			
+										</div>							
+									</div>
+		
+									<div id="newuploadZoneTileImg" style="display:none">
+										<div id="loading-image-zone-tile" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>						
+										<div id="zone_tile_banner" tabindex="0" aria-label="Upload Zone Wide Tile Background" class="slim"
+												data-label="Upload Zone Wide Tile Background"
+												data-size="1000,188"
+												data-ratio="1000:188">
+											<input tabindex="-1" class="text-box ignore" name="zone_tile_bg_image" id="zone_tile_bg_image" type="file" accept="image/jpeg,image/png" required>
+										</div>							
+										<p class="mb-0" style="color:red;"><?= gettext("Note :You can add .jpg,.jpeg,.png format. Images must be 1000px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling");?></p>
+																		
+										<button id="updateZoneTileBg" type="button" onclick="updateZoneStyle('zone_tile_bg_image')" class='btn btn-xs btn-info' disabled> <?= gettext("Upload Zone Wide Tile Background");?></button>		
+										<input type="button" onclick="CancelUploadZoneTileImg('zone_tile_bg_image')" class='btn btn-sm btn-info' value="Cancel" >
+									</div>							
+		
+							<?php }else{ ?>
+								<div id="zone-tile-bg">									
+												
+									<div id="zone_tile_banner" tabindex="0" aria-label="Upload Zone Wide Tile Background" class="slim"
+										data-label="Upload Zone Wide Tile Background"
+										data-size="1000,188"
+										data-ratio="1000:188">
+										<input tabindex="-1" class="text-box ignore" name="zone_tile_bg_image" id="zone_tile_bg_image" type="file" accept="image/jpeg,image/png">
+									</div>							
+									<p class="mb-0" style="color:red;"><?= gettext("Note :You can add .jpg,.jpeg,.png format. Images must be 1000px wide X 188px high and should be center weighted to keep any text in the center to allow responsive design scaling");?></p>
+															
+									<button id="updateZoneTileBg" type="button" onclick="updateZoneStyle('zone_tile_bg_image')" class='btn btn-xs btn-info' disabled> <?= gettext("Upload Zone Wide Tile Background");?> </button>											
+													
+								</div>	
+							<?php } ?>
+
+							</div>
+
+							<!-- Zone Compact Tile Background -->
+							<div class="col-md-12"><h5><?= gettext("Zone Compact Tile Background");?></h5></div>
+							<div class="col-md-12">
+								<?php if($zone['style']['zone_tile_compact_bg_image'] != ""){ ?>
+                                <div  id="oldTileCompactImg" style="display:block" class="w-50">
+                                    <img id="zone_tile_compact_bg_img" src="<?php echo $zone['style']['zone_tile_compact_bg_image']; ?>" alt="Zone Compact Tile Background" style="background-size:100% 100%;height:175px;">
+                                </div>
+
+                                <div class="row mt-2" id="updateZoneCompactTile">
+                                    <div class="col-md-6">
+                                        <button type="button" onclick="updateZoneTileImage('zone_tile_compact_bg_image')" class='btn btn-sm btn-info' > <?= gettext("Change Image");?></button>
+
+                                        &nbsp;
+                                        <button aria-label="Remove Image" class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="updateZoneStyle('remove_compact_img')"  data-original-title="Are you sure you want to remove zone compact tile background?">
+                                            <?= gettext("Remove Image");?>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                                <div id="newuploadZoneTileCompactImg" style="display:none">
+                                    <div id="loading-image-zone-compact-tile" style="display:none;" class="w-50">
+                                        <img src="images/ajax-loader.gif" alt="Loader placeholder image" />
+                                    </div>
+                                    <div id="zone_tile_compact_banner" tabindex="0" aria-label="Upload Zone Compact Tile Background" class="slim"
+                                            data-label="Upload Zone Compact Tile Background"
+                                            data-size="300,175"
+                                            data-ratio="300:175">
+                                            <input tabindex="-1" class="text-box ignore" name="zone_tile_compact_bg_image" id="zone_tile_compact_bg_image" type="file" accept="image/jpeg,image/png" required>
+                                        </div>
+                                    <p class="mb-0" style="color:red;"><?= gettext("Note: You can add .jpg,.jpeg,.png format. Images must be 300px wide X 175px high and should be center weighted to keep any text in the center to allow responsive design scaling");?></p>
+
+                                    <button id="updateZoneTileCompactBg" type="button" onclick="updateZoneStyle('zone_tile_compact_bg_image')" class='btn btn-xs btn-info' disabled> <?= gettext("Upload Zone Compact Tile Background");?></button>
+                                    <input type="button" onclick="CancelUploadZoneTileImg('zone_tile_compact_bg_image')" class='btn btn-sm btn-info' value="Cancel" >
+                                </div>
+		
+							<?php }else{ ?>
+                                <div id="zone-tile-compact-bg">
+														
+                                    <div id="zone_tile_compact_banner" tabindex="0" aria-label="Upload Zone Compact Tile Background" class="slim w-50"
+                                        data-label="Upload Zone Compact Tile Background"
+                                        data-size="300,175"
+                                        data-ratio="300:175">
+                                        <input tabindex="-1" class="text-box ignore" name="zone_tile_compact_bg_image" id="zone_tile_compact_bg_image" type="file" accept="image/jpeg,image/png">
+                                    </div>
+                                    <p class="mb-0" style="color:red;"><?= gettext("Note :You can add .jpg,.jpeg,.png format. Images must be 300px wide X 175px high and should be center weighted to keep any text in the center to allow responsive design scaling");?></p>
+																	
+                                    <button id="updateZoneTileCompactBg" type="button" onclick="updateZoneStyle('zone_tile_compact_bg_image')" class='btn btn-xs btn-info' disabled> <?= gettext("Upload Zone Compact Tile Background");?> </button>
+															
+                                </div>
+							<?php } ?>
+							</div>
+						</form>
+					</div>
+				
+					<div class="col-md-6">
+						<div class="col-md-12"><h5><?= gettext("Zone Tile Heading");?></h5></div>
+						<div class="col-md-12">
+							<div class="col-md-8">
+								<p id="zone_tile_heading"><strong><?= htmlspecialchars($zone['style']['zone_tile_heading']); ?> </strong></p>
+								<input type="text" name="zone_tile_heading" id="zone_tile_heading_input" class='col-md-12' value="<?= htmlspecialchars($zone['style']['zone_tile_heading']); ?>" placeholder="" style="display:none" >
+							</div>
+							<div class="col-md-4">
+								<button aria-label="Edit" class="btn btn-no-style" id="zone_tile_heading_edit" onclick="editZoneStyle('zone_tile_heading');"><i class="fa fa-edit" title="Edit" ></i></button>
+								<button id="zone_tile_heading_update" type="button" onclick="updateZoneStyle('zone_tile_heading')" class='btn btn-xs btn-info' style="display:none"><?= gettext("Update")?></button>
+							</div>
+						</div>
+
+						<div class="col-md-12"><h5><?= gettext("Zone Tile Sub Heading");?></h5></div>
+						<div class="col-md-12">
+							<div class="col-md-8">
+								<p id="zone_tile_sub_heading"><strong><?= htmlspecialchars($zone['style']['zone_tile_sub_heading']); ?> </strong></p>
+								<input type="text" name="zone_tile_sub_heading" id="zone_tile_sub_heading_input" class='col-md-12' value="<?= htmlspecialchars($zone['style']['zone_tile_sub_heading']); ?>" placeholder="" style="display:none" >
+							</div>
+							<div class="col-md-4">
+								<button aria-label="Edit" class="btn btn-no-style" id="zone_tile_sub_heading_edit" onclick="editZoneStyle('zone_tile_sub_heading');"><i class="fa fa-edit" title="Edit" ></i></button>
+								<button id="zone_tile_sub_heading_update" type="button" onclick="updateZoneStyle('zone_tile_sub_heading')" class='btn btn-xs btn-info' style="display:none"><?= gettext("Update");?></button>
+							</div>
+						</div>							
+				
+
+					</div>
+					<div class="col-md-12 mb-5"></div>	
+
+
+						<div class="col-md-4"><h6><?= gettext("Zone Branding");?></h6></div>
+						 <div class="clearfix"></div>
+						<div class="col-md-8">
+							<div class="col-md-8" >
+						<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+								<?= "<script> swal.fire({title: 'Success',text:'Data updated successfully'} ) </script>" ?>
+						<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+								<?= "<script> swal.fire({title: 'Success',text:'Data Added successfully' } )</script>" ?>
+						<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+								<div id="hidemesage" class="alert alert-danger alert-dismissable">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+									<?= ERROR; ?>
+								</div>
+						<?php } ?>
+							</div>
+							<div class="col-md-2"></div>
+							<div class="col-md-2">
+							</div>
+						</div>
+						<div class="col-md-12 mb-3" style="border-bottom:1px solid #6b6b6b33;"></div>
+						
+						
+						<div class="col-md-6">
+						<div class="col-md-12"><h5>Web Banner</h5></div>
+							<div class="col-md-12">
+								<div id="loading-image-banner2" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+							<form id="affnitywebappBanner">
+								<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+						<?php	if($_ZONE->val('banner_background')!=""){ ?>
+								<div id="already-banner" class="mt-3" style="display:block">
+									<div  id="new_banner">
+										<img id="web_banner_image" src="<?=$_ZONE->val('banner_background'); ?>" alt="Web banner background image" style="background-size:100% 100%;height:62px;width:496px;">
+									</div>
+
+									<div class="row mt-2">
+										<div class="col-md-6">
+											<button type="button" onclick="updatebanner()" class='btn btn-sm btn-info' >Change Image</button>
+                                            &nbsp;
+											<button aria-label="Remove banner image" class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteBanner()" data-original-title="Are you sure you want to remove banner image?">
+                                                Remove Image
+                                            </button>
+										</div>
+                                        <div class="col-md-6">
+                                            &nbsp;
+                                        </div>
+									</div>
+								</div>
+								<div id="newupload-banner" style="display:none">
+									<p id="nomsg-banner"></p>
+									<div id="loading-image-banner" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+									<div id="banner_img" tabindex="0" class="slim"
+										data-label="Upload banner image"
+                                         data-size="1880,188"
+                                         data-ratio="10:1">
+										<input tabindex="-1" class="text-box ignore" name="affinity_home_banner" id="affinity_home_banner" type="file" accept="image/jpeg,image/png" required>
+									</div>
+									<!-- <input type="file" name="affinity_home_banner" id="affinity_home_banner" class='' accept=".jpg,.jpeg,.png" required><br /> -->
+									<p class="mb-0" style="color:red;">Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+									<input type="submit" name="submit" value="Upload banner image" class='btn btn-sm btn-info' > <input type="button" onclick="CancelUploadbanner()" class='btn btn-sm btn-info' value="Cancel" >
+								</div>
+								
+						<?php	}else{ ?>
+								<div id="newupload-banner" class="mt-3"  style="display:block">
+									<div id="loading-image-banner" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+									<div id="banner_img" tabindex="0" class="slim"
+										data-label="Upload banner image"
+                                         data-size="1880,188"
+                                         data-ratio="10:1">
+										<input tabindex="-1" class="text-box ignore" name="affinity_home_banner" id="affinity_home_banner" type="file" accept="image/jpeg,image/png" required>
+									</div>
+                                    <p class="mb-0" style="color:red;">Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+									<input type="submit" name="submit" value="Upload banner image" class='btn btn-sm btn-info' >
+								</div>
+								<div id="already-banner" class="mt-3" style="display:none">
+									<div id="new_banner">
+										<img id="web_banner_image" src="" alt="Banner image" style="background-size:100% 100%;height:62px;width:496px; ">
+									</div>
+									<button type="button" onclick="updatebanner()" class='btn btn-sm btn-info mt-3' >Change Image</button>
+								</div>
+						<?php	} ?>
+								</form>
+							</div>
+<?php if (0) { /* This block has been commented as it needs to be moved to Global Branding */ ?>
+							<div class="col-md-12 mt-3"><h5>My Events Background</h5></div>
+								<div class="col-md-12">
+									<div id="loading-image-banner3" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+								<form id="myEventsBackground">
+									<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+							<?php	if($_ZONE->val('my_events_background')!=""){ ?>
+									<div id="existing-background" class="mt-3" style="display:block">
+										<div  id="new_background">
+											<img id="web_banner_image" src="<?=$_ZONE->val('my_events_background'); ?>" alt="Web banner background image" style="background-size:100% 100%;height:62px;width:496px;">
+										</div>
+	
+										<div class="row mt-2">
+											<div class="col-md-6">
+												<button type="button" onclick="updateMyEventsBackground()" class='btn btn-sm btn-info' >Change Image</button>
+												&nbsp;
+												<a class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteMyEventsBackground()" data-original-title="Are you sure you want to remove background image?">
+													Remove Image
+												</a>
+											</div>
+											<div class="col-md-6">
+												&nbsp;
+											</div>
+										</div>
+									</div>
+									<div id="new-events-background" style="display:none">
+										<p id="nomsg-banner"></p>
+										<div id="loading-image-banner3" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+										<div id="banner_img" tabindex="0" class="slim"
+											data-label="Upload banner image"
+											 data-size="1000,188"
+											 data-ratio="10:1">
+											<input tabindex="-1" class="text-box ignore" name="my_events_background" id="my_events_background" type="file" accept="image/jpeg,image/png" required>
+										</div>
+										<p class="mb-0" style="color:red;">Note :You can add .jpg,.jpeg,.png format. Images must be 1000px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+										<input type="submit" name="submit" value="Upload My Events Background image" class='btn btn-sm btn-info' > <input type="button" id="cancelMyeventsImageUpload" onclick="CancelUploadBackground()" class='btn btn-sm btn-info' value="Cancel" >
+									</div>
+									
+							<?php	}else{ ?>
+									<div id="new-events-background" class="mt-3"  style="display:block">
+										<div id="loading-image-banner" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+										<div id="banner_img" tabindex="0" class="slim"
+											data-label="Upload banner image"
+											 data-size="1880,188"
+											 data-ratio="10:1">
+											<input tabindex="-1" class="text-box ignore" name="my_events_background" id="my_events_background" type="file" accept="image/jpeg,image/png" required>
+										</div>
+										<p class="mb-0" style="color:red;">Note :You can add .jpg,.jpeg,.png format. Images must be 1000px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+										<input type="submit" name="submit" value="Upload My Events Background Image" class='btn btn-sm btn-info' >
+									</div>
+									<div id="existing-background" class="mt-3" style="display:none">
+										<div id="new_background">
+											<img id="web_banner_image" src="" alt="Banner image" style="background-size:100% 100%;height:62px;width:496px; ">
+										</div>
+										<button type="button" onclick="updateMyEventsBackground()" class='btn btn-sm btn-info mt-3' >Change Image</button>
+									</div>
+							<?php	} ?>
+									</form>
+								</div>
+<?php } /* This block has been commented as it needs to be moved to Global Branding */ ?>
+						</div>
+
+						<div class="col-md-6">
+							<div class="col-md-12"><h5>Web Banner Title</h5></div>
+							<div class="col-md-12">
+								<div class="col-md-8">
+									<p id="banner_title"><strong><?=$_ZONE->val('banner_title'); ?></strong></p>
+									<input type="text" name="web_banner_title" id="web_banner_title" class='col-md-12' value="<?= $_ZONE->val('banner_title'); ?>" placeholder="Web banner title" style="display:none" >
+								</div>
+								<div class="col-md-4">
+									<button aria-label="Edit" class="btn btn-no-style" id="banner_title_edit" onclick="editBannerTitle();"><i class="fa fa-edit" title="Edit" ></i></button>
+									<button id="banner_title_update" type="button" onclick="updateBannerTitle()" class='btn btn-xs btn-info' style="display:none">Update</button>
+								</div>
+							</div>
+							
+							<div class="col-md-12"><h5>Web Banner Subtitle</h5></div>
+							<div class="col-md-12">
+								<div class="col-md-8">
+									<p id="banner_subtitle"><strong><?= $_ZONE->val('banner_subtitle'); ?></strong></p>
+									<input type="text" name="web_banner_subtitle" id="web_banner_subtitle" class='col-md-12' value="<?= $_ZONE->val('banner_subtitle'); ?>" style="display:none" placeholder="Web Banner Subtitle" >
+								</div>
+								<div class="col-md-4">
+									<button aria-label="Edit" class="btn btn-no-style" id="banner_subtitle_edit" onclick="editBannerSubTitle();"><i class="fa fa-edit" title="Edit" ></i></button>
+									<button id="banner_subtitle_update" type="button" onclick="updateBannerSubTitle()" class='btn btn-xs btn-info' style="display:none">Update</button>
+								</div>
+							</div>
+							<div class="col-md-12"><h5>Calendar Page Banner Title</h5></div>
+							<div class="col-md-12">
+								<div class="col-md-8">
+									<p id="calendar_page_banner_title_view"><strong><?= $_ZONE->val('calendar_page_banner_title'); ?></strong></p>
+									<input type="text" name="calendar_page_banner_title" id="calendar_page_banner_title" class='col-md-12' value="<?= $_ZONE->val('calendar_page_banner_title'); ?>" style="display:none" placeholder="Calendar page banner title" >
+								</div>
+								<div class="col-md-4">
+									<button aria-label="Edit" class="btn btn-no-style"  id="calendar_page_banner_title_edit" onclick="editCalendarTitle();"><i class="fa fa-edit" title="Edit" ></i></button>
+									<button id="calendar_page_banner_title_update" type="button" onclick="updateCalendarTitle()" class='btn btn-xs btn-info' style="display:none">Update</button>
+								</div>
+							</div>
+							<div class="col-md-12"><h5>Admin Content Page Title</h5></div>
+							<div class="col-md-12">
+								<div class="col-md-8">
+									<p id="admin_content_page_title_view"><strong><?= $_ZONE->val('admin_content_page_title'); ?></strong></p>
+									<input type="text" name="admin_content_page_title" id="admin_content_page_title" class='col-md-12' value="<?= $_ZONE->val('admin_content_page_title'); ?>" style="display:none" placeholder="Admin content page title" >
+								</div>
+								<div class="col-md-4">
+									<button aria-label="Edit" class="btn btn-no-style" id="admin_content_page_title_edit" onclick="editAdminContentTitle();"><i class="fa fa-edit" title="Edit" ></i></button>
+									<button id="admin_content_page_title_update" type="button" onclick="updateAdminContentTitle()" class='btn btn-xs btn-info' style="display:none">Update</button>
+								</div>
+							</div>
+							
+							<div class="col-md-12"><h5><?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> Landing Page</h5></div>
+							<div class="col-md-12">
+								<div class="col-md-8">
+                                        <p id="group_landing_page_title"><strong><?= ucfirst($_ZONE->val('group_landing_page')); ?></strong></p>
+									<select name="group_landing_page" id="group_landing_page" style="display:none" class='col-md-12'>
+										<option value="about" <?= $_ZONE->val('group_landing_page') === 'about' ? 'selected' : ''; ?>>About</option>
+										<option value="announcements" <?= $_ZONE->val('group_landing_page') === 'announcements' ? 'selected' : ''; ?> ><?=Post::GetCustomName(true);?></option>
+										<option value="events" <?= $_ZONE->val('group_landing_page') === 'events' ? 'selected' : ''; ?> >Events</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<button aria-label="Edit" class="btn btn-no-style"  id="group_landing_page_edit" onclick="editGroupLandingPage();"><i class="fa fa-edit" title="Edit" ></i></button>
+									<button id="group_landing_page_update" type="button" onclick="updateGroupLandingPage()" class='btn btn-xs btn-info' style="display:none">Update</button>
+								</div>
+							</div>
+                            <div class="col-md-12"><h5><?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> Overlay</h5>
+                                <div class="col-md-8">
+                                    <p><strong>Enable <?= $_COMPANY->getAppCustomization()['group']['name-short']; ?> Color Overlay</strong></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type='checkbox' class="deluser" <?= $_ZONE->val('show_group_overlay') == 1 ? 'checked' : ''; ?> title="<strong>Are you sure!</strong>" id="show_group_overlay"  onclick="enableDisableGroupOverlay()" >
+                                </div>
+							</div>
+						</div>
+
+						<div class="col-md-12 mt-4">
+                            <p style="border-bottom:1px solid #6b6b6b33; margin:20px 0 0 0"></p>
+                        </div>
+						<div class="col-md-12">
+								<div class="col-md-12">
+									<h6>Manage Hot Links&nbsp;</h6>
+									<a aria-label="Add new hotlink" class="add-plus-circle-icon" href="add_link">
+										<i class="fa fa-plus-circle fa-lg" title="Add new link" aria-hidden="true"></i>
+									</a>
+								</div>
+								<div class="clearfix"></div>
+
+                                <div class="form-group mt-2 mb-0">
+                                    <label class="col-md-2 control-label">Show Hot Links in</label>
+                                    <div  class="col-md-2 input-group">
+                                        <label class="radio-inline">
+                                            <input onchange="updateZoneHotlinkPlacement();" value="banner" type="radio"
+                                                <?php if ($_ZONE->val('hotlink_placement') === 'banner') { ?>
+                                                    checked="checked"
+                                                <?php } ?>  name="hot_link_location">Banner
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input onchange="updateZoneHotlinkPlacement();" value="header" type="radio"
+                                                <?php if ($_ZONE->val('hotlink_placement') === 'header') { ?>
+                                                    checked="checked"
+                                                <?php } ?> name="hot_link_location">Header
+                                        </label>
+                                    </div>
+                                    <div id="error_hot_link_location"  style="display:none" class="col-md-4 input-group"></div>
+                                </div>
+								<div class="table-responsive">
+									<table style="border-top: 1px solid #111;" class="table table-hover display compact" id="hotlink_list" summary="This table displays a list of quick links">
+										<thead>
+											<tr>
+												<th width="30%" scope="col">Title</th>
+												<th width="20%" scope="col">Alternate Name</th>
+												<th width="20%" scope="col">Image</th>
+												<th width="20%" scope="col">Link</th>
+												<th width="10%" scope="col">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+							<?php	if(count($data)){ ?>
+							<?php		for($i=0;$i<count($data);$i++) {
+											$encodedId = $_COMPANY->encodeId($data[$i]['link_id']);
+											$hotlinkColor = 'none';
+											if ($data[$i]['is_active'] == 0){
+												$hotlinkColor = "rgb(248, 249, 206)";
+											} else if ($data[$i]['is_active'] == 100){
+												$hotlinkColor = "rgb(249, 215, 205)";
+											}
+							?>
+											<tr id='<?=$encodedId;?>' style="background-color: <?= $hotlinkColor; ?>;">
+												
+												<td><?= $data[$i]['title']; ?></td>
+												<td><?= $data[$i]['alternate_name']; ?></td>
+												<td >
+												<?php if($data[$i]['image']){ ?>
+													<img src="<?= $data[$i]['image']; ?>" alt="Quick link icon image" style="background:#7b7a7a; padding:5px;" height=50px Width=50px>
+												<?php } else { ?>
+													-
+												<?php } ?>
+												</td>
+												<td><a aria-label="view link" href="<?= $data[$i]['link']; ?>" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">Link</span></a></td>
+												<td>
+													<a aria-label="Edit" href='add_link?edit=<?=$encodedId;?>' >
+														<i class="fa fa-edit" title="Edit" aria-hidden="true"></i>
+													</a>&emsp;
+													<?php
+													 if($data[$i]['is_active'] == 1){ ?>
+														<button aria-label="deactivate" class="btn btn-no-style deluser" onclick="activateDeactiveHotLink('<?=$encodedId;?>',2)" title="<strong>Are you sure you want to deactivate!</strong>">
+															<i class="fa fa-lock" aria-hidden="true"></i>
+														</button>
+													<?php } else{?>
+														<button aria-label="activate" class="btn btn-no-style deluser" onclick="activateDeactiveHotLink('<?=$encodedId;?>', 1)" title="<strong>Are you sure you want to activate!</strong>">
+															<i class="fa fa-unlock" aria-hidden="true"></i>
+														</button>
+													<?php }  ?>
+													<button aria-label="Delete" class="btn btn-no-style deluser" onclick="deleteHotLink('<?=$encodedId;?>')" title="<strong>Are you sure you want to delete!</strong>">
+														<i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+													</button>
+												</td>
+											</tr>
+							
+							
+							<?php 		} ?>
+							<?php	} ?>
+										
+										</tbody>
+									</table>
+								</div>
+						</div>
+
+                        <div class="col-md-12 mt-4">
+                            <p style="border-bottom:1px solid #6b6b6b33; margin:20px 0 0 0"></p>
+                        </div>
+						<div class="col-md-12">
+								<div class="col-md-12">
+									<h6>Manage Footer Links &nbsp;</h6>
+									<a aria-label="Add Footer" class="add-plus-circle-icon" href='update_footer_links' >
+										<i class="fa fa-plus-circle fa-lg" title="Update footer links" aria-hidden="true"></i>
+									</a>
+								</div>
+								<div class="clearfix"></div>
+
+								<div class="table-responsive">
+									<table style="border-bottom: 1px solid #111" class="table table-hover display compact" summary="This table displays a list of footer links">
+										<thead style="font-weight: bold; border-top: 1.1px solid #111; border-bottom: 1.09px solid #111;">
+											<tr>
+												<td width="30%" scope="col">Title</td>
+												<td width="40%" scope="col">Section</td>
+												<td width="15%" scope="col">Link</td>
+												<td width="15%" scope="col">Action</td>
+											</tr>
+										</thead>
+										<tbody>
+								<?php if(!empty($footerLinks)){ ?>
+									<?php foreach($footerLinks as $footerlink){
+											$encodedLinkId = $_COMPANY->encodeId($footerlink['link_id']);
+											$color = 'none';
+											if ($footerlink['isactive'] == 1){
+												$color = "rgb(255, 255, 255)";
+											} else if ($footerlink['isactive'] == 100){
+												$color = "rgb(249, 215, 205)";
+											}else{
+												$color = "rgb(248, 249, 206)";
+											}
+										?>
+											<tr style="background-color: <?= $color; ?>;">
+												<td><?= htmlspecialchars($footerlink['link_title']); ?></td>
+												<td><?= ucfirst(htmlspecialchars($footerlink['link_section'])); ?></td>
+												<td><a aria-label="Link" target="_blank" rel="noopener noreferrer" href="<?= htmlspecialchars($footerlink['link']); ?>">Link</a></td>
+												<td>
+												<?php if (1){ ?>
+												<?php if ($footerlink['isactive'] == 1){ ?>
+													<button aria-label="deactivate" class="btn btn-no-style deluser" onclick="activateDeactiveFooterLink('<?=$encodedLinkId;?>',2)" title="<strong>Are you sure you want to deactivate!</strong>">
+														<i class="fa fa-lock" aria-hidden="true"></i>
+													</button>
+												<?php } else { ?>
+                                                    <a aria-label="Edit" class="btn" href='update_footer_links?edit=<?=$encodedLinkId;?>' >
+                                                        <i class="fa fa-edit" title="Edit" aria-hidden="true"></i>
+                                                    </a>&emsp;
+													<button aria-label="activate" class="btn btn-no-style deluser" onclick="activateDeactiveFooterLink('<?=$encodedLinkId;?>', 1)" title="<strong>Are you sure you want to activate!</strong>">
+														<i class="fa fa-unlock" aria-hidden="true"></i>
+													</button>
+												<?php } ?>
+													&emsp;
+													<button aria-label="Permanent Delete" class="btn btn-no-style deluser" onclick="deleteFooterLink('<?=$encodedLinkId;?>')" title="<strong>Are you sure you want to delete!</strong>">
+														<i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+													</button>
+												<?php } ?>
+												</td>
+											</tr>
+									<?php } ?>
+										</tbody>
+								<?php } else { ?>
+									<tr>
+										<td colspan="4" class="text-center"> - No footer links found -</td><td></td><td></td><td></td>
+									</tr>
+
+								<?php } ?>
+									</table>
+								</div>
+						</div>
+                        <div class="col-md-12">
+                            <p style="border-bottom:1px solid #6b6b6b33; margin:20px 0 0 0"></p>
+                        </div>
+					</div>								
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+
+
+$(document).ready(function() {
+    //Helper function to keep table row from collapsing when being sorted
+    var fixHelperModified = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+          $(this).width($originals.eq(index).width())
+        });
+        return $helper;
+    };
+
+    $('#hotlink_list').DataTable( {
+        "order": [],
+        "bPaginate": false,
+        "bInfo" : false,
+        "searching": false,
+		"columnDefs": [
+			{ targets: [0,1,2,3,4], orderable: false }
+		],
+		language: {
+       		emptyTable: '<?= gettext("- No Links added yet! -");?>'
+    	}
+    } );
+
+    //Make diagnosis table sortable
+    $("#hotlink_list tbody").sortable({
+        helper: fixHelperModified,
+        stop: function(event,ui) {renumber_table('#hotlink_list')}
+    }).disableSelection();
+
+	$( "#web_banner_title" ).on('input', function() {
+		if ($(this).val().length>100 ) {
+			$("#banner_title_update").prop('disabled', true);
+			$(this).val($(this).val().substring(0,100));
+			swal.fire({title: 'Error!',text:'Maximum 100 characters allowed!'});
+		}else{
+			$("#banner_title_update").prop('disabled', false);
+		}
+	});
+
+	$( "#web_banner_subtitle" ).on('input', function() {
+		if ($(this).val().length>100) {
+			$("#banner_subtitle_update").prop('disabled', true);
+			$(this).val($(this).val().substring(0,100));
+			swal.fire({title: 'Error!',text:'Maximum 100 characters allowed!'});
+		}else{
+			$("#banner_subtitle_update").prop('disabled', false);
+		}
+	});
+});
+
+//Renumber table rows
+function renumber_table(tableID) {
+	var ids = [];
+    $(tableID + " tr").each(function() {
+       // count = $(this).parent().children().index($(this)) + 1;
+       // $(this).find('.priority').html(count);
+		var id = $(this).closest('tr').attr('id');
+		if (id){
+			ids.push(id);
+		}
+	});
+	updateLinkPriority(ids);
+}
+
+	$('#zone_tile_bg_image').change(function(){
+		$('#updateZoneTileBg').prop('disabled', false);
+	});
+
+	$('#zone_tile_banner').keypress(function(e) {        
+        if (e.keyCode == 13) {
+			$('#zone_tile_bg_image').click(); 			        	
+        }
+    });
+
+	$('#banner_img').keypress(function(e) {        
+        if (e.keyCode == 13) {		
+			$('#affinity_home_banner').click();  						
+        }
+    });
+
+
+	$('#zone_tile_compact_bg_image').change(function(){
+		$('#updateZoneTileCompactBg').prop('disabled', false);
+	});
+
+	$('#zone_tile_compact_banner').keypress(function(e) {        
+        if (e.keyCode == 13) {
+			$('#zone_tile_compact_bg_image').click(); 			        	
+        }
+    });
+
+</script>
+
+	</body>
+</html>

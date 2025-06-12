@@ -1,0 +1,52 @@
+<div class="modal fade" tabindex="-1" id="addUpdateHashTagModel" aria-labelledby="addUpdateHashTagModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUpdateHashTagModelLabel"><?= $modelTitle; ?></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="handle" class="form-label">Hashtag<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="handle" name="handle" value="<?= $hashtag ? $hashtag['handle'] : ''; ?>">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="addUpdateHashtag('<?= $_COMPANY->encodeId($hashtagid); ?>')">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function addUpdateHashtag(i) {
+        var handle = $("#handle").val().trim();
+        if(handle == ''){
+            swal.fire({title: 'Error!',text:"Please enter a valid hashtag value."})
+            return;
+        }
+
+        if (handle.length<2) {
+            swal.fire({title: 'Error!',text:"Please enter at least 2 characters for hashtag value."})
+            return;
+        }
+        $.ajax({
+            url: 'ajax.php?addUpdateHashtag=1',
+            type: "POST",
+            data: {'hashtagid':i,'handle':handle},
+            success: function(data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1){
+                            location.reload();
+                        }
+                    });
+			    } catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+            }
+        });
+    }
+</script>

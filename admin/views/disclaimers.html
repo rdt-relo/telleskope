@@ -1,0 +1,150 @@
+<style>
+    .row-deactivated{
+        background-color: #ffffce;
+    }
+    .row-draft{
+        background-color: #ffffce !important;
+    }
+    .dropdown-menu i {
+        margin-right: 5px;
+    }
+</style>     
+
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6><?= gettext('Disclaimers & Consents');?></h6>
+
+                    <a aria-label="Add a disclaimer" class="add-plus-circle-icon" href="new_disclaimer">
+                        <i class="ml-2 fa fa-plus-circle fa-lg" aria-hidden="true" title="" ></i>
+                    </a>
+                </div>
+                
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= ADDED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ERROR; ?>
+                    </div>
+            <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+                
+                        <table id="disclaimer_table" class="table table-hover display compact" summary="This table display the list of Disclaimers">
+                            <thead>
+                                <tr>
+                                    <th width="15%" scope="col"><?= gettext('Invocation Type'); ?></th>
+                                    <th width="25%" scope="col"><?= gettext('Disclaimer Name'); ?></th>
+                                    <th width="20%" scope="col"><?= gettext('Disclaimer Trigger'); ?></th>
+                                    <th width="15%" scope="col"><?= gettext('Consent Tracking') ?></th>
+                                    <th width="15%" scope="col"><?= gettext('Consent Type') ?></th>
+                                    <th width="10%" scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $validDisclaimerTypeTrigger = array_values($disclaimerHooks);
+                                $validDisclaimerTypeLink = array_values(Disclaimer::DISCLAIMER_HOOK_LINKS);
+								foreach ($disclaimers as $disclaimer) {
+                                    if (!in_array($disclaimer->val('hookid'), $validDisclaimerTypeTrigger) && !in_array($disclaimer->val('hookid'), $validDisclaimerTypeLink)) {
+                                        continue;
+                                    }
+                                    $encodedId = $_COMPANY->encodeId($disclaimer->val('disclaimerid'));
+                                    
+                                    if($disclaimer->val('consent_required') == 1){
+                                        $consent_required = 'Yes';
+                                    }else{
+                                        $consent_required = 'No';
+                                    }
+								?>
+							<tr <?php if(in_array($disclaimer->val('isactive'),array(0,2))){?> class="row-draft"  <?php }elseif($disclaimer->val('isactive') == 0){?> class="row-deactivated"  <?php } ?> >
+                                <td><?=  $disclaimer->val('invocation_type'); ?></td>
+                                <td><?=  $disclaimer->val('disclaimer_name'); ?></td>
+                               
+								<td><?= in_array($disclaimer->val('hookid'), $validDisclaimerTypeTrigger) ?  Disclaimer::GetDisclaimerTriggerLabel($disclaimer->val('hookid')) : Disclaimer::GetDisclaimerTypeLinkLabel($disclaimer->val('hookid')); ?></td>
+                                <td><?=  $consent_required; ?></td>
+                                <td><?php if(!empty($disclaimer->val('consent_type'))) {
+                                    echo ucfirst($disclaimer->val('consent_type')); } ?></td>
+                                <td>
+                                    <div class="dropdown" id="">
+                                        
+                                        <!-- <a class="btn btn-primary" href="disclaimer_languages?disclaimerid=<?=$encodedId;?>"><?= gettext('Disclaimer Details');?></a>
+                                         -->
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <?= gettext('Action');?>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a aria-label="Deactivate" class="btn-no-style dropdown-item" href="disclaimer_languages?disclaimerid=<?=$encodedId;?>"><i class="fa fa-eye" title="Deactivate" aria-hidden="true"></i> <?= gettext('Disclaimer Details');?></a>
+
+                                            <?php if($disclaimer->val('isactive') == 1){ ?>
+                                            <button aria-label="Deactivate" class="btn-no-style dropdown-item deluser" onclick="activateDeactiveDisclaimer('<?=$encodedId;?>','2')" class="confirm" title="Are you sure you want to deactivate this disclaimer?"><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i> <?= gettext('Deactivate');?></button>
+                                          <?php } else{ ?>
+                                            <button aria-label="Activate" class="btn-no-style dropdown-item deluser" onclick="activateDeactiveDisclaimer('<?=$encodedId;?>','1')" class="confirm" title="Are you sure you want to activate this disclaimer?"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i> <?= gettext('Activate');?></button>
+
+                                          <?php } ?>
+                                          <?php if($disclaimer->val('isactive') != 1){?>
+                                            <a class="dropdown-item" href="new_disclaimer?disclaimerid=<?=$encodedId;?>"><i class="fa fa-edit" aria-hidden="true"></i><?= gettext('Edit');?></a>
+                                            <?php } ?>  
+                                            <?php if($disclaimer->val('isactive') != 1){?>                                    
+                                            <button aria-label="Delete" class="btn-no-style dropdown-item deluser" onclick="deleteDisclaimer('<?=$encodedId;?>')" class="confirm" title="Are you sure you want to delete this disclaimer?"><i class="fa fa-trash" aria-hidden="true"></i> <?= gettext('Delete');?></button>
+                                            <?php } ?>  
+                                        <?php if($disclaimer->val('consent_required')){ ?>
+                                            <a class="dropdown-item " class="confirm js-download-link" href="ajax.php?downloadDisclaimerConsentReport=<?=$encodedId;?>"><i class="fa fa-download" aria-hidden="true"></i> <?= gettext('Download Consents');?> </a>
+                                        <?php } ?>
+                                                                                       
+                                        </div>
+                                    </div>
+                                </td>
+                                
+								</tr>
+								<?php }	?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    var x = parseInt(localStorage.getItem("local_variable_for_Admin_table_pagination")); 
+    if (!x){
+        x = 10;
+    } 
+    $('#disclaimer_table').DataTable( {
+        bFilter: true,
+        bInfo : false,
+        bDestroy: true,      
+        pageLength: x,
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        columnDefs: [
+            { targets: [3,5], orderable: false }
+        ],
+        language: {
+            searchPlaceholder: "Type anything..",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+        },
+    });
+
+    $('#disclaimer_table').on( 'length.dt', function ( e, settings, len ) {
+        localStorage.setItem("local_variable_for_Admin_table_pagination", len);
+    } );
+</script>
+</body>
+</html>

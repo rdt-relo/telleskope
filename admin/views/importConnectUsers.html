@@ -1,0 +1,64 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+
+                <div class="col-md-12 divider"><h6><?= $pagetitle; ?></h6></div>
+                <?php if(!empty($error)){ ?>
+                <div id="hidemesage" class="col-md-12">
+                    <div class="alert alert-dismissible alert-danger">
+                        <?php echo $error; ?>
+                    </div>
+                </div>
+                <?php } ?>
+            <?php if(!empty($invalidEmail) || !empty($successInvited) || !empty($alreadyConnected) || !empty($invalidExternalId)){ ?>
+                <div  class="alert alert-dismissible col-md-12" style="border:1px solid rgb(199, 199, 199);" >
+                    <?php if(!empty($successInvited)){ ?>
+                        <p style="color:green;"><strong>Successfully Invited: <?= implode(',',$successInvited);?></strong> </p>
+                    <?php } ?>
+                    <?php if(!empty($alreadyConnected)){ ?>
+                        <p style="color:green;"><strong>Already Connected ExternalIds: <?= implode(',',$alreadyConnected);?></strong> </p>
+                    <?php } ?>
+                    <?php if(!empty($invalidEmail)){ ?>
+                        <p style="color:red;"><strong>Invalid Emails: <?= implode(',',$invalidEmail);?></strong> </p>
+                    <?php } ?>
+                    <?php if(!empty($invalidExternalId)){ ?>
+                        <p style="color:red;"><strong>Invalid ExternalIds: <?= implode(',',$invalidExternalId);?></strong> </p>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+
+                <div class="col-md-12">
+                    <form class="form-horizontal" method="post" action="" enctype='multipart/form-data'>
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Import CSV file<span style="color: #ff0000;"> *</span></label>
+                            <div class="col-md-10">
+                                <input class=""  name="connectusercsv" type="file" required>
+                                <small class="dark-gray">
+                                    <a href="data:text/csv;charset=utf-8,externalId,personalEmail%0AE02312,personalemail1@yahoo.com%0AE02313,personalemail2@gmail.com" download="sample_connect_users_data.csv">Download Sample CSV</a>
+                                </small>
+                            </div>
+                            <p>
+                                
+                            </p>
+                        </div>
+                       
+                        <div class="form-group text-center">
+                            <a href="manageusers" class="btn btn-primary">Cancel</a>
+                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    <?php if($success){ ?>
+        swal.fire({title: 'Success',text:'<?= $success; ?>'});
+    <?php } ?>
+</script>
+</body>
+</html>

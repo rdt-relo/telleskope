@@ -1,0 +1,615 @@
+<style xmlns="http://www.w3.org/1999/html">
+    table, td, th{
+        border: 1px solid rgb(185, 180, 180);
+        font-size: 10px;
+        padding: .35rem !important;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+
+                <div class="col-md-12 divider"><h6><?=$pagetitle?></h6></div>
+
+                
+                <?php if(!empty($error)){ ?>
+                <div id="hidemesage" class="col-md-12">
+                    <div class="alert alert-dismissible alert-danger">
+                        <?php echo $error; ?>
+                    </div>
+                </div>
+                <?php } ?>
+				<?php if(($success)){ ?>
+				<div id="" class="col-md-12" style="border:1px solid rgb(192, 189, 189);">
+					<div class="alert alert-dismissible alert-default">
+						<div class="border:1px sold gray;" >
+                            <p style="color:green;"><strong>Total Processed : <?= $success['totalProcessed'];?></strong> </p>
+                        
+                        <?php if($success['provision'] == 5) { ?>
+                            <p style="color:green;"><strong>Total Branches Created/Updated : <?= $success['totalProcessed'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 6){ ?>
+                            <p style="color:green;"><strong>Total Groups Created/Updated : <?= $success['totalGroups'];?></strong> </p>
+                            <p style="color:green;"><strong>Total Chapters Created/Updated : <?= $success['totalChapters'];?></strong> </p>
+                            <p style="color:green;"><strong>Total Region Created/Updated : <?= $success['totalRegions'];?></strong> </p>
+                            <p style="color:green;"><strong>Total Branches Created/Updated : <?= $success['totalBranches'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 8){ ?>
+                            <p style="color:green;"><strong>Total ExternalIds updated : <?= $success['rowsUpdated'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 7){ ?>
+                                <p style="color:green;"><strong>Total Event Created/Updated : <?= $success['eventCreated'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 10){ ?>
+                            <p style="color:green;"><strong>Total Expenses Created : <?= $success['expensesCreated'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 11){ ?>
+                            <p style="color:green;"><strong>Total Records Updated : <?= $success['rowsUpdated'];?></strong> </p>
+                            <p style="color:green;"><strong>Total Records Merged : <?= $success['rowsMerged'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 12){ ?>
+                                <p style="color:green;"><strong>Total Users Deleted : <?= $success['totalSuccess'];?></strong> </p>
+                        <?php } elseif($success['provision'] == 13){ ?>
+                                <p style="color:green;"><strong>Total Groups Updated : <?= $success['totalSuccess'];?></strong> </p>   
+                        <?php } else { ?>
+                            <p style="color:green;"><strong>Total Users Created/Updated : <?= $success['userCreated'];?></strong> </p>
+                            <?php if ($success['provision']==1){ ?>
+                                <p style="color:green;"><strong>Total Members Created/Updated : <?= $success['memberCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==2){ ?>
+                                <p style="color:green;"><strong>Total Groupleads Created/Updated : <?= $success['groupLeadCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==3){ ?>
+                                <p style="color:green;"><strong>Total Chapterleads Created/Updated : <?= $success['chapterLeadCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==4){ ?>
+                                <p style="color:green;"><strong>Total Channelleads Created/Updated : <?= $success['channelLeadCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==14){ ?>
+                                <p style="color:green;"><strong>Total Regional Leads Created/Updated : <?= $success['groupLeadCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==15){ ?>
+                                <p style="color:green;"><strong>Total Execustive sponsors Created/Updated : <?= $success['groupLeadCreated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==16){ ?>
+                                <p style="color:green;"><strong>Total Users Updated : <?= $success['rowsUpdated'];?></strong> </p>
+                            <?php } elseif ($success['provision']==17){ ?>
+                                <p style="color:green;"><strong>Total Users Updated : <?= $success['rowsUpdated'];?></strong> </p>
+                            <?php } ?>
+                        <?php } ?>
+
+                            <p style="color:red;"><strong>Total Failed : <?= $success['totalFailed'];?></strong> </p>
+                        </div>
+					</div>
+				</div>
+				<?php } ?>
+
+                <div class="col-md-12">
+                    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <div id="data-processing-note" class="col-md-12 mb-1" >
+                            <p style="color:red;font-weight: bold;">All the data will be processed under <u><?= $_ZONE->val('zonename') ;?></u> Zone.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Provision *</label>
+                            <div class="col-lg-4">
+                                <select class="form-control" id="provision_type" name="provision" required onchange="showTableFormat(this.value)">
+                                    <option value="">Select an option</option>
+                                    <option value="1">Group Members</option>
+                                    <option value="2">Group Leaders</option>
+                                    <option value="14">Regional Leaders</option>
+                                    <option value="3">Chapter Leaders</option>
+                                    <option value="4">Channel Leaders</option>
+                                    <option value="15">Executive Sponsors</option>
+                                    <option value="9">Users Only</option>
+                                    <option value="12">Delete Users</option>
+                                    <option value="5">Office Branches</option>
+                                    <option value="6">Chapter Region & Branches</option>
+                                    <option value="7">Events</option>
+                                    <option value="10">Add Expenses</option>
+                                    <option value="8">Update ExternalId</option>
+                                    <option value="16">Update External Email</option>
+                                    <option value="11">Change Email Address</option>
+                                    <option value="17">Import User Preferences</option>
+                                    <option value="13">Add/Update/Delete tags from Groups</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="user_primary_key" style="display:none">
+                            <label class="col-lg-3 control-label">Primary Key *</label>
+                            <div class="col-lg-4">
+                                <select class="form-control" name="primaryKey" onchange="showHidePrimaryKey(this.value)">
+                                    <option value="externalId" selected>ExternalId</option>
+                                    <option value="email">Email</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="id11_additional_fields" style="display:none">
+                            <label class="col-lg-3 control-label">Merge Duplicates</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="mergeUsersIfDuplicate" >
+                                    <option value="no" selected>No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">File Upload .csv</label>
+                            <div class="col-lg-8">
+                                <input class="text-box ignore" name="import_file" type="file" required>
+                           </div>
+                           
+                           <div class="col-md-12 mt-2" id="fileFormat" style="display:none">
+                                <p style="color:red;">NOTE : CSV file heading required in following format. (*) fields are required.</p>
+                                <table class="table display"  style="width:100%;  border-collapse: collapse;">
+                                        <tr id="id1" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>chapterName</li>
+                                                    <li>channelName</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id2" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>roleName&nbsp;*</li>
+                                                    <li>roleTitle</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id3" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>chapterName&nbsp;*</li>
+                                                    <li>roleName&nbsp;*</li>
+                                                    <li>roleTitle</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id4" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>channelName&nbsp;*</li>
+                                                    <li>roleName&nbsp;*</li>
+                                                    <li>roleTitle</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id5" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>officeLocation&nbsp;*</li>
+                                                    <li>region&nbsp;*</li>
+                                                    <li>branchType</li>
+                                                    <li>city</li>
+                                                    <li>state</li>
+                                                    <li>country</li>
+                                                    <li>zipcode</li>
+                                                    <li>street</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id6" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>chapterName&nbsp;*</li>
+                                                    <li>officeLocation&nbsp;*</li>
+                                                    <li>region</li>
+                                                    <li>branchType</li>
+                                                    <li>city</li>
+                                                    <li>state</li>
+                                                    <li>country</li>
+                                                    <li>zipcode</li>
+                                                    <li>street</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                       
+                                        <tr id="id7" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>chapterName**</li>
+                                                    <li>channelName**</li>
+                                                    <li>startDateTime&nbsp;*</li>
+                                                    <li>endDateTime&nbsp;*</li>
+                                                    <li>eventType&nbsp;*</li>
+                                                    <li>eventTitle&nbsp;*</li>
+                                                    <li>timezone&nbsp;*</li>
+                                                    <li>eventDescription</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id7b" style="display:none; padding-top: 5px;">
+                                            <th>
+                                                <ul>
+                                                    <li>venue</li>
+                                                    <li>venueAddress</li>
+                                                    <li>webConferenceLink</li>
+                                                    <li>webConferenceDetail</li>
+                                                    <li>eventContact</li>
+                                                    <li>isPrivate</li>
+                                                    <li>isPublished</li>
+                                                    <li>teamName</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id7c" style="display:none; padding-top: 5px;">
+                                            <th>
+                                                <ul>
+                                                    <li>groupName2</li>
+                                                    <li>groupName3</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id8" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>email&nbsp;*</li>
+                                                    <li>externalId&nbsp;*</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id9" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id10" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>chapterName</li>
+                                                    <li>channelName</li>
+                                                    <li>chargeCode</li>
+                                                    <li>vendorName</li>
+                                                    <li>description&nbsp;*</li>
+                                                    <li>amount&nbsp;*</li>
+                                                    <li>date&nbsp;*</li>
+                                                    <li>isPaid</li>
+                                                    <li>poNumber</li>
+                                                    <li>invoiceNumber</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id11" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>oldEmailAddress&nbsp;*</li>
+                                                    <li>newEmailAddress&nbsp;*</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id12email" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>email&nbsp;*</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id12external" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>externalId&nbsp;*</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id13" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>addTags</li>
+                                                    <li>deleteTags</li>
+                                                    <li>setTags</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id14" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>roleName&nbsp;*</li>
+                                                    <li>region&nbsp;*</li>
+                                                    <li>roleTitle</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id15" style="display:none;">
+                                            <th>
+                                                <ul>
+                                                    <li class="email">email&nbsp;*</li>
+                                                    <li class="externalId">externalId&nbsp;*</li>
+                                                    <li>groupName&nbsp;*</li>
+                                                    <li>roleName&nbsp;*</li>
+                                                    <li>roleTitle</li>
+                                                    <li>firstname</li>
+                                                    <li>lastname</li>
+                                                    <li>pronouns</li>
+                                                    <li>jobTitle</li>
+                                                    <li>department</li>
+                                                    <li>officeLocation</li>
+                                                    <li>opco</li>
+                                                    <li>employeeType</li>
+                                                    <li>externalUsername</li>
+                                                    <li>sinceDateTime</li>
+                                                    <li>employeeHireDate</li>
+                                                    <li>employeeStartDate</li>
+                                                    <li>employeeTerminationDate</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id16" style="display:none; padding-top: 5px;">
+                                            <th>
+                                                <ul>
+                                                    <li>email&nbsp;*</li>
+                                                    <li>externalId&nbsp;*</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                        <tr id="id17" style="display:none; padding-top: 5px;">
+                                            <th>
+                                                <ul>
+                                                    <li><span id="id17_externalid" >externalid&nbsp;*</span><span id="id17_email" style="display:none;">email&nbsp;*</span></li>
+                                                    <li>preference_tag</li>
+                                                </ul>
+                                            </th>
+                                        </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="validtags" style="padding:10px; margin: 0 0 5px 10px; display:none;">
+                            Note 1: The following preference tags are supported
+                            <ul>
+                                <?php foreach (UserPreferenceType::cases() as $preferenceType) { ?>
+                                    <li><code><?=$preferenceType->name?></code></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+
+                        <div id="validSinceDatetime" style="padding:10px; margin: 0 0 5px 10px; display:none;">
+                            Note 1: The sinceDateTime should be in format like <b style="color: darkred;">2023-11-25 23:55:56 UTC</b> format
+                        </div>
+                        <div id="validtimezones" style="padding:10px; margin: 0 0 5px 10px; display:none;">
+                            Note 1: Fields marked with * are required with non empty valid values<br>
+                            Note 2: Fields marked with ** are required and can have empty values<br>
+                            Note 3: teamName is applicable only for small team events.<br>
+                            Note 4: Valid values for isPublished are 'Yes', '1' or 'true'. Default is not published<br>
+                            Note 5: startDateTime, endDateTime format is e.g 2020-03-12 17:40:00 or 2020/3/21 2:30PM<br>
+                            Note 6: For collaborative events you can specify groupName2 and groupName3. For global events specify groupName field set to Global. ChapterName, ChannelName or TeamName will be ignored for Global Events.
+                            Note 7: Valid Timezones are
+                            <div style="height:80px;width:400px;overflow:auto;border: gold solid 1px;padding:3px 5px 5px 10px;"><?= implode("<br>",timezone_identifiers_list())?></div>
+                        </div>
+
+                        <div id="groupTagsInfo" style="padding:10px; margin: 0 0 5px 10px; display:none;">
+                            Note 1: Fields marked with * are required with non empty valid values<br>
+                            Note 2: Fields value for addTags, deleteTags and setTags should be comma separated if have multiple values.
+                        </div>
+
+                        <div id="email_warning_show" style="color:red; padding:10px; margin: 0 0 5px 10px; display:none;">
+                            <b style="background-color: yellow;">WARNING!!!</b>
+                            <br>
+                            <br>
+                            <br>
+                            This is a destructive operation. If there are users with newEmailAddress they will be merged with user with oldEmailAddress if Merge Duplicates is set to Yes.
+                            <br>
+                            <br>
+                            <br>
+                            <b style="background-color: yellow;font-size: larger;">
+                                The changes made by this operation cannot be reversed. Only perform this operation if you are sure to make these changes. Consult with Teleskope support if in doubt.
+                            </b>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"></label>
+                            <div class="col-lg-8">
+
+                                <button type="button" onclick="bulk_provisioning" class="btn btn-primary">Cancel</button>
+                                
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <?php if($success &&  !empty($success['updated'])){
+
+                    echo '<hr>'.printArrayTable($success['updated'], 'Updated rows');
+                }
+                ?>
+                <?php if($success &&  !empty($success['merged'])){
+                    echo '<hr>'.printArrayTable($success['merged'], 'Merged rows');
+                }
+                ?>
+                <?php if($success && !empty($success['failed'])){
+                    echo '<hr>'.printArrayTable($success['failed'], 'Failed rows');
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function showTableFormat(i){
+        $("#fileFormat").show();
+        $("tr").hide();
+        if(i){
+            $("#id"+i).show();
+            $("#id"+i+'b').show();
+            $("#id"+i+'c').show();
+        }
+        if (i <= 4 || i == 14 || i == 15) {
+            $('#validSinceDatetime').show();
+        } else {
+            $('#validSinceDatetime').hide();
+        }
+        if(i==5){
+            $('#zoneid').prop('required',false);
+        } else {
+            $('#zoneid').prop('required',true);
+        }
+        if (i < 5 || i == 9 || i == 14 || i == 15 || i == 17) {
+            $('#user_primary_key').show();
+        } else {
+            $('#user_primary_key').hide();
+        }
+        if (i == 17) {
+            $('#validtags').show();
+        } else {
+            $('#validtags').hide();
+        }
+        if (i==7) {
+            $('#validtimezones').show();
+        } else {
+            $('#validtimezones').hide();
+        }
+        if (i==11) {
+            $('#email_warning_show').show();
+            $('#id11_additional_fields').show();
+        } else {
+            $('#email_warning_show').hide();
+            $('#id11_additional_fields').hide();
+        }
+        if (i == 8 || i == 11) {
+            $('#data-processing-note').hide();
+        } else {
+            $('#data-processing-note').show();
+        }
+
+        if (i == 12) {
+            $('#user_primary_key').show();
+            $("#id12external").show();
+        } else {
+            $("#id12external").hide();
+            $("#id12email").hide();
+        }
+
+        if (i==13) {
+            $('#groupTagsInfo').show();
+        } else {
+            $('#groupTagsInfo').hide();
+        }
+    }
+
+    function showHidePrimaryKey(v){
+
+        var provision_type = $("#provision_type").val();
+        if (provision_type == 12) {
+            if (v == 'email') {
+                $("#id12email").show();
+                $("#id12external").hide();
+            } else if (v == 'externalId') {
+                $("#id12external").show();
+                $("#id12email").hide();
+            }
+        } else if (provision_type == 17) {
+            if (v == 'externalId') {
+                $("#id17_externalid").show();
+                $("#id17_email").hide();
+            } else if (v == 'email') {
+                $("#id17_externalid").hide();
+                $("#id17_email").show();
+            }
+        } else {
+            if (v == 'email'){
+                $(".externalId").hide();
+            } else if (v == 'externalId') {
+                $(".externalId").show();
+            } 
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<style>
+	.navbar-form.navbar-left {
+		display: none;
+	}
+	</style>
+	
+	<div class="tl-container-offset-lr">
+		<div class="row">              
+			<div class="col-md-12">
+				<div class="widget-simple-chart card p-3">
+					<div class="col-md-12 divider">
+						<h1>Edit Company Information</h1>
+					</div>
+	<hr class="border-1 text-light my-2">
+					<form class="form-horizontal" method="post" action="?update" enctype="multipart/form-data">
+						<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+						<input type="hidden" name="page" value="">
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Company Name <span class="text-danger">*</span></label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Company Name" name="company" value="<?php echo $res_event[0]['companyname'];?>" type="text" required>
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Contact Person <span class="text-danger">*</span></label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Contact Person Name" name="contactperson" type="text" value="<?php echo $res_event[0]['contactperson'];?>" required>
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Email</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Contact Person Email" id="employeeEmail" name="email" type="email" value="<?php echo $res_event[0]['email'];?>" readonly>
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Contact Number <span class="text-danger">*</span></label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Contact Phone Number" name="contact" value="<?php echo $res_event[0]['contact'];?>" type="text" required>
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Address</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Office Address" name="address" value="<?php echo $res_event[0]['address'];?>">
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">City</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="City" name="city" value="<?php echo $res_event[0]['city'];?>">
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">State</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="State" name="state" value="<?php echo $res_event[0]['state'];?>">
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">Country</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Country" name="country" value="<?php echo $res_event[0]['country'];?>">
+							</div>
+						</div>
+	
+						<div class="row mb-3 align-items-center">
+							<div class="col-lg-3 text-md-end">
+								<label class="col-form-label">ZipCode</label>
+							</div>
+							<div class="col-lg-6">
+								<input class="form-control" placeholder="Zip Code" name="zipcode" value="<?php echo $res_event[0]['zipcode'];?>">
+							</div>
+						</div>
+	
+						<div class="row">
+							<div class="offset-lg-3 col-lg-6">
+								<button type="button" onclick="goBack()" class="btn btn-secondary">Cancel</button>
+								<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>

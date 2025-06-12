@@ -1,0 +1,232 @@
+
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6><?= $pagetitle; ?></h6>
+                </div>
+				<div class="col-md-12">
+					<form  id="form_check"  class="form-horizontal" method="post" action="">
+						<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+						<input type="hidden" name="topictype" value="<?= $_GET['topictype'] ?? 'EVT' ?>">
+						<div class="row">
+							<div class="col-3 border-right">
+								<div class="form-group">
+                                    <label><strong>Requirement Rule</strong></label>
+									<hr style="width: 100%; margin-top: 0px;">
+									<div class="form-check">
+										<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" name="is_required" value="1" <?= $edit && $edit['is_required']==1 ? 'checked' : ""; ?>> Required
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									
+                                    <label><strong>Field Type</strong></label>
+									<hr style="width: 100%; margin-top: 0px;">
+									<div id="cm1" class="form-check custom_fields_type">
+										<label class="form-check-label">
+											<input type="radio" id="a1"  onclick="showHideOption(this)"  name="custom_fields_type" <?= $edit ? ($edit['custom_fields_type']==1 ? 'checked' : "") : ''; ?> value="1" <?= $edit ? ($edit['isactive']!=2 ? 'readonly' : '') : ''; ?>   class="form-check-input"> Dropdown (single select)
+										</label>
+									</div>
+									<div id="cm2" class="form-check custom_fields_type">
+										<label class="form-check-label">
+											<input type="radio" id="a2" onclick="showHideOption(this)"  name="custom_fields_type" <?= $edit ? ($edit['custom_fields_type']==2 ? 'checked' : "") : ''; ?> value="2" <?= $edit ? ($edit['isactive']!=2 ? 'readonly' : '') : ''; ?>  class="form-check-input"> Checkbox (multi select)
+										</label>
+									</div>
+									<div id="cm4" class="form-check custom_fields_type">
+										<label class="form-check-label">
+											<input type="radio" id="a4" onclick="showHideOption(this)"  name="custom_fields_type" <?= $edit ? ($edit['custom_fields_type']==4 ? 'checked' : "") : ''; ?> value="4" <?= $edit ? ($edit['isactive']!=2 ? 'readonly' : '') : ''; ?>  class="form-check-input"> Open text field (single line)
+										</label>
+									</div>
+									<div id="cm3" class="form-check custom_fields_type">
+										<label class="form-check-label">
+											<input type="radio" id="a3" onclick="showHideOption(this)"  name="custom_fields_type" <?= $edit ? ($edit['custom_fields_type']==3 ? 'checked' : "") : ''; ?> value="3" <?= $edit ? ($edit['isactive']!=2 ? 'readonly' : '') : ''; ?>  class="form-check-input"> Open text field (multi line)
+										</label>
+									</div>
+								</div>
+							<?php if(!empty($customFields) && $_COMPANY->getAppCustomization()['event']['custom_fields']['enable_visible_only_if_logic']){ ?>
+								
+                                <label><strong>Other Rules</strong></label>
+								<hr style="width: 100%; margin-top: 0px;">
+								<div class="form-group">
+									<div class="form-check">
+										<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" onclick="initQuestionVisiblitylogic('<?= $_COMPANY->encodeId($custom_field_id); ?>','<?= $_GET['topictype']?>',this)" name="visible_if" id="visible_if" value="1">Visible only if
+										</label>
+									</div>
+                                    <div id="visiblity_logic"></div>
+								</div>
+
+							<?php } ?>
+							</div>
+							<div class="col-md-9">
+								<div class="form-group">
+									<label>Field Name<span style="color:red;">*</span></label>
+									<input type="text" class="form-control" placeholder="Field name" name="custom_field_name" value="<?= $edit ? htmlspecialchars($edit['custom_field_name']) : ''; ?>" required>
+								</div>
+
+								<div class="form-group" id="custom_fields_type" style=" display:<?= $edit ? (($edit['custom_fields_type'] ==3 || $edit['custom_fields_type'] == 4) ? 'none' : '') : ''; ?>;">
+									<label >Options</label><i class="fa fa-plus-circle fa-lg add_button float-right" aria-hidden="true"> Add Option</i>
+									<div class="field_wrapper" style="background:#f6f6f6; ">
+
+									<?php if($edit){ ?>
+
+										<?php foreach($edit['options'] as $option) { ?>
+											<div class="border my-2 p-2">
+											<?php if ($edit['isactive']==2) { ?>
+												<i class="fa fa-minus-circle remove_button pull-right" aria-hidden="true"></i>
+											<?php } ?>
+												<input type="hidden" name="custom_field_option_id[]" value="<?= $_COMPANY->encodeId($option['custom_field_option_id']); ?>">
+												<input class="form-control custom_fields_options" placeholder="Option value" type="text" name="custom_fields_options[]" value="<?= htmlspecialchars($option['custom_field_option']) ?>" required/>
+												<label class="">Note:</label>
+												<input class="form-control" placeholder="Option note" type="text" name="custom_fields_options_note[]" value="<?= htmlspecialchars($option['custom_field_option_note']) ?>"/>
+											</div>
+										<?php } ?>
+									<?php } else { ?>
+
+										<div class="border p-2">
+											<input type="hidden" name="custom_field_option_id[]" value="<?= $_COMPANY->encodeId(0); ?>">
+											<input class="form-control custom_fields_options" placeholder="Option value" type="text" name="custom_fields_options[]" value="" required/>
+											<label class="">Note:</label>
+											<input class="form-control" placeholder="Option note" type="text" name="custom_fields_options_note[]" value=""/>
+										</div>
+									<?php } ?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label>Note</label>
+									<textarea class="form-control" placeholder="Note here.." name="custom_field_note" id="custom_field_note"><?=  $edit ? htmlspecialchars($edit['custom_field_note']) : ''; ?></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 divider"></div>
+						<div class="row " >
+							<div class="col-md-12 text-center mt-3" >
+								<button class="btn btn-info col-md-offset-5" name="submit" type="submit" value="submit">Save Data</button>
+								<a class="btn btn-info" href="event_custom_fields?topictype=<?= $_GET['topictype'] ?? 'EVT' ?>">Cancel</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script>
+$(document).ready(function(){
+    var maxField = 50; // Input fields increment limitation
+    var addButton = $('.add_button'); // Add button selector
+    var wrapper = $('.field_wrapper'); // Input field wrapper
+    // Count the number of existing fields in edit mode and initialize x accordingly
+    var x = $('.field_wrapper .border.p-2').length; // Set the initial field counter based on existing fields
+    
+    var fieldHTML = '<div class="border p-2 mt-2 countFields"><i class="fa fa-minus-circle remove_button pull-right" aria-hidden="true"></i><input type="hidden" name="custom_field_option_id[]" value="<?= $_COMPANY->encodeId(0); ?>"><input class="form-control custom_fields_options" type="text" name="custom_fields_options[]" placeholder="Option value" value="" required /><label class="">Note:</label><input class="form-control" placeholder="Option note" type="text" name="custom_fields_options_note[]" value=""/></div>'; // New input field html 
+    
+    // Once add button is clicked
+    $(addButton).click(function(){
+        // Check maximum number of input fields
+        if(x < maxField){ 
+            x++; // Increment field counter
+            $(wrapper).append(fieldHTML); // Add field html
+        } 
+    });
+
+    // Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); // Remove field html
+        x--; // Decrement field counter
+    });
+
+    <?php if($edit && !empty($edit['visible_if'])){ ?>
+        $("#visible_if").trigger("click");
+    <?php } ?>
+
+    $(".redactor-voice-label").text("<?= gettext('Add custom field note');?>");
+});
+$R('#custom_field_note',
+	{
+		linkNewTab: false,
+		linkTarget: '_blank',
+		linkTitle: true,
+		linkNofollow: true,
+		linkSize: 256,
+		linkValidation: true,
+		styles: true,
+		minHeight: '200px',
+		buttons: ['redo', 'undo', 'bold', 'italic', 'underline', 'link'],
+		formatting: ['p', 'blockquote'],
+		pasteLinkTarget: '_blank',
+		pasteImages: true, //Since we have clipboardUpload set to true.
+		pastePlainText: false,
+		pasteBlockTags: [ 'p','blockquote'],
+		pasteInlineTags: ['a', 'br', 'b', 'u', 'i'],
+		// Uploads
+		plugins: ['fontcolor'],
+	}
+);
+
+</script>
+
+<script type="text/javascript">
+	$('#form_check').on('submit', function (e) {
+		// var ceck = $("input[type=checkbox]").length / 3;
+		if ($("input[type=radio]:checked").length==0) {
+			e.preventDefault();
+			swal.fire({title: 'Error!',text:'Please select an option type'});
+			return false;
+		}
+		
+		if (($("input[type=radio]:checked").val() != 3) && ($("input[type=radio]:checked").val() != 4)){
+			if ($("#answer").val() == ''){
+				e.preventDefault();
+				swal.fire({title: 'Error!',text:'Please add one or more options!'});
+				return false;
+			}
+		}
+	});
+
+
+	function showHideOption(e){
+		$(".custom_fields_options").prop('required',true);		
+		if ($('#a'+e.value+':radio:checked').length > 0){
+			$('#a'+e.value).prop('checked', true);
+			$("#cm"+e.value).show();
+			$("#custom_fields_type").show();
+		} else {
+			$("#custom_fields_type").show();
+		}
+		if ((e.value==3 || e.value==4) && $('#a'+e.value+':radio:checked').length>0){
+			$("#custom_fields_type").hide();
+			$(".custom_fields_options").prop('required',false);
+		}
+	}
+
+	function initQuestionVisiblitylogic(i,t,e){
+		if ($(e).is(':checked')){
+			$.ajax({
+				url: 'ajax.php?initQuestionVisiblitylogic=1',
+				type: 'GET',
+				data: {'custom_field_id':i, 'topictype':t},
+				success: function(data) {
+					try {
+						let jsonData = JSON.parse(data);
+						swal.fire({title: jsonData.title,text:jsonData.message,allowOutsideClick:false});
+					} catch(e) { 
+						$("#visiblity_logic").html(data);
+					}
+				}
+			});
+		} else {
+			$("#visiblity_logic").html('');
+		}
+	}
+</script>
+<!--div class="container-fluid col-md-offset-2 margin-top logo-footer">
+	<img src="../image/logo-footer.png">
+</div-->
+</body>
+</html>

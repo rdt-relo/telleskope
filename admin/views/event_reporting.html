@@ -1,0 +1,400 @@
+<style>
+	.btn-no-style2 {background: none; border: 1px solid #ced4da; padding: 0.7em; border-radius: 0;}
+	.group_category_box .btn-group{width: 100%;}
+	.group_category_box .dropdown-menu>.active>a{ background-color: transparent; color: #000;}
+</style>
+<script>
+<?php if(count($groups)){ ?>
+	var	colors = [	
+		<?php 	for($gc=0;$gc<count($groups);$gc++){ ?>
+					'<?= $groups[$gc]['overlaycolor'];?>',
+		<?php	} ?>'#636262'
+		]
+			
+<?php } ?>
+</script>
+<style>
+	.fa-ellipsis-v:after {
+		display: none;
+	}
+    #group_category_box label {
+        padding-left: 10px;
+    }
+</style>			
+<div tabindex="-1" id="theGraphModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">  
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="rsvp_report_title"><?= gettext("Quick View Report");?> <i class="fa fa-info-circle info-black" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<?= gettext('All the numbers below are in real time, and any real time changes will take place immediately in this report.'); ?>"></i></h4>
+                        <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+						
+							<div class="container">
+								<div class="row">              
+									<div class="col-md-12">
+									<div class="widget-simple-chart card-box">
+									<div class="col-md-5"><h6><?= $pagetitle; ?> </h6></div>
+									<div class="col-md-7">
+										<div class="col-md-4 group_category_box pull-right" id="group_category_box">
+											<?php if (count($groupCategoryRows) > 1) { ?>
+												<select class="form-control col-md-12 options-header-option" multiple id="group_category" onchange="filterEventData()">
+													<?php foreach ($groupCategoryRows as $groupCategoryRow) { 
+														$isSelected = in_array($groupCategoryRow['categoryid'], $group_category_id) ? 'selected' : ''; ?>
+														<option value="<?= $groupCategoryRow['categoryid']; ?>" <?= $isSelected ?> ><?= $groupCategoryRow['category_name']; ?></option>
+															
+													<?php  } ?>
+												</select>
+											<?php } else { ?>
+												&nbsp;
+											<?php } ?>
+										</div>
+										<div class="col-md-4 pull-right">
+											<select id="year_filter" style="min-width:150px;" class="form-control" onchange="filterEventData()">
+
+												<?php for($i=(date("Y")-date("Y",strtotime($_COMPANY->val('createdon'))));$i>=0;$i--){
+															$sel = "";
+															if ((date('Y')-$i) == $year){
+																$sel = "selected";
+															}
+														?>
+														<option value="<?= date('Y')-$i; ?>" <?= $sel; ?> >Year <?= (date('Y')-$i)?></option>
+												<?php } ?>
+
+											</select> 
+										</div>
+
+										<div class="col-md-4 pull-right">
+											<select id="month_filter" style="min-width:150px;" class="form-control" onchange="filterEventData()">
+
+												<?php for($j=1; $j <= 12; $j++){
+															$sel = ($j == $_month) ? "selected" : "";
+															$newMonthName = date("F",mktime(0,0,0,$j,1));
+														?>
+														<option value="<?= $j; ?>" <?= $sel; ?> ><?= $newMonthName; ?></option>
+												<?php } ?>
+
+											</select> 
+										</div>
+									</div>	
+
+									<div class="col-md-12" style="border-bottom:1px solid #6b6b6b33; margin-bottom:10px; margin-top:10px;"></div>
+									<div class="clearfix"></div>
+								<div>
+							
+							<div class="tab-content">
+								<div class="row">
+
+									<div class="col-md-12">
+										<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+											<div class="dropdown pull-right">
+												<i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a id="eventsPerERG" href="javascript:void(0)" >Export to CSV</a></li>
+												</ul>
+											</div>
+										<?php if(count($groups)>0){ ?>			
+											<canvas id="chartjs10" ></canvas>
+										<?php } else {?>
+											<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 250px; " >No data</div>
+										<?php } ?>
+
+										<script>
+											var labVal= [];
+											var dataVal = [];
+											var bgVal = [];
+											<?php 	for($m=0;$m<count($eventsByGroups);$m++){ ?>
+												labVal.push("<?= addslashes(htmlspecialchars_decode($eventsByGroups[$m]['groupname_short']))?>");
+												dataVal.push(<?= (int)$eventsByGroups[$m]['totalEvent']?>);
+												bgVal.push('<?= $eventsByGroups[$m]['color']; ?>');
+											<?php	} ?>
+
+											var data = { 
+														labels: labVal,
+														datasets:[
+															{
+															label: "Total Events Per ERG",
+															backgroundColor: bgVal,
+															data: dataVal
+															}
+														]
+													};
+												var options =  {
+													title: {
+														display: true,
+														position: 'top',
+														text: ['Total Events per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year ; ?>'],
+													},
+													legend: {
+														display: false,
+													},
+													scales: {
+														xAxes: [{
+															barPercentage: 0.4
+														}],
+														yAxes:[{
+															ticks: {
+																suggestedMin: 0,
+																beginAtZero: true,
+																	userCallback: function(label, index, labels) {
+																		// when the floored value is the same as the value we have a whole number
+																		if (Math.floor(label) === label) {
+																			return label;
+																		}
+
+																	},
+															}
+														}],
+													},
+													maintainAspectRatio:false,
+												};
+
+											var ctx = document.getElementById("chartjs10").getContext('2d');
+											new Chart(ctx, {
+												type: 'bar',
+												data: data,
+												options: options
+											});
+
+											// EXPORT CSV
+											var eventsPerERGLevel = JSON.parse(JSON.stringify(labVal));
+											var eventsPerERGData = JSON.parse(JSON.stringify(dataVal));
+											$('#eventsPerERG').on( "click", function() {
+												var finalData = [];
+												var toObj = convertArraytoObject(eventsPerERGData);
+												finalData[0] = toObj;
+												exportCSVFile(eventsPerERGLevel,finalData,'Total Events per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+											});
+										</script>
+
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="widget-simple-chart card-box-one fixhight" style="height:525px;margin-top: 11px;">
+											<div class="dropdown pull-right">
+												<i tabindex="0" aria-label="dropdown button" class="dropdown-toggle fa fa-ellipsis-v fa-lg mr-2" data-toggle="dropdown"></i>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a id="eventsbyCategory" href="javascript:void(0)" >Export to CSV</a></li>
+												</ul>
+											</div>
+										<?php if(count($groups)>0){ ?>
+										
+											<canvas id="eventByCat" style="min-width: 193px; height: 413px; margin: 0 auto"></canvas>
+
+											<script>
+												var lavelVal = <?= json_encode($categoresNames); ?>;
+												var dataVal = [];
+												var searies = [];
+												<?php 	for($qs=0;$qs<count($eventsByCategories);$qs++){ ?>
+															searies.push("<?= htmlspecialchars_decode($eventsByCategories[$qs]['groupname_short']); ?>");
+												var _dataVal = [];
+												<?php $categories =$eventsByCategories[$qs]['categories'];
+													for($ec =0;$ec<count($categories);$ec++){ ?>
+
+													_dataVal.push(<?= (int)$categories[$ec]['totalEvent']; ?>);
+													
+												<?php } ?>
+												
+												dataVal.push(_dataVal);
+												
+												<?php	}	?>
+
+												var barChartData = {
+													"series": searies,
+													"labels": lavelVal,
+													"data": dataVal
+													};
+												
+													//console.log(barChartData);
+												var datasets = [];
+												<?php 	for($gc=0;$gc<count($groups);$gc++){ ?>
+													datasets.push({
+														label: barChartData.series[<?= $gc; ?>],
+														backgroundColor: "<?= $groups[$gc]['overlaycolor'];?>",
+														borderColor: "<?= $groups[$gc]['overlaycolor'];?>",
+														data: barChartData.data[<?= $gc; ?>]
+													});
+
+											<?php	} ?>
+											
+												var stackedBarChartData = {
+													labels: barChartData.labels,
+													datasets: datasets
+													};
+												var configBarChart = {
+													type: 'bar',
+													data: stackedBarChartData,
+													options: {
+														title: {
+															display: true,
+															position: 'top',
+															text: [' Events by Category per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>','As of <?= $monthName." ".ltrim(sufixNumber($day),'0')." ".$year; ?>'],
+														},
+														maintainAspectRatio: false,
+														tooltips: {
+														mode: 'label',
+														bodySpacing: 6,
+														titleMarginBottom: 10,
+														footerMarginTop: 8,
+														titleFontSize: 14,
+														bodyFontSize: 14,
+														footerFontSize: 14,
+														callbacks: {
+															footer: function(tooltipItem /*, data*/ ) {
+															var total = 0;
+															tooltipItem.forEach(function(element /*, index, array*/ ) {
+																total += element.yLabel;
+															});
+															return 'Total: ' + total;
+															}
+														}
+														},
+														scales: {
+															xAxes: [{
+																stacked: true,
+																ticks: {
+																maxRotation: 60,
+																autoSkip: false
+																},
+																barPercentage: 0.4,
+																gridLines: {
+																color: "rgba(0, 0, 0, 0.06)",
+																zeroLineColor: "rgba(0,0,0,0.1)"
+																}
+															}],
+															yAxes: [{
+																stacked: true,
+																gridLines: {
+																color: "rgba(0, 0, 0, 0.06)",
+																zeroLineColor: "rgba(0,0,0,0.1)"
+																},
+																
+																ticks: {
+																	suggestedMin: 0,
+																	beginAtZero: true,
+																	userCallback: function(label, index, labels) {
+																		// when the floored value is the same as the value we have a whole number
+																		if (Math.floor(label) === label) {
+																			return label;
+																		}
+
+																	},
+																}
+															}]
+														},
+														legend: {
+															display: true,
+															position: 'bottom'
+														},
+														maintainAspectRatio:false,
+													}
+												};
+
+												var ctxBarChart = document.getElementById("eventByCat").getContext("2d");
+												new Chart(ctxBarChart, configBarChart);
+
+												// EXPORT TO CSV
+												var eventsbyCategoryLevel = JSON.parse(JSON.stringify(lavelVal));
+												var eventsbyCategoryData = JSON.parse(JSON.stringify(dataVal));
+												var eventsbyCategorySeries = JSON.parse(JSON.stringify(searies));
+
+												$('#eventsbyCategory').on( "click", function() {
+													eventsbyCategoryLevel.unshift('<?= $year."-".$month."-".$day; ?>');
+													var finalData = [];
+													for(let i=0;i<eventsbyCategoryData.length;i++){
+														var a = eventsbyCategoryData[i];
+														var unsft = a.unshift(eventsbyCategorySeries[i]);
+														eventsbyCategoryData[i] = convertArraytoObject(a);
+													}
+													exportCSVFile(eventsbyCategoryLevel,eventsbyCategoryData,'Events by Category per <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?>');
+												});
+
+											</script>
+
+
+										<?php } else {?>
+											<div class="col-md-2 col-md-offset-5" style="padding-top: 150px; height: 300px; " >No data</div>
+										<?php } ?>
+											
+
+										</div>
+									</div>
+
+							</div>
+							</div>
+							</div>
+							</div>
+							</div>
+							</div>
+							</div>
+					</div>				
+			</div>					
+		</div>						
+	</div>							
+<script>
+	$("#group_category").multiselect({
+        nonSelectedText: "<?= gettext('Select a Category') ?>",
+        numberDisplayed: 1,
+        nSelectedText: "<?= gettext('Categories selected')?>",
+        disableIfEmpty: true,
+        allSelectedText: "<?= gettext('All Categories selected')?>",
+        selectAllText: '<?= gettext("Select All");?>',
+        includeSelectAllOption: true,
+        includeSelectAllIfMoreThan: 1,
+        enableFiltering: false,
+        enableCaseInsensitiveFiltering: false,
+		buttonClass: 'btn btn-no-style2',
+    });
+
+	function filterEventData(){
+		var categoryFilter = $("#group_category").val();
+		var yearFilter = $("#year_filter").val();
+		var monthFilter = $("#month_filter").val();
+		$.ajax({
+			url: 'ajax.php?eventsGraphReport',
+			type: "GET",
+			data: {d:yearFilter,filter:categoryFilter,m:monthFilter},
+			success : function(data) {
+				$('#group_category').multiselect('destroy');
+				$("#loadAnyModal").html(data);
+				$('#theGraphModal').modal({
+					keyboard: false,
+					backdrop: false
+				});
+                $('#group_category').multiselect({
+					nonSelectedText: "<?= gettext('Select a Category') ?>",
+					numberDisplayed: 1,
+					nSelectedText: "<?= gettext('Categories selected')?>",
+					disableIfEmpty: true,
+					allSelectedText: "<?= gettext('All Categories selected')?>",
+					selectAllText: '<?= gettext("Select All");?>',
+                    includeSelectAllOption: true,
+                    maxHeight: 400,
+                    selectAllValue: 'multiselect-all'
+                });
+
+			}
+		});
+	}
+</script> 
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+	$('.dropdown-toggle').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+    
+    $('#theGraphModal').on('shown.bs.modal', function () {     					 
+		$('.close').focus();
+	})
+	retainFocus('#theGraphModal');
+</script>
+
+</body>
+
+</html>

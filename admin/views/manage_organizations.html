@@ -1,0 +1,123 @@
+<div class="tl-container-offset-lr">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-simple-chart card p-3">
+					<div class="row">
+					<div class="col-md-6">
+						<h1 class="d-inline-flex"><?= $pagetitle; ?>&nbsp;</h1>
+						<a aria-label="Add/Update Organization" class="add-plus-circle-icon" href="add_organization">
+							<i class="fa fa-plus-circle ml-2 text-primary fs-6" title="Add/Update Organization" aria-hidden="true"></i>
+						</a>
+					</div>					
+					<div class="col-md-6 text-end">
+						<a class="btn btn-primary btn-sm" href="update_organization_email_template" style="margin-bottom: 9px;">Manage Organization Email Templates</a>
+						<a class="btn btn-primary btn-sm" href="event_custom_fields?topictype=ORG" style="margin-bottom: 9px;">Manage Custom Fields</a>
+					</div>
+					</div>
+				<div class="table-responsive ">
+				<table id="organizationTable" class="table table-hover display compact" summary="Organizations list">
+					<thead>
+						<tr>
+							<th scope="col">Organization ID</th>
+							<th  scope="col">Name & Address </th>
+							<th scope="col">About</th>
+							<th scope="col">Confirmation Status</th>
+							<th scope="col">Approval Status</th>
+							<th scope="col">No of Events</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+				var dtable = $('#organizationTable').DataTable( {
+				serverSide: true,
+				processing: true,
+				bFilter: true,
+				bInfo : false,
+				bDestroy: true,
+                pageLength: 50,
+				language: {
+						searchPlaceholder: "name or tax id ...",
+						url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+					},
+				ajax:{
+					url :"ajax.php?getOrganizationsList",
+					type: "POST",  
+					error: function(data){  // error handling
+						$(".table-grid-error").html("");
+						$("#table-members-server").append('<tbody class="table-grid-error"><tr><th colspan="6">No data found!</th></tr></tbody>');
+						$("#table-grid_processing").css("display","none");
+					},complete : function(){
+						$('.initial').initial({
+							charCount: 2,
+							textColor: '#ffffff',
+							seed: 0,
+							height: 30,
+							width: 30,
+							fontSize: 15,
+							fontWeight: 300,
+							fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+							radius: 0
+						});
+						$(".confirm").popConfirm({content: ''});
+					}
+				},
+				columnDefs: [
+					{ targets: [0,1,2,3,4,5,6], orderable: false }
+				],
+			});
+		});
+
+        function unlinkOrganization(i){
+            $.ajax({
+                url: 'ajax.php?unlinkOrganization=1',
+                data: {organization_id:i},
+                type: "POST",
+                success : function(data) {
+                    try {
+                        let jsonData = JSON.parse(data);
+                            swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                            if (jsonData.status == 1){
+                                location.reload();
+                            }
+                        });
+                    } catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+                }
+            });
+        }
+	</script>
+	<script>
+		function changeOrgApprovalStatus(orgId, status){
+			$.ajax({
+                url: "ajax.php?updateAdminOrgStatus=1",
+				data: {
+                    org_id: orgId,
+                    new_status: status 
+                },
+				type: "POST",
+				success: function (data) {
+                    try {
+                        let jsonData = JSON.parse(data);
+                        swal.fire({title: jsonData.title, text: jsonData.message}).then(function (result) {
+                           location.reload();
+                        });
+                    } catch (e) {
+                        swal.fire({title: 'Error', text: "Unknown error."});
+                    }
+
+                }
+			});	
+		}
+	</script>
+	</body>
+</html>

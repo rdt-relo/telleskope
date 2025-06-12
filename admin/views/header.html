@@ -1,0 +1,1284 @@
+<?php
+    // Initialize
+    $standalone_page ??= false;
+?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=Url::GetFavIconUrl('teleskope')?>">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Teleskope | <?= $pagetitle ?? $pageTitle ?? ''; ?></title>
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css"
+          rel="stylesheet"/>
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/css/simple-sidebar.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link href="./css/hem.css" rel="stylesheet"/>
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/css/bootstrap-colorpicker.min.css"
+          rel="stylesheet"/>
+
+    <link href="../vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/datatables-2.1.8/datatables.min.css"
+          rel="stylesheet">
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/popper-1.16.0.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+    <!-- settings for popconfirm to work with bootstrap 3.4.1+, should be immediately after bootstrap -->
+    <script type="text/javascript">
+        $.fn.tooltip.Constructor.Default.whiteList.p = ['style'];
+        $.fn.tooltip.Constructor.Default.whiteList.button = [];
+    </script>
+    <script type="text/javascript"
+            src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+
+    <!--Select Dropdown start---->
+    <link rel="stylesheet"
+          href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-multiselect/dist/css/bootstrap-multiselect.css"
+          type="text/css">
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bxslider-4-4.2.12/jquery.bxslider.min.css">
+    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.css" rel="stylesheet"/>
+    <script type="text/javascript">
+        $(function () {
+            $("#bars li .bar").each(function (key, bar) {
+                var percentage = $(this).data('percentage');
+
+                $(this).animate({
+                    'height': percentage + '%'
+                }, 1000);
+            })
+        })
+    </script>
+    <!-- jQuery migrate -->
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-migrate_3.0.0/dist/jquery-migrate-3.0.0.min.js"></script>
+
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/tableExport.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-progressbar-0.9.0/bootstrap-progressbar.min.js"></script>
+
+    <!-- Live Search Drop down -->
+    <link rel="stylesheet"
+          href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-select-1.13.18/dist/css/bootstrap-select.min.css">
+    <script type="text/javascript"
+            src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-select-1.13.18/dist/js/bootstrap-select.min.js"></script>
+    <!--Select Dropdown end-->
+
+    <!-- Chart Js  -->
+    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-2.9.4/dist/Chart.min.css">
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-2.9.4/dist/Chart.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-plugin-datalabels-0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <!-- End ChartJs -->
+
+    <!-- redactor  -->
+    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/redactor.min.css"/>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/redactor.tele.min.js?v=1"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/video/video.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/fontcolor/fontcolor.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/counter/counter.min.js"></script>
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/table/table.min.js"></script>
+    <script src="./js/initRedactor.js"></script>
+
+    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.js"></script>
+
+       <!-- Survey.js -->
+    <!-- <link type="text/css" rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.9.110/survey.min.css"> -->
+    <link type="text/css" rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css">
+    <link type="text/css" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+    
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <?php if ($_SESSION['ie11'] === true) { ?>
+        <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
+    <?php } ?>
+
+    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+    
+    <!-- Custom Js -->
+    <script type="text/javascript" src="./js/index.js.php?v=<?= REL_HASH ?>"></script>
+    <script src="./js/ajax.js?<?= REL_HASH ?>"></script>
+
+    <script>
+        var teleskopeCsrfToken = "<?=Session::GetInstance()->csrf;?>";
+
+        $(document).ready(function () {
+
+            $(".panel-heading .panel-title .collapsed").click(function () {
+                $("li.panel.panel-default").addClass("active");
+            });
+
+            //initial for blank profile picture
+            $('.initial').initial({
+                charCount: 2,
+                textColor: '#ffffff',
+                seed: 0,
+                height: 50,
+                width: 50,
+                fontSize: 20,
+                fontWeight: 300,
+                fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+                radius: 0
+            });
+
+
+            $('.progress .progress-bar').progressbar();
+            $('.selectpicker').selectpicker();
+
+
+        });
+    </script>
+
+    <!--?php if ($include_datatables_js ?? false) { ?>-->
+      <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+    <!--?php } ?>-->
+</head>
+<body>
+<div id="wrapper">
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <nav class="navbar navbar-default fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <div class="sidebar-brand display-mobile-view">
+                            <!-- LOGO -->
+                            <div class="topbar-left">
+                                <div class="text-center">
+                                    <a href="#" class="profile1">
+                                        <img height="50" class="logo-image" src="<?= $_COMPANY->val('logo'); ?>"
+                                             alt="Company logo image">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    $zone_affinities = $_COMPANY->getZones('affinities');
+                    $zone_officeraven = $_COMPANY->getZones('officeraven');
+                    $zone_talentpeak = $_COMPANY->getZones('talentpeak');
+                    $zone_peoplehero = $_COMPANY->getZones('peoplehero');
+                    ?>
+                    <!-- Sidebar -->
+                    <style>
+                        .panel-collapse {
+                            padding-left: 20px;
+                        }
+
+                        #sidebar-wrapper ul li .panel-title a {
+                            border-left: none;
+                            padding: 3px;
+                        }
+                    </style>
+                    
+                    <div class="collapse navbar-collapse admin-header" id="bs-example-navbar-collapse-1">
+                        <div class="sidebar-brand">
+                            <!-- LOGO -->
+                            <div class="topbar-left">
+                                <div class="text-center admin-logo">
+                                    <a href="#" class="profile" id="adminLogo" autofocus="autofocus">
+                                        <img height="50" class="logo-image" src="<?= $_COMPANY->val('logo'); ?>"
+                                             alt="Company logo image">
+                                        <!-- <img height="60" class="logo-image" src="images/logo-3.png"> -->
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php if (!$standalone_page) { ?>
+                        <div class="btn-group" style="margin: 15px 0 10px 320px;">
+                            <?php if ((count($zone_affinities) + count($zone_officeraven) + count($zone_talentpeak) + count($zone_peoplehero)) > 1) { ?>
+                                <button tabindex="0" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    Switch Application Zone
+                                </button>
+                                <div class="dropdown-menu admin-dropdown-menu">
+                                    <?php if (count($zone_affinities)) { ?>
+                                        <strong class="pl-3">Affinities:</strong>
+                                        <div class="dropdown-divider"></div>
+                                    <?php } ?>
+                                    <?php foreach ($zone_affinities as $zone) { ?>
+                                        <?php if ($_USER->isCompanyAdmin() || $_USER->isZoneAdmin($zone['zoneid'])) { ?>
+                                            <a class="dropdown-item pl-4"
+                                               href="<?= Url::GetZoneAwareUrlBase($zone['zoneid'], 'admin') .'' ?>" <?= ($zone['zoneid'] == $_ZONE->id()) ? 'style="background:#efefef;"' : '' ?>>
+                                                <?= $zone['zonename'] ?>
+                                                <?= ($zone['home_zone'] == -1) ? '<sup>(hidden)</sup>' : '' ?>
+                                            </a>
+                                        <?php } ?>
+                                    <?php } ?>
+
+                                    <?php if (count($zone_officeraven)) { ?>
+                                        <div class="dropdown-divider"></div>
+                                        <strong class="pl-3">Office Raven:</strong>
+                                        <div class="dropdown-divider"></div>
+                                    <?php } ?>
+                                    <?php foreach ($zone_officeraven as $zone) { ?>
+                                        <?php if ($_USER->isCompanyAdmin() || $_USER->isZoneAdmin($zone['zoneid'])) { ?>
+                                            <a class="dropdown-item pl-4"
+                                               href="<?= Url::GetZoneAwareUrlBase($zone['zoneid'], 'admin') .'' ?>" <?= ($zone['zoneid'] == $_ZONE->id()) ? 'style="background:#efefef;"' : '' ?>>
+                                                <?= $zone['zonename'] ?>
+                                                <?= ($zone['home_zone'] == -1) ? '<sup>(hidden)</sup>' : '' ?>
+                                            </a>
+                                        <?php } ?>
+                                    <?php } ?>
+
+                                    <?php if (count($zone_talentpeak)) { ?>
+                                        <div class="dropdown-divider"></div>
+                                        <strong class="pl-3">Talent Peak:</strong>
+                                        <div class="dropdown-divider"></div>
+                                    <?php } ?>
+                                    <?php foreach ($zone_talentpeak as $zone) { ?>
+                                        <?php if ($_USER->isCompanyAdmin() || $_USER->isZoneAdmin($zone['zoneid'])) { ?>
+                                            <a class="dropdown-item pl-4"
+                                               href="<?= Url::GetZoneAwareUrlBase($zone['zoneid'], 'admin') .'' ?>" <?= ($zone['zoneid'] == $_ZONE->id()) ? 'style="background:#efefef;"' : '' ?>>
+                                                <?= $zone['zonename'] ?>
+                                                <?= ($zone['home_zone'] == -1) ? '<sup>(hidden)</sup>' : '' ?>
+                                            </a>
+                                        <?php } ?>
+                                    <?php } ?>
+
+                                    <?php if (count($zone_peoplehero)) { ?>
+                                        <div class="dropdown-divider"></div>
+                                        <strong class="pl-3">People Hero:</strong>
+                                        <div class="dropdown-divider"></div>
+                                    <?php } ?>
+                                    <?php foreach ($zone_peoplehero as $zone) { ?>
+                                        <?php if ($_USER->isCompanyAdmin() || $_USER->isZoneAdmin($zone['zoneid'])) { ?>
+                                            <a class="dropdown-item pl-4"
+                                               href="<?= Url::GetZoneAwareUrlBase($zone['zoneid'], 'admin') .'' ?>" <?= ($zone['zoneid'] == $_ZONE->id()) ? 'style="background:#efefef;"' : '' ?>>
+                                                <?= $zone['zonename'] ?>
+                                                <?= ($zone['home_zone'] == -1) ? '<sup>(hidden)</sup>' : '' ?>
+                                            </a>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </div>
+                                &emsp; &emsp;
+                            <?php } ?>
+
+                            <a tabindex="0" href="<?= Url::GetZoneAwareUrlBase($_ZONE->id()) . 'home'?>"
+                               class="align-self-center font-weight-bold" style="color:#0077b5;">
+                               <u>Launch <?= $_ZONE->val('zonename'); ?> <i class="fa fa-arrow-right" aria-hidden="true"></i></u>
+                            </a>
+                        </div>
+                        <?php } else { ?>
+                        <div class="btn-group" style="margin: 15px 0 10px 320px;">
+                            <a tabindex="0" href="javascript:window.close();"
+                               class="btn btn-info align-self-center font-weight-bold" style="color:#0077b5;">
+                                Close Tab
+                            </a>
+                        </div>
+                        <?php } ?>
+
+                        <ul class="display-mobile nav navbar-nav">
+                            <li class="img-name" id="edit-prof_m">
+                                <?= User::BuildProfilePictureImgTag($_USER->val('firstname'), $_USER->val('lastname'), $_USER->val('picture'), 'user-image profile'); ?>
+                                <h4><?= trim($_USER->val('firstname') . " " . $_USER->val('lastname')); ?><br/><span>Administrator <i
+                                                data-toggle="modal" data-target="#editProfile" data-backdrop="static"
+                                                data-keyboard="false" style="display:none"
+                                                class="fa fa-edit" aria-hidden="true"></i></span></h4>
+                            </li>
+                            <?php if (!$standalone_page && $_USER->isAdmin()) { ?>
+                                <!-------------------------- new mobile menu start --------------------------------->
+                                <style>
+                                    @media (max-width: 400px) {
+                                        .treeview-three.panel.panel-default {
+                                            margin-top: 10px;
+                                        }
+
+                                        .sidebar-nav li {
+                                            text-indent: 20px;
+                                            line-height: 34px;
+                                        }
+
+                                        .waves-effect.waves-primary .fa.fa-caret-down {
+                                            float: none;
+                                        }
+                                    }
+                                </style>
+                                <ul class="sidebar-nav panel-group admin-sidebar" id="accordion_m">
+                                    <?php if (true) { ?>
+                                        <?php if ($_USER->isAdmin()) { ?>
+                                            <li class="treeview-three panel panel-default"
+                                                id="sidebar_item_dashboard_m">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-parent="#accordion" class="waves-effect waves-primary"
+                                                           href="dashboardres"> Dashboard</a>
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <li class="treeview-four panel panel-default">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#group_tab_m"
+                                                           class="waves-effect waves-primary"><?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?>
+                                                            <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                                    </p>
+                                                </div>
+                                                <div id="group_tab_m" class="panel-collapse collapse">
+                                                    <ul class="panel-body">
+                                                        <li class="sidebar-item">
+                                                            <a class="waves-effect waves-primary"
+                                                               id="sidebar_item_group_m"
+                                                               href="group">Manage <?= $_COMPANY->getAppCustomization()['group']['name-short-plural'] ?></a>
+                                                        </li>
+                                                        <li class="sidebar-item">
+                                                            <a class="waves-effect waves-primary"
+                                                               id="sidebar_item_group_categories_m"
+                                                               href="group_category"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?> Categories</a>
+                                                        </li>
+                                                        <li class="sidebar-item">
+                                                            <a class="waves-effect waves-primary"
+                                                               id="sidebar_item_manage_roles_and_permissions_m"
+                                                               href="grouplead_type">Roles and Permissions</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+
+                                            <li class="treeview-three panel panel-default">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#reports_tab_m" class="waves-effect waves-primary">
+                                                            Reporting <i class="fa fa-caret-down"
+                                                                         aria-hidden="true"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+
+                                                <?php if ($_ZONE->val('app_type') != 'talentpeak') { ?>
+                                                    <div id="reports_tab_m" class="panel-collapse collapse">
+                                                        <ul id="reports_m" class="panel-body">
+                                                            <li class="sidebar-item dropdown reportmenu"
+                                                                id="sidebar_reports_m">
+                                                            <li><a class="waves-effect waves-primary"
+                                                                   id="sidebar_item_membership_reporting_m"
+                                                                   href="membership_reporting">Membership Reports</a>
+                                                            </li>
+                                                            <li><a class="waves-effect waves-primary"
+                                                                   id="sidebar_item_event_reporting_m"
+                                                                   href="event_reporting">Event Reports</a></li>
+                                                            <?php if ($_COMPANY->getAppCustomization()['budgets']['enabled'] && $_USER->canManageZoneBudget()) { ?>
+                                                                <li><a class="waves-effect waves-primary"
+                                                                       id="sidebar_item_budget_reporting_m"
+                                                                       href="budget_reporting">Budget Reports</a></li>
+                                                            <?php } ?>
+                                                            <li><a class="waves-effect waves-primary"
+                                                                   id="sidebar_item_usage_reports_m"
+                                                                   href="usage_reports">Usage Reports</a></li>
+                                                        </ul>
+                                                    </div>
+                                                <?php } ?>
+                                            </li>
+
+                                            <?php if ($_COMPANY->getAppCustomization()['disclaimer_consent']['enabled']) { ?>
+                                                <li id="sidebar_item_disclaimer_m" class="sidebar-item">
+                                                    <a class="waves-effect waves-primary" href="disclaimers">&nbsp;Disclaimers & Consents</a>
+                                                </li>
+                                                <?php } ?>
+
+                                    <!-- TODO add company customization here to show/hide approvals -->
+                                    <li class="treeview-three panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#approvals_tab_m" class="waves-effect waves-primary">
+                                                    Approvals <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <?php if ($_COMPANY->getAppCustomization()['post']['approvals']['enabled'] || $_COMPANY->getAppCustomization()['event']['approvals']['enabled'] || $_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled'] || 
+                                        $_COMPANY->getAppCustomization()['surveys']['approvals']['enabled']){ ?>
+                                        <div id="approvals_tab_m" class="panel-collapse collapse">
+                                            <ul class="panel-body">
+                                                <li class="sidebar-item dropdown reportmenu" id="sidebar_approvals_m">
+                                                    <?php if ($_COMPANY->getAppCustomization()['post']['enabled'] && $_COMPANY->getAppCustomization()['post']['approvals']['enabled']) { ?>
+                                                    <li><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['POST']?>" id="sidebar_item_post_approvals_m" class="waves-effect waves-primary"><?= Post::GetCustomName(false); ?> Approvals</a></li>
+                                                    <?php } ?>
+
+                                                    <?php if ($_COMPANY->getAppCustomization()['event']['enabled'] && $_COMPANY->getAppCustomization()['event']['approvals']['enabled']) { ?>
+                                                    <li><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['EVENT']?>" id="sidebar_item_event_approvals_m" class="waves-effect waves-primary">Event Approvals</a></li>
+                                                    <?php } ?>
+
+                                                    <?php if ($_COMPANY->getAppCustomization()['newsletters']['enabled'] && $_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled']) { ?>
+                                                    <li><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['NEWSLETTER']?>" id="sidebar_item_newsletter_approvals_m" class="waves-effect waves-primary">Newsletter Approvals</a></li>
+                                                    <?php } ?>
+
+                                                    <?php if ($_COMPANY->getAppCustomization()['surveys']['enabled'] && $_COMPANY->getAppCustomization()['surveys']['approvals']['enabled']) { ?>
+                                                        <li><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['SURVEY']?>" id="sidebar_item_survey_approvals_m" class="waves-effect waves-primary">Survey Approvals</a></li>
+                                                        <?php } ?>
+                                            </ul>
+                                        </div>
+                                        <?php } ?>
+                                    </li>    
+
+                                            <?php if ($_COMPANY->getAppCustomization()['budgets']['enabled'] && $_USER->canManageZoneBudget()) { ?>
+                                                <li class="treeview-three panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <p class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                               href="#budget_tab_m" class="waves-effect waves-primary">
+                                                                Budget <i class="fa fa-caret-down"
+                                                                          aria-hidden="true"></i>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                    <div id="budget_tab_m" class="panel-collapse collapse">
+                                                        <ul class="panel-body">
+                                                            <li class="sidebar-item dropdown reportmenu"
+                                                                id="sidebar_budget_m">
+                                                            <li><a href="budget" id="sidebar_item_budget_m"
+                                                                   class="waves-effect waves-primary">Manage Budget</a>
+                                                            </li>
+                                                            <li><a href="budget_charge_codes"
+                                                                   id="sidebar_item_budget_charge_codes_m"
+                                                                   class="waves-effect waves-primary">Charge Codes</a>
+                                                            </li>
+                                                            <li><a href="manage_expense_types"
+                                                                   id="sidebar_item_manage_expense_types_m"
+                                                                   class="waves-effect waves-primary">Expense Types</a>
+                                                            </li>
+                                                            </li>
+                                                            <li>
+                                                              <a
+                                                                href="event_custom_fields?topictype=EXP"
+                                                                id="sidebar_item_exp_custom_fields_m"
+                                                                class="waves-effect waves-primary"
+                                                              >
+                                                                Expense Entry Custom Fields
+                                                              </a>
+                                                            </li>
+
+                                                            <li>
+                                                              <a
+                                                                href="event_custom_fields?topictype=BRQ"
+                                                                id="sidebar_item_brq_custom_fields_m"
+                                                                class="waves-effect waves-primary"
+                                                              >
+                                                                Budget Request Custom Fields
+                                                              </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            <?php } ?>
+
+                                            <?php if ($_COMPANY->getAppCustomization()['event']['enabled']) { ?>
+                                                <li class="treeview-three panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <p class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                               href="#events_tab_m" class="waves-effect waves-primary">
+                                                                Events <i class="fa fa-caret-down"
+                                                                          aria-hidden="true"></i>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+
+                                                    <div id="events_tab_m" class="panel-collapse collapse">
+                                                        <ul id="events_m" class="panel-body">
+                                                            <li class="sidebar-item dropdown reportmenu"
+                                                                id="sidebar_events_m">
+                                                            <li><a href="event_type" id="sidebar_item_event_type_m"
+                                                                   class="waves-effect waves-primary">Event Types</a>
+                                                            </li>
+                                                            <?php if ($_COMPANY->getAppCustomization()['event']['volunteers']) { ?>
+                                                                <li><a href="event_volunteer_types"
+                                                                       id="sidebar_item_event_volunteers_m"
+                                                                       class="waves-effect waves-primary">Event
+                                                                        Volunteer Types</a></li>
+                                                            <?php } ?>
+                                                            <li><a href="event_custom_fields"
+                                                                   id="sidebar_item_event_custom_fields_m"
+                                                                   class="waves-effect waves-primary">Custom Event
+                                                                    Fields</a></li>
+                                                            <?php if ($_COMPANY->getAppCustomization()['event']['speakers']['enabled'] && $_USER->canManageZoneSpeakers()) { ?>
+                                                                <li><a href="event_speakers"
+                                                                       id="sidebar_item_event_speakers_m"
+                                                                       class="waves-effect waves-primary">Event
+                                                                        Speakers</a></li>
+                                                            <?php } ?>
+                                                            <li><a href="event" id="sidebar_item_event_list_m"
+                                                                   class="waves-effect waves-primary">Event List</a>
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                        href="event_office_locations"
+                                                                        class="waves-effect waves-primary"
+                                                                        id="sidebar_item_event_office_locations_list_m"
+                                                                >
+                                                                    <?= gettext('Event Locations') ?>
+                                                                </a>
+                                                            </li>
+                                                            <li><a href="event_timezones" id="sidebar_item_event_timezones_m"
+                                                                class="waves-effect waves-primary">Event Preferred Timezones</a></li>
+
+                                                            <li><a href="event_communications " id="sidebar_item_event_communications_m"
+                                                                    class="waves-effect waves-primary">Event Communications </a></li>
+                                                       
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            <?php } ?>
+
+                                <?php if ($_COMPANY->getAppCustomization()['dynamic_list']['enabled']) { ?>
+                                        <li id="sidebar_item_dynamic_lists_m" class="sidebar-item">
+                                            <a class="waves-effect waves-primary" href="manage_dynamic_lists">&nbsp;&nbsp;Dynamic Lists</a>
+                                        </li>
+                                <?php } ?>
+                                <?php if ($_COMPANY->getAppCustomization()['points']['enabled']) { ?>
+                                    <li class="treeview-four panel panel-default" id="sidebar_item_points_Id_m">
+                                      <div class="panel-heading">
+                                        <p class="panel-title">
+                                          <a data-parent="#accordion" id="sidebar_item_points_program_m" class="waves-effect waves-primary" href="points.php">Points Program</a>
+                                        </p>
+                                      </div>
+                                    </li>
+                                  <?php } ?>
+                                  <?php if ($_COMPANY->getAppCustomization()['donations']['enabled']) { ?>
+                                    <li class="treeview-four panel panel-default" id="sidebar_item_donation_Id_m">
+                                        <div class="panel-heading">
+                                          <p class="panel-title">
+                                            <a data-parent="#accordion" id="sidebar_item_donation_m" class="waves-effect waves-primary" href="donations.php">Donations</a>
+                                          </p>
+                                        </div>
+                                      </li>
+                                      <?php } ?>
+
+                                            <?php if ($_COMPANY->getAppCustomization()['recognition']['enabled']) { ?>
+                                                <li id="recognitions_tab_m" class="treeview-three panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <p class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                               href="#recognition_tab_m"
+                                                               class="waves-effect waves-primary">
+                                                                Recognition <i class="fa fa-caret-down"
+                                                                               aria-hidden="true"></i>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+
+                                                    <div id="recognition_tab_m" class="panel-collapse collapse">
+                                                        <ul id="recognitions_m" class="panel-body">
+                                                            <li><a href="event_custom_fields?topictype=REC"
+                                                                   id="sidebar_item_recognition_custom_fields_m"
+                                                                   class="waves-effect waves-primary">Custom Recognition
+                                                                    Fields</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            <?php } ?>
+
+                                            <?php if (0) { ?>
+                                                <li class="treeview-three panel panel-default"
+                                                    id="sidebar_item_users_lookup">
+                                                    <div class="panel-heading">
+                                                        <p class="panel-title">
+                                                            <a data-parent="#accordion"
+                                                               class="waves-effect waves-primary" id="usersLookupAdmin"
+                                                               href="usersLookupAdmin">Check User</a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            <?php } else { ?>
+                                                <li id="sidebar_item_manageusers_m" class="sidebar-item">
+                                                    <a class="waves-effect waves-primary" href="manageusers">&nbsp;&nbsp;Zone Users</a>
+                                                </li>
+                                            <?php } ?>
+
+                                            <li class="treeview-three panel panel-default" id="sidebar_item_admin_m">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-parent="#accordion" class="waves-effect waves-primary"
+                                                           id="manageZoneAdmin_m" href="manageZoneAdmin">Zone Admins</a>
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <li class="treeview-three panel panel-default">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#zone_branding_tab_m"
+                                                           class="waves-effect waves-primary">
+                                                            Zone Branding <i class="fa fa-caret-down"
+                                                                             aria-hidden="true"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+
+                                                <div id="zone_branding_tab_m" class="panel-collapse collapse">
+                                                    <ul id="zone_branding_m" class="panel-body">
+                                                        <li class="sidebar-item dropdown reportmenu"
+                                                            id="sidebar_zone_branding_m">
+                                                        <li><a href="branding" id="sidebar_item_branding_m"
+                                                               class="waves-effect waves-primary">Manage Branding</a>
+                                                        </li>
+                                                        <li><a href="manage_templates" id="sidebar_item_templates_m"
+                                                               class="waves-effect waves-primary">Newsletter
+                                                                Templates</a></li>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+                                            <li class="treeview-three panel panel-default">
+                                                <div class="panel-heading">
+                                                    <p class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#zone_configuration_tab_m"
+                                                           class="waves-effect waves-primary">
+                                                            Zone Configuration <i class="fa fa-caret-down"
+                                                                                  aria-hidden="true"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+
+                                                <div id="zone_configuration_tab_m" class="panel-collapse collapse">
+                                                    <ul id="zone_configuration_m" class="panel-body">
+                                                        <li class="sidebar-item dropdown reportmenu"
+                                                            id="sidebar_zone_configuration_m">
+                                                        <li><a href="zone_regions"
+                                                               id="sidebar_item_manage_zone_regions_m"
+                                                               class="waves-effect waves-primary">Zone Regions</a></li>
+                                                        <li><a class="waves-effect waves-primary" href="emailsettings"
+                                                               id="sidebar_item_emailsettings_m">Zone Email Settings</a>
+                                                        </li>
+                                                        <?php if ($_COMPANY->getAppCustomization()['teams']['enabled'] && $_COMPANY->getAppCustomization()['teams']['hashtag']['enabled']) { ?>
+                                                            <li><a class="waves-effect waves-primary" href="manage_hashtags"
+                                                                id="sidebar_item_manage_hashtags_m">Manage Hashtags</a>
+                                                            </li>
+                                                        <?php } ?>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+                                        <?php } ?>
+                                    <?php } ?>
+
+
+                                    <?php if ($_USER->isCompanyAdmin()) { ?>
+                                        <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+                                        <li class="treeview-three panel panel-default">
+                                            <div class="panel-heading">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#settings_tab_m" class="waves-effect waves-primary">
+                                                        Global Settings <i class="fa fa-caret-down"
+                                                                           aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <div id="settings_tab_m" class="panel-collapse collapse">
+                                                <ul id="settings_m" class="panel-body">
+                                                    <li class="sidebar-item dropdown reportmenu"
+                                                        id="sidebar_item_manage_company_m">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                           id="sidebar_item_manage_company_info_m" role="button"
+                                                           aria-haspopup="true" aria-expanded="false">Company
+                                                            Information <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="manage_contacts">Company Contacts</a></li>
+                                                            <li><a href="manage_regions">Regions</a></li>
+                                                            <li><a href="office_locations">Office Locations</a></li>
+                                                            <li><a href="manage_departments">Departments</a></li>
+                                                            <li><a href="">Manage Users</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li id="sidebar_item_manageglobalusers_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="manageglobalusers">
+                                                            Global Users
+                                                        </a>
+                                                    </li>
+                                                    <li id="sidebar_item_company_branding_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="company_branding">
+                                                            Global Branding
+                                                        </a>
+                                                    </li>
+                                                    <li id="sidebar_item_company_admin_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="manageadmin">
+                                                            Global Admins
+                                                        </a>
+                                                    </li>
+
+                                                    <?php if ($_COMPANY->getAppCustomization()['event']['partner_organizations']['enabled']) { ?>
+                                                    <li id="sidebar_item_manage_organizations_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="manage_organizations">
+                                                            Organizations
+                                                        </a>
+                                                    </li>
+                                                    <?php } ?>
+                                                    <li id="sidebar_item_manage_user_catalogs_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="manage_user_catalogs">
+                                                            User Catalogs
+                                                        </a>
+                                                    </li>
+
+                                                    <li id="sidebar_item_security_m" class="sidebar-item">
+                                                        <a class="waves-effect waves-primary" href="security">
+                                                            Global Security Settings
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+
+                                    <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+
+                                    <li class="treeview-four panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#support_tab_m"
+                                                   href="#"
+                                                   class="waves-effect waves-primary">Support<i class="fa fa-caret-down"
+                                                                                                aria-hidden="true"></i></a>
+                                            </p>
+                                        </div>
+                                        <div id="support_tab_m" class="panel-collapse collapse">
+                                            <ul class="panel-body">
+                                                <li id="sidebar_item_user_guides_m" class="sidebar-item">
+                                                    <a class="waves-effect waves-primary" href="user_guides">User
+                                                        Guides</a>
+                                                </li>
+                                                <li class="sidebar-item">
+                                                    <a class="waves-effect waves-primary"
+                                                       href="mailto:<?= $_COMPANY->val('vendor_support_email'); ?>">Open Support
+                                                        Ticket</a>
+                                                </li>
+                                                <li class="sidebar-item">
+                                                    <a class="waves-effect waves-primary"
+                                                       href="https://www.teleskope.io/community">User Community</a>
+                                                </li>
+                                                <li class="sidebar-item">
+                                                    <a class="waves-effect waves-primary"
+                                                       href="mailto:feedback@teleskope.atlassian.net">Provide
+                                                        Feedback</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                    <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+                                </ul>
+                                <!------------------------- new mobile menu end ------------------------------------->
+
+                            <?php } ?>
+
+                        </ul>
+                        <div class="info-log">
+                            <ul class="info">
+                                <li class="img-name" id="edit-prof">
+                                    <?= User::BuildProfilePictureImgTag($_USER->val('firstname'), $_USER->val('lastname'), $_USER->val('picture'), 'user-image profile'); ?>
+                                    <h4><?= trim($_USER->val('firstname') . " " . $_USER->val('lastname')); ?>
+                                        <br/><span>Administrator</span>
+                                    </h4>
+                                </li>
+                            </ul>
+                            <div class="logout">
+                                <!--i class="fa fa-sign-out" aria-hidden="true"></i-->
+                                <a href="logout" class="logout btn btn-info btn-xs">Log Out</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <?php if (!$standalone_page) { ?>
+                    <div id="sidebar-wrapper">
+                        <ul class="sidebar-nav panel-group admin-sidebar" id="accordion">
+                            <?php if (true) { ?>
+                                <?php if ($_USER->isAdmin()) { ?>
+                                    <li class="treeview-three panel panel-default" id="sidebar_item_dashboard">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a tabindex="0" data-parent="#accordion" class="waves-effect waves-primary"
+                                                   href="dashboardres"> Dashboard</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <li class="treeview-four panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a tabindex="0" data-toggle="collapse" data-parent="#accordion" href="#group_tab"
+                                                   class="waves-effect waves-primary"><?= $_COMPANY->getAppCustomization()['group']['name-plural'] ?>
+                                                    <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                            </p>
+                                        </div>
+                                        <div id="group_tab" class="panel-collapse collapse">
+                                            <ul class="panel-body">
+                                                <li class="sidebar-item">
+                                                    <a tabindex="0" class="waves-effect waves-primary" id="sidebar_item_group"
+                                                       href="group">Manage <?= $_COMPANY->getAppCustomization()['group']['name-short-plural'] ?></a>
+                                                </li>
+                                                <li class="sidebar-item">
+                                                    <a tabindex="0" class="waves-effect waves-primary"
+                                                       id="sidebar_item_group_categories"
+                                                       href="group_category"><?= $_COMPANY->getAppCustomization()['group']['name-short'] ?> Categories</a>
+                                                </li>
+                                                <li class="sidebar-item">
+                                                    <a tabindex="0" class="waves-effect waves-primary"
+                                                       id="sidebar_item_manage_roles_and_permissions"
+                                                       href="grouplead_type">Roles and Permissions</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <?php if ($_USER->canViewReports()) { ?>
+                                    <li id="sidebar_item_reporting" class="sidebar-item">
+                                        <a tabindex="0" class="waves-effect waves-primary" href="reports.php">&nbsp;Reports</a>
+                                    </li>
+                                    <?php } ?>
+                                    <?php if ($_COMPANY->getAppCustomization()['disclaimer_consent']['enabled']) { ?>
+                                    <li id="sidebar_item_disclaimer" class="sidebar-item">
+                                        <a class="waves-effect waves-primary" href="disclaimers">&nbsp;Disclaimers & Consents</a>
+                                    </li>
+                                    <?php } ?>
+
+                                    <?php if ($_COMPANY->getAppCustomization()['post']['approvals']['enabled'] || $_COMPANY->getAppCustomization()['event']['approvals']['enabled'] || $_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled'] || $_COMPANY->getAppCustomization()['surveys']['approvals']['enabled']){ ?>
+                                    <li class="treeview-three panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#approvals_tab" class="waves-effect waves-primary">
+                                                    Approvals <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div id="approvals_tab" class="panel-collapse collapse">
+                                            <ul class="panel-body">
+
+                                                <?php if ($_COMPANY->getAppCustomization()['post']['enabled'] &&  $_COMPANY->getAppCustomization()['post']['approvals']['enabled']) { ?>
+                                                <li class="sidebar-item"><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['POST']?>" id="sidebar_item_post_approvals" class="waves-effect waves-primary"><?= Post::GetCustomName(false); ?> Approvals</a></li>
+                                                <?php } ?>
+
+                                                <?php if ($_COMPANY->getAppCustomization()['event']['enabled'] && $_COMPANY->getAppCustomization()['event']['approvals']['enabled']) { ?>
+                                                <li class="sidebar-item"><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['EVENT']?>" id="sidebar_item_event_approvals" class="waves-effect waves-primary">Event Approvals</a></li>
+                                                <?php } ?>
+
+                                                <?php if ($_COMPANY->getAppCustomization()['newsletters']['enabled'] && $_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled']) { ?>
+                                                <li class="sidebar-item"><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['NEWSLETTER']?>" id="sidebar_item_newsletter_approvals" class="waves-effect waves-primary">Newsletter Approvals</a></li>
+                                                <?php } ?>
+
+                                                <?php if ($_COMPANY->getAppCustomization()['surveys']['enabled'] && $_COMPANY->getAppCustomization()['surveys']['approvals']['enabled']) { ?>
+                                                    <li class="sidebar-item"><a href="topic_approvals?topicType=<?=Teleskope::TOPIC_TYPES['SURVEY']?>" id="sidebar_item_survey_approvals" class="waves-effect waves-primary">Survey Approvals</a></li>
+                                                    <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <?php } ?>
+
+                                    <?php if ($_COMPANY->getAppCustomization()['budgets']['enabled'] && $_USER->canManageZoneBudget()) { ?>
+                                        <li class="treeview-three panel panel-default">
+                                            <div class="panel-heading">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#budget_tab" class="waves-effect waves-primary">
+                                                        Budget <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div id="budget_tab" class="panel-collapse collapse">
+                                                <ul class="panel-body">
+                                                    <li class="sidebar-item dropdown reportmenu" id="sidebar_budget">
+                                                    <li><a href="budget" id="sidebar_item_budget"
+                                                           class="waves-effect waves-primary">Manage Budget</a></li>
+                                                    <li><a href="budget_charge_codes"
+                                                           id="sidebar_item_budget_charge_codes"
+                                                           class="waves-effect waves-primary">Charge Codes</a></li>
+                                                    <li><a href="manage_expense_types"
+                                                           id="sidebar_item_manage_expense_types"
+                                                           class="waves-effect waves-primary">Expense Types</a></li>
+                                                    </li>
+                                                    <li>
+                                                      <a
+                                                        href="event_custom_fields?topictype=EXP"
+                                                        id="sidebar_item_exp_custom_fields"
+                                                        class="waves-effect waves-primary"
+                                                      >
+                                                        Expense Entry Custom Fields
+                                                      </a>
+                                                    </li>
+
+                                                    <li>
+                                                      <a
+                                                        href="event_custom_fields?topictype=BRQ"
+                                                        id="sidebar_item_brq_custom_fields"
+                                                        class="waves-effect waves-primary"
+                                                      >
+                                                        Budget Request Custom Fields
+                                                      </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+
+                                    <?php if ($_COMPANY->getAppCustomization()['event']['enabled']) { ?>
+                                        <li class="treeview-three panel panel-default">
+                                            <div class="panel-heading">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#events_tab" class="waves-effect waves-primary">
+                                                        Events <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <div id="events_tab" class="panel-collapse collapse">
+                                                <ul id="events" class="panel-body">
+                                                    <li class="sidebar-item dropdown reportmenu" id="sidebar_events">
+                                                    <li><a href="event_type" id="sidebar_item_event_type"
+                                                           class="waves-effect waves-primary">Event Types</a></li>
+                                                    <?php if ($_COMPANY->getAppCustomization()['event']['volunteers']) { ?>
+                                                        <li><a href="event_volunteer_types"
+                                                               id="sidebar_item_event_volunteers"
+                                                               class="waves-effect waves-primary">Event Volunteer
+                                                                Types</a></li>
+                                                    <?php } ?>
+                                                    <li><a href="event_custom_fields"
+                                                           id="sidebar_item_event_custom_fields"
+                                                           class="waves-effect waves-primary">Custom Event Fields</a>
+                                                    </li>
+                                                    <?php if ($_COMPANY->getAppCustomization()['event']['speakers']['enabled'] && $_USER->canManageZoneSpeakers()) { ?>
+                                                        <li><a href="event_speakers" id="sidebar_item_event_speakers"
+                                                               class="waves-effect waves-primary">Event Speakers</a>
+                                                        </li>
+                                                    <?php } ?>
+                                                    
+                                                    <li><a href="event" id="sidebar_item_event_list"
+                                                           class="waves-effect waves-primary">Event List</a></li>
+                                                    <li>
+                                                        <a
+                                                                href="event_office_locations"
+                                                                class="waves-effect waves-primary"
+                                                                id="sidebar_item_event_office_locations_list"
+                                                        >
+                                                            <?= gettext('Event Locations') ?>
+                                                        </a>
+                                                    </li>
+                                                    <li><a href="event_timezones" id="sidebar_item_event_timezones"
+                                                            class="waves-effect waves-primary">Event Preferred Timezones</a></li>
+
+                                                    <li><a href="event_communications " id="sidebar_item_event_communications"
+                                                            class="waves-effect waves-primary">Event Communications </a></li>
+                                            
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+
+                 <?php if ($_COMPANY->getAppCustomization()['dynamic_list']['enabled']) { ?>
+                    <li id="sidebar_item_dynamic_lists" class="sidebar-item">
+                        <a class="waves-effect waves-primary"
+                           href="manage_dynamic_lists">&nbsp;&nbsp;Dynamic Lists</a>
+                    </li>
+                <?php } ?>
+                <?php if ($_COMPANY->getAppCustomization()['points']['enabled']) { ?>
+                  <li class="treeview-four panel panel-default" id="sidebar_item_points_Id">
+                    <div class="panel-heading">
+                      <p class="panel-title">
+                        <a data-parent="#accordion" id="sidebar_item_points_program" class="waves-effect waves-primary" href="points.php">Points Program</a>
+                      </p>
+                    </div>
+                  </li>
+                <?php } ?>
+                <?php if ($_COMPANY->getAppCustomization()['donations']['enabled']) { ?>
+                <li class="treeview-four panel panel-default" id="sidebar_item_donation_Id">
+                    <div class="panel-heading">
+                      <p class="panel-title">
+                        <a data-parent="#accordion" id="sidebar_item_donation" class="waves-effect waves-primary" href="donations.php">Donations</a>
+                      </p>
+                    </div>
+                  </li>
+                  <?php } ?>
+                                    <?php if ($_COMPANY->getAppCustomization()['recognition']['enabled']) { ?>
+                                        <li class="treeview-three panel panel-default">
+                                            <div class="panel-heading">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#recognition_tab" class="waves-effect waves-primary">
+                                                        Recognition <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <div id="recognition_tab" class="panel-collapse collapse">
+                                                <ul id="recognitions" class="panel-body">
+                                                    <li><a href="event_custom_fields?topictype=REC"
+                                                           id="sidebar_item_recognition_custom_fields"
+                                                           class="waves-effect waves-primary">Custom Recognition
+                                                            Fields</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (0) { ?>
+                                        < li class="treeview-three panel panel-default" id="sidebar_item_users_lookup">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-parent="#accordion" class="waves-effect waves-primary"
+                                                   id="usersLookupAdmin" href="usersLookupAdmin">Check User</a>
+                                            </p>
+                                        </div>
+                                        </li>
+                                    <?php } else { ?>
+                                        <li id="sidebar_item_manageusers" class="sidebar-item">
+                                            <a class="waves-effect waves-primary"
+                                               href="manageusers">&nbsp;&nbsp;Zone Users</a>
+                                        </li>
+                                    <?php } ?>
+
+                                    <li class="treeview-three panel panel-default" id="sidebar_item_admin">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-parent="#accordion" class="waves-effect waves-primary"
+                                                   id="manageZoneAdmin" href="manageZoneAdmin">Zone Admins</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <li class="treeview-three panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#zone_branding_tab" class="waves-effect waves-primary">
+                                                    Zone Branding <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <div id="zone_branding_tab" class="panel-collapse collapse">
+                                            <ul id="zone_branding" class="panel-body">
+                                                <li class="sidebar-item dropdown reportmenu" id="sidebar_zone_branding">
+                                                <li><a href="branding" id="sidebar_item_branding"
+                                                       class="waves-effect waves-primary">Manage Branding</a></li>
+                                                <li><a href="manage_templates" id="sidebar_item_templates"
+                                                       class="waves-effect waves-primary">Manage Templates</a></li>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                    <li class="treeview-three panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#zone_configuration_tab" class="waves-effect waves-primary">
+                                                    Zone Configuration <i class="fa fa-caret-down"
+                                                                          aria-hidden="true"></i>
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <div id="zone_configuration_tab" class="panel-collapse collapse">
+                                            <ul id="zone_configuration" class="panel-body">
+                                                <li class="sidebar-item dropdown reportmenu"
+                                                    id="sidebar_zone_configuration">
+                                                <li><a href="zone_regions" id="sidebar_item_manage_zone_regions"
+                                                       class="waves-effect waves-primary">Zone Regions</a></li>
+                                                <li><a class="waves-effect waves-primary" href="emailsettings"
+                                                       id="sidebar_item_emailsettings">Zone Email Settings</a></li>
+                                                <?php if ($_COMPANY->getAppCustomization()['teams']['enabled'] && $_COMPANY->getAppCustomization()['teams']['hashtag']['enabled']) { ?>
+                                                <li><a class="waves-effect waves-primary" href="manage_hashtags"
+                                                    id="sidebar_item_manage_hashtags">Manage Hashtags</a>
+                                                </li>
+                                            <?php } ?>
+                                                <?php if ($_COMPANY->getAppCustomization()['content_moderator']['enabled']) { ?>
+                                                  <li>
+                                                    <a class="waves-effect waves-primary" href="manage_blocked_keywords">
+                                                      <?= gettext('Manage Blocked Keywords') ?>
+                                                    </a>
+                                                  </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                <?php } ?>
+                            <?php } ?>
+
+
+                            <?php if ($_USER->isCompanyAdmin()) { ?>
+                                <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+                                <li class="treeview-three panel panel-default">
+                                    <div class="panel-heading">
+                                        <p class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#settings_tab"
+                                               class="waves-effect waves-primary">
+                                                Global Settings <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+
+                                    <div id="settings_tab" class="panel-collapse collapse">
+                                        <ul id="settings" class="panel-body">
+                                            <li class="sidebar-item dropdown reportmenu"
+                                                id="sidebar_item_manage_company">
+                                                <a tabindex="0" href="#sidebar_item_manage_company" class="dropdown-toggle" data-toggle="dropdown"
+                                                   id="sidebar_item_manage_company_info" role="button"
+                                                   aria-haspopup="true" aria-expanded="false">Company Information <span
+                                                            class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="menu-li-list" href="manage_contacts">Company Contacts</a></li>
+                                                    <li><a class="menu-li-list"  href="manage_regions">Regions</a></li>
+                                                    <li><a class="menu-li-list"  href="office_locations">Office Locations</a></li>
+                                                    <li><a class="menu-li-list"  href="manage_departments">Departments</a></li>
+                                                </ul>
+                                            </li>
+                                            <li id="sidebar_item_manageglobalusers" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="manageglobalusers">
+                                                    Global Users
+                                                </a>
+                                            </li>
+                                            <li id="sidebar_item_company_branding" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="company_branding">
+                                                    Global Branding
+                                                </a>
+                                            </li>
+                                            <li id="sidebar_item_company_admin" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="manageadmin">
+                                                    Global Admins
+                                                </a>
+                                            </li>
+
+                                            <?php if ($_COMPANY->getAppCustomization()['event']['partner_organizations']['enabled']) { ?>
+                                            <li id="sidebar_item_manage_organizations" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="manage_organizations">
+                                                    Organizations
+                                                </a>
+                                            </li>
+                                            <?php } ?>
+
+                                            <li id="sidebar_item_manage_user_catalogs" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="manage_user_catalogs">
+                                                    User Catalogs
+                                                </a>
+                                            </li>
+
+                                            <li id="sidebar_item_manage_company_statistics" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="manage_company_statistics">
+                                                    Company Statistics
+                                                </a>
+                                            </li>
+
+                                            <li id="sidebar_item_security" class="sidebar-item">
+                                                <a class="waves-effect waves-primary" href="security">
+                                                    Global Security Settings
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            <?php } ?>
+
+                            <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+
+                            <li class="treeview-four panel panel-default">
+                                <div class="panel-heading">
+                                    <p class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#support_tab" href="#"
+                                           class="waves-effect waves-primary">Support<i class="fa fa-caret-down"
+                                                                                        aria-hidden="true"></i></a>
+                                    </p>
+                                </div>
+                                <div id="support_tab" class="panel-collapse collapse">
+                                    <ul class="panel-body">
+                                        <li id="sidebar_item_user_guides" class="sidebar-item">
+                                            <a class="waves-effect waves-primary" href="user_guides">User Guides</a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a class="waves-effect waves-primary"
+                                               href="mailto:<?= $_COMPANY->val('vendor_support_email'); ?>">Open Support Ticket</a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a class="waves-effect waves-primary"
+                                               href="https://www.teleskope.io/community">User Community</a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a class="waves-effect waves-primary"
+                                               href="mailto:feedback@teleskope.atlassian.net">Provide Feedback</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <hr style="width:100%; color: white; border: dashed 1px #cccccc; border-bottom: 0; margin:2px 0;  padding: 0;">
+                        </ul>
+                    </div>
+                    <?php } ?>
+
+                    <!---side bar end-->
+
+
+                </div>
+            </nav>
+            <script>
+                jQuery("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    jQuery("#wrapper").toggleClass("toggled");
+                });
+            </script>
+            <script>
+                $("#edit-prof").hover(function () {
+                    $(".edit-pencil").show();
+                }, function () {
+                    $(".edit-pencil").hide();
+                });
+            </script>
+            <script>
+                $("#edit-prof_m").hover(function () {
+                    $(".edit-pencil").show();
+                }, function () {
+                    $(".edit-pencil").hide();
+                });
+            </script>
+            <style>
+                .reportmenu {
+                    margin-left: 7px;
+                }
+            </style>
+            <script>
+                $(function () {
+                    $('#login-form-link').click(function (e) {
+                        $("#login-form").delay(100).fadeIn(100);
+                        $("#form-forgot-password").fadeOut(100);
+                        $('#register-form-link').removeClass('active');
+                        $(this).addClass('active');
+                        e.preventDefault();
+                    });
+                    $('#register-form-link').click(function (e) {
+                        $("#form-forgot-password").delay(100).fadeIn(100);
+                        $("#login-form").fadeOut(100);
+                        $('#login-form-link').removeClass('active');
+                        $(this).addClass('active');
+                        e.preventDefault();
+                    });
+                });
+            </script>
+            <!-- Load any modal dynamically here -->
+            <div id="loadAnyModal"></div>
+<?php require_once __DIR__ . '/../../include/common/views/zone_id_setup.html.php' ?>

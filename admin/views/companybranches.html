@@ -1,0 +1,124 @@
+<div class="tl-container-offset-lr">
+	<div class="row">
+	  <div class="col-md-12">
+		<div class="widget-simple-chart card p-3">
+  
+		  <?php if(isset($_GET['add']) || isset($_GET['edit'])){ ?>
+		  <div class="row mb-4">
+			<div class="col-12">
+			  <h1 class="m-0"><?= isset($_GET['edit']) ? 'Edit' : 'Add'; ?> Office Branch</h1><hr class="border-1 text-light my-2">
+			</div>
+		  </div>
+  
+		  <?php if ((time() - @$_SESSION['error']) < 5) { ?>
+		  <div id="hidemessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<?= @$_SESSION['error_message'] ?>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		  </div>
+		  <?php } ?>
+  
+		  <form method="post" action="companybranches.php?<?= isset($_GET['edit']) ? 'update=' . $_GET['edit'] : 'add'; ?>">
+			<input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+			<input type="hidden" name="edit" value="<?= isset($_GET['edit']) ? $_GET['edit'] : ''; ?>">
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="branchname" class="col-form-label">Branch Name <span class="text-danger">*</span></label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="branchname" name="branchname" placeholder="Branch name" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('branchname')) : htmlspecialchars($_POST['branchname'] ?? ''); ?>" required>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="branchtype" class="col-form-label">Branch Type</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="branchtype" name="branchtype" placeholder="Branch type" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('branchtype')) : htmlspecialchars($_POST['branchtype'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="regionid" class="col-form-label">Region</label>
+			  </div>
+			  <div class="col-lg-6">
+				<select class="form-select" id="regionid" name="regionid">
+				  <?php if ($_COMPANY->getAllRegions()) {
+					$sel_region = isset($_GET['edit']) ? $branch->val('regionid') : ($_POST['regionid'] ? $_COMPANY->decodeId($_POST['regionid']) : 0);
+				  ?>
+				  <option value="<?= $_COMPANY->encodeId(0) ?>">Select Region</option>
+				  <?php foreach ($_COMPANY->getAllRegions() as $region) {
+					$sel = ($sel_region == $region['regionid']) ? 'selected' : '';
+				  ?>
+				  <option value="<?= $_COMPANY->encodeId($region['regionid']) ?>" <?= $sel; ?>><?= $region['region'] ?></option>
+				  <?php } ?>
+				  <?php } else { ?>
+				  <option value="0">No Region</option>
+				  <?php } ?>
+				</select>
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="street" class="col-form-label">Street</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="street" name="street" placeholder="Street" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('street')) : htmlspecialchars($_POST['street'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="city" class="col-form-label">City</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="city" name="city" placeholder="City name" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('city')) : htmlspecialchars($_POST['city'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="state" class="col-form-label">State</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="state" name="state" placeholder="State name" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('state')) : htmlspecialchars($_POST['state'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="zipcode" class="col-form-label">Zip Code</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip code" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('zipcode')) : htmlspecialchars($_POST['zipcode'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row mb-3 align-items-center">
+			  <div class="col-lg-2 text-md-end">
+				<label for="country" class="col-form-label">Country</label>
+			  </div>
+			  <div class="col-lg-6">
+				<input type="text" class="form-control" id="country" name="country" placeholder="Country" value="<?= isset($_GET['edit']) ? htmlspecialchars($branch->val('country')) : htmlspecialchars($_POST['country'] ?? ''); ?>">
+			  </div>
+			</div>
+  
+			<div class="row">
+			  <div class="offset-lg-2 col-lg-6">
+				<button type="button" onclick="goBack()" class="btn btn-secondary me-2">Cancel</button>
+				<button type="reset" class="btn btn-primary me-2">Reset</button>
+				<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+			  </div>
+			</div>
+  
+		  </form>
+		  <?php } ?>
+  
+		</div>
+	  </div>
+	</div>
+  </div>
+  

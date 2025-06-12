@@ -1,0 +1,144 @@
+<style>
+    table, td, th{
+        border: 1px solid rgb(185, 180, 180);
+        font-size: 10px;
+        padding: .35rem !important;
+    }
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider"><h6><?=$pagetitle?></h6></div>
+                <div class="col-md-12">
+                    <form class="form-horizontal" method="post" action="">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <div class="col-md-12 mb-1" >
+                            <p style="color:red;">NOTE : All the data will be processed under <?= $_ZONE->val('zonename') ;?> Zone.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Report Name</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" name="reportname" value="<?= $edit ? $edit['reportname'] : ''; ?>" type="text" placeholder="Report name" required>
+                           </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Report Description</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" name="reportdescription" value="<?= $edit ? $edit['reportdescription'] : ''; ?>" type="text" placeholder="Report description" required>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Report type *</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" onchange="changeExampleCode()" id="reporttype" name="reporttype" required>
+                                    <option value="">Select an option</option>
+                                    <option value="<?= Report::REPORT_TYPE_USER_MEMBERSHIP;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_USER_MEMBERSHIP) ? 'selected' : ''; ?> >User Membership</option>
+                                    <option value="<?= Report::REPORT_TYPE_USERS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_USERS) ? 'selected' : ''; ?> >Zone Users</option>
+                                    <option value="<?= Report::REPORT_TYPE_EVENT;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_EVENT) ? 'selected' : ''; ?> >Event</option>
+                                    <option value="<?= Report::REPORT_TYPE_EVENT_RSVP;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_EVENT_RSVP) ? 'selected' : ''; ?> >Event RSVP</option>
+                                    <option value="<?= Report::REPORT_TYPE_ANNOUNCEMENT;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_ANNOUNCEMENT) ? 'selected' : ''; ?> >Announcement</option>
+                                    <option value="<?= Report::REPORT_TYPE_NEWSLETTERS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_NEWSLETTERS) ? 'selected' : ''; ?> >Newsletter</option>
+                                    <option value="<?= Report::REPORT_TYPE_DIRECT_MAIL; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_DIRECT_MAIL) ? 'selected' : ''; ?> >Direct Mail</option>
+                                    <option value="<?= Report::REPORT_TYPE_BUDGET;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_BUDGET) ? 'selected' : ''; ?> >Budget</option>
+                                    <option value="<?= Report::REPORT_TYPE_SURVEY;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_SURVEY) ? 'selected' : ''; ?> >Survey</option>
+                                    <option value="<?= Report::REPORT_TYPE_SURVEY_DATA;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_SURVEY_DATA) ? 'selected' : ''; ?> >Survey Data</option>
+                                    <option value="<?= Report::REPORT_TYPE_OFFICELOCATIONS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_OFFICELOCATIONS) ? 'selected' : ''; ?> >Office Locations</option>
+                                    <option value="<?= Report::REPORT_TYPE_GROUP_DETAILS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_GROUP_DETAILS) ? 'selected' : ''; ?> >Group Details</option>
+                                    <option value="<?= Report::REPORT_TYPE_GROUP_CHAPTER_DETAILS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_GROUP_CHAPTER_DETAILS) ? 'selected' : ''; ?> >Group Chapter Details</option>
+                                    <option value="<?= Report::REPORT_TYPE_GROUP_CHANNEL_DETAILS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_GROUP_CHANNEL_DETAILS) ? 'selected' : ''; ?> >Group Channel Details</option>
+                                    <option value="<?= Report::REPORT_TYPE_GROUPCHAPTER_LOCATION;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_GROUPCHAPTER_LOCATION) ? 'selected' : ''; ?> >Group Chapter Locations</option>
+                                    <option value="<?= Report::REPORT_TYPE_TEAM_TEAMS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_TEAM_TEAMS) ? 'selected' : ''; ?> >Teams</option>
+                                    <option value="<?= Report::REPORT_TYPE_TEAM_MEMBERS;?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_TEAM_MEMBERS) ? 'selected' : ''; ?> >Team Members</option>
+                                    <option value="<?= Report::REPORT_TYPE_TEAM_REGISTRATIONS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_TEAM_REGISTRATIONS) ? 'selected' : ''; ?> >Team Registrations</option>
+                                    <option value="<?= Report::REPORT_TYPE_TEAM_FEEDBACK; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_TEAM_FEEDBACK) ? 'selected' : ''; ?> >Team Feedback</option>
+                                    <option value="<?= Report::REPORT_TYPE_USER_AUDIT_LOGS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_USER_AUDIT_LOGS) ? 'selected' : ''; ?> >Audit Logs</option>
+                                    <option value="<?= Report::REPORT_TYPE_POINTS_TRANSACTIONS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_POINTS_TRANSACTIONS) ? 'selected' : ''; ?> >Points Transactions</option>
+                                    <option value="<?= Report::REPORT_TYPE_POINTS_BALANCE; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_POINTS_BALANCE) ? 'selected' : ''; ?> >Points Balance</option>
+                                    <option value="<?= Report::REPORT_TYPE_LOGINS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_LOGINS) ? 'selected' : ''; ?> >Login Usage Report</option>
+                                    <option value="<?= Report::REPORT_TYPE_APPROVALS; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_APPROVALS) ? 'selected' : ''; ?> >Approvals Report</option>
+                                    <option value="<?= Report::REPORT_TYPE_ORGANIZATION; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_ORGANIZATION) ? 'selected' : ''; ?> >Organizations Report</option>
+                                    <option value="<?= Report::REPORT_TYPE_EVENT_ORGANIZATION; ?>" <?= ($edit &&  $edit['reporttype'] == Report::REPORT_TYPE_EVENT_ORGANIZATION) ? 'selected' : ''; ?> >Event Organizations Report</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Purpose *</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="purpose" required>
+                                    <option value="download" <?= ($edit &&  $edit['purpose'] == 'download') ? 'selected' : ''; ?>>Download</option>
+                                    <option value="transfer" <?= ($edit &&  $edit['purpose'] == 'transfer') ? 'selected' : ''; ?> >Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="col-lg-3 control-label" >Report Meta *</label>
+                            <div class="col-lg-8">
+                                Example: <code id="example_meta"></code>
+                                <textarea  class="form-control" name="reportmeta" rows="24" placeholder='Report meta object here. See example above.' ><?= $edit  ? json_encode(json_decode($edit['reportmeta'] ?? '',true),JSON_PRETTY_PRINT) : '';?></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"></label>
+                            <div class="col-lg-8">
+
+                                <a href="manage_reports" class="btn btn-primary">Cancel</a>
+                                
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    <?php if((time()- @$_SESSION['error']) < 5){ ?>
+        showSweetAlert("Error!","<?= $_SESSION['error_msg']; ?>",'error');
+    <?php } ?>
+</script>
+<script>
+    function changeExampleCode(){
+        let reporttype = parseInt($("#reporttype").val());
+        let example_meta = '';
+        if (reporttype == <?=Report::REPORT_TYPE_USER_MEMBERSHIP?>) {example_meta = '<?=json_encode(ReportUserMembership::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_USERS?>) {example_meta = '<?=json_encode(ReportUsers::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_EVENT?>) {example_meta = '<?=json_encode(ReportEvents::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_BUDGET?>) {example_meta = '<?=json_encode(ReportBudget::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_SURVEY?>) {example_meta = '<?=json_encode(ReportSurvey::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_SURVEY_DATA?>) {example_meta = '<?=json_encode(ReportSurveyData::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_EVENT_RSVP?>) {example_meta = '<?=json_encode(ReportEventRSVP::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_ANNOUNCEMENT?>) {example_meta = '<?=json_encode(ReportAnnouncement::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_NEWSLETTERS?>) {example_meta = '<?=json_encode(ReportNewsletter::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_DIRECT_MAIL?>) {example_meta = '<?=json_encode(ReportDirectMails::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_OFFICELOCATIONS?>) {example_meta = '<?=json_encode(ReportOfficeLocations::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_GROUP_DETAILS?>) {example_meta = '<?=json_encode(ReportGroupDetails::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_GROUP_CHAPTER_DETAILS?>) {example_meta = '<?=json_encode(ReportGroupChapterDetails::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_GROUP_CHANNEL_DETAILS?>) {example_meta = '<?=json_encode(ReportGroupChannelDetails::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_GROUPCHAPTER_LOCATION?>) {example_meta = '<?=json_encode(ReportGroupChapterLocation::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_TEAM_TEAMS?>) {example_meta = '<?=json_encode(ReportTeamTeams::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_TEAM_MEMBERS?>) {example_meta = '<?=json_encode(ReportTeamMembers::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_TEAM_REGISTRATIONS?>) {example_meta = '<?=json_encode(ReportTeamRegistrations::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_TEAM_FEEDBACK?>) {example_meta = '<?=json_encode(ReportTeamsFeedback::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_USER_AUDIT_LOGS?>) {example_meta = '<?=json_encode(ReportUserAuditLogs::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_DISCLSIMER_CONTENTS?>) {example_meta = '<?=json_encode(ReportDisclaimerConsents::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_POINTS_TRANSACTIONS?>) {example_meta = '<?=json_encode(ReportPointsTransactions::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_POINTS_BALANCE?>) {example_meta = '<?=json_encode(ReportPointsBalance::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_LOGINS?>) {example_meta = '<?=json_encode(ReportLogins::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_APPROVALS?>) {example_meta = '<?=json_encode(ReportApprovals::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_ORGANIZATION?>) {example_meta = '<?=json_encode(ReportOrganization::META)?>';}
+        else if (reporttype == <?=Report::REPORT_TYPE_EVENT_ORGANIZATION?>) {example_meta = '<?=json_encode(ReportEventOrganization::META)?>';}
+        $("#example_meta").html(example_meta);
+
+    }
+</script>
+
+</body>
+</html>

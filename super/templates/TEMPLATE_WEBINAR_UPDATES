@@ -1,0 +1,54 @@
+<re-html>
+<re-head>
+    <re-title>
+        Email
+    </re-title>
+    <re-font href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i"></re-font>
+</re-head>
+<re-body background-color="#f1f3f5" padding="10px 10px 30px 10px">
+    <re-preheader>
+    </re-preheader>
+    <re-main background-color="#fff">
+        <re-block padding="40px 20px 10px 20px" align="center">
+            <re-image src="https://teleskope-prd1.s3.amazonaws.com/common/emailtemplate/TeleskopeLogoSystemMessaging.png" href="https://www.teleskope.io" width="250px">
+            </re-image>
+        </re-block>
+        <re-block padding="40px 20px 50px 20px" align="center">
+            <re-heading margin="20px 0 0 0" level="h1">
+               WEBINAR UPDATES
+            </re-heading>
+        </re-block>
+        <re-block align="center" padding="20px">
+            <re-text color="#585858">
+                The system was updated on [date]
+            </re-text>
+        </re-block>
+        <re-block>
+        <re-divider height="1px" background-color="#0077bf"></re-divider>
+        </re-block>
+        <re-block align="center" padding="20px 20px">
+            <re-heading align="left" level="h3" margin="0 0 20px 0">
+                Upcoming Webinars
+            </re-heading>
+            <re-list align="left">
+                <re-list-item>
+                    One
+                </re-list-item>
+                <re-list-item>
+                    Two
+                </re-list-item>
+                <re-list-item>
+                    Three
+                </re-list-item>
+            </re-list>
+        </re-block>
+    </re-main>
+    <re-footer padding="20px" background-color="#000002">
+        <re-block align="center" padding="0">
+            <re-text color="#88888b" font-size="9px">
+                You are receiving this email because you subscribed to this mailing list. You can unsubscribe from this mailing list by updating your preferences in Teleskope Mailing List section in the footer of your Teleskope enterprise application
+            </re-text>
+        </re-block>
+    </re-footer>
+</re-body>
+</re-html>

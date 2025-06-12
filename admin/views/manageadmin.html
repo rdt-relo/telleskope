@@ -1,0 +1,97 @@
+<div class="tl-container-offset-lr">
+	<div class="row">
+		<div class="col-12">
+			<div class="card p-3">
+				<div class="row mb-3">
+					<div class="col-12 d-flex border-bottom pb-2">
+						<h1 class="mb-2"><?= $pagetitle; ?>&nbsp;</h1>
+						<a aria-label="<?= gettext('Add new admin');?>" class="add-plus-circle-icon" href="addadmin?context=<?= $section; ?>">
+							<i class="fa fa-plus-circle fa-lg text-primary mt-2 ms-2" title="Add new admin" aria-hidden="true"></i>
+						</a>
+					</div>
+				</div>
+
+				<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<?= UPDATED; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } elseif((time()- @$_SESSION['added']) < 5) { ?>
+					<div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+						<?= ADDED; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+						<?= ERROR; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<?php } ?>
+
+				<div class="table-responsive">
+					<table id="muser" class="table table-hover table-bordered align-middle display compact w-100" summary="Global administrator list">
+						<thead>
+							<tr>
+								<th scope="col">Admin Name</th>
+								<th scope="col">Job Title</th>
+								<?php if ($section == 'zone'){ ?>
+									<th scope="col">Can Manage Zone Budget</th>
+									<th scope="col">Can Manage Zone Approvers</th>
+									<th scope="col">Can View Reports</th>
+								<?php } ?>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php if(count($rows) > 0){
+								for($i=0; $i < count($rows); $i++){
+									$encodedId = $_COMPANY->encodeId($rows[$i]['userid']);
+							?>
+							<tr id="<?= $i+1; ?>">
+								<td>
+									<?= User::BuildProfilePictureImgTag($rows[$i]['firstname'], $rows[$i]['lastname'], $rows[$i]['picture'], 'demo2', 'User Profile Picture') . '&nbsp;&nbsp;<strong>' . $rows[$i]['firstname'] . ' ' . $rows[$i]['lastname'] . '</strong>'; ?>
+								</td>
+								<td><?= $rows[$i]['jobtitle']; ?></td>
+								<?php if ($section == 'zone'){ ?>
+									<td><?= (isset($rows[$i]['manage_budget']) && $rows[$i]['manage_budget']) ? 'Yes' : 'No'; ?></td>
+									<td><?= (isset($rows[$i]['manage_approvers']) && $rows[$i]['manage_approvers']) ? 'Yes' : 'No'; ?></td>
+									<td><?= (isset($rows[$i]['can_view_reports']) && $rows[$i]['can_view_reports']) ? 'Yes' : 'No'; ?></td>
+								<?php } ?>
+
+								<?php $mainadmin = ($rows[$i]['email'] === $_COMPANY->val('email')); ?>
+								<td>
+									<?php if($mainadmin || $rows[$i]['userid'] == $_USER->id()){ ?>
+										<i class="fa fa-trash text-muted left-margin-14" title="Delete" aria-hidden="true"></i>
+									<?php } else { ?>
+										<button aria-label="Delete" class="btn btn-no-style deluser" onclick="removeAdmin(<?=($i+1)?>,'<?=$encodedId;?>','<?=$section==='company'?'company':'zone'?>')" title="<strong>Are you sure to remove!</strong>">
+											<i class="fa fa-trash text-primary" title="Delete" aria-hidden="true"></i>
+										</button>
+									<?php } ?>
+								</td>
+							</tr>
+							<?php } } ?>
+						</tbody>
+					</table>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#muser').DataTable( {
+				"order": [],
+				"bPaginate": true,
+				"bInfo" : true,
+				"columnDefs": [
+                    { targets: [-1], orderable: false }
+                ], 
+				language: {
+					searchPlaceholder: "...",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+				},
+				
+			} );
+		} );
+	</script>

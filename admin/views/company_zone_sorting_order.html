@@ -1,0 +1,67 @@
+<style>
+ .red {
+    color: red !important;
+    font-size: small;
+    margin-top: 3px;
+}
+</style>
+<div class="modal" id="change_zone_order" tabindex="-1" aria-label="<?= gettext('Change zone position');?>">
+    <div class="modal-dialog modal-lg" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" ><?= gettext('Change zone position');?></h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <form id="orderchangeform">                     
+                        
+                        <div class="form-group">
+                            <?= gettext("Current position is ")?><span  id="currentValue"><?= $currentPostion; ?></span>, <?= gettext("update position to: ")?>
+                        <input type="number" autocomplete="off" min="1" max="<?= $maxValue; ?>" class="form-control" id="neworderValue" placeholder="" aria-label="<?= sprintf(gettext('Enter new position value between 1 and %d'), $maxValue); ?>">
+                            <small id="changeOrderHelptext" class="form-text  red"><?= sprintf(gettext('Enter new position value between 1 and %d'), $maxValue); ?></small>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><?= gettext("Cancel"); ?></button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="changeZonePosition('<?= $_COMPANY->encodeIdsInCSV($zoneId);?>','<?= $currentPostion;?>','<?= $maxValue; ?>');"><?= gettext("Change Position"); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function changeZonePosition(zid,currentPostion,maxValue){ 
+           
+    var neworderValue = $("#neworderValue").val();   
+    if (!neworderValue) {
+        swal.fire({title: "<?= gettext('Error');?>",text:"<?= gettext('New position value should not be empty.');?>"});
+        return;
+    }
+    if(parseInt(neworderValue) <1){
+        swal.fire({title: "<?= gettext('Error');?>",text:"<?= gettext('New position value should be greater than 0.');?>"});
+        return;
+    }
+    if(parseInt(neworderValue) > parseInt(maxValue)){        
+        swal.fire({title: "<?= gettext('Error');?>",text:"<?= sprintf(gettext('New position value should not be greater than %s'),$maxValue);?>"});
+        return;        
+    }      
+    
+        $.ajax({
+		url: 'ajax.php?changeZonePosition=1',
+		type: "POST",
+		data: {'zoneid':zid,'newordervalue':neworderValue,'currentPostion':currentPostion},		
+		success: function(data) {   
+            $('#change_zone_order').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();      
+            swal.fire({title: "<?= gettext('Success');?>",text:"<?= gettext('Updated successfully');?>"}).then(function(result) {
+                location.reload();
+            });					
+		}
+	});        
+}
+</script>

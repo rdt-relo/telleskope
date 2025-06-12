@@ -1,0 +1,96 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+<div class="tl-container-offset-lr" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-3">
+                <?php if(isset($_GET['msg'])){?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= $_GET['msg']; ?>  
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>                    
+                    </div>
+                    <?php }?>						
+                <div class="row divider">
+                    <div class="col-md-5">
+                    <h1>Office Locations <a aria-label="Add new office location" class="add-plus-circle-icon text-primary" href="companybranches?add" ><i class="fa fa-plus-circle fs-6" title="Add new office location" aria-hidden="true"></i></a></h1>
+                    </div>
+                    <div class="col-md-5">&nbsp;</div>
+                    <div class="col-md-2 text-md-end">
+                        <a href="ajax?download_officelocations_report" class="btn btn-sm btn-primary">Download Report</a>
+                    </div>
+                </div><hr class="border-1 border-light my-2">
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                    <?= UPDATED; ?>
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                    <?= ADDED; ?>
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php } ?> 
+						
+				<div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="branch-table" class="table display" summary="Company office locations list">
+                            <thead>
+                                <tr>
+                                    <th width="30%" scope="col">Office Name</th>
+                                    <th width="20%" scope="col">Office Type</th>
+                                    <th width="20%" scope="col">Country</th>
+                                    <th width="20%" scope="col">Region</th>
+                                    <th width="10%" scope="col"></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+							</tbody>
+						</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+            var dtable = $('#branch-table').DataTable({
+				serverSide: true,
+				bFilter: true,
+				bInfo : false,
+				bDestroy: true,
+                order: [[ 0, "asc" ]],
+                columnDefs: [ { orderable: false, targets: [4] } ],
+                language: {
+						searchPlaceholder: "Search anything..",
+                        url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+					},
+				ajax:{
+                    url :"ajax.php?getOfficeLocations=1",
+                    type: "POST", 
+                    error: function(data){
+                        $(".table-grid-error").html("");
+                        $("#table-members-server").append('<tbody class="table-grid-error"><tr><th colspan="6">No data found!</th></tr></tbody>');
+                        $("#table-grid_processing").css("display","none");
+                    },complete : function(){
+                        $(".deluser").popConfirm({content: ''});
+                    }
+                },
+
+            });
+
+            $(".dataTables_filter input")
+			.unbind()
+			.bind("input", function(e) {
+				if(this.value.length >= 3 || e.keyCode == 13) {
+					dtable.search(this.value).draw();
+				}
+				if(this.value == "") {
+					dtable.search("").draw();
+				}
+				return;
+			});
+        });
+	</script>

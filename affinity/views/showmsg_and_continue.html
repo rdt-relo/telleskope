@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?=$title?></title>
+
+      <!-- Bootstrap -->
+      <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+      <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+      <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+#test {
+    width: 80%;
+    padding: 10px 10px;
+    background: #fff;
+    border-radius: 5px;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 10%;
+}
+
+.btn-lg, .btn-group-lg > .btn {
+    font-size: 17px;
+}
+.btn {
+    padding: 10px;
+	margin: auto;
+	width: 100px;
+}
+  </style>
+  </head>
+  
+  <body>
+        <div class="container">		
+			<div id="test" class="card card-container wow zoomIn animated">	 
+				<p>&nbsp;</p>
+			<?php if (!empty($showmessage)) { ?>
+				<p style="text-align:center; color:green"><?= $showmessage; ?></p>
+			<?php } ?>
+			<?php if (!empty($showerror)) { ?>
+				<p style="text-align:center; color:red"><?= $showerror; ?></p>
+			<?php } ?>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<a class="btn btn-primary btn-lg btn-block" href="<?= $next_link; ?>" ><?= gettext("Continue"); ?></a>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,234 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<style>
+	.btn-block {
+		background: #418bbb9c;		
+	}
+
+select#multiselect {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+select#multiselect_to {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+	
+</style>
+<div class="container  col-md-offset-2 margin-top">
+	<div class="row">	  
+		<div class="col-md-12">
+			<div class="widget-simple-chart card-box ">
+				<!--div class="col-md-12 latest"><h6>Manage Survey</h6></div-->
+				<div class="col-md-12 divider">
+					<h6><?= $pagetitle; ?>&nbsp;</h6>
+				</div>
+				
+				<p>&nbsp;</p>
+				<div class="clearfix"></div>
+			<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= UPDATED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+				<div id="hidemesage" class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+					<?= ADDED; ?>
+				</div>
+			<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+					<div id="hidemesage" class="alert alert-danger alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+						<?= ERROR; ?>
+					</div>
+			<?php } ?>
+						
+                    
+            <div class="col-md-12">
+                <div class="container w4">
+                    <div class="col-md-12 discu-pad">  
+                        <div class="container">
+                            <form class="form-horizontal" id="newChapter" method="post" action="" >
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                <div class="form-group">
+                                    <label class="control-lable col-sm-2" ><?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Name <span style="color:red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="chapter_name" name="chapter_name" value="<?= $chapterid > 0 ? $edit['chaptername'] : ''; ?>" placeholder="<?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Name" maxlength="34" required>
+                                    </div>
+                                </div>
+                                        
+                                <div class="form-group">
+                                    <label class="control-lable col-sm-2" ><?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Colour</label>
+                                    <div  id="cp2" class="col-sm-10 input-group colorpicker-component ">
+                                         <input type="text"  id="chapter_color" class="form-control" name="chapter_color" value="<?= $chapterid > 0 ? $edit['colour'] : '#000'; ?> "  required /><span class="input-group-addon"><i></i></span>
+                                    </div>
+                                </div>  
+
+<?php if (0) { /* Disabling the ability to modify chapter description from Admin section */?>
+                                <div class="form-group">
+                                    <label class="control-lable col-sm-2" ><?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Description</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="about_chapter" id="redactor_content" placeholder="<?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Description"  ><?= $chapterid > 0 ? $edit['about'] : ''; ?></textarea>
+                                    </div>
+								</div>
+<?php } ?>
+                                <div class="form-group" >
+									<label class="control-lable col-sm-2">Office Location</label>
+									<div class="col-lg-10">
+										<div class="row">
+											<div class="col-sm-5">Locations in <?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> Region</div>
+											<div class="col-sm-2"></div>
+											<div class="col-sm-5">Locations assigned to <?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?> </div>
+											<div class="col-sm-5">
+												<!-- Left search filter input -->
+        <input type="text" id="leftSearchFilter" class="form-control" placeholder="Search...">
+												<select id="multiselect" class="form-control" size="20" multiple="multiple">
+													<?php if (count($branches)>0){ ?>
+														<?php for($i=0;$i<count($branches);$i++){ 
+															$disabled = 'disabled';
+															?>
+													<?php	if(isset($_GET['cid'])){
+																if ($branches[$i]['alreadyUsed'] == $edit['chapterid']){
+																	$disabled = '';
+																}
+																
+																if(in_array($branches[$i]['branchid'],explode(',',$edit['branchids']))){
+																	$sel = "selected";
+																}else{
+																	$sel = "";
+																}
+															}else{ 
+																$sel = "";
+															} ?>
+															<option value="<?=$_COMPANY->encodeId($branches[$i]['branchid'])?>" <?= $branches[$i]['alreadyUsed'] > 0 ? $disabled : '' ?> <?= $sel; ?>><?=htmlspecialchars($branches[$i]['branchname']) ?> (<?= htmlspecialchars(trim(str_replace(',,',',',($branches[$i]['city'].','.$branches[$i]['state'].','.$branches[$i]['country'])),',')) ?>)</option>
+															
+													<?php	} ?>
+													<?php }else{ ?>
+															<option value="0">No office locations</option>									
+													<?php } ?>
+												</select>
+											</div>
+									
+											<div class="col-sm-2 multiselect_action ">
+												<br>
+												<br>
+												<button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+												<button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+											
+											</div>
+									
+											<div class="col-sm-5">
+												<!-- Right search filter input -->
+        <input type="text" id="rightSearchFilter" class="form-control" placeholder="Search...">
+												<select  name="branchids[]" id="multiselect_to" class="form-control" size="20" multiple="multiple"></select>
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+
+                                <?php if ($_COMPANY->getAppCustomization()['event']['calendar_loc_filter']) { ?>
+								<div class="form-group">
+                                    <label class="control-lable col-sm-2" >Virtual&nbsp;Events&nbsp;Location</label>
+                                    <div  class="col-sm-10 input-group">
+                                        <input type="text"  id="autocomplete" class="form-control" name="virtual_event_location" value="<?= $chapterid > 0 ? htmlspecialchars($edit['virtual_event_location']) : ''; ?>" placeholder="Enter a address that is central to all office locations in the <?= $_COMPANY->getAppCustomization()['chapter']["name-short"]?>" required />
+										<input type="hidden" id="latitude" name="latitude" value="<?= $chapterid > 0 ? $edit['latitude'] : '0'; ?>">
+										<input type="hidden" id="longitude" name="longitude" value="<?= $chapterid > 0 ? $edit['longitude'] : '0'; ?>">
+                                    </div>
+                                </div> 
+                                <?php } ?>
+
+							    <div class="form-group">
+                                    <div class="col-sm-6" style="float:right;">
+                                        <input type="submit"  class="btn btn-primary" name="submit" value="Save" />
+                                        <a  class="btn btn-primary" href="manageChapters?gid=<?=$_COMPANY->encodeId($groupid)?>"  >Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+	</div>								
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/js/bootstrap-colorpicker.min.js"></script>
+<script type="text/javascript" src="js/custom_multi_select.js"></script>
+
+<!-- Updated Select2 initialization code with left-side search filter -->
+<script>
+    jQuery(document).ready(function ($) {
+		$("#multiselect_rightSelected").trigger('click');
+		
+        // Add the search filter functionality for the left side
+        $("#leftSearchFilter").on('input', function () {
+			// sorting the options 
+            var searchTerm = $(this).val().toUpperCase();
+			$("#multiselect option").sort(function (a, b){
+				var aText = $(a).text().toUpperCase();
+				var bText = $(b).text().toUpperCase();
+
+				var aIndex = aText.indexOf(searchTerm);
+				var bIndex = bText.indexOf(searchTerm);
+				if(aIndex !== bIndex){
+					return bIndex - aIndex;
+				}
+
+				return aText.localeCompare(bText);
+			}).appendTo("#multiselect");
+			
+            $("#multiselect option").each(function () {
+                var optionText = $(this).text().toUpperCase();
+                $(this).toggle(optionText.indexOf(searchTerm) > -1);
+            });
+        });
+
+		// Add the search filter functionality for the Right side
+		$("#rightSearchFilter").on('input', function () {
+			// sorting the options 
+            var searchTerm = $(this).val().toUpperCase();
+			$("#multiselect_to option").sort(function (a, b){
+				var aText = $(a).text().toUpperCase();
+				var bText = $(b).text().toUpperCase();
+				var aIndex = aText.indexOf(searchTerm);
+				var bIndex = bText.indexOf(searchTerm);
+
+				if(aIndex !== bIndex){
+					return bIndex - aIndex;
+				}
+
+				return aText.localeCompare(bText);
+			}).appendTo("#multiselect_to");
+            $("#multiselect_to option").each(function () {
+                var optionText = $(this).text().toUpperCase();
+                $(this).toggle(optionText.indexOf(searchTerm) > -1);
+            });
+        });
+    });
+</script>
+<script>
+	$(function() { $('#cp2').colorpicker({format: 'rgb'});});	
+</script>
+<script>
+	function initAutocomplete() {
+        var input = document.getElementById('autocomplete');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('latitude').value = place.geometry.location.lat();
+            document.getElementById('longitude').value = place.geometry.location.lng();
+        });
+    }
+</script>
+
+<?php if ($_COMPANY->getAppCustomization()['plugins']['google_maps']) { ?>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<?=GOOGLE_MAPS_API_KEY?>&libraries=places&callback=initAutocomplete&loading=async" defer></script>
+<?php } ?>
+
+
+

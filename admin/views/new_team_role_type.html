@@ -1,0 +1,224 @@
+    <style>
+        .redactor-box {
+            border: 1px solid rgb(212, 212, 212);
+            padding: 10px;
+        }
+    </style>
+	<div class="container col-md-offset-2 margin-top">
+		<div class="row">              
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box">
+					<div class="col-md-12 divider"><h6><?= $pagetitle; ?></h6></div>
+						<form class="form-horizontal" method="post" action="">
+							<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+							<div class="form-group">
+								<label for="inputEmail" class="col-lg-12 control-label"><?=$_COMPANY->getAppCustomization()['teams']['name']?> Role type : <span style="color:red;"> *</span></label>
+								<div class="col-lg-12">
+									<input class="form-control" placeholder="<?=$_COMPANY->getAppCustomization()['teams']['name']?> Role Type" name="type"  type="text" value="<?= $edit ? $edit['type'] : ''; ?>" required>
+								</div>
+							</div>
+                            <div class="form-group">
+                                <div class="form-check ml-3">
+                                    <input type="checkbox" name="hide_on_request_to_join" value="1" class="form-check-input" id="hide_on_request_to_join" <?= $edit && $edit['hide_on_request_to_join'] ? 'checked' : ''; ?>>
+                                    <label class="form-check-label">Hide this role on request to join popup?</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-check ml-3">
+                                    <input type="checkbox" name="allow_matches_within_role" value="1" class="form-check-input" id="allow_matches_within_role" <?= $edit && $edit['allow_matches_within_role'] ? 'checked' : ''; ?>>
+                                    <label class="form-check-label">Allow matches within this role</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="inputScope" class="col-lg-12 control-label">System Role Type :<span style="color:red;"> *</span></label>
+                                <div class="col-lg-12">
+                                    <select class="form-control" name="sys_team_role_type" id="sys_team_role_type" required>
+                                       <option value="">Select a system role type</option>
+                                    <?php foreach(Team::SYS_TEAMROLE_TYPES as $key=>$value){ 
+                                        $sel = '';
+                                        if ($edit && $edit['sys_team_role_type'] == $key){
+                                            $sel = 'selected';
+                                        }
+                                    ?>
+                                    <?php if ($group->getTeamProgramType() != Team::TEAM_PROGRAM_TYPE['INDIVIDUAL_DEV']){
+                                        if ($key == 0 || $key == 4){ 
+                                            continue;
+                                        }    
+                                    ?>
+                                        <option value="<?= $_COMPANY->encodeId($key);?>" <?= $sel; ?>><?= $value; ?></option>
+                                    <?php } else { ?>
+                                        <?php if($key == 4){ ?>
+                                            <option value="<?= $_COMPANY->encodeId($key);?>" <?= $sel; ?>><?= $value; ?></option>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-12" for="comment">Email Subject (Response to Join Request):</label>
+                                <div class="col-lg-12">
+                                    <input class="form-control" name="joinrequest_email_subject" placeholder="Your request to join <?=$group->val('groupname_short')?> for <?=$edit['type']?> role has been received" value="<?= !empty($edit['joinrequest_email_subject']) ? htmlspecialchars($edit['joinrequest_email_subject']) : '' ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-12" for="comment">Email Template (Response to Join Request):</label>
+                                <div id="post-inner" class="col-lg-12">
+                                    <textarea class="form-control" name="joinrequest_message" rows="10" id="redactor_content_request_email" maxlength="8000" placeholder="You can customize the email message that will be sent out when someone requests to join this role."><?= !empty($edit['joinrequest_message']) ? htmlspecialchars($edit['joinrequest_message']) : ''; ?></textarea>
+                                    <p>Note: You can use the following variables: [[PERSON_NAME]] which will be replaced by actual values when sending out the emails.</p>
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label col-lg-12" for="comment">Email Subject (On <?=$_COMPANY->getAppCustomization()['teams']['name']?> Activation):</label>
+                                <div class="col-lg-12">
+                                    <input class="form-control" name="welcome_email_subject" placeholder="Welcome email subject here" value="<?= !empty($edit['welcome_email_subject']) ? $edit['welcome_email_subject'] : 'Your '.$group->val('groupname_short').' '.$_COMPANY->getAppCustomization()['teams']['name'].' is now Active' ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-12" for="comment">Email Template (On <?=$_COMPANY->getAppCustomization()['teams']['name']?> Activation)</label>
+                                <div id="post-inner" class="col-lg-12">
+                                    <textarea class="form-control" name="welcome_message" rows="10" id="redactor_content_welcome_email" maxlength="8000" placeholder="Welcome message here"><?= $edit ? htmlspecialchars($edit['welcome_message']) : ''; ?></textarea>
+                                    <p>Note: You can use the following variables: [[UPCOMING_TOUCHPOINTS]], [[UPCOMING_ACTION_ITEMS]] which will be replaced by actual values when sending out the emails.</p>
+                                </div>
+                            </div>
+                        <?php if ($group->getTeamProgramType() != Team::TEAM_PROGRAM_TYPE['INDIVIDUAL_DEV']){ ?>
+                            <div class="form-group">
+                                <label for="inputScope" class="col-lg-12 control-label">Member count restrictions : This section lets you set the minimum number of members of this role that are required to start a <?=$_COMPANY->getAppCustomization()['teams']['name']?> and a maximum number of members of this role that can be added to the <?=$_COMPANY->getAppCustomization()['teams']['name']?>.</label>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-lg-2 control-label">Minimum Required :<span style="color:red;"> *</span></label>
+                                        <div class="col-lg-1">
+                                            <input class="form-control text-left" placeholder="Minimum Members Required" name="min_required"  type="number" min="0" value="<?= $edit ? $edit['min_required'] : '0'; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-lg-2 control-label">Maximum Allowed :<span style="color:red;"> *</span></label>
+                                        <div class="col-lg-1">
+                                            <input class="form-control" placeholder="Maximum Members Allowed" min="1" name="max_allowed"  type="number" value="<?= $edit ? $edit['max_allowed'] : '1'; ?>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputScope" class="col-lg-12 control-label">Role Capacity : This section lets you set the maximum role capacity that should be allowed when user is given an option to select their role capacity, e.g. if you want Mentors to mentor at most 3 <?=$_COMPANY->getAppCustomization()['teams']['name'] ?>s then set this value to 3 for the mentors.</label>
+                                <div class="col-lg-12">
+                                    <div class="form-group" id="role_capacity_input" >
+                                        <label for="inputEmail" class="col-lg-2 control-label">Maximum Capacity :<span style="color:red;"> * </span></label>
+                                        <div class="col-lg-1">
+                                            <select class="form-control" name="role_capacity" style="width:80px;" >
+                                                <?php
+                                                foreach([1,2,3,4,5,6,7,8,9,10] as $item){
+                                                    $sel = ($edit && !empty($edit['role_capacity']) && $item == $edit['role_capacity']) ? 'selected' : '';
+                                                ?>
+                                                <option value="<?= $item ;?>" <?= $sel; ?>><?= $item ;?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputScope" class="col-lg-12 control-label">Registration Window : This section allows you to set the registration start and end dates. Users will be allowed to sign up only during the time period between registration start and end dates.</label>
+                                <div class="col-lg-12">
+
+                                    <div class="form-group">
+                                        <label for="inputScope" class="col-lg-2 control-label">Start Date:</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" value="<?= $edit ? $edit['registration_start_date'] : '';?>" class="form-control" id="start_date" name="registration_start_date" readonly placeholder="YYYY-MM-DD">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputScope" class="col-lg-2 control-label">End Date:</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" value="<?= $edit ? $edit['registration_end_date'] : '';?>"  class="form-control" id="end_date" name="registration_end_date" readonly placeholder="YYYY-MM-DD">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputScope" class="col-lg-12 control-label">Restricted to :  This section allows you to set the guard rails restricting sign up only to the users that match the criteria specified below.</label>
+                                <div class="col-lg-12">
+                                <?php foreach($catalog_categories as $category){ ?>
+                                    <div class="form-group">
+                                        <label for="inputScope" class="col-lg-2 control-label"><?= $category; ?></label>
+                                        <div class="col-lg-5">
+                                            <select class="form-control" name="<?= $category; ?>" id="<?= $category; ?>" onchange="showHideCategoryKeys(this.value,'<?= $category; ?>')">
+                                                <option value="0">Ignore</option>
+                                                <option value="1" <?= !empty($editRestrictions) && $editRestrictions[$category]['type'] == 1 ? 'selected' : ''; ?> >In</option>
+                                                <option value="2" <?= !empty($editRestrictions) && $editRestrictions[$category]['type'] == 2 ? 'selected' : ''; ?>>Not In</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <select class="form-control multi_select" name="<?= $category; ?>_val[]" id="<?= $category; ?>_val" multiple="multiple" style="width:100%;" >
+                                                <option value="">Select a value</option>
+                                                <?php foreach(UserCatalog::GetAllCategoryKeys($category) as $key){ 
+                                                    $sel = '';
+                                                    if ($edit && !empty($editRestrictions[$category]) && in_array($key,$editRestrictions[$category]['keys'])){
+                                                        $sel = 'selected';
+                                                    }
+                                                ?>
+                                                <option value="<?= $key ;?>" <?= $sel; ?>><?= $key ;?></option>
+                                            <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                </div>
+                            </div>
+
+                        <?php } else { ?>
+                            <input name="min_required" type="hidden" value="1">
+                            <input name="max_allowed" type="hidden" value="1">
+                        <?php } ?>
+                        
+                        	<div class="form-group">
+								<div class="col-lg-12 text-center pt-5">
+									<a href="manage_team_contents?groupid=<?= $_COMPANY->encodeId($groupid); ?>&s=1" onclick="goBack()" class="btn btn-primary">Cancel</a>
+									<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+								</div>
+							</div>
+						</form>
+		
+				</div>	
+			</div>
+		</div>
+	</div>
+    
+    <script>
+        $(document).ready(function(){
+            $('#redactor_content_request_email').initRedactor('redactor_content_request_email','teamtasks',['counter']);
+            $('#redactor_content_welcome_email').initRedactor('redactor_content_welcome_email','teamtasks',['counter']);
+
+            $('.multi_select').select2(
+                {
+                    placeholder: "Select or search options",
+                    maximumSelectionLength: 5
+                }
+            );
+        });
+
+        function showHideCategoryKeys(v,c){
+            if (v){
+                $('#'+c+'_div').show();
+            }else{
+                $('#'+c+'_div').hide();
+            }
+        }
+
+        <?php if($error){ ?>
+            swal.fire({title: 'Error',text:"<?= $error; ?>"}).then(function(result) {
+                goBack();
+            });
+        <?php } ?>
+    </script>
+
+</body>
+</html>

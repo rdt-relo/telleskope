@@ -1,0 +1,126 @@
+<style>
+    .gray{
+        color: gray !important;
+    }
+</style>
+<div id="new_leadType" class="modal fade" role="dialog" aria-label="<?= gettext("$pageTitle"); ?>">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><?= $pageTitle; ?></h4>
+                <button type="button" aria-label="close" class="close" data-dismiss="modal">&times;</button>							
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form class="form-horizontal pl-3 pr-3" id="leadTypeForm">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <input type="hidden" name="typeid" value="<?= $leadType ? $_COMPANY->encodeId($leadType['typeid']) : $_COMPANY->encodeId(0); ?>">
+                        <div class="form-group">
+                            <label class="control-label col-lg-12">Leader Type<span style="color: #ff0000;"> *</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" id="lead-type" name="type" value="<?= $leadType ? htmlspecialchars($leadType['type']) : ''; ?>" required class="form-control" placeholder="Leader Type" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">System Lead Type<span style="color: #ff0000;"> *</span></label>
+                            <div class="col-lg-12" >
+                                <select class="form-control" onchange="selectedSysLead(this.value)" id="sys-lead-type" name="sys_leadtype" required <?= $leadType ? 'disabled' : ''; ?>>
+                                    <option value="">Select an option</option>
+                            <?php 	foreach ($sys_lead_types as $k => $v){
+                                $sel = "";
+                                if($leadType && $leadType['sys_leadtype'] == $k){
+                                    $sel = "selected";
+                                }
+                                ?>
+                                    <option value="<?= $k ?>" <?= $sel;?>>
+                                        <?= $v ?>
+                                    </option>
+                            <?php	} ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label mb-1">Permissions</label>
+                            <div class="checkbox col-lg-12 allowcontent">
+                                <label id="all_create_content_label"><input type="checkbox" class="contentcheckbox" name="allow_create_content" value="1" <?= $leadType && $leadType['allow_create_content']==1 ? 'checked' : ''; ?>>Create Content</label>
+                            </div>
+                            <div class="checkbox col-lg-12 allowcontent">
+                                <label id="all_publish_content_label"><input type="checkbox" class="contentcheckbox" name="allow_publish_content"  value="1" <?= $leadType && $leadType['allow_publish_content']==1 ? 'checked' : ''; ?>>Publish Content</label>
+                            </div>
+                            <div class="checkbox col-lg-12 allowcontent">
+                                <label id="all_manage_label"><input type="checkbox" class="contentcheckbox" name="allow_manage" value="1" <?= $leadType && $leadType['allow_manage']==1 ? 'checked' : ''; ?>>Manage</label>
+                            </div>
+                            <div class="checkbox col-lg-12 allowcontent">
+                              <label id="all_manage_grant_label"><input type="checkbox" class="contentcheckbox"  name="allow_manage_grant" value="1" <?= $leadType && $leadType['allow_manage_grant'] == 1 ? 'checked' : ''; ?>>Grant Role</label>
+                            </div>
+                            <div class="checkbox col-lg-12 allowcontent">
+                                <label id="all_manage_budget_label" class="manage-budget-label"><input type="checkbox" class="contentcheckbox" id="budget-manage-toggle" name="allow_manage_budget" value="1" <?= $leadType && $leadType['allow_manage_budget']==1 ? 'checked' : ''; ?>>Manage Budget</label>
+                            </div>
+                            <?php if ($_COMPANY->getAppCustomization()['booking']['enabled']) { ?>
+                            <div class="checkbox col-lg-12 allowcontent">
+                                <label id="all_manage_support_label" class="manage-support-label"><input type="checkbox" class="contentcheckbox" id="allow_manage_support-toggle" name="allow_manage_support" value="1" <?= $leadType && $leadType['allow_manage_support']==1 ? 'checked' : ''; ?>>Support</label>
+                            </div>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Welcome Email Message</label>
+                            <div class="col-lg-12">
+                            <textarea class="form-control" name="welcome_message" rows="6" id="redactor_content" required maxlength="4000" placeholder="Add welcome message..."><?= $leadType ? htmlspecialchars($leadType['welcome_message']) : ""; ?></textarea>
+                            <small> Note : Welcome email will be sent when this role is assigned to a user.<small>
+                            </div>
+                        </div>
+
+                        <div class="checkbox col-lg-12 mb-3" id="show_on_aboutus">
+                            <label><input type="checkbox" name="show_on_aboutus" value="1" <?= ($leadType && $leadType['show_on_aboutus']==1)||(!$leadType) ? 'checked' : ''; ?>> Show on About Us Page</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-5 control-label"></label>
+                            <div class="col-lg-6">
+                                <button type="button" onclick="addOrUpdateLeadType()" class="btn btn-primary">Submit Data</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#redactor_content').initRedactor('redactor_content', 'zone',['counter']);
+    });
+</script>
+<script>
+        // getting selected value of lead type
+        var currentLeadType = document.getElementById("sys-lead-type").value;
+        if(currentLeadType == 5){
+            // disable checkbox manage budget if channel lead
+            document.getElementById("budget-manage-toggle").disabled= true;
+            // Uncheck checkbox manage budget if selected previously
+            document.getElementById('budget-manage-toggle').checked= false;
+            // chancge label color
+            $(".manage-budget-label").addClass("gray");
+        }
+</script>
+<script>
+    $(document).ready(function(){
+    $('.contentcheckbox').change(function(){
+        if ($("input[name='allow_publish_content']").prop('checked')) {
+            $("input[name='allow_create_content']").prop('checked', true);
+            $("#all_create_content_label").css("color","darkgray");
+        } else {
+            $("#all_create_content_label").css("color","");
+        }
+
+        if ($("input[name='allow_manage_grant']").prop('checked')) {
+            $("input[name='allow_manage']").prop('checked', true);
+            $("#all_manage_label").css("color","darkgray");
+        } else {
+            $("#all_manage_label").css("color","");
+        }
+    });
+});
+</script>

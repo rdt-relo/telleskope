@@ -1,0 +1,164 @@
+ <!-- Only if tasks are enabled, show the details of topic -->
+ <div class="col-md-12" id="topicDetails">
+
+                        <div class="accordion" id="topicDetailAccordion">
+
+    <div class="accordion-item">
+        <h4 class="accordion-header">
+            <button class="btn btn-link btn-accordion" type="button" data-toggle="collapse" data-target="#topic-collapse-1" aria-expanded="false" aria-controls="topic-collapse-1">
+                <i class="fas fa-chevron-right"></i> <?= gettext($topicTypeLabel." Details"); ?>
+            </button>
+        </h4>
+    </div>
+                            <div id="topic-collapse-1" class="collapse" aria-labelledby="topic-heading-1" data-parent="#topicDetailAccordion">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul>
+                        <li><strong><?=gettext($topicTypeLabel." Title")?>: </strong> <?= $topicTypeObj->getTopicTitle(); ?></li>
+                        <?php
+                        $topicGroupName = ($topicTypeObj->val('collaborating_groupids')) ? $topicTypeObj->getFormatedEventCollaboratedGroupsOrChapters() : Group::GetGroupName($topicTypeObj->val('groupid'));
+                         ?>
+                        <li><strong><?= sprintf(gettext("%s Name"), $_COMPANY->getAppCustomization()['group']["name-short"]) ?>: </strong><span><?= $topicGroupName ?></span></li>
+                         <?php if($topicTypeObj->val('listids') != 0 ){ ?>
+                        <li><strong><?= gettext("Dynamic List") ?>: </strong><span><?= DynamicList::GetFormatedListNameByListids($topicTypeObj->val('listids')) ?></span></li>
+                        <?php } ?>
+                        <li><strong><?=gettext($topicTypeLabel." Status")?>: </strong> <?= $topicTypeObj->val('isactive') == 1 ? 'Published' : 'Not Published'; ?> </li>
+                        <?php if(!empty($topicChapterName)){ ?>
+                        <li><strong><?= sprintf(gettext("%s Name"), $_COMPANY->getAppCustomization()['chapter']["name-short"]) ?>: </strong> <span><?= $topicChapterName ?></span></li>
+                        <?php } ?>
+                        <?php if(!empty($topicChannelName)){ ?>
+                        <li><strong><?= sprintf(gettext("%s Name"), $_COMPANY->getAppCustomization()['channel']["name-short"]) ?>: </strong> <span><?= $topicChannelName ?></span></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <?php if($topicType == Teleskope::TOPIC_TYPES['EVENT']){ ?>
+                    <ul>
+                        <li><strong><?=gettext($topicTypeLabel." Start")?>: </strong><?= $_USER->formatUTCDatetimeForDisplayInLocalTimezone($topicTypeObj->val('start'),true,true,true) ?>  </li>
+                        <li><strong><?=gettext($topicTypeLabel." End")?>: </strong><?= $_USER->formatUTCDatetimeForDisplayInLocalTimezone($topicTypeObj->val('end'),true,true,true) ?>  </li>
+                    </ul>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="col-md-12">
+<div class="table-responsive " id="list-view">
+<!-- Bulk selector -->
+<div class="statusSelectorBox">
+<select name="bulkStatusSelection" id="bulkStatusSelection" class="form-control">
+    <option value=""><?= gettext('Select Action');?></option>
+
+    <?php foreach($availableSatuses as $key => $status) {?>
+        <option id="status-<?= $key ?>" value="<?= $key ?>">
+            <?= sprintf(gettext("Mark as %s"), ucfirst($status)) ?>
+        </option>
+    <?php } ?>
+
+</select>
+</div>
+  <!-- Fetch and show approval tasks for the stage here -->
+  <table id="approvalTasks" style="width:100%;" class="stripe row-border order-column" summary="This table displays the list of approval tasks">
+    <thead>
+        <tr>
+            <th></th>
+            <th width="20%" scope="col"><?=gettext("Task Name");?></th>
+            <th width="20%" scope="col"><?=gettext("Task Assigned to");?></th>
+            <th width="20%" scope="col"><?=gettext("Task Attachments");?></th>
+            <th width="15%" scope="col"><?=gettext("Is Required");?></th>
+            <th width="15%" scope="col"><?=gettext("Task Status");?></th>
+            <th width="10%" scope="col"><?=gettext("Actions");?></th>
+        </tr>
+    </thead>
+    <tbody>
+<?php
+        $totalFields = count($allTasks);
+        for($i=0;$i<$totalFields;$i++){
+            $encodedId = $_COMPANY->encodeId($allTasks[$i]['approval_config_taskid']);
+
+    // task assigned to
+        $assignedUser = $allTasks[$i]['assigned_to'] ? User::GetUser($allTasks[$i]['assigned_to']) : '';
+        $assigned_user_name = $assignedUser ? $assignedUser->getFullName() : 'Not Assigned';
+        $assigned_user_email = $assignedUser ? $assignedUser->val('email') : '';
+        $assigned_user_label = $assigned_user_name . ($assigned_user_email ? " ({$assigned_user_email})" : '');
+        $taskStatus = $allTasks[$i]['approval_status'] ?? 'not started';
+        $taskStatusLabel = TopicApprovalTask::TOPIC_APPROVAL_STATUS[$allTasks[$i]['approval_status']] ?? 'Not Started';
+        ?>
+        <tr id="<?= $encodedId ?>" data-isrequired="<?= $allTasks[$i]['isrequired'] ?>">
+            <td></td>
+            <td><?= htmlspecialchars($allTasks[$i]['approval_task_name']); ?></td>
+            <td>
+                <span id="task-assignee-<?=$encodedId; ?>"><?= $assigned_user_label ?></span>
+            <a href="#" class="edit-assignee" data-task-id="<?= $encodedId; ?>"> Edit</a>
+            <!-- Dropdown selector for asignees -->
+            <div class="assignee-dropdown-wrapper d-none" id="assigneeDropdownWrapper-<?= $encodedId ?>">
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdwon-toggle" type="button" data-toggle="dropdown" id="assigneeDropdown-<?= $encodedId ?>" aria-haspopup="true"><?=gettext('Select an Assignee')?></button>
+                <div class="dropdown-menu" style="z-index: 9999;">
+                <?php foreach($allAssignees as $assigneeId){
+                    $assigneesData = User::GetUser($assigneeId);
+                    $assignee_user_name = $assigneesData ? $assigneesData->getFullName() : '';
+                    $assignee_user_email = $assigneesData ? $assigneesData->val('email') : '';
+                    ?>
+                    <a href="#" class="dropdown-item assignee-option" data-task-id="<?= $encodedId ?>" data-assignee-id="<?= $assigneeId ?>"><?= $assignee_user_name .'('. $assignee_user_email.')' ?></a>
+                <?php } ?>
+                </div>
+            </div>
+
+            </div>
+            </td>
+
+            <td>
+                <?php if($allTasks[$i]['approval_taskid']){?>
+                    <?= (TopicApprovalTask::Hydrate($allTasks[$i]['approval_taskid'], $allTasks[$i]))->renderAttachmentsComponent('v28');
+                    ?>
+                <?php }else{?>
+                    <?= TopicApprovalTask::CreateEphemeralTopic()->renderAttachmentsComponent('v28') ?>
+                <?php } ?>
+
+            </td>
+
+            <td>
+                Approval: <?=$allTasks[$i]['isrequired'] ? 'Yes' : 'No'?>
+                <br>
+                Proof: <?=$allTasks[$i]['proof_isrequired'] ? 'Yes' : 'No'?>
+            </td>
+
+            <td id="task-status-<?= $encodedId ?>">
+                <?= htmlspecialchars(ucfirst($taskStatusLabel)); ?>
+            </td>
+            <td>
+                <div class="dropdown" id="statusCheckboxes" data-task-id="<?= $encodedId ?>">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= gettext('Change task status');?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <?php foreach($availableSatuses as $key => $status) {?>
+                                <label for="status-<?= $key.'-'.$encodedId ?>" class="dropdown-item radio-label">
+                                    <input type="radio" class="status-checkbox" name="status-<?= $key.'-'.$encodedId ?>" data-text="<?= ucfirst($status) ?>" id="status-<?= $key.'-'.$encodedId ?>" value="<?= $key ?>" <?= ($key == $taskStatus) ? 'checked disabled' : '' ?>> <?= ucfirst($status) ?>
+                                </label>
+                        <?php } ?>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+<?php	} ?>
+
+
+    </tbody>
+</table>
+
+
+  <!-- Tasks ends here -->
+</div>
+</div>
+<div class="text-center">
+<button id="approveButton" class="btn btn-primary">Approve</button>
+<button id="denyButton" class="btn btn-primary">Deny</button>
+</div>

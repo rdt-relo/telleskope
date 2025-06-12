@@ -1,0 +1,512 @@
+<style>
+      pre {
+        all: initial;
+        all: unset;
+         background: #edf0f5;
+
+    }
+    .widget-simple-chart.card-box tr:nth-child(even) {
+        background-color: #efefef;
+    }
+    .widget-simple-chart.card-box tr:nth-child(odd) {
+        background-color: #dedede;
+    }
+
+    .widget-simple-chart.card-box  th {
+        font-size: initial;
+        font-style: normal;
+    }
+    .widget-simple-chart.card-box  th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 5px;
+        font-size: 14px;
+        text-align: left;
+        color: #404040;
+    }
+    .widget-simple-chart.card-box  pre {
+        line-height: inherit;
+        padding: revert;
+        font-family: revert;
+    }
+    .widget-simple-chart.card-box  hr {
+        margin:3px;
+        padding:0;
+    }
+    .widget-simple-chart.card-box   h3 {
+        text-align: center;
+    }
+    .widget-simple-chart.card-box  tr.spaceUnder>td {
+        padding: 2em 0;
+    }
+</style>
+    <form action="user_check" method="post">
+    <div class="container-offset-lr mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget-simple-chart card p-3">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h1>User Lookup:</h1>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p></p>
+                    <div class="row">
+
+                            <div class="col-md-4">
+                                <input class="form-control bg-light-subtle" type="text" id="user_search" name="user_search" value="<?=(isset($_POST) && isset($_POST['user_search']))? $_POST['user_search'] : ''; ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select bg-light-subtle" name="search_by">
+                                    <?php foreach (array('search_by_email', 'search_by_externalid','search_by_aad_oid', 'search_by_externalname','search_by_userid','search_by_external_email') as $sb) { ?>
+                                        <option value="<?=$sb?>" <?=($sb == $search_by) ? "selected":"" ?>><?=$sb ?> </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <p></p>
+
+            <?php if (isset($_COMPANY) && isset($searched_user)) { ?>
+
+    <div class="col-md-12">
+        <div style="margin:10px;">
+        <h4>User Details</h4>
+        <table style="width:100%; border: 2px solid black;" summary="This table shows the user profile data">
+            <tr style="font-weight: bold;border-top: 2px solid black; border-bottom: 2px solid black;">
+                <th style="width: 10%;">Profile Picture</th>
+                <th style="width: 25%;">Identifiers</th>
+                <th style="width: 25%;">Profile</th>
+                <th style="width: 20%;">Other</th>
+                <th style="width: 20%;">Permissions Summary</th>
+            </tr>
+            <tr style="line-height: 1.3em;">
+                <td>
+                    <img style="max-width: 100px;" src="<?= $searched_user->val('picture'); ?>" alt="User profile picture">
+                </td>
+                <td>
+                    <?php
+                        $b= $_SUPER_ADMIN->super_get("SELECT companybranches.regionid,branchname,region FROM companybranches LEFT JOIN regions r on companybranches.regionid = r.regionid WHERE branchid='{$searched_user->val('homeoffice')}'");
+                    if (empty($b)) {
+                        $b = array('regionid'=>'0', 'branchname'=>'not set', 'region'=>'not set');
+                    } else {
+                        $b = $b[0];
+                    }
+                    ?>
+
+                    <br>companyid = [<?=$searched_user->val('companyid')?>]
+                    <br>userid = [<?=$searched_user->val('userid')?>]
+                    <br>email = [<?=$_COMPANY->isValidAndRoutableEmail($searched_user->val('email')) ? $searched_user->val('email') : '<span style="color:red;">'.$searched_user->val('email').'</span>' ?>]
+                    <br>email_hash = [<?=Str::GetStringAfterCharacter($_COMPANY->getEmailMask($searched_user->val('email')), '/');?>]
+
+                    <br>aad_oid = [<?=$searched_user->val('aad_oid') ?: '<span style="color:red;">-not-set-</span>' ?>] <?= ($searched_user->val('aad_oid')) ? '<a class="confirm" title="Are you sure you want to remove the aad_oid id? " href="javascript:resetAadOid()">reset</a>' : '' ?>
+
+                    <br>externalid = [<?=$searched_user->getExternalId() ?: '<span style="color:red;">-not-set-</span>' ?>] <?= ($searched_user->getExternalId() && $_COMPANY->isValidAndRoutableEmail($searched_user->val('email'))) ? '<a class="confirm" title="Are you sure you want to remove the external id? " href="javascript:resetExternalId()">reset</a>' : '' ?>
+                    <br>externalusername = [<?=$searched_user->val('externalusername')?>]
+                    <br>externalemail = [<?=$searched_user->val('external_email')?>]
+                </td>
+                <td>
+                    <br>firstname = [<?=$searched_user->val('firstname')?>]
+                    <br>lastname = [<?=$searched_user->val('lastname')?>]
+                    <br>jobtitle = [<?=$searched_user->val('jobtitle')?>]
+                    <br>language = [<?=$searched_user->val('language')?>]
+                    <br>timezone = [<?=$searched_user->val('timezone')?>]
+                    <br>homeoffice = <?=$b['branchname']?> [<?=$searched_user->val('homeoffice')?>]
+                    <br>region =  <?=$b['region']?>[<?= $b['regionid']?>]
+                    <br>user_managed_profile = [<?=$searched_user->val('user_managed_profile')?>]
+                    <br>zoneids = [<?=$searched_user->val('zoneids')?>]
+                    <br>accounttype = [<?=$searched_user->val('accounttype')?>]
+                    <br>externalroles = [<?=$searched_user->val('externalroles')?>]
+                </td>
+                <td>
+                    <br>createdon = [<?=$searched_user->val('createdon')?>]
+                    <br>modified = [<?=$searched_user->val('modified')?>]
+                    <br>validatedon = [<?=$searched_user->val('validatedon')?>]
+                    <br>policy_accepted_on = [<?=$searched_user->val('policy_accepted_on')?>]
+                    <br>last logins =
+                    <span style="font-size: xx-small;"><ul>
+                    <?php foreach ($searched_user->getLastXLogins(3) as $last_login) { ?>
+                        <li><?=$last_login['usageif']?>: <?= $last_login['usagetime']?></li>
+                    <?php } ?>
+                    </ul></span>
+                </td>
+                <td>
+                    <br>Is Active:<?= $searched_user->isActive() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Is Verified:<?= $searched_user->isVerified() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage company settings:<?= $searched_user->canManageCompanySettings() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage Affinities Budget:<?= $searched_user->canManageZoneBudget() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage Affinities Events:<?= $searched_user->canManageZoneEvents() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage Affinities Content:<?= $searched_user->canManageAffinitiesContent() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage Affinities Users:<?= $searched_user->canManageAffinitiesUsers() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Can manage Company Surveys:<?= $searched_user->canManageCompanySurveys() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Is some manager:<?= $searched_user->canManageCompanySomething() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Is some creator:<?= $searched_user->canCreateContentInCompanySomething() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Is some publisher:<?= $searched_user->canPublishContentInCompanySomething() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Is some budget manager:<?= $searched_user->canManageBudgetCompanySomething() ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                </td>
+            </tr>
+            <tr style="border-top: 2px solid black; border-bottom: 2px solid black">
+                <td>
+                    <label for="zone_selector">Show groups for Zone</label>
+                </td>
+                <td colspan="2">
+                    <select class="form-select bg-light-subtle" id="zone_selector" name="zone_selector">
+                    <?php foreach ($_COMPANY->getZones() as $zz) { ?>
+                        <option value="<?=$zz['zoneid']?>" <?=($zz['zoneid'] == $_ZONE->id()) ? "selected":"" ?>><?=$zz['zonename'] ?> [<?=$zz['zoneid']?>]</option>
+                    <?php } ?>
+                    </select>
+                </td>
+                <td>
+                    Global Administrator:
+                    <?php if ($searched_user->isCompanyAdmin()) { ?>
+                        <span style='color:green;'>Yes</span>&nbsp;
+                    <?php } else { ?>
+                        <span style='color:red;'>No</span> &nbsp;
+                    <?php } ?>
+                </td>
+                <td>
+                    Zone Administrator:
+                    <?php if ($searched_user->isZoneAdmin($_ZONE->id())) { ?>
+                        <span style='color:green;'>Yes</span>&nbsp;
+                    <?php } else { ?>
+                        <span style='color:red;'>No</span> &nbsp;
+                    <?php } ?>
+                </td>
+            </tr>
+        </table>
+
+        <h4>User role/permission summary & role options in the selected Zone</h4>
+        <table  style="width:100%; border: 2px solid black;"summary="This table display user's access levels">
+            <tr>
+                <th style="30%">Company Regions:</th>
+                <th style="40%">Zone Grouplead Types</th>
+                <th style="40%">Zone Chapter/Channel lead Types</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <?php foreach ($_COMPANY->getAllRegions() as $region) {?>
+                        <li><?= $region['regionid']?> - <?= $region['region']?> (<?= $region['isactive']?>)</li>
+                        <?php } ?>
+                    </ul>
+                </td>
+                <td>
+                    <table style="width:100%;" summary="This table display the company grouplead types">
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Label</th>
+                            <th scope="col">Manage</th>
+                            <th scope="col">Create</th>
+                            <th scope="col">Publish</th>
+                            <th scope="col">Budget</th>
+                        </tr>
+                        <?php foreach ($_COMPANY->getGroupLeadtypesOfExecutiveType() as $gl1) {?>
+                        <tr>
+                            <td>Group-lead</td>
+                            <td><?=htmlspecialchars(substr($gl1['type'],0,20).((strlen($gl1['type'])>20)?'...':''))?></td>
+                            <td><?= ($gl1['allow_manage']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_create_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_publish_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_manage_budget']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                        </tr>
+                        <?php } ?>
+                        <?php foreach ($_COMPANY->getGroupLeadtypesOfGroupType() as $gl1) {?>
+                        <tr>
+                            <td>Group-lead</td>
+                            <td><?=htmlspecialchars(substr($gl1['type'],0,20).((strlen($gl1['type'])>20)?'...':''))?></td>
+                            <td><?= ($gl1['allow_manage']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_create_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_publish_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_manage_budget']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                        </tr>
+                        <?php } ?>
+                        <?php foreach ($_COMPANY->getGroupLeadtypesOfRegionalType() as $gl1) {?>
+                        <tr>
+                            <td>Regional-lead</td>
+                            <td><?=htmlspecialchars(substr($gl1['type'],0,20).((strlen($gl1['type'])>20)?'...':''))?></td>
+                            <td><?= ($gl1['allow_manage']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_create_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_publish_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_manage_budget']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+                </td>
+                <td>
+                    <table style="width:100%;" summary="This table display the list of company chapter lead types">
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Label</th>
+                            <th scope="col">Manage</th>
+                            <th scope="col">Create</th>
+                            <th scope="col">Publish</th>
+                            <th scope="col">Budget</th>
+                        </tr>
+                        <tr><td colspan="6" style="text-align: center;font-size: x-small;background: linen;"> --- Zone Chapter Lead Types ----</td></tr>
+                        <?php foreach ($_COMPANY->getGroupLeadtypesOfChapterType() as $gl1) {?>
+                        <tr>
+                            <td>Chapter-lead</td>
+                            <td><?=htmlspecialchars(substr($gl1['type'],0,20).((strlen($gl1['type'])>20)?'...':''))?></td>
+                            <td><?= ($gl1['allow_manage']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_create_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_publish_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_manage_budget']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                        </tr>
+                        <?php } ?>
+                        <tr><td colspan="6" style="text-align: center; font-size: x-small;background: linen;"> --- Zone Channel Lead Types ----</td></tr>
+                        <?php foreach ($_COMPANY->getGroupLeadtypesOfChannelType() as $gl1) {?>
+                        <tr>
+                            <td>Channel-lead</td>
+                            <td><?=htmlspecialchars(substr($gl1['type'],0,20).((strlen($gl1['type'])>20)?'...':''))?></td>
+                            <td><?= ($gl1['allow_manage']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_create_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_publish_content']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                            <td><?= ($gl1['allow_manage_budget']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>"?></td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+
+        <?php $groups = Group::GetAllGroupsByCompanyid($searched_user->cid(),$_ZONE->id()); ?>
+
+        <h4>User permission details by groups in the selected Zone</h4>
+        <table style="width:100%;" summary="This table display the user permissions">
+            <tr>
+            <td>
+                <label for="group_selector">Select a group</label>
+            </td>
+            <td colspan="2">
+                <select class="form-select bg-light-subtle" id="group_selector" name="group_selector">
+                    <?php foreach ($groups as $grp) { ?>
+                            <?php if ($selected_group_id == $grp->id()) { $selected_group = $grp;} ?>
+                        <option value="<?=$grp->id()?>" <?=($selected_group_id == $grp->id()) ? "selected":"" ?>><?=$grp->val('groupname') . ' ( Group Category = ' . $grp->val('group_category') . ', IsActive = ' . ($grp->val('isactive')==1 ? 'Yes' : 'No') . ' )'?></option>
+                    <?php } ?>
+                </select>
+            </td>
+            </tr>
+
+            <tr>
+                <th style="width:20%;" scope="col">Group</th>
+                <th style="width:40%;" scope="col">Chapters</th>
+                <th style="width:40%;" scope="col">Channels</th>
+            </tr>
+            <?php if ($selected_group)  { $g = $selected_group; ?>
+            <tr class="spaceUnder">
+                <td style="background-color: <?= $g->val('isactive') == 0 ? '#ffffce' : ($g->val('isactive') == 100 ? '#fde1e1' : 'inherit') ?>;">
+                    <strong><?= $g->val('groupname'); ?></strong>
+                    <br>(<?= $g->val('groupname_short'); ?>)
+                    <br><span style="font-size: x-small !important">&emsp;Status = <?= $g->val('isactive') ?></span>
+                    <br><span style="font-size: x-small !important">&emsp;Regions = <?= $g->val('regionid') ?></span>
+                    <br><span style="font-size: x-small !important">&emsp;Chapter Assignment = <?= $g->val('chapter_assign_type') ?></span>
+
+                    <?php
+                        $my_group_lead = $searched_user->getMyGroupleadRecords($g->id());
+                    if(count($my_group_lead))
+                    $my_lead = array_pop($my_group_lead);
+                    else
+                    $my_lead = array();
+                    ?>
+                    <hr>Member: <?= $searched_user->isGroupMember($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <hr>Group Leader: <?= $searched_user->isGrouplead($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>&emsp;Manage: <?= $searched_user->canManageGroup($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>&emsp;Create: <?= $searched_user->canCreateContentInGroup($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>&emsp;Publish: <?= $searched_user->canPublishContentInGroup($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>&emsp;Budget: <?= $searched_user->canManageBudgetGroup($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <?php
+                            if (!empty($my_lead) && $my_lead['sys_leadtype'] == 3) {
+
+                                //$leadregions_arr = explode(',', $my_lead['regionids']);
+                                $groupregions_arr = explode(',', $g->val('regionid'));
+                    if (count($groupregions_arr)) {
+                    echo "<span style='font-size: small !important;'>Restrict to Region </span>";
+                    foreach ($groupregions_arr as $group_region_id) {
+                    if ($searched_user->isRegionallead($g->id(),$group_region_id) !== false) {// Regional Lead
+                    echo "<br><span style='font-size: x-small !important;color:green;'> {$group_region_id}</span>";
+                    } else {
+                    echo "<br><span style='font-size: x-small !important;color:red;'> {$group_region_id}</span>";
+                    }
+                    }
+                    }
+                    }
+                    ?>
+                    <hr>
+                    <br>Some Manager: <?= $searched_user->canManageGroupSomething($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Some Creator: <?= $searched_user->canCreateContentInGroupSomething($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Some Publisher: <?= $searched_user->canPublishContentInGroupSomething($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>Some Budget Mgr: <?= $searched_user->canManageBudgetGroupSomething($g->id()) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                    <br>
+                    <hr>
+                    <pre>
+    <strong>C,[UD/UP],P,M,B </strong>: <?= $searched_user->canCreateContentInScopeCSV($g->id(),0,0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,[<?= $searched_user->canUpdateContentInScopeCSV($g->id(),0,0, 2) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>/<?= $searched_user->canUpdateContentInScopeCSV($g->id(),0,0, 1) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>],<?= $searched_user->canPublishContentInScopeCSV($g->id(),0,0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageContentInScopeCSV($g->id(),0,0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageBudgetInScope($g->id(),0,0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>
+                    </pre>
+                </td>
+                <td>
+                    <?php $chapters = Group::GetChapterList($g->id()); ?>
+                    <?php if (isset($chapters) AND count($chapters)) { $rrrr = 0; $chapter1=null; ?>
+                    <table style="width:100%; font-size: small !important" summary="This table display the list of chapters">
+                        <tr>
+                            <th scope="col">Chapter</th>
+                            <th scope="col">Leader</th>
+                            <th scope="col">Mem</th>
+                            <th scope="col">Mgr</th>
+                            <th scope="col">Cre</th>
+                            <th scope="col">Pub</th>
+                            <th scope="col">Bgt</th>
+                        </tr>
+                        <?php foreach ($chapters as $chapter) { if ($chapter1 === null) $chapter1=$chapter; ?>
+                        <?php
+                                    $ccc = $searched_user->getMyChapterleadRecords($chapter['groupid'], $chapter['chapterid']);
+                        if(count($ccc))
+                        $my_chapter_lead = array_pop($ccc);
+                        else
+                        $my_chapter_lead = array();
+                        $rrrr = $chapter['regionids'];
+                        ?>
+
+                        <tr>
+                            <td style="background-color: <?= $chapter['isactive'] == 0 ? '#ffffce' : ($chapter['isactive'] == 100 ? '#fde1e1' : 'inherit') ?>;">
+                                <?= substr($chapter['chaptername'],0,20).((strlen($chapter['chaptername'])>20)?'...':'') ?>
+                                <br><span style="font-size: x-small !important">Status = <?= $chapter['isactive'] ?></span>
+                                <br><span style="font-size: x-small !important">Regiond = <?= $chapter['regionids'] ?></span>
+                                <hr>
+                                <pre>
+    <strong>C,[UD/UP],P,M,B </strong>: <?= $searched_user->canCreateContentInScopeCSV($g->id(),$chapter['chapterid'],0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,[<?= $searched_user->canUpdateContentInScopeCSV($g->id(),$chapter['chapterid'],0, 2) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>/<?= $searched_user->canUpdateContentInScopeCSV($g->id(),$chapter['chapterid'],0, 1) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>],<?= $searched_user->canPublishContentInScopeCSV($g->id(),$chapter['chapterid'],0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageContentInScopeCSV($g->id(),$chapter['chapterid'],0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageBudgetInScope($g->id(),$chapter['chapterid'],0) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>
+                                </pre>
+                            <td>
+                                <?= $searched_user->isChapterlead($g->id(),$chapter['chapterid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                            </td>
+                            <td><?= $searched_user->isGroupMember($g->id(), $chapter['chapterid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canManageGroupChapter($g->id(), $chapter['regionids'], $chapter['chapterid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canCreateContentInGroupChapter($g->id(), $chapter['regionids'], $chapter['chapterid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canPublishContentInGroupChapter($g->id(), $chapter['regionids'], $chapter['chapterid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canManageBudgetInScope($g->id(), $chapter['chapterid'],0) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+                    <?php } else { ?>
+                    - No <?=$_COMPANY->getAppCustomization()['chapter']['name-short-plural']?> -
+                    <?php } ?>
+                </td>
+                <td>
+                    <?php $channels = Group::GetChannelList($g->id()); ?>
+                    <?php if (isset($channels) AND count($channels)) { $rrrr = 0; ?>
+                    <table style="width:100%; font-size: small !important" summary="This table display the list of channels">
+                        <tr>
+                            <th scope="col">Channel</th>
+                            <th scope="col">Leader</th>
+                            <th scope="col">Mem</th>
+                            <th scope="col">Mgr</th>
+                            <th scope="col">Cre</th>
+                            <th scope="col">Pub</th>
+                            <th scope="col">Bgt</th>
+                        </tr>
+                        <?php foreach ($channels as $channel) { ?>
+                        <?php
+                                    $ccc = $searched_user->getMyChannelleadRecords($channel['groupid'], $channel['channelid']);
+                        if(count($ccc))
+                        $my_channel_lead = array_pop($ccc);
+                        else
+                        $my_channel_lead = array();
+                        ?>
+
+                        <tr>
+                            <td style="background-color: <?= $channel['isactive'] == 0 ? '#ffffce' : ($channel['isactive'] == 100 ? '#fde1e1' : 'inherit') ?>;">
+                                <?=htmlspecialchars(substr($channel['channelname'],0,20).((strlen($channel['channelname'])>20)?'...':''))?>
+                                <br><span style="font-size: x-small !important">Status = <?= $channel['isactive'] ?></span>
+                                <hr>
+                                <pre>
+    <strong>C,[UD/UP],P,M,B </strong>: <?= $searched_user->canCreateContentInScopeCSV($g->id(),0,$channel['channelid']) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,[<?= $searched_user->canUpdateContentInScopeCSV($g->id(),0,$channel['channelid'], 2) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>/<?= $searched_user->canUpdateContentInScopeCSV($g->id(),0,$channel['channelid'], 1) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>],<?= $searched_user->canPublishContentInScopeCSV($g->id(),0,$channel['channelid']) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageContentInScopeCSV($g->id(),0,$channel['channelid']) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>,<?= $searched_user->canManageBudgetInScope($g->id(),0,$channel['channelid']) ? "<span style='color:green;'>Y</span>": "<span style='color:red;'>n</span>"; ?>
+                                </pre>
+                            <td>
+                                <?= $searched_user->isChannellead($g->id(),$channel['channelid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?>
+                            </td>
+                            <td><?= $searched_user->isGroupChannelMember($g->id(), $channel['channelid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canManageGroupChannel($g->id(), $channel['channelid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canCreateContentInGroupChannel($g->id(), $channel['channelid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                            <td><?= $searched_user->canPublishContentInGroupChannel($g->id(),$channel['channelid']) ? "<span style='color:green;'>yes</span>" : "<span style='color:red;'>no</span>" ?> </td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+                    <?php } else { ?>
+                    - No <?=$_COMPANY->getAppCustomization()['channel']['name-short-plural']?> -
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php } ?>
+        </table>
+        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    <?php } elseif (isset($user_search) && ! isset($searched_user)) { ?>
+
+        <p style="color:red; margin: 30px; margin-bottom:50px;">Such user is not found for this company</p>
+
+        <?php } ?>
+    </form><br><br><br>
+</div>
+</div>
+</div>
+</div>
+
+    <script>
+        jQuery("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            jQuery("#wrapper").toggleClass("toggled");
+        });
+        $("#sidebar-wrapper ul li:nth-child(4)").addClass("myactive");
+
+        $('#zone_selector').bind('change', function(){
+            $('form').submit();
+        });
+        $('#group_selector').bind('change', function(){
+            $('form').submit();
+        });
+        function resetExternalId() {
+            let main_form = $('form');
+            main_form.append('<input type="text" name="rand_tok" value="<?=$_SESSION['rand_tok']?>" />');
+            main_form.append('<input type="text" name="reset_user_id" value="<?=!empty($searched_user) ? $searched_user->id() : ''?>" />');
+            main_form.submit();
+        }
+
+        function resetAadOid() {
+            let main_form = $('form');
+            main_form.append('<input type="text" name="rand_tok" value="<?=$_SESSION['rand_tok']?>" />');
+            main_form.append('<input type="text" name="aad_oid" value="<?= !empty($searched_user) ? $searched_user->val('aad_oid') : ''?>" />');
+            main_form.submit();
+        }
+
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+            var searchBy = $('select[name="search_by"]').val();
+            var searchVal = $('#user_search').val().trim();
+            var isValid = true;
+            var integerFields = ['search_by_userid'];
+            $('#search_error').remove(); // Remove previous error
+    
+            if (integerFields.includes(searchBy)) {
+                if (!/^\d+$/.test(searchVal)) {
+                    isValid = false;
+                    $('#user_search').after('<div id="search_error" style="color:red;">Please enter a valid userId.</div>');
+                }
+            } else {
+                if (searchVal === '') {
+                    isValid = false;
+                    $('#user_search').after('<div id="search_error" style="color:red;">Please enter a valid search criteria.</div>');
+                }
+            }
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+    </script>
+
+

@@ -1,0 +1,79 @@
+<div id="manageSpeakerApprovalConfigModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><?= $modalTitle; ?></h4>
+      </div>
+      <div class="modal-body">
+          <div class="col-md-12">
+              
+                <div id="ccList" style="display:<?=!empty($speakerApprovalCCEmails) ? 'block' : 'none'; ?>;" >
+                    <h5>Speaker Approval Email Addresses</h5>
+                    <p id="ccEmailString">
+                        <?= implode("<br/>",$speakerApprovalCCEmails); ?>
+                    </p>
+                    <button id="showCCFrom" type="button" onclick="showCCFrom()" class="btn btn-primary">Update Emails</button>
+                </div>
+         
+                <div id="ccEmailFrom" style="display:<?=empty($speakerApprovalCCEmails) ? 'block' : 'none'; ?>;">
+                    <div class="form-group">
+                        <label for="email">Speaker Approver Email Addresses </label>
+                        <input type="email" class="form-control" id="ccemails" value="<?= implode(',',$speakerApprovalCCEmails) ?>" placeholder="name@example.com">
+                        <small>Note: Maximum 5 comma separated emails are allowed.</small>
+                    </div>
+                    <button type="button" onclick="updateSpeakersCCEmails()" class="btn btn-primary">Update</button>
+                </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><?= gettext("Close")?></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function showCCFrom(){
+        
+        $("#ccList").hide();
+        $("#ccEmailFrom").show();
+    }
+
+    function updateSpeakersCCEmails(){
+        var emails = $("#ccemails").val();
+        var emailsArray = emails.split(",");
+
+        if(emailsArray.length > 5){
+            swal.fire({title: 'Error',text:"Maximum 5 comma separated emails allowed"});
+            return;
+        }
+        var validateEmail = this.validateEmail(emails);
+        if(validateEmail){
+            swal.fire({title: 'Error',text:validateEmail});
+            return;
+        }
+        $.ajax({
+            url: 'ajax.php?updateSpeakersApprovalCCEmails=1',
+            type: "POST",
+            data: {emails:emails},
+            success : function(data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1){
+                            $("#ccEmailString").html(jsonData.val);
+                            $("#ccList").show();
+                            $("#ccEmailFrom").hide();
+                            $('#showCCFrom').focus();
+                        }
+                    });
+            } catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+
+            }
+        });
+    }
+
+$('#manageSpeakerApprovalConfigModal').on('shown.bs.modal', function (e) {     					 
+    $('#showCCFrom').focus();
+})
+</script>

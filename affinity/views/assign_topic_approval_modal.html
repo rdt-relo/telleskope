@@ -1,0 +1,142 @@
+<style type="text/css">
+    #approverNoteBox {
+        /* border: 1px solid red; */
+        margin-top: 35px;
+        transition: margin-top 2s;
+    }
+    
+    #approverNoteBox.shown {
+        margin-top: 100px;
+    }
+</style>
+<div class="modal" id="assignTopicApproverModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                
+                  <div class="col-md-12">
+                    <div class="widget-simple-chart card-box">
+                            <h6><?= gettext('Approver Configuration -'); ?>&nbsp; <?= $stageTitle; ?></h6>
+                            <div class="col-md-12 divider"></div>
+                        <br>
+                    <div class="clearfix"></div>
+
+                    <div class="table-responsive ">
+                    <table id="muser" class="table table-hover display compact" summary="Approvers list">
+                        <thead>
+                            <tr>
+                                <th scope="col"><?= gettext('Approver Name') ?></th>
+                                <th scope="col"><?= gettext('Job Title') ?></th>
+                                <th scope="col"><?= gettext('Role Title') ?></th>
+                                <th scope="col"><?= gettext('Select Approver') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                    <?php
+                        $i = 0;
+                        foreach($stageApprovers as $stageApprover){
+                            $approverObj = User::GetUser($stageApprover['approver_userid']);
+                                if (!$approverObj)
+                                    continue;
+                    ?>
+                            <tr id="<?= $i+1; ?>">
+                                <td><strong><?= $approverObj->getFullName(); ?></strong></td>
+                                <td><?= $approverObj->val('jobtitle'); ?></td>
+                                <td><?= htmlentities($stageApprover['approver_role']) ?></td>
+                                <td>
+                                    <!-- add checkbox to select the user -->
+                                    <?php if(!empty($assigned_to) && ($approverObj->id() == $assigned_to) ){ ?>
+                                        <button class="btn btn-primary btn-sm" onclick="" disabled><?= gettext('Currently Assigned') ?></button>
+                                    <?php }else{ ?>
+                                        <button class="btn btn-primary btn-sm" onclick="$('#approverNoteBox<?= $i ?>').toggle(500,'swing');"><?= gettext('Select Approver') ?></button>
+                                    <?php } ?>
+                                <form method="post" onsubmit="updateApprovalRequest(event)" id="approverNoteBox<?= $i ?>" style="display:none;">
+                                    <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                    <input type="hidden" name="action" value="assign">
+                                    <input type="hidden" value="<?= $_COMPANY->encodeId($topicTypeId)?>" name="topicTypeId">
+                                    <input type="hidden" value="<?=  $_COMPANY->encodeId($approverObj->id()); ?>" name="approverId">
+                                    <input type="hidden" id="approvalStage" name="approvalStage" value="<?= $_COMPANY->encodeId($approvalStage) ?>">
+                                    <input type="hidden" name="topicType" value="<?= $topicType ?>" id="topicType">
+                                    <div class="form-group">
+                                        <label><?= gettext('Note') ?></label>
+                                        <textarea  class="form-control" maxlength="1000" id="approverNote" name="approverNote" placeholder="Approver note."></textarea>
+                                        <small style="color:red"><?= gettext('Maximum 1000 characters allowed!') ?></small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"> <?= gettext("Submit")?></button>
+                                   
+                                </form>
+                                
+                            </td>
+                                
+                            </tr>
+
+                    <?php   $i++; } ?>
+                        
+                            </tbody>
+                        </table>
+                        </div>  
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= gettext("Close")?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+     $(document).ready(function () {
+            $('#muser').DataTable({
+                "order": [[ 0, "asc" ]],
+                "bPaginate": true,
+                "bInfo": false,
+                columnDefs: [
+                        {targets: [-1], orderable: false}
+                    ],
+                language: {
+                searchPlaceholder: "...",
+                url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+                },
+            });
+        });
+    </script>
+
+  <script>
+    function updateApprovalRequest(jsevent) {
+      jsevent.preventDefault();
+    var e = $("#topicTypeId").val();
+    var s = $("#approverId").val();
+    var a = $("#approvalStatus").val();
+    var n =  $("#approverNote").val();
+    var as =  $("#approvalStage").val();
+    var topicType = '<?= $topicType ?>';
+    $.ajax({
+        url: 'ajax_approvals.php?updateApprovalRequest=1',
+        type: "post",
+        data: $(jsevent.target).serialize(),
+        success : function(data) {
+            if(data == 1){
+                localStorage.setItem("lastApprovalAction", topicType);
+                swal.fire({title: 'Success',text:"Updated successfully"}).then(function (result) {
+                    location.reload();
+                });
+            } else {
+                swal.fire({title: 'Error!',text:"Something went wrong. Please try again"});
+            }
+            setTimeout(() => {
+                    $(".swal2-confirm").focus();
+            }, 100);
+        }
+    });
+
+}
+</script>

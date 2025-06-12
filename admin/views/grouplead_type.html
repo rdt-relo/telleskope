@@ -1,0 +1,155 @@
+<style>
+
+    body {
+        margin: 0px 0px;
+        padding: 0;
+        font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+        font-size: 14px;
+    }
+
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    #syslt {
+        display: block;
+    }
+
+    .redactor-box {
+        border: 1px solid rgba(196, 193, 193, 0.18);
+    }
+   
+</style>
+<?php $update_user_message = gettext('There are users assigned to this role. Please update the following users to a different role before deleting this one.'); ?> 
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider" id="group-lead-type">
+                    <h6>Manage Roles and Permissions</h6>
+                    <button aria-label="Add new grouplead type" class="btn btn-no-style add-plus-circle-icon" onclick="openNewGroupLeadTypeModal('<?= $_COMPANY->encodeId(0); ?>');">
+                        <i class="fa fa-plus-circle fa-lg ml-2" title="Add new grouplead type" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="clearfix"></div>
+                <?php if ((time() - @$_SESSION['updated']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= UPDATED; ?>
+                    </div>
+                <?php } elseif ((time() - @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ADDED; ?>
+                    </div>
+                <?php } elseif ((time() - @$_SESSION['error']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <?= ERROR; ?>
+                    </div>
+                <?php } ?>
+                <div class="col-md-12">
+                    <div class="table-responsive " id="list-view">
+
+                        <table id="table" class="table table-hover display compact"
+                               summary="This table shows the list of group leader types">
+                            <thead>
+                            <tr>
+                                <th width="20%" scope="col"><?= $grouplabelshort; ?> Leader Type</th>
+                                <th width="20%" scope="col">System Lead Type</th>
+                                <th width="30%" scope="col">Permissions</th>
+                                <th width="10%" scope="col">Show&nbsp;on&nbsp;About Us</th>
+                                <th width="10%" scope="col">Assigned To</th>
+                                <th width="10%" scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (count($data) > 0) {
+                                for ($i = 0; $i < count($data); $i++) {
+                                    $leadsData = array();
+                                    if($data[$i]['sys_leadtype'] == '4'){
+                                       $leadsData =  Group::GetAllChapterLeadsByType($data[$i]['typeid']);
+                                    }elseif($data[$i]['sys_leadtype'] == '5'){
+                                        $leadsData =  Group::GetAllChannelLeadsByType($data[$i]['typeid']);
+                                    }else{
+                                        $leadsData =  Group::GetAllGroupLeadsByType($data[$i]['typeid']);
+                                    }
+
+                                     ?>
+
+                                    <tr id="e<?= ($i + 1); ?>" <?= ($data[$i]['isactive']) ? '' : 'style="background-color: rgb(251, 199, 199); opacity: 0.5;"' ?> >
+                                        <td id="td<?= ($i + 1) ?>"><?= htmlspecialchars($data[$i]['type']); ?></td>
+                                        <td id="std<?= ($i + 1) ?>"><?php $sysleadtype =  Group::SYS_GROUPLEAD_TYPES["{$data[$i]['sys_leadtype']}"] ?> <?= $sysleadtype ?></td>
+                                        <td>
+                                          <ul>
+                                            <?php if ($data[$i]['allow_create_content']) { ?>
+                                              <li>Create Content</li>
+                                            <?php } ?>
+                                            <?php if ($data[$i]['allow_publish_content']) { ?>
+                                              <li>Publish Content</li>
+                                            <?php } ?>
+                                            <?php if ($data[$i]['allow_manage']) { ?>
+                                              <li>Manage</li>
+                                            <?php } ?>
+                                            <?php if ($data[$i]['allow_manage_grant']) { ?>
+                                              <li>Grant Role</li>
+                                            <?php } ?>
+                                            <?php if ($data[$i]['allow_manage_budget']) { ?>
+                                              <li>Manage Budget</li>
+                                            <?php } ?>
+                                            <?php if ($data[$i]['allow_manage_support']) { ?>
+                                                <li>Support</li>
+                                              <?php } ?>
+                                          </ul>
+                                        </td>
+                                        <td id="shw<?= ($i + 1) ?>"><?= $data[$i]['show_on_aboutus'] ? "<span style='color:green;'>Yes</span>" : "<span style='color:brown;'>No</span>" ?></td>
+                                        <td id="asg<?= ($i + 1) ?>"> <?php if(!empty($leadsData)){ ?> <button class="open-ShowAllLeads btn-list-item" style="color: #0077b5;" onclick="showLeadsTable('<?= $_COMPANY->encodeId($data[$i]['typeid']) ?>','<?= $update_user_message ?>','<?= $sysleadtype ?>')"> <?= count($leadsData) ?></button> <?php } ?></td>
+                                        
+                                        <td width="8%">
+                                            <button aria-label="Edit"  class="btn btn-no-style" id="bedit<?= ($i + 1); ?>"
+                                               onclick="openNewGroupLeadTypeModal('<?= $_COMPANY->encodeId($data[$i]['typeid']); ?>');"
+                                                <?= ($data[$i]['isactive']) ? '' : 'style="display:none;"' ?> >
+                                                <i class="fa fa-edit" title="Edit"></i>
+                                            </button>&nbsp;
+                                            
+                                            <button aria-label="Delete" class="btn btn-no-style deluser" id="bdisable<?= ($i + 1); ?>"
+                                               onclick="confirmDeleteGroupleadType(<?= count($leadsData) ?>,'<?= $update_user_message ?>','<?= $_COMPANY->encodeId($data[$i]['typeid']) ?>', '<?= $sysleadtype ?>', '<?= htmlspecialchars($data[$i]['type']); ?>')"
+                                               title="<strong>Are you sure to delete!</strong>"
+                                                <?= ($data[$i]['isactive']) ? '' : 'style="display:none;"' ?> >
+                                                <i class="fa fa-trash" aria-hidden="true" title="Delete"></i>
+                                            </button>&nbsp;
+                                        </td>
+                                    </tr>
+
+                                <?php } ?>
+
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2 mt-2">
+                    <a class="btn btn-info btn-sm" href="group">Back to <?= $grouplabelshort; ?>s</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loadModal"></div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "order": [[0, "asc"]],
+            "bPaginate": false,
+            "bInfo": false,
+            columnDefs: [
+                {targets: [5], orderable: false}
+            ],
+        });
+    });
+</script>
+</body>
+</html>

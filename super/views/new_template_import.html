@@ -1,0 +1,113 @@
+<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/redactor-3-5-2/redactor.min.css" />
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/redactor-3-5-2/redactor.tele.min.js?v=1"></script>
+
+<style>
+    .redactor-box {
+        border: 1px solid #d2d6de;
+        padding: 8px;
+    }
+</style>
+
+<div class="container-offset-lr mt-5"><br>
+    <div class="card p-4">
+        <div class="mb-3">
+            <h4 ><?= $pageTitle; ?></h4>
+        </div>
+
+        <?php if (!empty($errorMessage)) { ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $errorMessage ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+        <?php if (!empty($successMessage)) { ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $successMessage ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+
+        <form method="post" id="import_template_form" enctype="multipart/form-data">
+            <div class="mb-3 row">
+                <label for="template_name" class="col-lg-2 col-form-label text-md-end required">Template Name:</label>
+                <div class="col-lg-10">
+                    <input type="text" id="template_name" name="template_name" class="form-control" required value="<?= $edit_template ? $edit_template['template_name'] : '' ?>">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="template_type" class="col-lg-2 col-form-label text-md-end">Template Type</label>
+                <div class="col-lg-10">
+                    <select name="template_type" id="template_type" class="form-select" <?= $edit_template ? 'disabled' : 'required' ?>>
+                        <option value="">Select Template Type</option>
+                        <option value="<?= TskpTemplate::TEMPLATE_TYPE_GROUP; ?>" <?= ($edit_template && $edit_template['template_type'] == TskpTemplate::TEMPLATE_TYPE_GROUP) ? 'selected' : '' ?>>Groups (or Programs)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="template_app_type" class="col-lg-2 col-form-label text-md-end">Template Application Type</label>
+                <div class="col-lg-10">
+                    <select name="template_app_type" id="template_app_type" class="form-select" <?= $edit_template ? 'disabled' : 'required' ?>>
+                        <option value="">Select Template Application Type</option>
+                        <?php foreach (TskpTemplate::TEMPLATE_APP_TYPE as $all_template_app_type) { ?>
+                            <option value="<?= $all_template_app_type; ?>" <?= ($edit_template && $edit_template['template_app_type'] == $all_template_app_type) ? 'selected' : '' ?>><?= $all_template_app_type ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="template_description" class="col-lg-2 col-form-label text-md-end">Template Description</label>
+                <div class="col-lg-10">
+                    <textarea class="form-control textareahight" placeholder="Note.." name="template_description" id="template_description"><?= $edit_template ? $edit_template['template_description'] : '' ?></textarea>
+                </div>
+            </div>
+
+            <?php if (!$edit_template) { ?>
+                <div class="mb-3 row">
+                    <label for="importFile" class="col-lg-2 col-form-label text-md-end">JSON File:</label>
+                    <div class="col-lg-10">
+                        <input type="file" id="importFile" name="importFile" class="form-control" accept=".json" required>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <div class="text-center mt-4">
+                <a href="template_manager" class="btn btn-secondary">Back</a>
+                <button type="submit" name="import_template" class="btn btn-primary"><?= $edit_template ? 'Update' : 'Import' ?> Template</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#template_description').initRedactor('template_description', 'post');
+    });
+
+    (function ($) {
+        $.fn.initRedactor = function (id, context) {
+            $R('#' + id, {
+                linkNewTab: true,
+                linkTarget: '_blank',
+                linkTitle: true,
+                linkNofollow: true,
+                linkSize: 256,
+                linkValidation: true,
+                styles: false,
+                minHeight: '300px',
+                buttons: ['redo', 'undo', 'format', 'bold', 'italic', 'underline', 'ul', 'ol', 'line', 'link', 'image'],
+                formatting: ['p', 'blockquote'],
+                pasteLinkTarget: '_blank',
+                pasteImages: true, //Since we have clipboardUpload set to true.
+                pastePlainText: false,
+                pasteBlockTags: ['ul', 'ol', 'li', 'p','blockquote'],
+                pasteInlineTags: ['a', 'br', 'b', 'u', 'i'],
+                dragUpload: true,
+                multipleUpload: false,
+                clipboardUpload: true,
+            });
+        };
+    })(jQuery);
+</script>

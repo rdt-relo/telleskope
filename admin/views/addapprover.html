@@ -1,0 +1,93 @@
+<style>
+    .btn-group.bootstrap-select {
+        min-width: 330px !important;
+    }
+
+    span.filter-option.pull-left {
+        max-width: 270px !important;
+        margin-left: 10px;
+    }
+
+    button.btn.dropdown-toggle.bs-placeholder.btn-default {
+        color: #333;
+        height: 45px;
+        padding-top: 0px;
+    }
+
+    .btn-default {
+        background-image: linear-gradient(#fff, #fff 60%, #fff);
+        background-repeat: no-repeat;
+        border: 1px solid #d2d6de;
+        color: #333;
+        filter: none;
+    }
+    label{margin-top: 10px;}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6><?= $pagetitle; ?></h6>
+                </div>
+
+                <?php if (isset($break)){ ?>
+                <div id="hidemesage" class="col-md-12">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <?php echo $break; ?>
+                    </div>
+                </div>
+                <?php }elseif(isset($error)){ ?>
+                <div id="hidemesage" class="col-md-12">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <?php echo $error; ?>
+                    </div>
+                </div>
+                <?php } ?>
+
+                <div class="col-md-12">
+                    <form id="search-user" class="form-horizontal" method="post" action="?topicType=<?=$topicType?>&config_id=<?=$_COMPANY->encodeId($approvalConfigId)?>" >
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <br/>
+                        <br/>
+                        <p>Note: Only existing users can be assigned as an approver. Search a user from the list below and select to add as an approver. If user you are searching for is not found in the search list, then it means the user has not yet joined the platform, in that case please ask the user to signup first.</p>
+                        <br/>
+                        <br/>
+                        <div class="form-group text-center">
+                            <label class="col-md-2 control-label"> Search User<span style="color:red;">*</span></label>
+							<div class="col-md-8 bs-searchbox">
+								<input class="form-control search" autocomplete="off" onkeyup="searchUsers(this.value)"
+									   placeholder="Search user" type="text" required>
+								<div id="show_dropdown"></div>
+							</div>
+                        </div>
+                        <div class="form-group text-center">
+                            <label for="role-title" class="col-md-2 control-label"> Role Title</label>
+                            <div class="col-md-8 bs-searchbox">
+                                <input type="text" id="role-title" name="role-title" class="form-control" placeholder="Add Role Title">
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group text-center">
+                            <a href="<?=$topic_config?>" class="btn btn-primary">Cancel</a>
+                            <button type="submit" name="approver_assign" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#search-user').submit(function(event) {    
+        if($.trim($('#user_search').val()) == ''){
+            swal.fire({title: 'Error!',text:"No user selected. Please try again!."});
+            event.preventDefault();
+       }       
+    });
+    </script>
+</body>
+</html>

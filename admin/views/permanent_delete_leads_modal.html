@@ -1,0 +1,25 @@
+<div class="modal" id="confirmationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <p>Note : <?= $leadcount ?> number of <?= $users_role ?> leaders using <?= $users_role_name ?> will lose their access</p>
+                        <label>Please type 'confirm' to proceed</label>
+                        <input type="text" class="form-control" onkeyup="checkIfConfirm()" name="confirm_delete" id="confirm_delete" value="" placeholder="confirm">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="confirm_and_delete_btn" onclick="deleteGroupleadType('<?= $enc_typeId; ?>','<?= $audit_code; ?>','<?= $users_role; ?>');" disabled >Confirm and delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

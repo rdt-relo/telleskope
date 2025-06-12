@@ -1,0 +1,497 @@
+<style>
+    .radio-label{
+        display: block;
+        cursor: pointer;
+    }
+
+.btn-accordion {
+    text-align: left; 
+    width: 100%; 
+    padding: 1rem;
+    border: none;
+    border-radius: 0;
+    background-color: #f7f7f7;
+    transition: background-color 0.3s ease;
+    color: #646569;
+    font-weight: 500;
+    font-size: 0.7em;
+}
+
+.btn-accordion:hover {
+    background-color: #eaeaea;
+}
+#topicDetailAccordion ul {
+    list-style-position: outside;
+    margin: 0;
+    padding: 0;
+}
+span.multiselect-native-select select {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px -1px -1px -3px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    left: 50%;
+    top: 30px;
+}
+select option {
+    color: #000;
+}
+.multiselect-native-select > .btn-group {
+    width: 100% !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.multiselect.dropdown-toggle {
+    text-align: left;
+}
+.dropdown-menu {
+    -webkit-background-clip: padding-box;
+}
+.dropdown-menu.show {
+    width: 100%;
+}
+.multiselect {
+    padding: .375rem .75rem !important;
+    min-width: 100px;
+    background-image: none;
+    background-color: transparent;
+}
+.multiselect-selected-text{font-size: 1rem;}
+.input-group-addon{display: none;}
+.multiselect-container>li>a {
+    padding: 0;
+    background-color: #fff !important;
+    color: #333 !important;
+}
+/* data-table multiselect custom style to align with our platform */
+
+table.dataTable.hover>tbody>tr.selected:hover>*, table.dataTable.display>tbody>tr.selected:hover>*{
+    box-shadow: none !important;
+    border-top-color: transparent !important;   
+}
+table.dataTable.display>tbody>tr.selected+tr.selected>td{
+    box-shadow: none !important;
+    border-top-color: transparent !important;
+}
+.statusSelectorBox{
+    width: 15%; position: relative;
+}
+#bulkStatusSelection{
+    position: absolute; left: 175px; z-index: 9999;
+}
+table.dataTable>tbody>tr.selected>* {
+    box-shadow: none !important;
+    background-color: #fff !important;
+    color: #333 !important; 
+}
+table.dataTable.row-border>tbody>tr.selected+tr.selected>td, table.dataTable.display>tbody>tr.selected+tr.selected>td {
+    border-top-color: rgba(0, 0, 0, 0.3) !important;
+
+}
+</style>
+<?php 
+$tasksEnabled = $_COMPANY->getAppCustomization()[$appCustomizationTitle]['approvals']['tasks'];
+$modalSize =  $tasksEnabled ? 'modal-xl' : 'modal-lg'; ?>
+
+<?php if ($tasksEnabled && count($allTasks)>0) { ?>
+<div class="modal" tabindex="-1" role="dialog" id="approvalTasksModal">
+    <div class="modal-dialog <?= $modalSize ?>" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><?= sprintf(gettext('Approve or Deny Stage %s'), $approvalStage); ?> </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <?php include(__DIR__ . '/../common/topic_approval_tasks_modal.html'); ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?> 
+<!-- Second step modal -->
+    <div id="topic_approval_note_modal" class="modal" tabindex="-1" >
+        <div aria-label="<?=gettext('Add Note')?>" class="modal-dialog modal-dialog-w700" role="document" aria-modal="true" role="dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"><?=gettext("Add Note")?></h5>
+              <button id="btn_close" type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+                <div class="modal-body">
+                    <?php include(__DIR__ . '/../common/topic_approval_note_form.html'); ?> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/extensions/dataTables.select.min.js"></script>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/extensions/select.bootstrap4.min.js"></script>
+  
+<script>       
+        $(document).ready(function(){
+            setTimeout(() => {
+            var approvalsTable = $('#approvalTasks').DataTable({
+                    "order": [],
+                    "bPaginate": true,
+                    "bInfo" : false,
+                    "stateSave": true,
+                    "select": true,
+                    "drawCallback": function( settings ) {
+                        $(".deluser").popConfirm({content: ''});
+                    },
+                    columnDefs: [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            render: DataTable.render.select(),
+                            targets: 0
+                        },
+                        {targets: [-1], orderable: false }
+                    ],
+                    select: {
+                        selector: 'td:first-child',
+                        style: 'multi',
+                        headerCheckbox: true
+                    },
+                    order: [[1, 'asc']],
+                    language: {
+                                searchPlaceholder: "...",
+                                url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+                            }
+                });     
+                $("#bulkStatusSelection").appendTo('.dataTables_filter');
+                // For bulk action on the tasks
+                $('#bulkStatusSelection').on('change', function(){
+                        const selectedStatus = this.value;
+                        var selectedRows = approvalsTable.rows({selected: true}).ids().toArray();
+                        if(selectedRows.length > 0){
+                            const approvalId = '<?= $_COMPANY->encodeId($approvalid) ?>';
+                            const topicType = '<?= $topicType ?>';
+                            const newStatusTxt = $(this).data('text');
+                            updateTaskStatus(selectedRows, selectedStatus, approvalId, topicType, newStatusTxt);
+                        }else{
+                            Swal.fire({
+                                text: 'Please select at least one task to apply changes.'
+                            });
+
+                            $(this).val('');
+                            return;
+                        }
+                });                
+            }, 100);
+
+        });
+  </script>
+  <script>
+    // encoding statuses to access in func below
+    var approvalStatusMap = <?= json_encode(TopicApprovalTask::TOPIC_APPROVAL_STATUS); ?>
+    // Common function for single and bulk task updates
+     function updateTaskStatus(taskIds, newStatus, approvalId, topicType){
+        if(!Array.isArray(taskIds)){
+            taskIds = [taskIds]; //conversion to array if singular taskid
+        }
+
+        const newStatusTxt = approvalStatusMap[newStatus] || newStatus;
+
+        // Setting the data to be sent in ajax
+        const formData = new FormData();
+        taskIds.forEach(taskId => formData.append('taskIds[]', taskId));
+        formData.append('newStatus', newStatus);
+        formData.append('approvalid', approvalId);
+
+        // for ephmeral topics
+        let ephemeralTopicIds = [];
+        taskIds.forEach(function (taskId) {
+            let taskRow = $(`#${taskId}`);
+            let ephemeral_topic_id = taskRow.find('input[name="ephemeral_topic_id"]').val();
+            if(ephemeral_topic_id){
+                ephemeralTopicIds.push(ephemeral_topic_id);
+            }
+        });
+
+        if (ephemeralTopicIds.length === 1) {
+            formData.append('ephemeral_topic_id', ephemeralTopicIds[0]);    
+        } else if (ephemeralTopicIds.length > 1){
+            formData.append('ephemeral_topic_id', JSON.stringify(ephemeralTopicIds));
+        }
+
+        // For reloading task modal
+        const approvalTopicTypeid = '<?= $_COMPANY->encodeId($topicTypeId) ?>';
+
+        // For ajax request
+        const ajaxReqEndpoint = '<?= $ajaxReqEndpoint ?>';
+         // confirmation
+         Swal.fire({
+			allowOutsideClick: false,
+			showCancelButton: true,
+			text: `Are you sure you want to change status of ${taskIds.length > 1 ? 'these tasks' : 'this task'} to "${newStatusTxt}" ?`,
+			confirmButtonText:
+			  'Confirm',
+            cancelButtonText:
+			  'Cancel',
+		}).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: ajaxReqEndpoint+'?changeApprovalTasksStatus=1',
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success : function(data) {
+                        let retVal  = JSON.parse(data);
+                        swal.fire({text:retVal.message}).then(function (result) {
+                            closeAllActiveModal();
+                            updateApprovalStatusModal(approvalTopicTypeid,approvalId,'',topicType);
+                            });
+                    },
+                    error: function(){
+                        
+                    }
+                });
+            }else{
+                $(this).prop('checked', false);
+            }
+        });
+
+
+    }
+  </script>
+  <script>
+    $(document).ready(function(){
+        // For task status Radio buttons
+        $('#approvalTasks').on('change', '.dropdown-menu .status-checkbox', function(){
+            $('.status-checkbox').not(this).prop('checked', false);
+            const taskId = $(this).closest('.dropdown').data('task-id');
+            const newStatus = $(this).val();
+            const approvalId = '<?= $_COMPANY->encodeId($approvalid) ?>'
+            const topicType = '<?= $topicType ?>';
+            updateTaskStatus(taskId, newStatus, approvalId, topicType);
+        });
+
+        
+        // Handle edit assignee dropdown visibility
+        $('#approvalTasksModal').on('click', '.edit-assignee', function (event) {
+            event.preventDefault();
+            const taskId = $(this).data('task-id');
+            $(`#assigneeDropdownWrapper-${taskId}`).toggleClass('d-none');
+        });        
+        // Handle assignee changes
+        $('#approvalTasksModal').on('click', '.assignee-option', function (event) {
+            event.preventDefault();
+
+            const assigneeId = $(this).data('assignee-id');
+            const taskId = $(this).data('task-id');
+            const approvalId = '<?= $_COMPANY->encodeId($approvalid) ?>';
+            const ephemeral_topic_id = $(this).closest('tr').find('input[name="ephemeral_topic_id"]').val();
+            const approvalTopicTypeid = '<?= $_COMPANY->encodeId($topicTypeId) ?>';
+            const topicType = '<?= $topicType ?>';
+            const ajaxReqEndpoint = '<?= $ajaxReqEndpoint ?>';
+            let selectedOptionValue = $(this).text(); 
+            $.ajax({
+                    url: ajaxReqEndpoint+'?changeAssignee=1',
+                    type: "POST",
+                    data: {taskId: taskId, assigneeId: assigneeId, approvalId: approvalId, ephemeral_topic_id: ephemeral_topic_id},
+                    dataType: 'json',
+                    success : function(data) {                     
+                        if(data){
+                            localStorage.setItem("lastApprovalAction", topicType);
+                            swal.fire({title: 'Assignee Updated',text:'New user assigned to the task'}).then(function (result) {
+                                closeAllActiveModal();
+                                updateApprovalStatusModal(approvalTopicTypeid,approvalId,'',topicType);
+                            });
+                        } else {
+                            swal.fire({title: 'Error',text:'Error occurred!'});
+                        }
+                    },
+                    error: function(){
+                        
+                    }
+                });
+        });
+
+        //  Enable submit button if all tasks are approved. 
+        function checkAllTasksApproved(){
+           
+            let allReqTasksApproved = true;
+            $('#approvalTasks tbody tr').each(function(){
+                const row = $(this);
+                const isRequired = row.data('isrequired');
+              
+                // const checkbox = row.find('status-checkbox');
+                const statuscell = row.find(`[id^="task-status-"]`);
+                const status = statuscell.text().trim().toLowerCase();
+                let approval_status_skipped = "<?= TopicApprovalTask::TOPIC_APPROVAL_STATUS['skipped'] ?>";
+                let approval_status_approved = "<?= TopicApprovalTask::TOPIC_APPROVAL_STATUS['approved'] ?>";
+
+                if(isRequired == 1 && (status != approval_status_approved.toLowerCase() && status != approval_status_skipped.toLowerCase())){
+                    allReqTasksApproved = false;
+                    return false;
+                }
+            });
+
+            if(allReqTasksApproved){
+                // $('#submitButton').prop('disabled', false);
+                // $('#note_wrapper').show();
+                // $('#selectApprovers').show();
+                // $('#nextStageApproverSelector').show();
+                $('#approveButton').prop('disabled', false);
+            }else{
+                // $('#submitButton').prop('disabled', true);
+                // $('#note_wrapper').hide()
+                // $('#selectApprovers').hide();
+                // $('#nextStageApproverSelector').hide();
+                $('#approveButton').prop('disabled', true);
+            } 
+            
+        }
+        checkAllTasksApproved();
+    });
+
+</script>
+ <script>   
+    // For submitting approval log note 
+    function updateApprovalStatus(jsevent) {
+          jsevent.preventDefault();
+          var submitButton = document.getElementById('submitButton');
+
+          const clickedButton = event.submitter.id;
+          const approvalStatus = clickedButton === "submitButton" ? "approve" : "deny";
+
+          const selectApproversSelector = $("#selectApprovers");
+          if(selectApproversSelector.length > 0 && approvalStatus == 'approve'){
+            const selectedOptions = $("#selectApprovers option:selected").length;
+                if(selectedOptions === 0){
+                    Swal.fire({
+                    icon: 'warning',
+                    text: `You must select at least one approver`,
+                    confirmButtonText: 'Ok'
+                    });
+                    return;
+                }
+          }
+
+          if(submitButton){
+            submitButton.disabled = true;
+          }
+
+        const topicType = '<?= $topicType ?>';
+        const approvalStatusInput = document.getElementById("approvalStatus");
+        const ajaxReqEndpoint = '<?= $ajaxReqEndpoint ?>';
+        approvalStatusInput.value = approvalStatus;
+        var e = $("#topicTypeId").val();
+        var s = '<?= $_COMPANY->encodeId($approvalid) ?>';
+        var a = approvalStatus;
+        var n =  $("#approverNote").val();
+        var as =  $("#approvalStage").val();
+        $.ajax({
+            url: ajaxReqEndpoint+'?updateApprovalRequest=1',
+            type: "post",
+            data: $(jsevent.target).serialize(),
+            success : function(data) {
+                if(data == 1){
+                    localStorage.setItem("lastApprovalAction", topicType);
+                    swal.fire({title: 'Success',text:"Updated successfully"}).then(function (result) {
+                        location.reload();
+                    });
+                } else {
+                    swal.fire({title: 'Error!',text:"Something went wrong. Please try again"});
+                }
+              setTimeout(() => {
+                $(".swal2-confirm").focus();
+              }, 100)
+            }
+        });
+
+    }
+  </script>
+  <script>
+    $('#selectApprovers').multiselect({
+        templates: {
+        li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
+    },
+    nonSelectedText: "<?= gettext('Select Approver(s)') ?>",
+    numberDisplayed: 1,
+    nSelectedText: "<?= gettext('Approvers selected')?>",
+    disableIfEmpty: true,
+    allSelectedText: "<?= gettext('All Approvers selected')?>",
+    selectAllText: '<?= gettext("Select All");?>',
+    includeSelectAllOption: false,
+    maxHeight: 400,
+    selectAllValue: 'multiselect-all',
+    enableFiltering: true,
+    filterBehavior: 'text',
+    enableCaseInsensitiveFiltering: true,
+    onChange: function(option, checked){
+        const selectedOptions = $("#selectApprovers option:selected").length;
+        let maxApproversLimit = '<?= (int)$approver_max_approvers_limit; ?>';
+        // check for max limit
+        if(selectedOptions > maxApproversLimit){
+          Swal.fire({
+            icon: 'warning',
+            text: `You can select a maximum of ${maxApproversLimit} approvers`,
+            confirmButtonText: 'Ok'
+          });
+          option.prop('selected', false);
+          $('#selectApprovers').multiselect('refresh');
+        }
+      },
+  });
+  // This Fix the text overflow.
+$(document).ready(function() {
+    var initialHeight = $('.multiselect-selected-text').height();
+    
+    // Create a MutationObserver
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                var newHeight = $('.multiselect-selected-text').height();
+                var heightDifference = newHeight - initialHeight;
+                $('.multiselect-container').css('top', '+=' + heightDifference + 'px');
+                initialHeight = newHeight;
+            }
+        });
+    });
+    // Observe changes in the selected text element's content
+    observer.observe($('.multiselect-selected-text')[0], {
+        childList: true,
+        subtree: true
+    });
+});
+  </script>
+  <script>
+    $(document).ready(function(){
+        const approveButton = document.getElementById("approveButton");
+        const denyButton = document.getElementById("denyButton");
+        approveButton.addEventListener("click", function(){
+            handleFInalActionModal('approve');
+        });
+        denyButton.addEventListener("click", function(){
+            handleFInalActionModal('deny');
+        });
+        function handleFInalActionModal(status){
+            // Hide previous modal
+            $('#approvalTasksModal').modal('hide');
+            if(status == 'approve'){
+                $('#nextStageApproverSelector').show();
+                $('#submitButton').show();
+                $('#submitButton').prop('disabled', false);
+            }else{
+                $('#nextStageApproverSelector').hide();
+                $('#resetButton').show();
+                $('#resetButton').prop('disabled', false);
+            }
+            // Show the 2nd modal
+            $('#topic_approval_note_modal').modal("show");
+        }
+    });
+</script>

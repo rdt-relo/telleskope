@@ -1,0 +1,267 @@
+<style>
+    span.multiselect-native-select select {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px -1px -1px -3px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    left: 50%;
+    top: 30px;
+}
+select option {
+    color: #000;
+}
+.multiselect-native-select > .btn-group {
+    width: 100% !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.multiselect.dropdown-toggle {
+    text-align: left;
+}
+.dropdown-menu {
+    -webkit-background-clip: padding-box;
+}
+.dropdown-menu.show {
+    width: 100%;
+}
+.multiselect {
+    padding: .375rem .75rem !important;
+    min-width: 100px;
+    background-image: none;
+    background-color: transparent;
+}
+.multiselect-selected-text{font-size: 1rem;}
+.input-group-addon{display: none;}
+.multiselect-container>li>a {
+    padding: 0;
+    background-color: #fff !important;
+    color: #333 !important;
+}
+</style>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h6 style="margin-top: 4px;" ><?= $pagetitle; ?>&nbsp;</h6>
+                    <a aria-label="Add Auto Approval criteria" href="add_approval_criterion?topicType=<?=$topicType?>&approval_stage=<?=$_COMPANY->encodeId($stage)?>&approval_config_id=<?=$_COMPANY->encodeId($configId)?>">
+                        <i class="fa fa-plus-circle fa-lg mt-3" title="Add Auto Approval criteria" aria-hidden="true"></i>
+                    </a>
+                </div>
+                
+                <div class="clearfix"></div>
+            <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= UPDATED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                <div id="hidemesage" class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= ADDED; ?>
+                </div>
+            <?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+                <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                    <?= $_SESSION['error_msg']; ?>
+                </div>
+            <?php } ?>
+
+                <?php if(!empty($autoApprovalConfigData)){?>
+                <div class="col-md-12">                 
+                    <p class="my-3">
+                        <strong>The stage will be auto-approved if:</strong>
+                        <ul>
+                            <li>All criteria in a <span style="color: #0064C8FF;">[Grouped]</span> condition are met, or</li>
+                            <li>Any of the other individual criteria is met.</li>
+                        </ul>
+                    </p>
+
+                    <p class="my-3">
+                        You can combine any of the criteria listed below to define a grouped condition <button class="btn btn-info btn-sm p-1" type="button" data-toggle="modal" data-target="#combine_critirea_modal">Set Up Grouped Condition</button>
+                    </p>
+
+                    <div class="table-responsive " id="list-view">
+                
+                        <table id="autoApprovalField" class="table table-hover display compact" summary="This table displays the list of approval criteria">
+                            <thead>
+                                <tr>
+                                    <th width="20%" scope="col">Field Name</th>
+                                    <th width="15%" scope="col">Field Type</th>
+                                    <th width="20%" scope="col">Selected Options</th>
+                                    <th width="10%" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php
+                            foreach($autoApprovalConfigData as $criterion){
+                                    $isGrouped = !empty($criterion['condition_group']) ? ' <sup style="color: #0064C8FF;">[Grouped]</sup>' : '';
+                                    $data = Event::GetEventCustomFieldDetail($criterion['custom_field_id']);
+                                    $encodedId = $_COMPANY->encodeId($criterion['custom_field_id']);
+                        ?>
+                                 <tr id="<?= $encodedId; ?>" <?= ($data['isactive'])?'':'style="background-color: rgb(251, 199, 199); opacity: 0.5;"' ?> >
+                                    <td><?= htmlspecialchars($data['custom_field_name']); ?><small><?= $isGrouped  ?></small></small></td>
+                                    <td><?= $type[$data['custom_fields_type']] ?></td>
+                                    <td>
+                                        <?php
+                                        $customFieldOptions = [];
+                                        foreach($data['options'] as $option){
+                                            $customFieldOptions[$option['custom_field_option_id']] = $option['custom_field_option'];
+                                        }
+                                        
+                                        if($criterion['value']){ 
+                                            foreach($criterion['value'] as $optionid){ 
+                                                if(isset($customFieldOptions[$optionid])){
+                                                    $customFieldName = $customFieldOptions[$optionid];
+                                                    echo "- ".htmlspecialchars($customFieldName)."<br>";
+                                                }
+                                              } 
+                                         } else {
+                                            echo '-';
+                                        } ?>
+                                    </td>
+                                    <td>
+                                            <a class="deluser" href="#" onclick="deleteCriterion('<?=$_COMPANY->encodeId($configId)?>','<?= $encodedId ?>', '<?=$topicType?>')" title="<strong>Are you sure to delete!</strong>" ><i class="fa fa-trash" title="Delete" aria-hidden="true"></i></a>
+                                        </td>
+                                </tr>
+                              <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php } else { ?>
+                <div class="col-md-12">
+                    <p class="my-5">
+                        No auto-approval criteria have been set. Click <a aria-label="Add Auto Approval criteria" href="add_approval_criterion?topicType=<?=$topicType?>&approval_stage=<?=$_COMPANY->encodeId($stage)?>&approval_config_id=<?=$_COMPANY->encodeId($configId)?>"><i class="fa fa-plus-circle " title="Add Auto Approval criteria" aria-hidden="true"></i></a> to add new criteria.
+                    </p>
+                </div>
+                <?php } ?>
+
+                <div class="col-md-2">
+                    <a  class="btn btn-info btn-sm" href="<?=$topic_config_redirect;?>" >Back to Approval Configuration</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal for selecting the criterions for combining -->
+<div id="combine_critirea_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">  
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="form_title">Group Criteria</h5>
+                <button id="btn_close" aria-label="close" type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+                    <p class="my-1">
+                        Select all the criteria you want to combine:
+                    </p>               
+                <form class="form-horizontal" method="post" id="event_volunteer_request_form">
+                    <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                     <!-- Multiselect -->
+                <?php if(!empty($autoApprovalConfigData)){?>
+                    <div class="form-group hide-for-tab" id="selectedCriteria">
+                        <?php
+                        foreach($autoApprovalConfigData as $criterion){
+                            $isChecked = !empty($criterion['condition_group']) ? 'checked' : '';
+                            $data = Event::GetEventCustomFieldDetail($criterion['custom_field_id']);
+                            $encodedId = $_COMPANY->encodeId($criterion['custom_field_id']);
+                            ?>
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    name="selectedCriteria[]"
+                                    value="<?= $encodedId ?>"
+                                    id="criteria_<?= $encodedId ?>"
+                                    <?= $isChecked ?>
+                                >
+                                <label class="form-check-label" for="criteria_<?= $encodedId ?>">
+                                    <?= htmlspecialchars($data['custom_field_name']); ?>
+                                </label>
+                            </div>
+                        <?php } ?>
+                    </div>
+
+                <?php } ?>
+                        <div class="form-group text-center mt-3">
+                            <button type="button" onclick="submitCombinedApprovalCritirea()" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>	
+			</div>
+		</div>  
+	</div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $('#autoApprovalField').DataTable( {
+        "order": [],
+        "bPaginate": true,
+        "bInfo" : false,
+        "stateSave": true,
+        "columnDefs": [
+            { targets: [-1], orderable: false }
+		],	
+        "drawCallback": function( settings ) {
+            $(".deluser").popConfirm({content: ''});
+        },
+        language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+          }
+    } );
+
+    function deleteCriterion(approval_config_id, custom_field_id, topic_type) {
+        let approvalStage = '<?= $_COMPANY->encodeId($stage) ?>';
+        $.ajax({
+            url: 'ajax.php?deleteAutoApprovalCriterion',
+            method: 'POST',
+            data: { custom_field_id: custom_field_id, approval_config_id: approval_config_id, approvalStage: approvalStage, topic_type: topic_type },
+            success: function(data) {
+                let jsonData = JSON.parse(data);
+				swal.fire({title:jsonData.title,text:jsonData.message}).then(function(result) {
+					location.reload();
+                });
+            },
+            error: function() {
+				swal.fire({title:'Error',text:'An error occurred. Please try again later'});
+            }
+        });
+    }
+
+    function submitCombinedApprovalCritirea(){
+        let approvalStage = '<?= $_COMPANY->encodeId($stage) ?>';
+        let approval_config_id= '<?=$_COMPANY->encodeId($configId)?>';
+        let topicType = '<?=$topicType?>';
+        let selectedCriteria = [];
+
+        // Collect all checked checkboxes
+        $('input[name="selectedCriteria[]"]:checked').each(function() {
+            selectedCriteria.push($(this).val());
+        });
+        $.ajax({
+            url: 'ajax.php?combineAutoApprovalCriterion',
+            method: 'POST',
+            data: { selectedCriteria: selectedCriteria, approval_config_id: approval_config_id, approvalStage: approvalStage, topicType: topicType },
+            success: function(data) {
+                let jsonData = JSON.parse(data);
+				swal.fire({title:jsonData.title,text:jsonData.message}).then(function(result) {
+					location.reload();
+                });
+            },
+            error: function() {
+				swal.fire({title:'Error',text:'An error occurred. Please try again later'});
+            }
+        });
+
+    }
+</script>
+
+</body>
+</html>

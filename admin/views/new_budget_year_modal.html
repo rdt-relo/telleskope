@@ -1,0 +1,49 @@
+<div class="modal" id="newBudgetYearsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= $modalTitle; ?></h5>
+          <button type="button" id="btn_close" class="close" aria-label="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Budget Year Title</label>
+                        <input type="text" class="form-control" name="budget_year_title" id="budget_year_title" value="<?= $editBudgetYear ? htmlspecialchars($editBudgetYear['budget_year_title']) : '' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Year Start Date</label>
+                        <input type="text" class="form-control" placeholder="YYYY-MM-DD" name="budget_year_start_date" id="start_date" readonly value="<?= $editBudgetYear ? $editBudgetYear['budget_year_start_date'] : '' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Year End Date</label>
+                        <input type="text" class="form-control" placeholder="YYYY-MM-DD" name="budget_year_end_date" id="end_date" readonly value="<?= $editBudgetYear ? $editBudgetYear['budget_year_end_date'] : '' ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="saveCompanyBudgetYear('<?= $_COMPANY->encodeId($budget_year_id); ?>');" ><?= gettext("Submit")?></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= gettext("Close")?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <script>
+    $( "#start_date" ).datepicker({
+        prevText:"click for previous months",
+        nextText:"click for next months",
+        showOtherMonths:true,
+        selectOtherMonths: false,
+        dateFormat: 'yy-mm-dd'
+	});
+	$( "#end_date" ).datepicker({
+		prevText:"click for previous months",
+		nextText:"click for next months",
+		showOtherMonths:true,
+		selectOtherMonths: true,
+		dateFormat: 'yy-mm-dd'
+	});
+  </script>

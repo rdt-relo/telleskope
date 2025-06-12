@@ -1,0 +1,43 @@
+<div  class="my-2" style="border: 1px solid #dedede; border-radius: 5px;padding: 5px 0;">
+    <div class="grecaptcha-label">
+        This service is provided by Teleskope under contract with your employer. Teleskope
+        <?php if (empty($_COMPANY->val('customer_privacy_link')) || $_COMPANY->val('show_teleskope_privacy_link')) { $addComma = true; ?>
+            <a href="https://www.teleskope.io/privacypolicy" target="_blank" rel="noopener">Privacy Policy</a>
+        <?php } ?>
+        <?php if (empty($_COMPANY->val('customer_tos_link')) || $_COMPANY->val('show_teleskope_tos_link')) { ?>
+        <?= isset($addComma) ? ', ' : ''; ?>
+        <a href="https://www.teleskope.io/terms" target="_blank" rel="noopener">Terms of Service</a>
+        <?php } ?>
+         and any other terms and policies agreed with your employer apply.
+              <?php
+              $customerPolicy = '';
+              $customerTerms = '';
+              if ($_COMPANY && (!empty($_COMPANY->val('customer_privacy_link')) || !empty($_COMPANY->val('customer_tos_link')))) {
+
+                  if (!empty($_COMPANY->val('customer_privacy_link'))) {
+                      $customerPolicy = "<a href=\"{$_COMPANY->val('customer_privacy_link')}\" target=\"_blank\" rel=\"noopener\">Privacy Policy</a>";
+                  }
+
+                  if (!empty($_COMPANY->val('customer_tos_link'))) {
+                      $customerTerms = "<a href=\"{$_COMPANY->val('customer_tos_link')}\" target=\"_blank\" rel=\"noopener\">Terms of Use</a>";
+                  }
+
+                  $joiner = '';
+                  if ($customerPolicy && $customerTerms) {
+                      $joiner = ' and ';
+                  }
+
+                  echo "<br/><br/>For more information about how your personal data will be handled, please visit {$_COMPANY->val('companyname')} {$customerPolicy}{$joiner}{$customerTerms}.";
+              }
+              ?>
+
+    </div>
+    <?php if ($show_policy_consent_checkbox) { ?>
+    <div id="acceptPrivacyPolicyBlock" class="form-check ml-3 mt-2" style="font-size:small; margin-bottom: 20px;">
+      <input class="form-check-input" type="checkbox" id="acceptPrivacyPolicy" name="acceptPrivacyPolicy" required>
+        <label class="form-check-label" for="acceptPrivacyPolicy">
+            I have read the Privacy Policy & accept the Terms of Service <?= ($customerTerms) ? '/ Use' : '' ?>
+        </label>
+    </div>
+    <?php }  ?>
+</div>

@@ -1,0 +1,768 @@
+<style>
+    .btn-group.bootstrap-select {
+        min-width: 330px !important;
+    }
+
+    span.filter-option.pull-left {
+        max-width: 270px !important;
+        margin-left: 10px;
+    }
+
+    button.btn.dropdown-toggle.bs-placeholder.btn-default {
+        color: #333;
+        height: 45px;
+        padding-top: 0px;
+    }
+
+    .btn-default {
+        background-image: linear-gradient(#fff, #fff 60%, #fff);
+        background-repeat: no-repeat;
+        border: 1px solid #d2d6de;
+        color: #333;
+        filter: none;
+    }
+
+    .ui-autocomplete{
+            border: 1px solid #000 !important;
+            z-index: 100000 !important;
+            font-family: inherit !important;
+            font-size: inherit!important;
+            background: #fff !important;
+        }
+        .ui-menu-item-wrapper{
+            padding: 6px 12px !important;
+            color: #000;
+        }
+        .ui-menu-item-wrapper:hover, .ui-state-active {
+            background: #0077B5 !important;
+            color: #fff;
+        }
+        .ui-autocomplete-input:focus{
+            border-color: #4f9fcf;
+        }
+        /* For clear button in inputs */
+        .clear-input{
+            position: absolute;
+            height: 33px;
+            right: 16px;
+            top: 73%;
+            transform: translateY(-50%);
+            border: none;
+            border-radius: 0 .25rem .25rem 0;
+            background: #f8f6f6;
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaa;
+            border-left: 1px solid #ced4da;
+        }
+        .clear-input{
+            color: #878787;
+        }
+        .readonly-select{
+            pointer-events: none;
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+    
+</style>
+<?php
+$is_claimed = $organization_id && $latestOrgData[0]['is_claimed'];
+?>
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+                <div class="col-md-12 divider">
+                    <h5><?= $pagetitle; ?></h5>
+                </div>
+                <div class="col-md-12">
+
+                    <form class="form-horizontal" id="addUpdateOrganizationFrom" method="post" action="" >
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <input type="hidden" name="organization_id" value="<?= $_COMPANY->encodeId($organization_id);?>">
+                        <input type="hidden" id="org_id" name="org_id" value="<?= $organization_id ? $_COMPANY->encodeId($org->val('api_org_id') ?? 0) : $_COMPANY->encodeId(0) ?>">
+                        <div class="alert-danger px-3 mb-3" id="not_approved" style="display: none; font-weight: bold;"><?=gettext('This organization is not approved. Please search for another organization.')?></div>
+                        <div class="col-md-12 alert-info p-3 my-3" style="<?= $is_claimed ? '' : 'display: none;' ?>"><p>The data shown below is maintained by the Organization. To request updates, please send email notification to the organization contacts from the approval page.</p></div>
+
+                        <div class="form-group col-md-12 bg-light border border-secondary py-3" >
+                            <div class="col-md-12 mb-3"><h6 style="font-size: 18px;font-weight: bold;">Organization Information</h6></div>
+                            
+                            <div class="form-group col-md-6">
+                                <label for="organization_name">Organization Name <span style="color: #ff0000;"> *</span></label>
+                                    <input type="text" class="form-control" id="organization_name" name="organization_name" value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['organization_name'] ?? '') : ''?>" placeholder=" <?= gettext("Organization Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                                    <?php if(!$organization_id){ ?>
+                                    <button type="button" class="clear-input" onclick="clearAllFields()">x</button>
+                                    <?php } ?>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="organization_taxid">Organization Tax ID <span style="color: #ff0000;"> *</span></label>
+                                
+                                    <input type="text" class="form-control" id="organization_taxid" name="organization_taxid" value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['organization_taxid'] ?? '') : ''?>" placeholder=" <?= gettext("Organization Tax ID");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                                    <?php if(!$organization_id){ ?>
+                                    <button type="button" class="clear-input" onclick="clearAllFields()">x</button>
+                                    <?php } ?>
+                                
+                            </div>
+                            <div class="form-group mb-2 col-md-6">
+                                <label for="organization_url"><?= gettext("Organization Website/URL");?>: <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="organization_url" name="organization_url" value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['org_url'] ?? '') : ''?>" placeholder=" <?= gettext("Organization Website/URL");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                            <div class="form-group mb-2 col-md-6">
+                                <label for="organization_type"><?= gettext("Organization Type");?>: <span style="color: #ff0000;"> *</span></label>
+                                <select class="form-control" name="organization_type" id="organization_type" placeholder=" <?= gettext("Select Organization Type");?>"  <?= $organization_id ? 'readonly style="pointer-events: none;"' : '' ?>>
+                                    <?php $selected = $organization_id ? $latestOrgData[0]['organization_type'] : ''; ?>
+                                    <option value="2" <?= $selected == 2 ? 'selected' : '' ?> ><?= gettext("Non-Profit");?></option>
+                                    <option value="1" <?= $selected == 1 ? 'selected' : '' ?> ><?= gettext("For Profit");?></option>
+                                    <option value="3" <?= $selected == 3 ? 'selected' : '' ?>><?= gettext("Government/Public");?></option>
+                                </select>
+                            </div>
+
+                            <?php if ($organization_id) { ?><!-- parter Organization Mission Statement start-->
+                            <div class="form-group my-2 col-md-12">
+                                <label for="organization_mission_statement"><?= gettext("Organization Mission");?>: </label>
+                                <textarea class="form-control" id="organization_mission_statement" name="organization_mission_statement"  readonly ><?= $organization_id ?  htmlspecialchars($latestOrgData[0]['organization_mission_statement'] ?? '') : ''?></textarea>
+                            </div>
+                            <?php } ?> <!-- parter Organization Mission Statement end-->
+                        </div>
+
+                        <div class="form-group col-md-12 bg-light border border-secondary py-3" >
+                            <div class="col-md-12 mb-3"><h6 style="font-size: 18px;font-weight: bold;">Organization Address</h6></div>
+                            
+                            <div class="form-group col-md-6">
+                                <label class="col-md-12 control-label">Street Name <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="address_street" name="address_street" value="<?= $organization_id ?  htmlspecialchars($latestOrgData[0]['street'] ?? '') : ''?>" placeholder=" <?= gettext("Street Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address_city">City Name <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="address_city" name="address_city" value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['city'] ?? '') : ''?>" placeholder=" <?= gettext("City Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address_state">State Name <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="address_state" name="address_state" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['state'] ?? '') : ''?>" placeholder=" <?= gettext("State Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address_country">Country Name <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="address_country" name="address_country" value="<?= $organization_id ?  htmlspecialchars($latestOrgData[0]['country'] ?? '') : ''?>" placeholder=" <?= gettext("Country Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address_zipcode">Zip Code <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="address_zipcode" name="address_zipcode" value="<?= $organization_id ?  htmlspecialchars($latestOrgData[0]['zipcode'] ?? '') : ''?>" placeholder=" <?= gettext("Zip Code");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12 bg-light border border-secondary py-3" >
+                            <div class="col-md-12 mb-3"><h6 style="font-size: 18px;font-weight: bold;">Organization Contact Information</h6></div>
+
+                            <div class="form-group mb-2 col-md-4">
+                                <label for="contact_firstname"><?= gettext("Contact First Name");?>: <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="contact_firstname" name="contact_firstname" value="<?= $organization_id ?  htmlspecialchars($latestOrgData[0]['contact_firstname'] ?? '') : ''?>" placeholder=" <?= gettext("Contact First Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                    
+                            <div class="form-group mb-2 col-md-4">
+                                <label for="contact_lastname"><?= gettext("Contact Last Name");?>: <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="contact_lastname" name="contact_lastname" value="<?= $organization_id ?  htmlspecialchars($latestOrgData[0]['contact_lastname'] ?? '') : ''?>" placeholder=" <?= gettext("Contact Last Name");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+
+                            <div class="form-group mb-2 col-md-4">
+                                <label for="contact_email"><?= gettext("Contact Email");?>: <span style="color: #ff0000;"> *</span></label>
+                                <input type="text" class="form-control" id="contact_email" name="contact_email" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['contact_email'] ?? '') : ''?>" placeholder=" <?= gettext("Contact Email");?>" <?= $is_claimed ? 'readonly' : '' ?>>
+                            </div>
+                        </div>
+
+                        <?php if ($organization_id) { ?>
+                        <div class="form-group col-md-12 bg-light border border-secondary py-3" >
+                            <div class="col-md-12 mb-3">
+                                <h6 style="font-size: 18px;font-weight: bold;display: block;">Organization Controlling Parties</h6>
+                            </div>
+
+                            <div>
+                                <div class="col-md-12 border-bottom mb-3"><b>CEO Information</b></div>
+                                <div class="form-group col-md-4">
+                                    <label for="ceo_firstname">CEO Name </label>
+                                    <input type="text" class="form-control" id="ceo_firstname" name="ceo_firstname" value="<?=  $organization_id ?  htmlspecialchars($latestOrgData[0]['ceo_firstname'] ?? '') : ''?>"  <?= true || ($organization_id && $latestOrgData[0]['ceo_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="ceo_lastname" >CEO Last Name </label>
+                                    <input type="text" class="form-control" id="ceo_lastname" name="ceo_lastname" value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['ceo_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['ceo_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="ceo_dob">CEO DOB </label>
+                                    <input type="text" class="form-control datePicker" id="ceo_dob" name="ceo_dob" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['ceo_dob'] ?? '') : ''?>" readonly>
+                                    <input type="hidden" name="hidden_ceo_dob" id="hidden_ceo_dob" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['ceo_dob'] ?? '') : ''?>">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="col-md-12 border-bottom mb-3"><b>CFO Information</b></div>
+                                <div class="form-group col-md-4">
+                                    <label for="cfo_firstname">CFO Name </label>
+                                    <input type="text" class="form-control" id="cfo_firstname" name="cfo_firstname" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['cfo_firstname'] ?? '') : ''?>"  <?= true || ($organization_id && $latestOrgData[0]['cfo_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="cfo_lastname">CFO Last Name </label>
+                                    <input type="text" class="form-control" id="cfo_lastname" name="cfo_lastname" value="<?=  $organization_id ?  htmlspecialchars($latestOrgData[0]['cfo_lastname'] ?? '') : ''?>"  <?= true || ($organization_id && $latestOrgData[0]['cfo_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="cfo_dob">CFO DOB </label>
+                                        <input type="text" class="form-control datePicker" id="cfo_dob" name="cfo_dob" value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['cfo_dob'] ?? '') : ''?>" readonly>
+                                        <input type="hidden" name="hidden_cfo_dob"  value="<?=  $organization_id ? htmlspecialchars($latestOrgData[0]['cfo_dob'] ?? '') : ''?>">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="col-md-12 border-bottom "><b>Board Members</b></div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm1_firstname">Board Member 1 First Name</label>
+                                    <input type="text" class="form-control" id="bm1_firstname" name="bm1_firstname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm1_firstname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm1_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm1_lastname" >Board Member 1 Last Name</label>
+                                    <input type="text" class="form-control" id="bm1_lastname" name="bm1_lastname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm1_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm1_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm1_dob">Board Member 1 DOB</label>
+                                    <input type="text" class="form-control datePicker" id="bm1_dob" name="bm1_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm1_dob'] ?? '') : '' ?>"
+                                           readonly>
+                                    <input type="hidden" name="hidden_bm1_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm1_dob'] ?? '') : '' ?>">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm2_firstname">Board Member 2 First Name</label>
+                                    <input type="text" class="form-control" id="bm2_firstname" name="bm2_firstname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm2_firstname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm2_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm2_lastname">Board Member 2 Last
+                                        Name</label>
+                                    <input type="text" class="form-control" id="bm2_lastname" name="bm2_lastname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm2_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm2_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm2_dob" >Board Member 2 DOB</label>
+                                    <input type="text" class="form-control datePicker" id="bm2_dob" name="bm2_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm2_dob'] ?? '') : '' ?>"
+                                           readonly>
+                                    <input type="hidden" name="hidden_bm2_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm2_dob'] ?? '') : '' ?>">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm3_firstname">Board Member 3 First Name</label>
+                                    <input type="text" class="form-control" id="bm3_firstname" name="bm3_firstname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm3_firstname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm3_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm3_lastname">Board Member 3 Last Name</label>
+                                    <input type="text" class="form-control" id="bm3_lastname" name="bm3_lastname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm3_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm3_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm3_dob">Board Member 3 DOB</label>
+                                    <input type="text" class="form-control datePicker" id="bm3_dob" name="bm3_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm3_dob'] ?? '') : '' ?>"
+                                           readonly>
+                                    <input type="hidden" name="hidden_bm3_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm3_dob'] ?? '') : '' ?>">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm4_firstname">Board Member 4 First Name</label>
+                                    <input type="text" class="form-control" id="bm4_firstname" name="bm4_firstname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm4_firstname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm4_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm4_lastname">Board Member 4 Last
+                                        Name</label>
+                                    <input type="text" class="form-control" id="bm4_lastname" name="bm4_lastname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm4_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm4_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm4_dob">Board Member 4 DOB</label>
+                                    <input type="text" class="form-control datePicker" id="bm4_dob" name="bm4_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm4_dob'] ?? '') : '' ?>"
+                                           readonly>
+                                    <input type="hidden" name="hidden_bm4_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm4_dob'] ?? '') : '' ?>">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm5_firstname">Board Member 5 First Name</label>
+                                    <input type="text" class="form-control" id="bm5_firstname" name="bm5_firstname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm5_firstname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm5_firstname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm5_lastname">Board Member 5 Last
+                                        Name</label>
+                                    <input type="text" class="form-control" id="bm5_lastname" name="bm5_lastname"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm5_lastname'] ?? '') : '' ?>" <?= true || ($organization_id && $latestOrgData[0]['bm5_lastname']) ? 'readonly' : '' ?>>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="bm5_dob">Board Member 5 DOB</label>
+                                    <input type="text" class="form-control datePicker" id="bm5_dob" name="bm5_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm5_dob'] ?? '') : '' ?>"
+                                           readonly>
+                                    <input type="hidden" name="hidden_bm5_dob"
+                                           value="<?= $organization_id ? htmlspecialchars($latestOrgData[0]['bm5_dob'] ?? '') : '' ?>">
+                                </div>
+                             </div>
+                                
+                        </div>
+                        <?php } ?>
+
+                        <div class="form-group col-md-12 bg-light border border-secondary py-3" >
+                            <div class="col-md-12 mb-3"><h6 style="font-size: 18px;font-weight: bold;"><?= sprintf(gettext("%s notes about this organization"),$_COMPANY->val('companyname'));?></h6></div>
+                            <div class="form-group mb-6 col-md-12">
+                                <textarea class="form-control" id="company_organization_notes" name="company_organization_notes"  placeholder="<?= gettext('Enter notes about this organization here');?>" ><?= $organization_id ?  htmlspecialchars($latestOrgData[0]['company_organization_notes'] ?? '') : ''?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <a href="manage_organizations" class="btn btn-primary">Cancel</a>
+                            <button type="button" id="submitButton" onclick="submitAddUpdateOrganization()" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+$( ".datePicker" ).datepicker({
+        prevText:"click for previous months",
+        nextText:"click for next months",
+        showOtherMonths:true,
+        selectOtherMonths: true,
+        maxDate: 0,
+        dateFormat: 'yy-mm-dd'
+    });
+
+    function submitAddUpdateOrganization() {
+        var formdata = $('#addUpdateOrganizationFrom')[0];
+        var finalData  = new FormData(formdata);
+        $.ajax({
+            url: 'ajax.php?submitAddUpdateOrganization=1',
+            type: "POST",
+            data: finalData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1){
+                           window.location.href = 'manage_organizations';
+                        }
+                    });
+                } catch(e) { swal.fire({title: 'Error', text: "Unknown error."}); }
+            }
+        });
+    }
+
+</script>
+<script>
+    <?php if($organization_id){ ?>
+        <?php if (!empty($latestOrgData[0]['ceo_dob'])) { ?>
+            $("#ceo_dob").datepicker("disable");
+        <?php }?>
+
+        <?php if (!empty($latestOrgData[0]['cfo_dob'])) { ?>
+            $("#cfo_dob").datepicker("disable");
+        <?php } ?>  
+
+        <?php if (!empty($latestOrgData[0]['bm1_dob'])) { ?>
+            $("#bm1_dob").datepicker("disable");
+        <?php } ?>  
+        <?php if (!empty($latestOrgData[0]['bm2_dob'])) { ?>
+            $("#bm2_dob").datepicker("disable");
+        <?php } ?>  
+        <?php if (!empty($latestOrgData[0]['bm3_dob'])) { ?>
+            $("#bm3_dob").datepicker("disable");
+        <?php } ?>  
+        <?php if (!empty($latestOrgData[0]['bm4_dob'])) { ?>
+            $("#bm4_dob").datepicker("disable");
+        <?php } ?>  
+        <?php if (!empty($latestOrgData[0]['bm5_dob'])) { ?>
+            $("#bm5_dob").datepicker("disable");
+        <?php } ?>  
+        
+        // sync for hidden fields
+        $(".datepicker").on("change", function(){
+            const hiddenInputId = "#hidden_"+$(this).attr("id");
+            $(hiddenInputId).val($(this).val());
+        });
+        
+    <?php } ?>
+</script>
+<script>
+    $(document).ready(function(){
+          // For autocomplete on name and org id
+          $('#organization_name').autocomplete({
+
+            source: function(request, response){
+                $.ajax({
+                    url: 'ajax.php?searchOrganizations',
+                    type: 'POST',
+                    data:{searchTerm: request.term, searchField: 'organization_name'},
+                    success: function(data){
+                        const suggestions = JSON.parse(data);
+                        response(suggestions.map(item => ({
+                                label : item.label,
+                                value : item.value,
+                                organization_id : item.organization_id,
+                                organization_not_approved : item.organization_not_approved,
+                                orgid: item.orgid,
+                                organization_name : item.organization_name,
+                                organization_taxid: item.organization_taxid,
+                                organization_url: item.org_url,
+                                organization_type: item.organization_type,
+                                is_claimed: item.is_claimed,
+                                street: item.organisation_street,
+                                city: item.city,
+                                state: item.state,
+                                country: item.country,
+                                zipcode: item.zipcode,
+                                organization_contact_firstname: item.organization_contact_firstname,
+                                organization_contact_lastname: item.organization_contact_lastname,
+                                contact_email: item.contact_email, 
+                                ceo_firstname: item.ceo_firstname,
+                                ceo_lastname: item.ceo_lastname,
+                                ceo_dob: item.ceo_dob,
+                                cfo_firstname: item.cfo_firstname,
+                                cfo_lastname: item.cfo_lastname,
+                                cfo_dob: item.cfo_dob,
+                                bm1_firstname: item.bm1_firstname,
+                                bm1_lastname: item.bm1_lastname,
+                                bm1_dob: item.bm1_dob,
+                                bm2_firstname: item.bm2_firstname,
+                                bm2_lastname: item.bm2_lastname,
+                                bm2_dob: item.bm2_dob,
+                                bm3_firstname: item.bm3_firstname,
+                                bm3_lastname: item.bm3_lastname,
+                                bm3_dob: item.bm3_dob,
+                                bm4_firstname: item.bm4_firstname,
+                                bm4_lastname: item.bm4_lastname,
+                                bm4_dob: item.bm4_dob,
+                                bm5_firstname: item.bm5_firstname,
+                                bm5_lastname: item.bm5_lastname,
+                                bm5_dob: item.bm5_dob,
+                                organization_mission_statement: item.organization_mission_statement,
+                                company_organization_notes: item.company_organization_notes,
+                        })));
+                    },
+                    error: function(){
+                        console.error('Autocomplete failed to fetch data');
+                    }
+                });
+            }, //debounce delay
+            minLength: 3,
+            select: function(event, ui){
+                $('#organization_id').val(ui.item.organization_id);
+                $('#org_id').val(ui.item.orgid);
+                $('#organization_taxid').val(ui.item.organization_taxid);
+                $('#organization_name').val(ui.item.organization_name);
+                $('#organization_url').val(ui.item.organization_url);
+
+                $('#organization_type').val(ui.item.organization_type);
+                
+                $('#address_city').val(ui.item.city);
+                $('#address_state').val(ui.item.state);
+                $('#address_street').val(ui.item.street);
+                $('#address_country').val(ui.item.country);
+                $('#address_zipcode').val(ui.item.zipcode);
+
+                $('#contact_firstname').val(ui.item.organization_contact_firstname);
+                $('#contact_lastname').val(ui.item.organization_contact_lastname);
+                $('#contact_email').val(ui.item.contact_email);
+
+                $('#ceo_firstname').val(ui.item.ceo_firstname);
+                $('#ceo_lastname').val(ui.item.ceo_lastname);
+                $('#ceo_dob').val(ui.item.ceo_dob);
+                $('#cfo_firstname').val(ui.item.cfo_firstname);
+                $('#cfo_lastname').val(ui.item.cfo_lastname);
+                $('#cfo_dob').val(ui.item.cfo_dob);
+                $('#bm1_firstname').val(ui.item.bm1_firstname);
+                $('#bm1_lastname').val(ui.item.bm1_lastname);
+                $('#bm1_dob').val(ui.item.bm1_dob);
+                $('#bm2_firstname').val(ui.item.bm2_firstname);
+                $('#bm2_lastname').val(ui.item.bm2_lastname);
+                $('#bm2_dob').val(ui.item.bm2_dob);
+                $('#bm3_firstname').val(ui.item.bm3_firstname);
+                $('#bm3_lastname').val(ui.item.bm3_lastname);
+                $('#bm3_dob').val(ui.item.bm3_dob);
+                $('#bm4_firstname').val(ui.item.bm4_firstname);
+                $('#bm4_lastname').val(ui.item.bm4_lastname);
+                $('#bm4_dob').val(ui.item.bm4_dob);
+                $('#bm5_firstname').val(ui.item.bm5_firstname);
+                $('#bm5_lastname').val(ui.item.bm5_lastname);
+                $('#bm5_dob').val(ui.item.bm5_dob);
+                $('#organization_mission_statement').val(ui.item.organization_mission_statement);
+                $('#company_organization_notes').val(ui.item.company_organization_notes);
+
+
+                const fieldsToDisable = [
+                '#organization_taxid',
+                '#organization_name',
+                '#organization_url',
+                '#organization_type',
+                '#address_city',
+                '#address_state',
+                '#address_street',
+                '#address_country',
+                '#address_zipcode',
+                '#contact_firstname',
+                '#contact_lastname',
+                '#contact_email',
+                '#ceo_firstname',
+                '#ceo_lastname',
+                '#ceo_dob',
+                '#cfo_firstname',
+                '#cfo_lastname',
+                '#cfo_dob',
+                '#bm1_firstname',
+                '#bm1_lastname',
+                '#bm1_dob',
+                '#bm2_firstname',
+                '#bm2_lastname',
+                '#bm2_dob',
+                '#bm3_firstname',
+                '#bm3_lastname',
+                '#bm3_dob',
+                '#bm4_firstname',
+                '#bm4_lastname',
+                '#bm4_dob',
+                '#bm5_firstname',
+                '#bm5_lastname',
+                '#bm5_dob',
+                ];
+                $(fieldsToDisable.join(", ")).prop("readonly", true);
+                $('#organization_type').addClass('readonly-select');
+
+                   $("#ceo_dob").datepicker("disable");
+                   $("#cfo_dob").datepicker("disable");
+                   $("#bm1_dob").datepicker("disable");
+                   $("#bm2_dob").datepicker("disable");
+                   $("#bm3_dob").datepicker("disable");
+                   $("#bm4_dob").datepicker("disable");
+                   $("#bm5_dob").datepicker("disable");
+
+                   if (ui.item.organization_not_approved) {
+                       $("#not_approved").show();
+                       $("#submitButton").hide();
+                   }
+                return false;
+            }            
+        }); 
+
+        $('#organization_taxid').autocomplete({
+            source: function(request, response){
+                $.ajax({
+                    url: 'ajax.php?searchOrganizations',
+                    type: 'POST',
+                    data:{searchTerm: request.term, searchField: 'organization_taxid'},
+                    success: function(data){
+                        const suggestions = JSON.parse(data);
+                        response(suggestions.map(item => ({
+                                label : item.label,
+                                value : item.value,
+                                organization_id : item.organization_id,
+                                organization_not_approved : item.organization_not_approved,
+                                orgid: item.orgid,
+                                organization_name : item.organization_name,
+                                organization_taxid: item.organization_taxid,
+                                organization_url: item.org_url,
+                                organization_type: item.organization_type,
+                                is_claimed: item.is_claimed,
+                                street: item.organisation_street,
+                                city: item.city,
+                                state: item.state,
+                                country: item.country,
+                                zipcode: item.zipcode,
+                                organization_contact_firstname: item.organization_contact_firstname,
+                                organization_contact_lastname: item.organization_contact_lastname,
+                                contact_email: item.contact_email, 
+                                ceo_firstname: item.ceo_firstname,
+                                ceo_lastname: item.ceo_lastname,
+                                ceo_dob: item.ceo_dob,
+                                cfo_firstname: item.cfo_firstname,
+                                cfo_lastname: item.cfo_lastname,
+                                cfo_dob: item.cfo_dob,
+                                bm1_firstname: item.bm1_firstname,
+                                bm1_lastname: item.bm1_lastname,
+                                bm1_dob: item.bm1_dob,
+                                bm2_firstname: item.bm2_firstname,
+                                bm2_lastname: item.bm2_lastname,
+                                bm2_dob: item.bm2_dob,
+                                bm3_firstname: item.bm3_firstname,
+                                bm3_lastname: item.bm3_lastname,
+                                bm3_dob: item.bm3_dob,
+                                bm4_firstname: item.bm4_firstname,
+                                bm4_lastname: item.bm4_lastname,
+                                bm4_dob: item.bm4_dob,
+                                bm5_firstname: item.bm5_firstname,
+                                bm5_lastname: item.bm5_lastname,
+                                bm5_dob: item.bm5_dob,
+                                organization_mission_statement: item.organization_mission_statement,
+                                company_organization_notes: item.company_organization_notes,
+                        })));
+                    },
+                    error: function(){
+                        console.error('Autocomplete failed to fetch data');
+                    }
+                });
+            }, 
+            minLength: 3,
+            select: function(event, ui){
+                $('#organization_id').val(ui.item.organization_id);
+                $('#org_id').val(ui.item.orgid);
+                $('#organization_taxid').val(ui.item.organization_taxid);
+                $('#organization_name').val(ui.item.organization_name);
+                $('#organization_url').val(ui.item.organization_url);
+                $('#organization_type').val(ui.item.organization_type);
+                
+                $('#address_city').val(ui.item.city);
+                $('#address_state').val(ui.item.state);
+                $('#address_street').val(ui.item.street);
+                $('#address_country').val(ui.item.country);
+                $('#address_zipcode').val(ui.item.zipcode);
+
+                $('#contact_firstname').val(ui.item.organization_contact_firstname);
+                $('#contact_lastname').val(ui.item.organization_contact_lastname);
+                $('#contact_email').val(ui.item.contact_email);
+
+                $('#ceo_firstname').val(ui.item.ceo_firstname);
+                $('#ceo_lastname').val(ui.item.ceo_lastname);
+                $('#ceo_dob').val(ui.item.ceo_dob);
+                $('#cfo_firstname').val(ui.item.cfo_firstname);
+                $('#cfo_lastname').val(ui.item.cfo_lastname);
+                $('#cfo_dob').val(ui.item.cfo_dob);
+
+                $('#bm1_firstname').val(ui.item.bm1_firstname);
+                $('#bm1_lastname').val(ui.item.bm1_lastname);
+                $('#bm1_dob').val(ui.item.bm1_dob);
+                $('#bm2_firstname').val(ui.item.bm2_firstname);
+                $('#bm2_lastname').val(ui.item.bm2_lastname);
+                $('#bm2_dob').val(ui.item.bm2_dob);
+                $('#bm3_firstname').val(ui.item.bm3_firstname);
+                $('#bm3_lastname').val(ui.item.bm3_lastname);
+                $('#bm3_dob').val(ui.item.bm3_dob);
+                $('#bm4_firstname').val(ui.item.bm4_firstname);
+                $('#bm4_lastname').val(ui.item.bm4_lastname);
+                $('#bm4_dob').val(ui.item.bm4_dob);
+                $('#bm5_firstname').val(ui.item.bm5_firstname);
+                $('#bm5_lastname').val(ui.item.bm5_lastname);
+                $('#bm5_dob').val(ui.item.bm5_dob);
+                $('#organization_mission_statement').val(ui.item.organization_mission_statement);
+                $('#company_organization_notes').val(ui.item.company_organization_notes);
+
+
+
+                const fieldsToDisable = [
+                 '#organization_taxid',
+                '#organization_name',
+                '#organization_url',
+                '#organization_type',
+                '#address_city',
+                '#address_state',
+                '#address_street',
+                '#address_country',
+                '#address_zipcode',
+                '#contact_firstname',
+                '#contact_lastname',
+                '#contact_email',
+                '#ceo_firstname',
+                '#ceo_lastname',
+                '#ceo_dob',
+                '#cfo_firstname',
+                '#cfo_lastname',
+                '#cfo_dob',
+                '#bm1_firstname',
+                '#bm1_lastname',
+                '#bm1_dob',
+                '#bm2_firstname',
+                '#bm2_lastname',
+                '#bm2_dob',
+                '#bm3_firstname',
+                '#bm3_lastname',
+                '#bm3_dob',
+                '#bm4_firstname',
+                '#bm4_lastname',
+                '#bm4_dob',
+                '#bm5_firstname',
+                '#bm5_lastname',
+                '#bm5_dob',
+                ];
+                $(fieldsToDisable.join(", ")).prop("readonly", true);
+                $('#organization_type').addClass('readonly-select');
+
+                $("#ceo_dob").datepicker("disable");
+                $("#cfo_dob").datepicker("disable");
+                $("#bm1_dob").datepicker("disable");
+                $("#bm2_dob").datepicker("disable");
+                $("#bm3_dob").datepicker("disable");
+                $("#bm4_dob").datepicker("disable");
+                $("#bm5_dob").datepicker("disable");
+
+                if (ui.item.organization_not_approved) {
+                    $("#submitButton").hide();
+                    $("#not_approved").show();
+                }
+                return false;
+            }        
+        }); 
+    });
+
+    function clearAllFields(){
+        const form = document.getElementById("orgForm");
+            const fieldsToDisable = [
+                '#organization_taxid',
+                '#organization_name',
+                '#organization_url',
+                '#address_city',
+                '#address_state',
+                '#address_street',
+                '#address_country',
+                '#address_zipcode',
+                '#contact_firstname',
+                '#contact_lastname',
+                '#contact_email',
+                '#ceo_firstname',
+                '#ceo_lastname',
+                '#ceo_dob',
+                '#cfo_firstname',
+                '#cfo_lastname',
+                '#cfo_dob',
+                '#bm1_firstname',
+                '#bm1_lastname',
+                '#bm1_dob',
+                '#bm2_firstname',
+                '#bm2_lastname',
+                '#bm2_dob',
+                '#bm3_firstname',
+                '#bm3_lastname',
+                '#bm3_dob',
+                '#bm4_firstname',
+                '#bm4_lastname',
+                '#bm4_dob',
+                '#bm5_firstname',
+                '#bm5_lastname',
+                '#bm5_dob',
+
+                ];
+                $(fieldsToDisable.join(", ")).prop("readonly", false);
+                $(fieldsToDisable.join(", ")).prop("disabled", false);
+                $('#organization_type').removeClass('readonly-select');
+      
+                $('#addUpdateOrganizationFrom')[0].reset();
+                $(".datePicker").datepicker("enable");
+                $("#organization_id").val('<?=$_COMPANY->encodeId(0)?>');
+                $("#org_id").val('<?=$_COMPANY->encodeId(0)?>');
+                $('.show_if_claimed').hide();
+                $('.show_if_claimed2').hide();
+                $("#not_approved").hide();
+                $("#submitButton").show();
+    }
+</script>
+</body>
+</html>

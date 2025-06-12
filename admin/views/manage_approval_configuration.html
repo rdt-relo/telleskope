@@ -1,0 +1,118 @@
+<div class="container  col-md-offset-2 margin-top">
+    <div class="widget-simple-chart card-box">
+        <div class="row">
+            <?php
+            $lastStage = 0;
+            $k=0;
+            foreach ($globalConfigurationForAllStages as $approvalStage) {
+                $lastStage = $approvalStage['approval_stage'];
+                $approvers = $approvalStage['approvers'];
+                include(__DIR__ . '/approvals_stage_row.html');
+                $k++;
+            }
+
+            ?>
+        </div>
+        <div class="row">
+            <?php if ($lastStage == 0) { ?>
+                <div class="col-sm-12" style="margin: 50px 30px 100px 30px;font-size: larger;">
+                    No approval configuration found ...
+                    <a class="" href="?create_global_stage=<?= $_COMPANY->encodeId($lastStage + 1) ?>&topicType=<?=$topicType?>">Add <?=$topicName?>
+                        Approvals Stage <?= $lastStage + 1; ?></a>
+                </div>
+
+            <?php } elseif ($lastStage < Approval::APPROVAL_STAGE_MAX) { ?>
+                <div class="col-sm-12" style="margin: 20px 30px 20px 10px;">
+                    Need more approval stages?
+                    <a class="" href="?create_global_stage=<?= $_COMPANY->encodeId($lastStage + 1) ?>&topicType=<?=$topicType?>">Add <?=$topicName?>
+                        Approvals Stage <?= $lastStage + 1; ?></a>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="clearfix"></div>
+        <div style="width: 100%; text-align: center;">
+            <a class="btn btn-primary btn-sm" title="<?=$topicName?> Approvals" href="<?= $topic_approval_url; ?>">Back to <?=$topicName?> Approvals</a>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div id="manageTopicApprovalConfigModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Configure CC Emails</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div id="ccList" style="display:none;" >
+                        <h5><?=$topicName;?> Approval CC Email Addresses</h5>
+                        <p id="ccEmailString"></p>
+                        <button id="showCCFrom" type="button" onclick="showCCFrom()" class="btn btn-primary">Update Emails</button>
+                    </div>
+
+                    <div id="ccEmailFrom" style="display:none;">
+                        <div class="form-group">
+                            <label for="email"><?=$topicName;?> Approval CC Email Addresses </label>
+                            <input type="email" class="form-control" id="ccemails" value="" placeholder="name@example.com">
+                            <input type="hidden" id="ccemails_configid" value="">
+                            <small>Note: Maximum 3 comma separated emails are allowed.</small>
+                        </div>
+                        <button type="button"  onclick="updateApprovalsCCEmails()" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModalButton" class="btn btn-primary" data-dismiss="modal"><?= gettext("Close")?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.dyna_data_table').DataTable( {
+            "order": [],
+            "bPaginate": true,
+            "bInfo" : true,
+            columnDefs: [
+                { targets: [3], orderable: false }
+            ],
+            language: {
+            searchPlaceholder: "...",
+            url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+          },
+            
+        } );
+    } );
+</script>
+<script>
+    function deleteApprover(r,c,a){
+        $.ajax({
+		url: 'ajax.php?deleteApprover='+c,
+		type: "POST",
+        data: {"approverId": a},
+        success : function(data) {
+			r.remove();
+		}
+	});
+    }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var closeModalButton = document.getElementById('closeModalButton');
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', function () {
+                location.reload();
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

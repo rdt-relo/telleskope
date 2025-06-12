@@ -1,0 +1,163 @@
+<div class="container-offset-lr mt-5">
+    <div class="row">              
+        <div class="col-md-12">
+            <div class="widget-simple-chart card mt-2 p-4 py-3">
+                <div class="col-md-12">
+                    <div class="col-md-6"><h1>Manage Guides</h1></div>
+                    <div class="clearfix"></div>
+                    
+                    <?php if (isset($_GET['e'])){ ?>
+                        <div id="hidemesage" class="alert alert-dismissible alert-danger">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+                            <?= "Something went wrong! Please try again!"; ?>
+                        </div>
+                    <?php } ?>
+                    <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                        <div id="hidemesage" class="alert alert-info alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">x</button>
+                            <?= UPDATED; ?>
+                        </div>
+                    <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                        <div id="hidemesage" class="alert alert-info alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">x</button>
+                            <?= ADDED; ?>
+                        </div>
+                    <?php } ?>
+                    
+                    <div class="col-md-12">    
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Quick Start Guide (only .pdf format)</th>
+                                        <th id="action1"><button onclick="updateGuide(1)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input1" style="display:none;">
+                                         <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form1">
+                                                    <input type="file" class="form-control" name="file" accept=".pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(1)" class="btn btn-primary btn-sm">Upload</button> <button onclick="cancelInput(1)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </th> 
+                                    </tr>
+                                    <tr>
+                                        <th>Group Leader Guide (only .pdf format)</th>
+                                        <th id="action2"><button onclick="updateGuide(2)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input2" style="display:none;">
+                                          <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form2">
+                                                    <input type="file" class="form-control" name="file" accept=".pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(2)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(2)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Admin Guide (only .pdf format)</th>
+                                        <th id="action3"><button  onclick="updateGuide(3)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input3" style="display:none;">
+                                          <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form3">
+                                                    <input type="file" class="form-control" name="file" accept=".pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(3)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(3)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                         </div>
+                                        </th> 
+                                    </tr>
+                                    <tr>
+                                        <th>Talent Peak Quick Start Guide (only .pdf format)</th>
+                                        <th id="action4"><button  onclick="updateGuide(4)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input4" style="display:none;">
+                                          <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form4">
+                                                    <input type="file" class="form-control" name="file" accept="application/pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(4)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(4)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </th> 
+                                    </tr>
+                                    <tr>
+                                        <th>Talent Peak Group Leader Guide (only .pdf format)</th>
+                                        <th id="action5"><button  onclick="updateGuide(5)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input5" style="display:none;">
+                                          <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form5">
+                                                    <input type="file" class="form-control" name="file" accept="application/pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(5)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(5)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </th> 
+                                    </tr>
+
+                                    <tr>
+                                        <th>Office Raven Quick Start Guide (only .pdf format)</th>
+                                        <th id="action6"><button  onclick="updateGuide(6)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input6" style="display:none;">
+                                            <div class="row">
+                                             <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form6">
+                                                    <input type="file" class="form-control" name="file" accept="application/pdf">
+                                                </form>
+                                             </div>
+                                             <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(6)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(6)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </th> 
+                                    </tr>
+
+                                    <tr>
+                                        <th>Office Raven Group Leader Guide (only .pdf format)</th>
+                                        <th id="action7"><button  onclick="updateGuide(7)" class="btn btn-primary text-end btn-sm">Update</button></th>
+                                        <th class="text-end" id="input7" style="display:none;">
+                                            <div class="row">
+                                            <div class="col-md-8">
+                                                <form enctype="multipart/form-data" id="form7">
+                                                    <input type="file" class="form-control" name="file" accept="application/pdf">
+                                                </form>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <button onclick="uplodeGuideFile(7)" class="btn btn-primary btn-sm">Upload</button>&nbsp;<button onclick="cancelInput(7)" class="btn btn-secondary btn-sm">Cancel</button>
+                                            </div>
+                                        </div>
+                                        </th> 
+                                    </tr>
+
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+</script>
+<script>
+    $("#sidebar-wrapper ul li:nth-child(9)").addClass("myactive");
+</script>

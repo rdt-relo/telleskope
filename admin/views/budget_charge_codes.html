@@ -1,0 +1,81 @@
+<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+
+<div class="container  col-md-offset-2 margin-top" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">                            
+                <div class="col-md-12 divider">
+                    <h6>Manage Budget Charge Codes <a aria-label="Add Charge Code" class="add-plus-circle-icon" href="new_charge_code" style=""><i class="fa fa-plus-circle" aria-hidden="true" title="Add new department"></i></a></h6>
+                </div>
+                <div class="clearfix"></div>
+                <?php if((time()- @$_SESSION['updated']) < 5){ ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">X</a>
+                        <?= UPDATED; ?>
+                    </div>
+                <?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">X</a>
+                        <?= ADDED; ?>
+                    </div>
+                <?php } ?> 
+                
+                <div class="col-md-12" >
+					<div class="table-responsive">
+							<table id="dept-table" class="table display table-hover compact" summary="This table display the list of budget charge code">
+								<thead>
+									<tr>
+										<th width="80%" scope="col">Charge Code</th>
+										<th width="20%" scope="col">Action</th>
+									</tr>
+								</thead>
+
+								<tbody>
+								<?php
+								foreach ($data as $row) {
+									$encodedId = $_COMPANY->encodeId($row['charge_code_id']);
+								?>
+								<tr id="ed<?=$encodedId;?>">
+									<td id="tdd<?=$encodedId;?>"><?= htmlspecialchars($row['charge_code']); ?></td>
+									<td>
+										<a class="btn" href="new_charge_code?edit=<?=$encodedId;?>">
+											<i class="fa fa-edit" title="Edit"></i>
+										</a>
+										&nbsp;&nbsp;
+										<button aria-label="Delete" class="btn btn-no-style deluser" onclick="deleteChargeCode('<?=$encodedId;?>');" title="<strong>Are you sure you want to delete?</strong>">
+											<i class="fa fa-trash fa-l" title="Delete"></i>
+										</button>
+									</td>
+								</tr>
+								<?php }	?>
+							</tbody>
+						</table>
+					</div>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#dept-table').DataTable( {
+				"order": [0, "asc"],
+				"bPaginate": true,
+				"bInfo" : false,
+				pageLength:10,
+				lengthChange:true,
+				columnDefs: [
+                { targets: [1], orderable: false }
+                ],
+				language: {
+					searchPlaceholder: "Type anything..",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'                
+				}
+			} );
+		} );
+		
+	</script>
+		
+	</body>
+</html>

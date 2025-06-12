@@ -1,0 +1,377 @@
+	<style>
+        .close-btn{display: none;}        
+        .more-lang{display: none;}
+        #subitem {cursor: pointer;}
+           </style>
+    <div class="container col-md-offset-2 margin-top">
+		<div class="row">              
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box">
+					<div class="col-md-12 divider"><h6><?= $formTitle ?></h6></div>
+						<form class="form-horizontal" method="post" id="newDisclaimer">
+							<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+
+                            <div class="form-group">
+                                <label for="disclaimer_name" class="col-lg-2 control-label"> Disclaimer Name</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="disclaimer_name" name="disclaimer_name" value="<?= $editDisclaimer ? htmlentities($editDisclaimer->val('disclaimer_name')) : ''; ?>">
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label for="invocation_type" class="col-lg-2 control-label"> Invocation Type</label>
+                                <div class="col-lg-10">
+                                    <?php if ($editDisclaimer) { ?>
+                                        <input type="hidden" name="invocation_type" value="<?=$editDisclaimer->val('invocation_type');?>">
+                                    <?php } ?>
+                                    <select id="invocation_type" class="form-control" name="invocation_type" onchange="getDisclaaimerTypeDropdwon(this.value)" <?= $editDisclaimer ? 'disabled' : ''; ?>>
+                                        <option value="">Select a Invocation Type</option>
+                                        <?php foreach(Disclaimer::DISCLAIMER_INVOCATION_TYPE as $key => $val){ 
+                                            $sel = "";
+                                            if ($editDisclaimer) {
+                                                if ($editDisclaimer->val('invocation_type') == $key) {
+                                                    $sel = "selected";
+                                                } else {
+                                                    $sel = "disabled";
+                                                }
+                                            }
+                                        ?>
+                                            <option value="<?= $key; ?>" <?= $sel; ?> ><?= $val; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="trigger_type_container" <?= $editDisclaimer && $editDisclaimer->val('invocation_type')=='LINK' ? 'style="display:none"' : ''; ?> >
+                                <label for="hookid" class="col-lg-2 control-label">Choose a trigger</label>
+                                <div class="col-lg-10">
+                                    <?php if ($editDisclaimer) { ?>
+                                        <input type="hidden" name="hookid" value="<?=$_COMPANY->encodeId($editDisclaimer->val('hookid'));?>">
+                                    <?php } ?>
+                                    <select id="hookid" class="form-control" name="hookid" <?= $editDisclaimer ? 'disabled' : 'required'; ?>>
+                                        <option value="" >Choose a trigger</option>
+                                        <?php if ($disclaimerHooks && $editDisclaimer == null) {
+                                            foreach($disclaimerHooks as $key => $val){
+                                                $disabled = in_array($val,$existHook) ? "disabled" : " ";
+                                                ?>
+                                                <option value="<?= $_COMPANY->encodeId($val); ?>" <?= $disabled; ?>>
+                                                    <?= $key; ?>
+                                                </option>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <option value="<?= $_COMPANY->encodeId($editDisclaimer->val('hookid')); ?>" selected="selected"><?php echo $hookName ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="link_type_container"  <?= $editDisclaimer ? ($editDisclaimer->val('invocation_type')=='TRIGGER' ? 'style="display:none"' : '') : 'style="display:none"'; ?>">
+                                <label for="link_type" class="col-lg-2 control-label"> Link Type</label>
+                                <div class="col-lg-10">
+                                    <?php if ($editDisclaimer) { ?>
+                                        <input type="hidden" name="link_type" value="<?=$_COMPANY->encodeId($editDisclaimer->val('hookid'));?>">
+                                    <?php } ?>
+                                    <select id="link_type" class="form-control" name="link_type" <?= $editDisclaimer ? 'disabled' : 'required'; ?>>
+                                        <option value="">Select a link Type</option>
+                                        <?php foreach(Disclaimer::DISCLAIMER_HOOK_LINKS as $key => $val){ 
+                                            $sel = "";
+                                            if ($editDisclaimer) {
+                                                if ($editDisclaimer->val('hookid') == $val) {
+                                                    $sel = "selected";
+                                                } else {
+                                                    $sel = "disabled";
+                                                }
+                                            }
+                                            
+                                        ?>
+                                            <option value="<?= $_COMPANY->encodeId($val); ?>" <?= $sel; ?>><?= $key; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div id="enabled_by_default_div" class="form-group" style="display: <?= ($editDisclaimer ?-> val('invocation_type')=='LINK') ? 'block' : 'none';?>">
+                                <label for="enabled_by_default" class="col-lg-2 control-label">Enabled by default?</label>
+                                <div class="col-lg-10">
+                                    <input type="checkbox" class="" name="enabled_by_default" id="enabled_by_default" <?= ($editDisclaimer ?-> val('enabled_by_default')) ? "checked='checked'" : ''  ?> >
+                                    <br><small style="color: darkred;">If checked, then the waiver will be enabled by default in event create form.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+								<label for="consent_required" class="col-lg-2 control-label">Consent tracking</label>
+								<div class="col-lg-10">
+									<input type="checkbox" class="" name="consent_required" id="consent_required" <?php if ($editDisclaimer && $editDisclaimer->val('consent_required') == 1) echo "checked='checked'";   ?> > 
+								</div>  
+							</div>
+                          
+                            <div id="consent_type" class="form-group" style="display:none;">
+                                <label for="consent_type" class="col-lg-2 control-label">Consent Tracking Type</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control selectVal" name="consent_type">                                         
+                                        <option value="" <?= $editDisclaimer ? 'disabled' : ''; ?> >Choose consent type</option>                     
+                                        <option value="checkbox"  <?php echo ($editDisclaimer && $editDisclaimer->val('consent_type') ==   'checkbox' ) ? ' selected="selected"' : '';?>>Checkbox</option>
+                                        <option value="text" <?php echo ($editDisclaimer && $editDisclaimer->val('consent_type') ==   'text' ) ? ' selected="selected"' : '';?>>Text</option>  
+                                    </select>
+                                </div>
+                            </div>
+
+                        <div class="form-group"> 
+                            <label for="inputScope" class="col-lg-2 control-label">Add a disclaimer language block <i aria-label="Add more disclaimer language" tabindex="0" id="subitem" class="fa fa-plus-circle add_button"></i></label>
+                            <div class="col-md-10 \">
+                            <?php 
+                                $customClass = " ";
+                                if(!empty($disclaimers)){
+                                    $i = 1;
+                                    foreach ($disclaimers as $key=>$val) {
+                                        $customClass = "more-lang";
+                                ?>
+                                <div id="<?= $key ?>" class="col-lg-12 my-2 py-2 border field-text">
+                                    <div class="form-group"><label for="hookid" class="col-lg-2 control-label">Language</label>
+                                        <div class="col-lg-10">
+                                            <select class="form-control teleskope-select2-dropdown" name="default_language[]" style="width: 100% !important;" required>
+                                                <?php foreach($allowedLanguages as $languageKey => $languageValue){ 
+
+                                                    $selected = "";
+                                                    if ($key ==  $languageKey){
+                                                        $selected = "selected";
+                                                    } else {
+                                                        continue;
+                                                    } 
+                                                ?>
+                                                    <option value="<?= $languageKey; ?>" <?= $selected; ?> ><?= $languageValue;?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="disclaimer" class="col-lg-2 control-label">Title</label>
+                                        <div class="col-lg-10">
+                                            <input  class="form-control"placeholder="Enter a disclaimer title" name="title[]" type="text" value="<?= $val['title'];?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="disclaimer" class="col-lg-2 control-label">Disclaimer</label>
+                                        <div class="col-lg-10">
+                                            <textarea  id="redactor_content" class="form-control redactor_content" rows="3"  placeholder="Add a disclaimer" name="disclaimer[]" type="text" required><?= $val['disclaimer'];?></textarea>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-group consentValueBox" style="display:none;">
+                                        <label class="col-lg-2 control-label">Consent text</label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control consent-value" onkeyup="countConcentText(this)" placeholder="I agree" name="consent_input_value[]" value="<?= $val['consent_input_value'] ; ?>"  type="text">
+                                            <small>Note: Enter consent text (including spaces) maximum 32 characters long</small>
+                                        </div>
+                                       
+                                    </div>
+                                    <?php if($i>1){?>
+                                    <div class="p-1 pull-right text-right remove_button">
+                                    <a href="javascript:void(0);" onclick="removeLanguage('<?= $key ?>')"  class="text-left" title="<?= addslashes(gettext('Remove field'));?>">Remove block</a></div><?php } ?>
+                                </div>
+                                <?php
+                                
+                                $i++;
+                             } 
+                            }else{ ?>
+                                <div class="col-lg-12 my-2 py-2 border field-text">
+                                    <div class="form-group"><label for="hookid" class="col-lg-2 control-label">Language</label>
+                                        <div class="col-lg-10">
+                                            <select class="form-control teleskope-select2-dropdown" name="default_language[]" style="width: 100% !important;" required>
+                                                <option value="" disabled selected>Select Language</option>
+                                                <?php foreach($allowedLanguages as $languageKey => $languageValue){?>
+                                                    <option value="<?= $languageKey; ?>"  <?= $languageKey=='en' ? 'selected' : ''; ?> <?= $languageKey!='en' ? 'disabled' : ''; ?> ><?= $languageValue;?></option>
+                                                <?php } ?>
+                                            </select>
+                                        
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="disclaimer" class="col-lg-2 control-label">Title</label>
+                                        <div class="col-lg-10">
+                                            <input  class="form-control"placeholder="Enter a disclaimer title" name="title[]" type="text" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group"><label for="disclaimer" class="col-lg-2 control-label">Disclaimer</label>
+                                        <div class="col-lg-10"><textarea  id="redactor_content" class="form-control redactor_content" rows="3"  placeholder="Add a disclaimer" name="disclaimer[]" type="text" required></textarea>
+                                        </div>
+                                    </div>
+                
+                                    <div class="form-group consentValueBox" style="display:none;">
+                                        <label class="col-lg-2 control-label">Consent text</label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control consent-value" onkeyup="countConcentText(this)" placeholder="I agree" name="consent_input_value[]" max="32"  type="text">
+                                            <small>Note: Enter consent text (including spaces) maximum 32 characters long</small>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            
+                                <div class="form-group <?= $customClass; ?>">
+                                    <div class="field_wrapper">
+                        
+                                    </div>                                
+                                </div> 
+                            </div>
+                       
+                        </div>                         
+                
+                            <div class="form-group">
+								<div class="col-lg-12 text-center">					
+									<a href="disclaimers" class="btn btn-primary">Cancel</a>&emsp;
+                                    <button onclick="addUpdateNewDisclaimer('<?= $_COMPANY->encodeId($disclaimerid); ?>','0')" type="button" class="btn btn-primary"><?= gettext('Save'); ?></button>
+                                    <?php if(!empty($disclaimers)){ ?>
+                                        &emsp;<button id="save_and_reset_consents" onclick="addUpdateNewDisclaimer('<?= $_COMPANY->encodeId($disclaimerid); ?>','1')" type="button" class="btn btn-primary deluser" style="display:none;" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" data-original-title="If you want to reset past consent data and ask users to consent to the new version then choose this option" title="If you choose yes, then users who have consented in the past will be asked to resubmit their consents. Are you sure you want to reset consents?"><?= gettext('Save & Reset Consents'); ?></button>
+                                    <?php } ?>
+								</div>
+							</div>
+						</form>
+		
+				</div>	
+			</div>
+		</div>
+	</div>
+
+<script>
+    function countConcentText(e) {
+        if ($(e).val().length>32){
+            $(e).val($(e).val().substr(0, 32))
+            swal.fire({title: 'Error',text:"Maximum 32 characters allowed in consent text (including spaces)"});
+        }
+    }
+
+<?php if(isset($_SESSION['validation_error'])){ ?>
+    swal.fire({title: 'Error',text:"<?= $_SESSION['validation_error']; ?>"});
+<?php 
+    unset($_SESSION['validation_error']);
+    }
+ ?>
+
+
+    function showHideConsentInput(forceHide){
+        var attributeValue = $('.selectVal option:selected').val();
+        var display = 'block';
+        if (forceHide) {
+            display = 'none';
+        }
+        if(attributeValue == 'text'){
+            $(".consentValueBox").css("display", display);        
+        }else{
+            $(".consentValueBox").css("display", "none");       
+        }
+    }
+    $(document).ready(function() {
+        $("select.selectVal").change(function() {
+            let selectedItem = $(this).children("option:selected").val();
+            if(selectedItem == 'text'){
+                $(".consentValueBox").css("display", "block");  
+            }else if(selectedItem == 'checkbox'){
+                $(".consentValueBox").css("display", "none");     
+            }              
+        });
+        showHideConsentInput(false);
+    });
+
+    $(function () {
+        $("#consent_required").click(function () {
+            if ($(this).is(":checked")) {
+                let selectedItem = $('select.selectVal').children("option:selected").val();
+                if(selectedItem == 'text'){
+                    showHideConsentInput(false);
+                } else {
+                    showHideConsentInput(true);
+                }
+                $("#consent_type").show();    
+                $("#save_and_reset_consents").show(); 
+            } else {
+                showHideConsentInput(true);
+                $("#consent_type").hide();  
+                $("#save_and_reset_consents").hide();              
+            }
+        });
+        
+        if ($('#consent_required').is(":checked")) {
+            $("#consent_type").show();  
+            $("#save_and_reset_consents").show();        
+        } else {
+            $("#consent_type").hide();  
+            $("#save_and_reset_consents").hide();          
+        }
+    });  
+  
+
+    $(document).ready(function(){
+        $('#redactor_content').initRedactor('redactor_content', 'zone',['counter']);
+        $(".redactor-voice-label").text("<?= gettext('Add disclaimer description');?>");
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+	    var maxField = 20; //Input fields increment limitation
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('.field_wrapper'); //Input field wrapper
+       
+        
+        var x = 1; //Initial field counter is 1
+        $(addButton).click(function(){ //Once add button is clicked
+                
+            if(x < maxField){ //Check maximum number of input fields                              
+                             
+                var fieldHTML = '<div class="col-md-12 my-2 py-2 border field-text"><div class="form-group"><label for="hookid" class="col-lg-2 control-label"> Language</label><div class="col-lg-10"><select class="form-control teleskope-select2-dropdown" name="default_language[]" style="width: 100% !important;" required><option value="">Choose language</option><?php foreach($allowedLanguages as $languageKey => $languageValue){ if(in_array($languageKey,$usedLanguages))    { continue; } ?><option value="<?= $languageKey; ?>"><?= $languageValue;?></option><?php } ?></select></div></div>    <div class="form-group"><label for="disclaimer" class="col-lg-2 control-label">Title</label><div class="col-lg-10"><input class="form-control" placeholder="Enter a disclaimer title" name="title[]" type="text" required></div></div>        <div class="form-group"><label for="disclaimer" class="col-lg-2 control-label">Add a disclaimer</label><div class="col-lg-10"><textarea  id="redactor_content_'+x+'" rows="3" class="form-control" placeholder="Disclaimer" name="disclaimer[]" type="text"></textarea></div></div><div class="form-group consentValueBox" style="display:none;">	<label for="consentValue" class="col-lg-2 control-label">Consent text</label><div class="col-lg-10">	<input class="form-control consent-value" placeholder="I agree" name="consent_input_value[]" value="" onkeyup=countConcentText(this)  type="text" ><small>Note: Enter consent text (including spaces) maximum 32 characters long</small></div></div><div class="p-1 pull-right text-right remove_button">&nbsp;<a href="javascript:void(0);" class="text-left" title="<?= addslashes(gettext("Remove field"));?>">Remove block</a></div></div>';
+                fieldHTML = fieldHTML+"<script> $('#redactor_content_"+x+"').initRedactor('redactor_content_"+x+"', 'zone',['counter']);$('.redactor-voice-label').text('<?= gettext('Add disclaimer description');?>');<\/script> "; //New input field html
+
+                x++; //Increment field counter
+                $(wrapper).prepend(fieldHTML); // Add field html                               
+               
+            }
+
+            var attributeValue = $('.selectVal option:selected').val();
+            if(attributeValue == 'text'){
+                $(".consentValueBox").css("display", "block");
+               
+            }else{
+                $(".consentValueBox").css("display", "none");
+                
+            }           
+            $(".more-lang").css("display", "block");
+        });
+        $(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+		
+    });
+
+    function removeLanguage(id){
+         $("#"+id).remove();
+    }
+    jQuery(".deluser").popConfirm({content: ''});
+
+    $('#subitem').keypress(function(e) {
+      if (e.keyCode == 13) {
+        $(this).click();
+      }
+    });
+
+    $('input:checkbox').keypress(function(e){
+    if((e.keyCode ? e.keyCode : e.which) == 13){
+        $(this).trigger('click');
+    }
+    });
+
+    function getDisclaaimerTypeDropdwon(v){
+        if (v == 'LINK') {
+            $("#trigger_type_container").hide();
+            $("#link_type_container").show();
+            $("#enabled_by_default_div").show();
+        } else {
+            $("#trigger_type_container").show();
+            $("#link_type_container").hide();
+            $("#enabled_by_default_div").hide();
+        }
+    }
+</script>

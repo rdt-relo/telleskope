@@ -1,0 +1,148 @@
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Flatten SP Entity ID Attributes</label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="flatten_entityid_parameters" value="1" <?= (isset($row['flatten_entityid_parameters']) && $row['flatten_entityid_parameters']=='1') ? 'checked' : ''; ?> required>
+            <label class="form-check-label"> Enable</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="flatten_entityid_parameters" value="0" <?= (!isset($row['flatten_entityid_parameters']) || (isset($row['flatten_entityid_parameters']) && $row['flatten_entityid_parameters']=='0')) ? 'checked' : ''; ?>>
+            <label class="form-check-label"><span>Disable <sup>[default]</sup></span></label>
+        </div>
+        <div class="form-text bg-warning p-2 mt-2">Teleskope includes '?' character in the entity id. Some older version of Active Directory SAML do not allow this '?' character, in such cases select Enable to remove '?' character.</div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Login Silently<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="login_silently" value="1" <?= (isset($row['login_silently']) && $row['login_silently']=='1') ? 'checked' : ''; ?> required>
+            <label class="form-check-label"> Enable <sup>[default]</sup></label>
+        </div>
+        <div class="form-check form-check-inline text-warning">
+            <input class="form-check-input" type="radio" name="login_silently" value="0" <?= (isset($row['login_silently']) && $row['login_silently']=='0') ? 'checked' : ''; ?>>
+            <label class="form-check-label"> Disable</label>
+        </div>
+        <div class="form-check form-check-inline text-warning">
+            <input class="form-check-input" type="radio" name="login_silently" value="-1" <?= (isset($row['login_silently']) && $row['login_silently']=='-1') ? 'checked' : ''; ?>>
+            <label class="form-check-label"> Disable & Force Pre-Consent for Privacy Policy</label>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Use Affinities SP Identity<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline text-warning">
+            <input class="form-check-input" type="radio" name="use_affinities_identity" value="1" <?= isset($row, $row['use_affinities_identity']) ? ($row['use_affinities_identity'] == 1 ? 'checked' : '') : '' ?> required>
+            <label class="form-check-label"> Enable</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="use_affinities_identity" value="0" <?= isset($row, $row['use_affinities_identity']) ? ($row['use_affinities_identity'] == 1 ? '' : 'checked') : 'checked' ?> required>
+            <label class="form-check-label"> Disable <sup>[default]</sup></label>
+        </div>
+        <div class="form-text bg-warning p-2 mt-2">This setting applies only to Office Raven/Talent Peak. <span class="text-danger fw-bold">If set, Talent Peak/Office Raven can use existing Affinities SAML2 integration and separate integration is not needed.</span></div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Auto Provisioning<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="auto_provisioning" value="1" <?= isset($row['auto_provisioning']) ? ($row['auto_provisioning']=='1' ? 'checked' : '')  : 'checked'; ?> required>
+            <label class="form-check-label"> Enable <sup>[default]</sup></label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="auto_provisioning" value="0" <?= isset($row['auto_provisioning']) ? ($row['auto_provisioning']=='0' ? 'checked' : '')  : ''; ?>>
+            <label class="form-check-label"> Disable</label>
+        </div>
+        <div class="form-text bg-warning p-2 mt-2">If disabled, only pre-provisioned users will be able to login.</div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">IDP Entity Id<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="entityid" placeholder="Entity Id here" value="<?= $row['entityid'] ??  '';?>" required>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">IDP SSO URL<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <input class="form-control" name="sso_url" placeholder="SSO URL here" value="<?= $row['sso_url'] ?? '';?>" required>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Nameid Format</label>
+    <div class="col-md-10">
+        <select name="nameid_format" id="nameid_format" class="form-select" required disabled>
+            <option value="unspecified" <?= isset($row['nameid_format']) ? ($row['nameid_format']!='persistent' ? 'selected' : '')  : 'selected'; ?>>Unspecified</option>
+            <option value="persistent" <?= isset($row['nameid_format']) ? ($row['nameid_format']=='persistent' ? 'selected' : '')  : ''; ?>>Persistent -- deprecated, do not select this --</option>
+        </select>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">IDP X509 Cert<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <textarea rows="16" class="form-control" name="x509_cert" placeholder="x509 certificate here" required><?= $row['x509_cert'] ?? '';?></textarea>
+    </div>
+</div>
+
+<?php
+$radioSettings = [
+    'strict_mode' => 'Strict Mode',
+    'authn_signed' => 'Authn Signed',
+    'want_assertions_encrypted' => 'Want Assertions Encrypted',
+    'want_nameid_encrypted' => 'Want Nameid Encrypted',
+    'want_messages_signed' => 'Want Messages Signed',
+    'want_assertions_signed' => 'Want Assertions Signed',
+    'requested_authn_context' => 'Requested Authn Context',
+];
+
+foreach ($radioSettings as $name => $label) { ?>
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label"><?= $label ?><span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="<?= $name ?>" value="1" <?= isset($row[$name]) ? ($row[$name]=='1' ? 'checked' : '')  : (($name == 'want_messages_signed' || $name == 'want_assertions_signed' || $name == 'requested_authn_context') ? 'checked' : ''); ?> required>
+            <label class="form-check-label">Yes <?= ($name == 'want_messages_signed' || $name == 'want_assertions_signed' || $name == 'requested_authn_context') ? '<sup>[default]</sup>' : '' ?></label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="<?= $name ?>" value="0" <?= isset($row[$name]) ? ($row[$name]=='0' ? 'checked' : '')  : (($name != 'want_messages_signed' && $name != 'want_assertions_signed' && $name != 'requested_authn_context') ? 'checked' : ''); ?>>
+            <label class="form-check-label">No <?= ($name != 'want_messages_signed' && $name != 'want_assertions_signed' && $name != 'requested_authn_context') ? '<sup>[default]</sup>' : '' ?></label>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">SP or IDP Initiated<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sp_or_idp_initated" value="idp" <?= isset($row['sp_or_idp_initated']) ? ($row['sp_or_idp_initated']=='idp' ? 'checked' : '')  : ''; ?> required>
+            <label class="form-check-label">IDP Initiated</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sp_or_idp_initated" value="sp" <?= (!isset($row['sp_or_idp_initated']) || (isset($row['sp_or_idp_initated']) && $row['sp_or_idp_initated']!='idp')) ? 'checked' : ''; ?>>
+            <label class="form-check-label">SP Initiated <sup>[default]</sup></label>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 row">
+    <label class="col-md-2 col-form-label">Use POST only SSO binding<span class="text-danger">&nbsp*</span></label>
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="idp_supports_post_binding_only" value="1" <?= isset($row['idp_supports_post_binding_only']) ? ($row['idp_supports_post_binding_only']=='1' ? 'checked' : '')  : 'checked'; ?> required>
+            <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="idp_supports_post_binding_only" value="0" <?= (!isset($row['idp_supports_post_binding_only']) || (isset($row['idp_supports_post_binding_only']) && $row['idp_supports_post_binding_only']=='0')) ? 'checked' : ''; ?>>
+            <label class="form-check-label">No <sup>[default]</sup></label>
+        </div>
+    </div>
+</div>

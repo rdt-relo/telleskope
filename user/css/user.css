@@ -1,0 +1,154 @@
+body, html {
+    height: 100%;
+    min-height: 100%;
+}
+
+#user-action-box {
+    width: 412px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    margin: 5% auto;
+
+}
+
+.head-logo {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.head-logo .title {
+    font-weight: bold;
+    padding-top: 5%;
+}
+
+#footer-logo {
+    background: url("../../image/power-teleskope-blue.png") no-repeat center;
+    background-size: contain;
+    height : 40px;
+    margin: 10px 0 0 0;
+}
+
+.form-horizontal .control-label {
+    font-weight: 400;
+    text-align: left;
+    font-size: 14px;
+}
+
+.btn.btn-primary.btn-block {
+    height: 45px;
+}
+
+.form-control{
+    height: 45px !important;
+}
+
+/* Common */
+.loginBtn {
+    box-sizing: border-box;
+    position: relative;
+    margin: 0.2em;
+    padding: 12px 80px;
+    border: none;
+    text-align: left;
+    white-space: nowrap;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #FFF;
+}
+.loginBtn:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 50px;
+    height: 100%;
+    border-radius: 6px 0 0 6px;
+}
+.loginBtn:focus {
+    outline: none;
+}
+.loginBtn:active {
+    box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Microsoft */
+.loginBtn--microsoft {
+    /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+    background: #2D75B8;
+}
+.loginBtn--microsoft:before {
+    /*border-right: #fff 1px solid;*/
+    background: url('../../image/microsoft.png') 12px 12px no-repeat;
+    background-color: #2D75B8;
+}
+.loginBtn--microsoft:hover,
+.loginBtn--microsoft:focus {
+    background: #285D8F;
+    color: #fff;
+}
+
+/* Common - for SAML2, Username */
+.loginBtn--common {
+    /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+    background: #2D75B8;
+    text-align: center;
+}
+.loginBtn--common:hover,
+.loginBtn--common:focus {
+    background: #285D8F;
+    color: #fff;
+}
+
+.user-action-box-bottom-group {
+    border-top: 1px solid#888;
+    margin-top:15px;
+    padding-top:15px;
+    font-size: .8rem;
+}
+
+/* Hide the reCaptcha v2 badge */
+.grecaptcha-badge {
+    visibility: hidden;
+}
+.grecaptcha-label {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+
+/* Media Classes */
+@media (max-width: 960px) {
+    .loginBtn {
+        padding: 15px 94px 15px 107px;
+    }
+}
+
+/* For > bootstrap sm */
+@media (min-width: 768px) {
+    .user-sm-pull-right {
+        float: right;
+    }
+}
+@media (max-width: 414px) {
+    #user-action-box {
+        width: auto;
+    }
+    .loginBtn {
+        padding: 15px 94px 15px 80px;
+    }
+}
+
+@media (max-width: 375px) {
+    .loginBtn {
+        padding: 15px 55px 15px 80px;
+    }
+}
+
+@media (max-width: 320px) {
+    .loginBtn {
+        padding: 15px 15px 15px 65px;
+    }
+}

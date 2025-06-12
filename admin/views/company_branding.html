@@ -1,0 +1,1068 @@
+<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css">
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+
+<link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
+<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/slim-image-cropper/slim/slim.kickstart.min.js"></script>
+<style>
+    .ui-sortable tr {
+        cursor: pointer;
+    }
+    .ui-sortable tr:hover {
+        background: rgba(244, 251, 17, 0.45);
+    }
+</style>
+<div class="tl-container-offset-lr">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card p-3">
+                <h1><?= $pagetitle; ?></h1>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="col-md-8">
+                        <?php if ((time() - @$_SESSION['updated']) < 5) { ?>
+                            <?= "<script> swal.fire({title: 'Success',text:'Data updated successfully'} ) </script>" ?>
+                        <?php } elseif ((time() - @$_SESSION['added']) < 5) { ?>
+                            <?= "<script> swal.fire({title: 'Success',text:'Data Added successfully' } )</script>" ?>
+                        <?php } elseif ((time() - @$_SESSION['error']) < 5) { ?>
+                            <div id="hidemesage" class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                                <?= ERROR; ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row mt-3 mb-5 pt-3" style="border-top:1px solid #6b6b6b33;">
+                    <div class="col-md-4"><h4 class="ms-md-4 mb-3">Company Logo</h4></div>
+                    <div class="col-md-4">
+                        <div id="loading-image-logo2" style="display:none;"><img src="images/ajax-loader.gif" alt="Loader placeholder image"/></div>
+
+                        <div class="col-md-12">
+                            <form id="uploadCompanyLogo">
+                                <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+                                <?php if ($_COMPANY->val('logo') != "") { ?>
+                                    <div id="already-logo" style="display:block">
+                                        <span id="newLogo">
+                                            <img src="<?= $_COMPANY->val('logo'); ?>" alt="Company logo image" style="background-size:100% 100%;max-height:50px;">
+                                        </span>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <button type="button" onclick="uploadCompanyLogo()" class='btn btn-sm btn-primary'>Change Logo</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="uploadlogo" style="display:none">
+                                        <p style="display:none" id="nologomsg2">No Logo uploaded yet</p>
+                                        <p id="nologomsg"></p>
+                                        <div id="loading-image-logo" style="display:none;"><img
+                                                    src="images/ajax-loader.gif" alt="Loader placeholder image"/></div>
+                                        <div tabindex="0" class="slim"
+                                             data-label="Drag and drop a logo image file here"
+                                             data-size="200,100"
+                                             data-ratio="2:1">
+                                            <input tabindex="-1" class="text-box ignore" name="logo" id="logo" type="file"
+                                                   accept="image/jpeg,image/png" required>
+                                        </div>
+                                        <p><span  class="text-danger">Note :You can add image in .jpg,.jpeg,.png format and size of 200px X 100px.</span>
+                                        </p>
+                                        <input type="button" onclick="CancelUploadLogo()" class='btn btn-sm btn-secondary'
+                                               value="Cancel"> &nbsp;
+                                        <input type="submit" name="submit" value="Upload Logo"
+                                               class='btn btn-sm btn-primary'>
+                                    </div>
+
+                                <?php } else { ?>
+                                    <div id="uploadlogo" style="display:block">
+                                        <p id="nologomsg">No Logo uploaded yet</p>
+                                        <div id="loading-image-logo" style="display:none;"><img
+                                                    src="images/ajax-loader.gif" alt="Loader placeholder image"/></div>
+                                        <div tabindex="0" class="slim"
+                                             data-label="Upload Company Logo"
+                                             data-size="200,100"
+                                             data-ratio="2:1">
+                                            <input class="text-box ignore" name="logo" id="logo" type="file"
+                                                   accept="image/jpeg,image/png" required>
+                                        </div>
+                                        <p><span class="text-danger">Note :You can add image in .jpg,.jpeg,.png format and size of 150px X 100px.</span>
+                                        </p>
+                                        <input type="submit" name="submit" value="Upload Logo"
+                                               class='btn btn-sm btn-primary'>
+                                    </div>
+                                    <div id="already-logo" style="display:none">
+                                        <span id="newLogo">
+                                            <img src="" style="background-size:100% 100%;max-height:50px;">
+                                        </span>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <button type="button" onclick="uploadCompanyLogo()"
+                                                        class='btn btn-sm btn-primary' style="margin-top:60px">Change Image
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row mt-3 mb-5 pt-3" style="border-top:1px solid #6b6b6b33;">
+                    <div class="col-md-4">
+                        <h4 class="ms-md-4 mb-3">Login Screen Background</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="loading-image-background2" style="display:none;"><img src="images/ajax-loader.gif"
+                                                                                       alt="Loader placeholder image"/>
+                        </div>
+                        <form id="loginScreenBackground">
+                            <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+                            <?php if ($_COMPANY->val('loginscreen_background') != "") { ?>
+                                <div id="already-background" style="display:block">
+									<span id="new_background">
+									<img src="<?= $_COMPANY->val('loginscreen_background'); ?>"
+                                         alt="Login screen background image"
+                                         style="background-size:100% 100%;max-width:320px;">
+									</span>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <button type="button" onclick="updateBackground()"
+                                                    class='btn btn-sm btn-primary'>Change Image
+                                            </button>
+                                            &nbsp;
+                                            <button class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No"
+                                               data-confirm-yesbtn="Yes" title=""
+                                               onclick="deleteLoginScreenBackground()"
+                                               data-original-title="Are you sure you want to remove Login Screen Background?">Remove Image</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="newupload-background" style="display:none">
+                                    <p id="nomsg-background"></p>
+                                    <div id="loading-image-background" style="display:none;"><img
+                                                src="images/ajax-loader.gif" alt="Loader placeholder image"/></div>
+                                    <div tabindex="0" class="slim"
+                                         data-label="Drag and drop a background image file here"
+                                         data-size="1920,1080"
+                                         data-ratio="16:9">
+                                        <input tabindex="-1" class="text-box ignore" name="loginscreen_background"
+                                               id="loginscreen_background" type="file" accept="image/jpeg,image/png"
+                                               required>
+                                    </div>
+                                    <p><span class="text-danger">Note :You can add image in .jpg,.jpeg,.png format and size of 1920px X 1080px.</span>
+                                    </p>
+                                    <input type="button" onclick="CancelUploadBackgroundBtn()" class='btn btn-sm btn-secondary'
+                                           value="Cancel">
+                                    &nbsp;
+                                    <input type="submit" name="submit" value="Upload login background image"
+                                           class='btn btn-sm btn-primary'>
+                                </div>
+
+                            <?php } else { ?>
+                                <div id="newupload-background" style="display:block">
+                                    <p id="nomsg-background">No login background image uploaded yet</p>
+                                    <div id="loading-image-background" style="display:none;">
+                                        <img src="images/ajax-loader.gif" alt="Loader placeholder image"/>
+                                    </div>
+                                    <div tabindex="0" class="slim"
+                                         data-label="Upload Background Image"
+                                         data-size="1920,1080"
+                                         data-ratio="16:9">
+                                        <input class="text-box ignore" name="loginscreen_background"
+                                               id="loginscreen_background" type="file" accept="image/jpeg,image/png"
+                                               required>
+                                    </div>
+                                    <p><span class="text-danger">Note :You can add image in .jpg,.jpeg,.png format and size of 1920px X 1080px.</span>
+                                    </p>
+                                    <input type="submit" name="submit" value="Upload login background image"
+                                           class='btn btn-sm btn-primary'>
+                                </div>
+                                <div id="already-background" style="display:none">
+									<span id="new_background">
+									<img src="" style="background-size:100% 100%;max-width:320px; ">
+									</span>
+                                    <button type="button" onclick="updateBackground()" class='btn btn-sm btn-primary'
+                                            style="margin-top:60px">Change Background Image
+                                    </button>
+
+                                </div>
+                            <?php } ?>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row mt-3 mb-5 pt-3" style="border-top:1px solid #6b6b6b33;">
+                    <div class="col-md-4">
+                        <h4 class="ms-md-4 mb-3">Privacy Policy</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <form id="privacyPolicy">
+                            <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+
+                            <?php if ($_COMPANY->val('customer_privacy_link') != "") { ?>
+                                <div id="existing-policy" style="display:block">
+                                    <p><span id="policyValue"><a aria-label="<?= gettext('Privacy Policy Link');?>" class="add-plus-circle-icon text-primary text-decoration-none" href="<?= $_COMPANY->val('customer_privacy_link'); ?>"
+                                                                 target="_blank" rel="noopener noreferrer">Privacy Policy Link</a></span>
+                                    </p>
+                                    <button type="button" id="startUpdate" onclick="updatePrivacyPolicy(1)" class='btn btn-sm btn-primary'>
+                                        Update
+                                    </button>
+                                    <button class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No"
+                                       data-confirm-yesbtn="Yes" title=""
+                                       onclick="deletePrivacyPolicy()"
+                                       data-original-title="Are you sure you want to remove Privacy Policy?">Remove Policy
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+                                <div id="no-privacy-policy" style="display:block">
+                                    <p id="nomsg-background">No privacy policy added yet.</p>
+                                </div>
+                            <?php } ?>
+                            <div class="form-group" id="actionButtons"
+                                 style="display:<?= $_COMPANY->val('customer_privacy_link') ? 'none' : 'block'; ?>">
+                                <label class="col-md-12 control-label">Add Privacy Policy </label>
+                                <div id="cp2" class="col-md-12 input-group colorpicker-component ">
+                                    <label class="radio-inline me-2">
+                                        <input onclick="showExternal();" value='1' type="radio" required name="privacy_link_type" class="me-1">External Link
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input onclick="showAttachment();" value='2' type="radio" name="privacy_link_type" class="me-1">Attachment
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='ext-div' style="display:none">
+                                <label class="col-md-12 control-label">External Link</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" id='external' type="url"
+                                           placeholder="https://external.link" name="link" value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='att-div' style="display:none">
+                                <label class="col-md-12 control-label">Attachment</label>
+                                <div class="col-md-12">
+                                    <input id="attachment" type="file" name="link_file"
+                                           accept=".pdf,.doc,.docx,.png,.jpeg,.jpg">
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='att-div-btn' style="display:none">
+                                <label class="col-md-12 control-label"></label>
+                                <div class="col-md-12">
+                                    <button type="button" onclick="updatePrivacyPolicy(2)" class="btn btn-secondary">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" id="submit" name="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row mt-3 mb-5 pt-3" style="border-top:1px solid #6b6b6b33;">
+                    <div class="col-md-4">
+                        <h4 class="ms-md-4 mb-3">Terms of Use</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <form id="termsOfService">
+                            <input type="hidden" name="csrf_token" value="<?= Session::GetInstance()->csrf; ?>">
+
+                            <?php if ($_COMPANY->val('customer_tos_link') != "") { ?>
+                                <div id="existing-tos" style="display:block">
+                                    <p><span id="tosValue"><a aria-label="<?= gettext('Terms of Use');?>" class="add-plus-circle-icon text-primary text-decoration-none" href="<?= $_COMPANY->val('customer_tos_link'); ?>"
+                                                                 target="_blank" rel="noopener noreferrer">Terms of Use</a></span>
+                                    </p>
+                                    <button type="button" id="startUpdate-tos" onclick="updateTos(1)" class='btn btn-sm btn-primary'>
+                                        Update
+                                    </button>
+                                    <button class="btn btn-sm btn-danger deluser" data-confirm-nobtn="No"
+                                       data-confirm-yesbtn="Yes" title=""
+                                       onclick="deleteTos()"
+                                       data-original-title="Are you sure you want to remove Terms of Use?">Remove Terms
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+                                <div id="no-tos" style="display:block">
+                                    <p id="nomsg-background-tos">No Terms of Use added yet.</p>
+                                </div>
+                            <?php } ?>
+                            <div class="form-group" id="actionButtons-tos"
+                                 style="display:<?= $_COMPANY->val('customer_tos_link') ? 'none' : 'block'; ?>">
+                                <label class="col-md-12 control-label">Add Terms of Use</label>
+                                <div id="cp2-tos" class="col-md-12 input-group colorpicker-component ">
+                                    <label class="radio-inline me-1">
+                                        <input onclick="showExternalTos();" value='1' type="radio" required name="tos_link_type" class="me-1">External Link
+                                    </label>
+                                    <label class="radio-inline me-1">
+                                        <input onclick="showAttachmentTos();" value='2' type="radio" name="tos_link_type" class="me-1">Attachment
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='ext-div-tos' style="display:none">
+                                <label class="col-md-12 control-label">External Link</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" id='external-tos' type="url"
+                                           placeholder="https://external.link" name="link" value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='att-div-tos' style="display:none">
+                                <label class="col-md-12 control-label">Attachment</label>
+                                <div class="col-md-12">
+                                    <input id="attachment-tos" type="file" name="link_file"
+                                           accept=".pdf,.doc,.docx,.png,.jpeg,.jpg">
+                                </div>
+                            </div>
+
+                            <div class="form-group" id='att-div-btn-tos' style="display:none">
+                                <label class="col-md-12 control-label"></label>
+                                <div class="col-md-12">
+                                    <button type="button" onclick="updateTos(2)" class="btn btn-secondary">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" id="submit-tos" name="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <!-- My events background section starts  -->
+                <div class="row p-0">
+                    <div class="col-md-4"><h4 class="ms-md-4 mb-3"><?= gettext("My events Background");?></h4>   </div>
+                        <div class="col-md-8">
+                            <div id="my-events-image" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                            <form id="myEventsImage">
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                <?php if(!empty($_COMPANY->val('my_events_background'))){ ?>
+                                    <div id="existing-background-image" class="mt-3" style="display:block">
+                                        <div  id="new_myevent_banner">
+                                            <img id="my_events_image" src="<?= $_COMPANY->val('my_events_background'); ?>" alt="My Events background image" style="background-size:100% 100%;height:62px;width:496px;">
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <button type="button" onclick="updateMyEventsImage()" class='btn btn-sm btn-primary' >Change Image</button>
+                                                &nbsp;
+                                                <a class="btn btn-sm btn-danger deluser text-decoration-none" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteMyEventsImage()" data-original-title="Are you sure you want to remove My events background image?">
+                                                    Remove Image
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="new-my-events-upload-image" style="display:none">
+                                        <p id="nomsg-banner"></p>
+                                        <div id="loading-my-events-image" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                                        <div id="banner_img" tabindex="0" class="slim"
+                                             data-label="Upload background image"
+                                             data-size="1920,188"
+                                             data-ratio="1920:188">
+                                            <input tabindex="-1" class="text-box ignore" name="my_events_background_image" id="my_events_background_image" type="file" accept="image/jpeg,image/png" required>
+                                        </div>
+
+                                        <p class="mb-0 text-danger mb-2">Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+                                        <input type="submit" name="submit" value="Upload banner image" class='btn btn-sm btn-primary' > <input type="button" onclick="CancelUploadMyEventsBackground()" class='btn btn-sm btn-secondary' value="Cancel" >
+                                    </div>
+
+                                <?php	}else{ ?>
+                                    <div id="newupload-myevent_image" class="mt-3"  style="display:block">
+                                        <div id="loading-my-events-image" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                                        <div id="banner_img" tabindex="0" class="slim"
+                                             data-label="Upload background image"
+                                             data-size="1920,188"
+                                             data-ratio="1920:188">
+                                            <input class="text-box ignore" name="my_events_background_image" id="my_events_background_image" type="file" accept="image/jpeg,image/png" required>
+                                        </div>
+                                        <p class="mb-0 text-danger mb-2">Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+                                        <input type="submit" name="submit" value="Upload my events background image" class='btn btn-sm btn-primary' >
+                                    </div>
+                                    <div id="previous-events-background" class="mt-3" style="display:none">
+                                        <div id="new_background">
+                                            <img id="my_events_background_image" src="" alt="My events background image" style="background-size:100% 100%;height:62px;width:496px; ">
+                                        </div>
+                                        <button type="button" onclick="updateMyEventsImage()" class='btn btn-sm btn-primary mt-3' >Change Image</button>
+                                    </div>
+                                <?php	} ?>
+                            </form>
+                        </div>
+                    </div>
+                <!-- My events background section ends  -->
+
+                <div class="clearfix"></div>
+                <div class="row mt-3 mb-5 pt-3" style="border-top:1px solid #6b6b6b33;">
+                    <div class="col-md-4">
+                    <h4 class="ms-md-4 mb-3"><?= gettext('Zone Selector');?></h4>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="col-md-12 mb-3 p-0">
+                            <div class="form-check">
+                                <input class="form-check-input mt-2" type="checkbox" id="enable_zone_selector" onclick="update_zone_selector()"
+                                    <?php if ($_COMPANY->val('zone_selector') == 1) { ?>
+                                    value="1" checked
+                                    <?php } else { ?>
+                                    value="0"
+                                    <?php } ?>
+                                >
+                                <label class="form-check-label" for="enable_zone_selector"><strong><?=gettext("Enable Zone Selector")?></strong></label>
+                                <a href="<?= Url::GetZoneAwareUrlBase($_ZONE->id()) . 'choose_zone'?>" target="affinity" class="btn btn-link text-primary text-decoration-none" id="view_zone_selector_page_link">[View Zone Selector Page]</a>
+                                <br><small>Zone Selector page works only with affinities URLs</small>
+                            </div>
+                        </div>
+                        <div class="col-12 my-3" style="border-top:1px solid #6b6b6b33;"></div>
+                        <div id="zone_selector_settings">
+                        <form class="form-horizontal" method="post" id="zone-headings">
+                        <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                        <!-- Start of Zone Selector Heading Section -->
+                        <div class="col-md-12 p-0">
+                            <label for="zone_heading_input" class="font-weight-bold"><?= gettext("Zone Selector Heading");?></label>
+                            <button type="button" aria-label="Edit" class="btn btn-no-style" id="zone_heading_edit" onclick="editZoneHeading('zone_heading');"><i class="fa fa-edit" title="Edit" ></i></button>
+                        </div>
+                        <div class="col-md-12 p-0">
+                            <div class="col-sm-11">
+                                <p id="zone_heading"><?= $_COMPANY->val('zone_heading'); ?></p>
+                                <input type="text" name="zone_heading" id="zone_heading_input" class='form-control mb-2' value="<?= $_COMPANY->val('zone_heading'); ?>" placeholder="" style="display:none" >
+                            </div>
+                            <div class="col-sm-1">
+                                <button id="zone_heading_update" type="button" onclick="updateZoneHeading('zone_heading')" class='btn btn-xs btn-primary mt-2' style="display:none"><?= gettext("Update")?></button>
+                            </div>
+                        </div>
+                        <!-- End of Zone Selector Heading Section -->
+
+                        <!-- Start of Zone Selector Sub Heading Section -->
+                        <div class="col-md-12 p-0 mt-2">
+
+                            <label for="zone_sub_heading_input" class="font-weight-bold"><?= gettext("Zone Selector Sub Heading");?></label>
+                            <button type="button" aria-label="Edit" class="btn btn-no-style" id="zone_sub_heading_edit" onclick="editZoneHeading('zone_sub_heading');"><i class="fa fa-edit" title="Edit" ></i></button>
+
+                        </div>
+                        <div class="col-md-12 p-0">
+                            <div class="col-sm-11">
+                                <p id="zone_sub_heading"><?= $_COMPANY->val('zone_sub_heading'); ?></p>
+                                <input type="text" name="zone_sub_heading" id="zone_sub_heading_input" class='form-control' value="<?= $_COMPANY->val('zone_sub_heading'); ?>" placeholder="" style="display:none" >
+                            </div>
+                            <div class="col-sm-1">
+                                <button id="zone_sub_heading_update" type="button" onclick="updateZoneHeading('zone_sub_heading')" class='btn btn-xs btn-primary mt-2' style="display:none"><?= gettext("Update");?></button>
+                            </div>
+                        </div>
+                        <!-- End of Zone Selector Sub Heading Section -->
+                        </form>
+
+                        <div class="col-md-12 p-0 mt-3"><strong><?= gettext("Zone Selector Banner");?></strong></div>
+                        <div class="col-md-12">
+                            <div id="loading-zone-image-banner2" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                            <form id="zoneBannerImage">
+                                <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                                <?php if(!empty($_COMPANY->val('zone_banner_image'))){ ?>
+                                    <div id="already-banner" class="mt-3" style="display:block">
+                                        <div  id="new_banner">
+                                            <img id="zone_banner_image" src="<?= $_COMPANY->val('zone_banner_image'); ?>" alt="Web banner background image" style="background-size:100% 100%;height:62px;width:496px;">
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <button type="button" onclick="updateZoneBanner()" class='btn btn-sm btn-primary' >Change Image</button>
+                                                &nbsp;
+                                                <a class="btn btn-sm btn-danger deluser text-decoration-none" data-confirm-nobtn="No" data-confirm-yesbtn="Yes" title="" onclick="deleteZoneBanner()" data-original-title="Are you sure you want to remove zone banner image?">
+                                                    Remove Image
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="new-zone-upload-banner" style="display:none">
+                                        <p id="nomsg-banner"></p>
+                                        <div id="loading-zone-image-banner" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                                        <div id="banner_img" tabindex="0" class="slim"
+                                             data-label="Upload banner image"
+                                             data-size="1920,188"
+                                             data-ratio="1920:188">
+                                            <input tabindex="-1" class="text-box ignore" name="company_zone_banner" id="company_zone_banner" type="file" accept="image/jpeg,image/png" required>
+                                        </div>
+
+                                        <p class="mb-0 text-danger mb-2">Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+                                        <input type="button" onclick="CancelUploadZoneBanner()" class='btn btn-sm btn-secondary' value="Cancel" > <input type="submit" name="submit" value="Upload banner image" class='btn btn-sm btn-primary' >
+                                    </div>
+
+                                <?php	}else{ ?>
+                                    <div id="newupload-banner" class="mt-3"  style="display:block">
+                                        <div id="loading-zone-image-banner" style="display:none;" ><img src="images/ajax-loader.gif" alt="Loader placeholder image" /></div>
+                                        <div id="banner_img" tabindex="0" class="slim"
+                                             data-label="Upload banner image"
+                                             data-size="1920,188"
+                                             data-ratio="1920:188">
+                                            <input class="text-box ignore" name="company_zone_banner" id="company_zone_banner" type="file" accept="image/jpeg,image/png" required>
+                                        </div>
+                                        <p class="mb-0 text-danger mb-2" >Note :You can add .jpg,.jpeg,.png format. Images must be 1920px wide X 188px high and should be center weighted to keep any text within 900px in the center to allow responsive design scaling</p>
+                                        <input type="submit" name="submit" value="Upload zone banner image" class='btn btn-sm btn-primary' >
+                                    </div>
+                                    <div id="already-zone-banner" class="mt-3" style="display:none">
+                                        <div id="new_banner">
+                                            <img id="zone_banner_image" src="" alt="Banner image" style="background-size:100% 100%;height:62px;width:496px; ">
+                                        </div>
+                                        <button type="button" onclick="updateZoneBanner()" class='btn btn-sm btn-primary mt-3' >Change Image</button>
+                                    </div>
+                                <?php	} ?>
+                            </form>
+                        </div>
+
+                        <div class="col-12 mt-3" style="border-bottom:1px solid #6b6b6b33;">&nbsp;</div>
+                        <div class="col-md-12 py-3 px-0"><strong><?= gettext("Choose Zone Selector page layout design");?>:</strong></div>
+                        <div>
+                            <select name="zone_selector_page_layout" id="zone_selector_page_layout" class="form-control w-50" onchange="updateZoneSelectorPageLayout(this.value)">
+                                <option value="wide_tiles" <?= empty($_COMPANY->val('zone_selector_page_layout')) || $_COMPANY->val('zone_selector_page_layout') == 'wide_tiles' ? 'selected' : ''; ?>>Wide Tiles</option>
+                                <option value="compact_tiles" <?= $_COMPANY->val('zone_selector_page_layout') == 'compact_tiles' ? 'selected' : ''; ?>>Compact Tiles</option>
+                            </select>
+                        </div>
+                        </div>
+
+
+                        <div class="col-12 mt-3" style="border-bottom:1px solid #6b6b6b33;">&nbsp;</div>
+                        <form class="form-horizontal" method="post" id="updateZoneList">
+                            <input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+                            <div class="">
+                            <div class="py-3"><strong><?= gettext("Choose zones to show on the Zone Selector page");?>:</strong></div>
+                            <table>
+                                <tr style="margin-bottom: 2.5rem;">
+                                    <th width="75%"><?= gettext('Zone Name')?></th>
+                                    <th width="25%"><?= gettext('Current Position')?></th>
+                                </tr>
+                                <?php
+                                $zone_selector_zoneids = $_COMPANY->val('zone_selector_zoneids');
+                                $zone_selector_zoneids_array = explode(',', $zone_selector_zoneids);
+
+                                foreach($_COMPANY->getZones() as $all_zone)
+                                {
+                                    $selected = '';
+                                    $index = '';
+                                    if (in_array($all_zone["zoneid"],$zone_selector_zoneids_array)) {
+                                        $selected =  'checked';
+                                        $index = array_search($all_zone["zoneid"], $zone_selector_zoneids_array) +1;
+                                    }
+
+
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <input aria-label="<?= $all_zone['zonename'];?>" onchange="updateZoneList();" type='checkbox' name='zoneids[]' value='<?= $_COMPANY->encodeId($all_zone["zoneid"]);?>' <?= $selected; ?> >
+                                            <label> <?= $all_zone['zonename'];?></label>
+                                            </input>
+                                        </td>
+                                        <td>
+                                            <?php if($selected) { ?>
+                                            <?= $index; ?>
+                                            <button type="button" class="btn btn-no-style" onclick="getChangeZoneOrderModal('<?= $_COMPANY->encodeId($all_zone["zoneid"]);?>')">
+                                                <i class="fa fa-solid fa-sort mr-2"></i>
+                                            </button>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $index++;
+                                }
+                                ?>
+
+                            </table>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+<div id="zone_modal_container"></div>
+<script>
+
+    function updateZoneSelectorPageLayout(v) {
+        if (v) {
+
+            
+            $.ajax({
+            url: "ajax.php?updateZoneSelectorPageLayout=1",
+            type: "POST",
+            data: {'zone_selector_page_layout':v},
+            success: function (data) {
+                swal.fire({title: 'Success',text:"Zone selector page layout setting updated successfully."});
+            }
+        });
+
+        } else {
+            swal.fire({title: 'Error',text:"Please choose a layout design for zone elector page."});
+        }
+    }
+    function updatePrivacyPolicy(i) {
+
+        if (i == 1) {
+            $('#actionButtons').show();
+            $('#startUpdate').hide();
+            $('#cancelUpdate').show();
+            $('#existing-policy').hide();
+        } else {
+            <?php if($_COMPANY->val('customer_privacy_link')) { ?>
+            $('#actionButtons').hide();
+            <?php } ?>
+            $('#startUpdate').show();
+            $('#cancelUpdate').hide();
+            $('#ext-div').hide();
+            $('#att-div').hide();
+            $('#att-div-btn').hide();
+            $("#attachment").prop('required', false);
+            $("#external").prop('required', false);
+            $('#existing-policy').show();
+        }
+
+
+    }
+
+    function showExternal() {
+        $('#att-div-btn').show();
+        $("#ext-div").show();
+        $("#att-div").hide();
+        $("#external").prop('required', true);
+        $("#attachment").prop('required', false);
+        $("#attachment").val('');
+    }
+
+    function showAttachment() {
+        $("#ext-div").hide();
+        $("#att-div").show();
+        $("#external").prop('required', false);
+        $("#external").val('');
+        $("#attachment").prop('required', true);
+        $('#att-div-btn').show();
+    }
+
+    function deletePrivacyPolicy() {
+        $.ajax({
+            url: "ajax.php?updateprivacyPolicy=1",
+            type: "POST",
+            data: {'privacy_link_type':1,'link':''},
+            success: function (data) {
+                swal.fire({title: 'Success',text:"Privacy policy removed successfully."}).then(function(result) {
+                    location.reload();
+                });
+            }
+        });
+    }
+
+    $("#privacyPolicy").on('submit', (function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "ajax.php?updateprivacyPolicy=1",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                $("#loading-image-background").show();
+                $("#nomsg-background").hide();
+            },
+            success: function (data) {
+                if (data == 1) {
+                    swal.fire({title: 'Error!', text: "Unable to upload the linked file."});
+                } else if (data == 2) {
+                    swal.fire({title: 'Error!', text: "Attachment required."});
+                } else {
+                    swal.fire({title: 'Success!', text: "Privacy policy updated successfully."}).then(function(result) {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    }));
+
+    function updateTos(i) {
+
+        if (i == 1) {
+            $('#actionButtons-tos').show();
+            $('#startUpdate-tos').hide();
+            $('#cancelUpdate-tos').show();
+            $('#existing-tos').hide();
+        } else {
+            <?php if($_COMPANY->val('customer_tos_link')) { ?>
+            $('#actionButtons-tos').hide();
+            <?php } ?>
+            $('#startUpdate-tos').show();
+            $('#cancelUpdate-tos').hide();
+            $('#ext-div-tos').hide();
+            $('#att-div-tos').hide();
+            $('#att-div-btn-tos').hide();
+            $("#attachment-tos").prop('required', false);
+            $("#external-tos").prop('required', false);
+            $('#existing-tos').show();
+        }
+    }
+
+    function showExternalTos() {
+        $('#att-div-btn-tos').show();
+        $("#ext-div-tos").show();
+        $("#att-div-tos").hide();
+        $("#external-tos").prop('required', true);
+        $("#attachment-tos").prop('required', false);
+        $("#attachment-tos").val('');
+    }
+
+    function showAttachmentTos() {
+        $("#ext-div-tos").hide();
+        $("#att-div-tos").show();
+        $("#external-tos").prop('required', false);
+        $("#external-tos").val('');
+        $("#attachment-tos").prop('required', true);
+        $('#att-div-btn-tos').show();
+    }
+
+    function deleteTos() {
+        $.ajax({
+            url: "ajax.php?updateTOS=1",
+            type: "POST",
+            data: {'tos_link_type':1,'link':''},
+            success: function (data) {
+                swal.fire({title: 'Success',text:"Terms of Use removed successfully."}).then(function(result) {
+                    location.reload();
+                });
+            }
+        });
+    }
+
+    $("#termsOfService").on('submit', (function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "ajax.php?updateTOS=1",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                $("#loading-image-background").show();
+                $("#nomsg-background-tos").hide();
+            },
+            success: function (data) {
+                if (data == 1) {
+                    swal.fire({title: 'Error!', text: "Unable to upload the linked file."});
+                } else if (data == 2) {
+                    swal.fire({title: 'Error!', text: "Attachment required."});
+                } else {
+                    swal.fire({title: 'Success!', text: "Terms of Use updated successfully."}).then(function(result) {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    }));
+
+
+    $('.slim').keypress(function(e) {        
+        if (e.keyCode == 13) {
+            $('#logo').click();          
+        }
+    });
+
+/*** Zone Landing Page Headings JS */
+function update_zone_selector()
+{
+    let enable_or_disable = $("#enable_zone_selector").prop('checked') ? 1 : 0;
+
+    $.ajax({
+        url: 'ajax.php?enableDisableZoneSelector='+enable_or_disable,
+        type: "POST",
+        data: {},
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function(data) {
+            // enable_or_disable ? $("#view_zone_selector_page_link").show() : $("#view_zone_selector_page_link").hide();
+        }
+    });
+}
+
+function editZoneHeading(i){    
+    $("#" + i + "_edit").hide();
+    $("#" + i).hide();
+    $("#" + i + "_input").show();
+    $("#" + i + "_update").show();    
+}
+function updateZoneHeading(i){
+    var finalData  = new FormData();
+    var zone_heading_input =$("#zone_heading_input").val();
+    var zone_sub_heading_input =$("#zone_sub_heading_input").val();
+	finalData.append("zone_heading",zone_heading_input);
+    finalData.append("zone_sub_heading",zone_sub_heading_input);
+	$.ajax({
+		url: 'ajax.php?updateZoneHeading=1',
+		type: "POST",
+		data: finalData,
+		processData: false,
+		contentType: false,
+		cache: false,		
+		success: function(data) {
+            let jsonData = JSON.parse(data);
+            swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                location.reload();
+            });		
+			
+		}
+	});
+} /*** End Zone Landing Page Headings JS */
+
+/* my events bg funstions*/
+function deleteMyEventsImage() {
+    var finaldata = 1;
+    $.ajax({
+        url: "ajax.php?deleteMyEventsBackground",
+        type: "POST",
+        data: finaldata,
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function () {
+            $("#my-events-image").show();
+        },
+        success: function (data) {
+            $("#my-events-image").hide();
+            $("#existing-background-image").hide();
+            $(".btn-danger").hide();
+            $("#new-my-events-upload-image").show();
+        }
+    });
+}
+
+function updateMyEventsImage(){
+    $("#new-my-events-upload-image").show();
+    $("#existing-background-image").hide();
+    $("#loading-my-events-image").hide();
+    $("#my_events_background_image").val('');
+
+}
+function CancelUploadMyEventsBackground(){
+    $("#new-my-events-upload-image").hide();
+    $("#existing-background-image").show();
+
+}
+/* My events bg functions end*/
+function deleteZoneBanner() {
+    var finaldata = 1;
+    $.ajax({
+        url: "ajax.php?zoneBannerImage=delete",
+        type: "POST",
+        data: finaldata,
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function () {
+            $("#loading-zone-image-banner2").show();
+        },
+        success: function (data) {
+            $("#loading-zone-image-banner2").hide();
+            $("#already-banner").hide();
+            $(".btn-danger").hide();
+            $("#new-zone-upload-banner").show();
+        }
+    });
+}
+
+function updateZoneBanner(){
+    $("#new-zone-upload-banner").show();
+    $("#already-banner").hide();
+    $("#loading-zone-image-banner").hide();
+    $("#company_zone_banner").val('');
+
+}
+function CancelUploadZoneBanner(){
+    $("#new-zone-upload-banner").hide();
+    $("#already-banner").show();
+
+}
+
+$(document).ready(function (e) {
+    $("#zoneBannerImage").on('submit',(function(e) {
+        e.preventDefault();
+        var finaldata  = new FormData();
+        let company_zone_banner = $("input[name=company_zone_banner]").val();
+        if (company_zone_banner){
+            var media  = JSON.parse(company_zone_banner);
+            var base64 = media.output.image;
+            var type   = media.output.type;
+            var block  = base64.split(";");
+
+            // get the real base64 content of the file
+            var realData = block[1].split(",")[1];
+
+            // Convert to blob
+            var blob = b64toBlob(realData, type);
+
+            var company_zone_banner_file = new File([blob],media.input.name,{ type: type });
+            finaldata.append('company_zone_banner',company_zone_banner_file);
+        }
+
+        $.ajax({
+            url: "ajax.php?zoneBannerImage=update",
+            type: "POST",
+            data: finaldata,
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function() {
+                $("#loading-zone-image-banner").show();
+                $("#nomsg-banner").hide();
+            },
+            success: function(data)
+            {
+                if ( data == 3 ){
+                    $("#nomsg-banner").html("<font color='red'>Invalid File Type</font>");
+                    $("#nomsg-banner").show();
+                }
+                else if ( data == 2 ){
+                    $("#nomsg-banner").html("<font color='red'>Uploading error! Please try again.</font>");
+                    $("#nomsg-banner").show();
+                } else {
+                    $('#zone_banner_image').attr('src',data);
+                    $("#already-banner").show();
+                    $("#new-zone-upload-banner").hide();
+                    $("#loading-zone-image-banner").hide();
+                }
+            }
+        });
+    }));
+
+
+    $("#myEventsImage").on('submit',(function(e) {
+        e.preventDefault();
+        var finaldata  = new FormData();
+        let my_events_bg_image = $("input[name=my_events_background_image]").val();
+        if (my_events_bg_image){
+            var media  = JSON.parse(my_events_bg_image);
+            var base64 = media.output.image;
+            var type   = media.output.type;
+            var block  = base64.split(";");
+
+            // get the real base64 content of the file
+            var realData = block[1].split(",")[1];
+
+            // Convert to blob
+            var blob = b64toBlob(realData, type);
+
+            var my_events_bg_image_file = new File([blob],media.input.name,{ type: type });
+            finaldata.append('my_events_background_image',my_events_bg_image_file);
+        }
+
+        $.ajax({
+            url: "ajax.php?myEventsImage",
+            type: "POST",
+            data: finaldata,
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function() {
+                $("#loading-my-events-image").show();
+                $("#nomsg-banner").hide();
+            },
+            success: function(data)
+            {
+                if ( data == 3 ){
+                    $("#nomsg-banner").html("<font color='red'>Invalid File Type</font>");
+                    $("#nomsg-banner").show();
+                }
+                else if ( data == 2 ){
+                    $("#nomsg-banner").html("<font color='red'>Uploading error! Please try again.</font>");
+                    $("#nomsg-banner").show();
+                } else {
+                    $('#my_events_background_image').attr('src',data);
+                    $("#existing-background-image").show();
+                    $("#new-my-events-upload-image").hide();
+                    $("#loading-my-events-image").hide();
+                }
+                location.reload();  
+            }
+        });
+    }));
+    
+});
+
+    function updateZoneList()
+    {
+        var zoneids =  [];
+        $('input[name="zoneids[]"]:checked').each(function(i) {
+            zoneids[i] = $(this).val();
+            return zoneids.join(",");
+        });
+        var finaldata  = new FormData();
+        finaldata.append('zoneids',zoneids);
+        $.ajax({
+            url: 'ajax.php?updateZoneList=1',
+            type: "POST",
+            data: finaldata,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+                swal.fire({title: "<?= gettext('Success');?>",text:"<?= gettext('Updated successfully');?>"}).then(function(result) {
+                    location.reload();
+                });
+
+            }
+        });
+
+    }
+
+    function getChangeZoneOrderModal(zoneid){
+        $.ajax({
+            url: 	'ajax.php?getChangeZoneOrderModal=1',
+            type: 	'GET',
+            data: 	{zoneid:zoneid},
+            success: function(data){
+                $('#zone_modal_container').html(data);
+
+                const modalElement = document.getElementById('change_zone_order');
+                const modal = new bootstrap.Modal(modalElement, {
+                backdrop: 'static',
+                keyboard: false
+                });
+                modal.show();
+
+
+
+            }
+        });
+
+    }
+
+    function CancelUploadBackgroundBtn(){
+	$("#newupload-background").hide();
+	$("#already-background").show();
+
+}
+
+</script>
+
+</body>
+</html>

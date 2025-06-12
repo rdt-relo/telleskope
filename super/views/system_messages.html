@@ -1,0 +1,158 @@
+<div class="container-offset-lr mt-5">
+    <div class="row">              
+      <div class="col-12">
+        <div class="card p-4 mt-2">
+          <div class="row">
+            <div class="col-md-6">
+              <h1>System Messages:</h1>
+            </div>
+            <div class="col-md-6 text-end">
+              <a class="btn btn-outline-primary" href="new_system_message">+ New Message</a>
+            </div>
+          </div>
+  
+          <?php if((time()- @$_SESSION['sent']) < 5){ ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+              Message sent successfully.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } elseif((time()- @$_SESSION['draft']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+              Saved as draft successfully
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } elseif((time()- @$_SESSION['updated']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+              Message updated successfully. Ready to send updated message.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } elseif((time()- @$_SESSION['error']) < 5) { ?>
+            <div id="hidemesage" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+              <?= @$_SESSION['error_message'] ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php } ?>
+  
+          <div class="table-responsive mt-4">
+            <table id="messages" class="table table-hover display compact">
+              <thead>
+                <tr>
+                  <th width="10%">Type</th>
+                  <th width="15%">Subject</th>
+                  <th width="35%">Recipient Types</th>
+                  <th width="15%">Date</th>
+                  <th width="10%">Message</th>
+                  <th width="15%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php for($i=0;$i<count($data);$i++){ ?>
+                <tr id="r<?= ($i+1) ?>">
+                  <td>
+                    <p style="background-color: <?= $bg_color[$data[$i]['message_type']] ?>; padding:3px; color:white; text-align:center; font-size: small;">
+                      <?= $type[$data[$i]['message_type']]; ?>
+                    </p>
+                  </td>
+                  <td><?= $data[$i]['subject']; ?></td>
+                  <td>
+                    <?= $data[$i]['recipient_type']; ?>
+                    <span style="color:grey;" onclick="toggleEmails(<?=$i?>)">[show emails]</span>
+                    <div id="emails-<?=$i?>" style="display: none; font-size: smaller; color: #0d95e8;">
+                      <?= implode(", ", explode(',', $data[$i]['recipients'])) ?>
+                    </div>
+                  </td>
+                  <td>
+                    <?= $data[$i]['status'] == 1 ? '<span class="text-success">[ SENT ]</span><br>' : '<span class="text-danger">[ DRAFT ]</span><br>'; ?>
+                    <?= $data[$i]['updatedon']; ?>
+                  </td>
+                  <td>
+                    <button type="button" onclick="viewSystemMessage('<?= base64_encode($data[$i]['message_id']) ?>')" class="btn btn-sm btn-primary">View Message</button>
+                  </td>
+                  <td>
+                    <?php if ($data[$i]['status'] == 2) { ?>
+                      <a href="new_system_message?edit=<?= base64_encode($data[$i]['message_id']) ?>" class="btn btn-sm btn-primary">Edit</a>
+                      <a href="action?sendSystemMessage=<?= base64_encode($data[$i]['message_id']) ?>" class="btn btn-sm btn-danger confirm" title="<b>Are you sure to send this message!</b>">Send</a>&nbsp;
+                    <?php } ?>
+                    <button onclick="deleteSystemMessage('<?= base64_encode($data[$i]['message_id']) ?>')" class="btn btn-sm btn-danger confirm" title="<b>Are you sure to delete this message!</b>">Delete</button>
+                  </td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="viewSystemMessageModal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">System Message Preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="viewSystemMessageData"></div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .main.container, .footer.container {
+      padding: 0 !important;
+    }
+    .divider {
+      margin: 0 !important;
+    }
+  </style>
+  
+  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#messages').DataTable({
+        "order": [],
+        "bPaginate": false,
+        "bInfo": false
+      });
+      $(".confirm").popConfirm({ content: '' });
+    });
+    jQuery("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      jQuery("#wrapper").toggleClass("toggled");
+    });
+
+    function viewSystemMessage(i) {
+      $.ajax({
+        url: 'action?viewSystemMessage=1',
+        type: 'GET',
+        data: { 'messageid': i },
+        success: function (data) {
+        
+        $('#viewSystemMessageData').html(`<iframe style="width:100%; height:500px; border:none;" srcdoc="${data.replace(/"/g, '&quot;')}"></iframe>`);
+        const modal = new bootstrap.Modal(document.getElementById('viewSystemMessageModal'), {
+        backdrop: 'static',
+        keyboard: false
+        });
+        modal.show();
+        }
+      });
+    }
+  
+    function deleteSystemMessage(i) {
+      $.ajax({
+        url: 'action?deleteSystemMessage=1',
+        type: 'POST',
+        data: { 'messageid': i },
+        success: function (data) {
+          swal.fire({ title: 'Success', text: "Message deleted successfully." }).then(function () {
+            window.location.href = "system_messages";
+          });
+        }
+      });
+    }
+  
+    function toggleEmails(i) {
+      $("#emails-" + i).toggle();
+    }
+  
+    $("#sidebar-wrapper ul li:nth-child(11)").addClass("myactive");
+  </script>

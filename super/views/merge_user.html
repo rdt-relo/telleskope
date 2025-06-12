@@ -1,0 +1,192 @@
+<style>
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<?php
+$ACTIVE_STATUS = array(
+    1 => 'Active',
+    3 => 'Needs Verification',
+    100 => 'Pending Deletion',
+    101 => 'User initiated deletion'
+);
+?>
+<div class="container-offset-lr mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-4">
+                <div class="mb-3">
+                    <h1>Merge User</h1>
+                </div>
+                <div>
+                    <?php if ($error) { ?>
+                        <div id="hidemesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?= $error; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php } ?>
+
+                    <form method="POST" action="">
+                        <div class="mb-3">
+                            <label class="form-label required">UserId 1</label>
+                            <input type="number" class="form-control" name="userid1" value="<?= $user1 ? $user1->id() : '' ?>" min="1" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required">UserId 2</label>
+                            <input type="number" class="form-control" name="userid2" value="<?= $user2 ? $user2->id() : '' ?>" min="1" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="proccedToMerge">Proceed to next step</button>
+                    </form>
+                </div>
+                <?php if ($user1 && $user2) { ?>
+                    <hr />
+                    <h4 class="text-center">Detail of selected users:</h4>
+                    <hr />
+                    <div class="mt-5">
+                        <div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>User 1</th>
+                                        <th>User 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Userid:</td>
+                                        <td class="text-start"><?= $user1->id(); ?></td>
+                                        <td class="text-start"><?= $user2->id(); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Firstname:</td>
+                                        <td class="text-start"><?= $user1->val('firstname'); ?></td>
+                                        <td class="text-start"><?= $user2->val('firstname'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lastname:</td>
+                                        <td class="text-start"><?= $user1->val('lastname'); ?></td>
+                                        <td class="text-start"><?= $user2->val('lastname'); ?></td>
+                                    </tr>
+                                    <tr style="<?= ($user1->val('email') && $user2->val('email')) ? 'color:red;' : '' ?>">
+                                        <td>Email:</td>
+                                        <td class="text-start"><?= $user1->val('email'); ?></td>
+                                        <td class="text-start"><?= $user2->val('email'); ?></td>
+                                    </tr>
+                                    <tr style="<?= ($user1->val('aad_oid') && $user2->val('aad_oid')) ? 'color:red;' : '' ?>">
+                                        <td>AAD_OID:</td>
+                                        <td class="text-start"><?= $user1->val('aad_oid'); ?></td>
+                                        <td class="text-start"><?= $user2->val('aad_oid'); ?></td>
+                                    </tr>
+                                    <tr style="<?= ($user1->getExternalId() && $user2->getExternalId()) ? 'color:red;' : '' ?>">
+                                        <td>Externalid:</td>
+                                        <td class="text-start"><?= $user1->getExternalId(); ?></td>
+                                        <td class="text-start"><?= $user2->getExternalId(); ?></td>
+                                    </tr>
+                                    <tr style="<?= ($user1->val('externalusername') && $user1->val('externalusername') != $user2->val('externalusername')) ? 'color:magenta;' : '' ?>">
+                                        <td>Externalusername:</td>
+                                        <td class="text-start"><?= $user1->val('externalusername'); ?></td>
+                                        <td class="text-start"><?= $user2->val('externalusername'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jobtitle:</td>
+                                        <td class="text-start"><?= $user1->val('jobtitle'); ?></td>
+                                        <td class="text-start"><?= $user2->val('jobtitle'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Department:</td>
+                                        <td class="text-start"><?= $_COMPANY->getDepartmentName($user1->val('department')); ?></td>
+                                        <td class="text-start"><?= $_COMPANY->getDepartmentName($user2->val('department')); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Officelocation:</td>
+                                        <td class="text-start"><?= $_COMPANY->getBranchName($user1->val('homeoffice')); ?></td>
+                                        <td class="text-start"><?= $_COMPANY->getBranchName($user2->val('homeoffice')); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created On (UTC):</td>
+                                        <td class="text-start"><?= $user1->val('createdon'); ?></td>
+                                        <td class="text-start"><?= $user2->val('createdon'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Validated On (UTC):</td>
+                                        <td class="text-start"><?= $user1->val('validatedon'); ?></td>
+                                        <td class="text-start"><?= $user2->val('validatedon'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Updated On (UTC):</td>
+                                        <td class="text-start"><?= $user1->val('modified'); ?></td>
+                                        <td class="text-start"><?= $user2->val('modified'); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td class="text-start"><?= $ACTIVE_STATUS[$user1->val('isactive')]; ?></td>
+                                        <td class="text-start"><?= $ACTIVE_STATUS[$user2->val('isactive')]; ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php if ($user1->getExternalId() && $user2->getExternalId()) { ?>
+                            <h6 class="text-danger">Note: Two identities with distinct externalid cannot be merged</h6>
+                        <?php } elseif ($user1->val('aad_oid') && $user2->val('aad_oid')) { ?>
+                            <h6 class="text-danger">Note: Two identities with distinct AAD_OID cannot be merged</h6>
+                        <?php } else { ?>
+                            <div class="text-center mt-4">
+                                <form action="" method="post">
+                                    <input type="hidden" name="userid1" value="<?= $user1->id(); ?>">
+                                    <input type="hidden" name="userid2" value="<?= $user2->id(); ?>">
+                                    <button type="submit" class="btn btn-danger confirm" name="startMerging" title="Are you sure you want to merge?">
+                                        Proceed to Merge User
+                                    </button>
+                                </form>
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+    $("#sidebar-wrapper ul li:nth-child(6)").addClass("myactive");
+
+    <?php if ($finalMessage){ ?>
+        Swal.fire({
+            title: '<?= $finalMessage; ?>',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                startUsersMergingProcess('<?= $mainUser->id(); ?>', '<?= $extraUser->id(); ?>');
+            }
+        });
+    <?php } ?>
+
+    function startUsersMergingProcess(mainUserId, extraUserId) {
+        $.ajax({
+            url: 'action.php?startUsersMergingProcess=1',
+            type: "POST",
+            data: { 'mainUserid': mainUserId, 'extraUserid': extraUserId },
+            success: function(data) {
+                console.log('data=>', data);
+                let jsonData = JSON.parse(data);
+                Swal.fire({ text: jsonData.message }).then(function(result) {
+                    if (jsonData.status > 0) {
+                        window.location.href = "merge_user";
+                    }
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

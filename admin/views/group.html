@@ -1,0 +1,505 @@
+<style>
+.popover{
+    max-width: 100% !important; 
+}
+ 
+a.lead-type.btn.btn-info {
+    margin-left: 11px;
+    height: 30px;
+    padding: 5px 5px 0px 5px;
+    position: absolute;
+    z-index: 1; margin-top: -5px;
+}
+
+.close:focus {
+    display: inline-block;
+    outline: 3px solid !important;
+}
+/* for additional details */
+.template-details-row {
+	  background-color: #f8f9fa;
+	}
+
+.additional-details {
+  padding: 10px 5px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.additional-details hr {
+    width: 100%;
+    border-color: #bcbcbc;
+}
+
+.additional-details.show {
+  display: block;
+  opacity: 1;
+}
+</style>
+
+			<div class="container  col-md-offset-2 margin-top">
+				<div class="row">	  
+					<div class="col-md-12">
+						<div class="widget-simple-chart card-box ">
+							<!--div class="col-md-12 latest"><h6>Manage Survey</h6></div-->
+							<div class="col-md-12 divider">
+								<div class="col-md-7">
+								<h6>Manage <?= $_COMPANY->getAppCustomization()['group']["name-plural"]; ?>&nbsp;</h6>
+								<?php
+									// if($_ZONE->val('app_type') == 'talentpeak'){
+									// In the following line enabled templates for all app types if templates exist.
+									$showDropdown = ($_ZONE->val('app_type') == 'talentpeak') || count($importedTemplates) > 0;
+									?>
+
+									<?php if ($showDropdown) { ?>
+										<div class="btn-group">
+											<i class="fa fa-plus-circle fa-lg add-icon ml-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+											<div class="dropdown-menu dropdown-menu-right mt-2 bg-gray">
+												<a href="addgroup" class="dropdown-item">Build From Scratch</a>
+												<!-- Clone Existing template -->
+												<?php if ($_ZONE->val('app_type') == 'talentpeak') { ?>
+													<a href="javascript:void(0);" data-toggle="modal" data-target="#addGroupModal" class="dropdown-item">Clone an Existing <?= $_COMPANY->getAppCustomization()['group']["name-plural"]; ?>&nbsp; </a>
+												<?php } ?>
+												<!-- create from template -->
+												<?php if (count($importedTemplates)) { ?>
+													<a href="javascript:void(0);" data-toggle="modal" data-target="#createFromTemplateModal" class="dropdown-item">Create <?= $_COMPANY->getAppCustomization()['group']["name-plural"]; ?>&nbsp; from Templates </a>
+												<?php } ?>
+											</div>
+										</div>
+									<?php } else { ?>
+										<a aria-label="<?= gettext('Add new group');?>" class="add-plus-circle-icon" href="addgroup">
+											<i class="fa fa-plus-circle fa-lg ml-2" title="Add new group" aria-hidden="true"></i>
+										</a>
+									<?php } ?>
+							
+								</div>
+                                <div class="col-md-2">
+                                    &nbsp;
+                                </div>
+								<div class="col-md-3 mb-2">
+								  <?php if (count($groupCategoryRows) > 1) { ?>
+										<select class="form-control col-md-12" name="group_category" onchange="filterByGroupCategory(this.value)">
+											<?php
+												foreach ($groupCategoryRows as $groupCategoryRow) { ?>
+													<option value="<?= $groupCategoryRow['categoryid']; ?>" <?= $group_category_id == $groupCategoryRow['categoryid'] ? 'selected' : ''; ?> ><?= $groupCategoryRow['category_name']; ?></option>
+											<?php  } ?>
+                                        </select>
+                                    <?php } else { ?>
+                                        &nbsp;
+                                    <?php } ?>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<?php if((time()- @$_SESSION['updated']) < 5){ ?>
+							<div id="hidemesage" class="alert alert-info alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+								<?= UPDATED; ?>
+							</div>
+						<?php }elseif((time()- @$_SESSION['added']) < 5) { ?>
+							<div id="hidemesage" class="alert alert-info alert-dismissable">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+								<?= ADDED; ?>
+							</div>
+						<?php }elseif((time()- @$_SESSION['error']) < 5){ ?>
+								<div id="hidemesage" class="alert alert-danger alert-dismissable">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+									<?= ERROR; ?>
+								</div>
+						<?php } ?>
+							
+							<div class="table-responsive">
+								<table id="muser" class="table table-hover display compact" summary="This table display the list of groups">
+									<thead>
+										<tr>
+                                            <?php $tableCols = 6; ?>
+											<th class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?></th>
+											<th class="color-black" scope="col">Region</th>
+											<th class="color-black" scope="col">Colors</th>
+											<!-- <th width="20%" class="color-black" scope="col">From Label</th> -->
+											<th class="color-black" scope="col">Leaders</th>
+										<?php if($_COMPANY->getAppCustomization()['chapter']["enabled"]){ $tableCols += 1; ?>
+											<th class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['chapter']["name-short-plural"]?></th>
+										<?php } ?>
+										<?php if($_COMPANY->getAppCustomization()['channel']["enabled"]){ $tableCols += 1; ?>
+											<th class="color-black" scope="col"><?= $_COMPANY->getAppCustomization()['channel']["name-short-plural"]?></th>
+										<?php } ?>
+										<?php if($_COMPANY->getAppCustomization()['teams']['enabled']){ $tableCols += 1; ?>
+											<th class="color-black" scope="col">Teams Setup</th>
+										<?php } ?>
+											<th class="color-black" scope="col">Direct Link</th>
+										<?php if($_ZONE->val('app_type') != 'talentpeak'){ $tableCols += 1; ?>
+											<th class="color-black" scope="col">Auto-Assign</th>
+										<?php } ?>
+											<th class="color-black" scope="col">Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+									
+								    <?php
+                                        foreach ($rows as $row) {
+                                            $group = Group::ConvertDBRecToGroup($row);
+                                            $hsc_groupname = htmlspecialchars($group->val('groupname'));
+                                            $encodedId = $_COMPANY->encodeId($group->id());
+                                            if($group->isInactive()){$color="#ffffce";}
+                                            else if($group->isDeleted()){$color="#fde1e1";}
+                                            else{$color="#ffffff";}
+								    ?>
+
+										<tr id="<?=$encodedId;?>" style="background-color: <?= $color; ?>">
+											<td><strong><?= htmlspecialchars($group->val('groupname')); ?> <small style="font-size: 12px;"><?= $group->val('groupname_short') ? '<br>('.$group->val('groupname_short').')' : ''; ?></small></strong></td>
+											<td><button class="btn btn-info btn-sm" onclick="showRegions('<?= addslashes(htmlspecialchars_decode($group->val('region'))); ?>')" ><?= $group->val('region') ? count(explode('%%',$group->val('region'))) : 0; ?> regions</button></td>
+											<td>
+                                                <div style="height:25px; width:25px; background:<?= $group->val('overlaycolor'); ?>; border-radius:20px;margin-top:5px; margin-left:5px; display: inline-block;"></div>
+                                                <div style="height:25px; width:25px; background:<?= $group->val('overlaycolor2'); ?>; border-radius:20px;margin-top:5px; margin-left:5px; display: inline-block;"></div>
+                                             </td>
+											<!-- <td><?= $group->val('from_email_label') ? $group->val('from_email_label') : "-NA-" ; ?></td> -->
+											
+											<td> <a class="btn btn-info btn-sm" href="manageleads?gid=<?=$encodedId;?>">Manage</a> </td>
+											<?php if ($_COMPANY->getAppCustomization()['chapter']['enabled']) { ?>
+												<td>
+													<a class="btn btn-info btn-sm" href="manageChapters?gid=<?=$encodedId;?>">Manage</a>
+												</td>
+											<?php } ?>
+											<?php if ($_COMPANY->getAppCustomization()['channel']['enabled']) { ?>
+												<td>
+													<a class="btn btn-info btn-sm" href="manage_channels?gid=<?=$encodedId;?>">Manage</a>
+												</td>
+											<?php } ?>
+											<?php if($_COMPANY->getAppCustomization()['teams']['enabled']){ ?>
+												<td><a class="btn btn-info btn-sm" href="team_setup?groupid=<?=$encodedId;?>">Manage</a></td>
+											<?php } ?>
+											<td>
+												<input type="text" readonly style="display:none;"  value="<?= $group->getShareableUrl();?>" class="url-input" id="copy_<?= $encodedId; ?>" >
+												<button aria-label="Get Link" class="btn btn-info btn-sm"   onclick="copyLink('copy_<?= $encodedId; ?>','<?= addslashes($hsc_groupname); ?>');">
+													Get Link
+												</button>
+											</td>
+										<?php if($_ZONE->val('app_type') != 'talentpeak'){ ?>
+											<td>
+												<?php if ($group->val('chapter_assign_type')=='auto' && $group->isActive()) { ?>
+													 <a class="btn btn-info btn-sm deluser" title="<strong>Are you sure to reassign members?</strong>" onclick="updateMembersReassigned('<?=$encodedId;?>')">Update</a>
+												 <?php } else { ?>
+													<a class="btn btn-info btn-sm disabled" disabled >Update</a>
+												<?php } ?></td>
+										<?php } ?>
+											<td width="15%">
+                                                <?php if (!$group->isDeleted()) { ?>
+												<button aria-label="Change setting" class="btn btn-no-style" onclick="changeGroupSetting('<?=$encodedId;?>')"><i class="fa fa-cog" aria-hidden="true" title="Change setting"></i></button>&nbsp;
+                                                <?php } ?>
+
+                                                <?php if (!$group->isDeleted() && $_COMPANY->getAppCustomization()['group']['tabs']['enabled']) { ?>
+                                                    <a class="btn" href="tab_type?gid=<?=$encodedId;?>"><i title="Group Custom Tabs" class='fas fa-sign-in-alt' style='font-size:16px;color: #0077b5;'></i></a>&nbsp;
+                                                <?php }?>
+
+												<?php if (!$group->isDeleted() && $_COMPANY->getAppCustomization()['integrations']['group']['enabled']) { ?>
+                                                    <a class="btn" href="integration?gid=<?=$encodedId;?>"><i title="Integration" class='fas fa-sign-out-alt' style='font-size:16px;color: #0077b5;'></i></a>&nbsp;
+                                                <?php }?>
+
+												<?php if (!$group->isDeleted() && $_COMPANY->getAppCustomization()['group']['member_restrictions']) { ?>
+                                                    <a class="btn" href="member_restrictions?gid=<?=$encodedId;?>"><i title="Restrictions" class='fas fa-ruler-combined' style='font-size:16px;color: #0077b5;'></i></a>&nbsp;
+                                                <?php }?>
+
+												<?php if(!$group->isDeleted()){	?>
+												<a class="btn" href="addgroup?edit=<?=$encodedId;?>"><i class="fa fa-edit" title="Edit"></i></a>&nbsp;
+                                                <?php }?>
+
+												<?php if($group->isActive()){ ?>
+												<button aria-label="Deactivate" class="btn btn-no-style deluser" onclick="changeGroupStatus('<?=$encodedId;?>',0,this)" title="<strong>Are you sure to Deactivate!</strong>"><i class="fa fa-lock" title="Deactivate" aria-hidden="true"></i></button>&nbsp;
+												<?php } elseif (!$group->isDeleted()) { ?>
+                                                <button aria-label="Activate" class="btn btn-no-style deluser" onclick="changeGroupStatus('<?=$encodedId;?>',1,this)" title="<strong>Are you sure to Activate!</strong>"><i class="fa fa-unlock-alt" title="Activate" aria-hidden="true"></i></button>&nbsp;
+                                                <?php } ?>
+                                                <?php if ($group->isDeleted()) { ?>
+												<button aria-label="Undelete"  class="btn btn-no-style deluser" onclick="changeGroupStatus('<?=$encodedId;?>',0,this)" title="<strong>Are you sure to Undelete!</strong>"><i class="fa fa-undo" title="Undelete" aria-hidden="true"></i></button>&nbsp;
+												<button aria-label="delete"  class="btn btn-no-style deluser" onclick="initGroupPermanentDeleteConfirmation('<?=$encodedId;?>',this)" title="<strong>Are you sure to Delete Permanently!</strong>"><i class="fa fa-trash" title="delete" aria-hidden="true"></i></button>&nbsp;
+                                                <?php } else { ?>
+                                                <button aria-label="delete"  class="btn btn-no-style deluser ml-3" onclick="changeGroupStatus('<?=$encodedId;?>',100,this)" title="<strong>Are you sure to Delete!</strong>"><i class="fa fa-trash fa-l" title="Delete" ></i></button>&nbsp;
+												<?php } ?>
+												<?php if($_ZONE->val('app_type') == 'talentpeak' && $_COMPANY->getAppCustomization()['group']['group_export']){ ?>
+													<button aria-label="Export"  class="btn btn-no-style deluser" title="<strong>Are you sure to Export this Program!</strong>" onclick="exportGroup('<?=$encodedId;?>','<?= $group->val('groupname_short') ? $group->val('groupname_short') : ''; ?>')"> <i class="fa fa-file-export" title="Export" aria-hidden="true"></i></button>
+											<?php } ?>	
+											</td>
+										</tr>
+									<?php	} ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Change setting modal will be populated here -->
+			<div id="ergSettingContainer"></div>
+		</div>
+		<div id="regionModal" class="modal fade" role="dialog" aria-label="Regions">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Regions</h4>
+						<button type="button" aria-label="close" class="close" data-dismiss="modal" autofocus>&times;</button>
+						
+					</div>
+					<div class="modal-body" style="min-height: 100px; max-height:450px; overflow-y:scroll;">
+						<div class="col-md-12" id="regionsList">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="modal-footer text-center">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					  </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add Modal starts here -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="addGroupModalLabel">Select <?= $_COMPANY->getAppCustomization()['group']["name"]; ?> to clone</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+				<form id="addGroup">
+					<div id="dropdownHolder" class="form-group">
+                        <div class="col-sm-12">
+                            <select id ="cloned_group" class="form-control" name="cloned_group">
+								<option disabled selected>Select a <?= $_COMPANY->getAppCustomization()['group']["name"]; ?> to clone</option>
+								<?php
+                                        foreach ($rows as $row) {
+                                            $group = Group::ConvertDBRecToGroup($row);
+                                            $hsc_groupname = htmlspecialchars($group->val('groupname'));
+                                            $encodedId = $_COMPANY->encodeId($group->id());
+                                            
+								    ?>
+                                <option value="<?= $encodedId ?>"><?= $hsc_groupname ?></option>
+								<?php } ?>
+                            </select>
+                        </div>
+                    </div>
+				</form>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" onClick="cloneGroup()" class="btn btn-primary ">Continue</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+  <!-- Add Modal ends here -->
+		<!-- Modal -->
+		<div class="modal fade" id="createFromTemplateModal" tabindex="-1" role="dialog" aria-labelledby="createFromTemplateModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="createFromTemplateModalLabel">Choose a template to create <?= $_COMPANY->getAppCustomization()['group']["name"]; ?></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="addGroup">
+							<div id="dropdownHolder" class="form-group">
+								<div class="col-sm-12">
+									<table class="table">
+										<thead>
+											<tr>
+												<th width="75%" scope="col">Template</th>
+												<th width="25%" scope="col" >Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+                                            // Sort templates by template_name
+                                            usort($importedTemplates,function($a,$b) {return strcmp($a['template_name'], $b['template_name']);});
+                                            foreach ($importedTemplates as $importedTemplate) {
+                                               // $decodedtemplateData = json_decode($importedTemplate['template_data'] ?? '', true) ?? [];
+                                            ?>
+													<tr>
+														<td>
+                                                            <strong><?= $importedTemplate['template_name']; ?></strong>
+                                                            <button type="button"  class="btn btn-link view-description" data-template-id="<?= $importedTemplate['source_template_id']; ?>">... show more</button>
+
+                                                        </td>
+
+														<td>
+															<button type="button" class="btn btn-primary select-template" data-source-template-id="<?= $importedTemplate['source_template_id']; ?>">Select this template</button>
+														</td>
+													</tr>
+													  <!-- Hidden row for additional details -->
+													<tr class="template-details-row" data-source-template-id="<?= $importedTemplate['source_template_id']; ?>" style="display:none;">
+														<td colspan="2">
+															<div class="additional-details"></div>
+														</td>
+													</tr>
+                                            <?php } ?>
+										</tbody>										
+									</table>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+  <!-- Create From Template Modal ends here -->
+		<!--div class="container-fluid col-md-offset-2 margin-top logo-footer">
+			<img src="../image/logo-footer.png">
+		</div-->
+
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>	<script>
+			$(document).ready(function() {
+				$('#muser').DataTable( {
+					"order": [],
+					"bPaginate": false,
+					"bInfo" : false,
+					columnDefs: [
+                	{ targets: [<?= implode(',', range(0, $tableCols-1))?>], orderable: false }
+                	],
+					language: {
+						searchPlaceholder: "...",
+						url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+					},
+					
+				} );
+				//Helper function to keep table row from collapsing when being sorted
+				var fixHelperModified = function(e, tr) {
+					var $originals = tr.children();
+					var $helper = tr.clone();
+					$helper.children().each(function(index)
+					{
+					  $(this).width($originals.eq(index).width())
+					});
+					return $helper;
+				};
+
+				//Make diagnosis table sortable
+				$("#muser tbody").sortable({
+					helper: fixHelperModified,
+					stop: function(event,ui) {renumber_table('#muser')}
+				}).disableSelection();
+
+				 // Click event handler for "Select this template" buttons
+				 $('.select-template').click(function() {
+        			var sourceTemplateId = $(this).data('source-template-id');
+        			createFromTemplate(sourceTemplateId);
+    			});
+			} );
+			//Renumber table rows
+			function renumber_table(tableID) {
+				var ids = [];
+				$(tableID + " tr").each(function() {
+					var id = $(this).closest('tr').attr('id');
+					if (id){
+						ids.push(id);
+					}
+				});
+				if(ids.length > 0){
+					updateErgPriority(ids,'<?= $group_category_id; ?>');
+				}
+			}
+
+			function copyLink(i,j) {
+				var copyText = document.getElementById(i);
+				copyText.style.display = 'block';
+				copyText.focus();
+				copyText.select();
+				document.execCommand("Copy");
+				copyText.style.display = 'none';
+				swal.fire({title: 'Success',text:j+" link copied successfully"});
+			}
+			
+			
+			function showRegions(r){
+				if (r !='-'){
+					var array = r.split('%%');
+                    array.sort();
+					var region = '';
+					for(var i=0;i<array.length;i++){
+                        region += '<p>'+(i+1)+'.&emsp;'+encodeHTMLEntities(array[i])+'</p>';
+					}
+					$("#regionsList").html(region);
+					$('#regionModal').modal('show');
+
+					$('#regionModal').on('shown.bs.modal', function () {     					 
+						$('.close').focus();
+					})
+					
+				}
+			}
+			$(document).ready(function () {
+			$('.view-description').on('click', function () {
+				var sourceTemplateId = $(this).data('template-id');
+				showProgramDetails(sourceTemplateId);
+				toggleAdditionalDetails(sourceTemplateId);
+			});
+			function showProgramDetails(sourceTemplateId){
+				$('.additional-details.show').removeClass('show');
+                $('.template-details-row').hide();
+				$.ajax({
+				url: 'ajax.php?showProgramDetails',
+				data: {sourceTemplateId:sourceTemplateId},
+				type: "GET",
+				success : function(data) {
+					let jsonData = JSON.parse(data);
+					populateAdditionalDetails(jsonData, sourceTemplateId);
+				},
+				error: function (error) {
+					console.error('Error fetching template details:', error);
+					swal.fire({title:"Error",text:"Error While fetching template details. Please try again later."});
+
+				}
+				});
+			}
+			function toggleAdditionalDetails(sourceTemplateId){
+				$('.template-details-row').filter('[data-source-template-id="' + sourceTemplateId + '"]').toggle();
+			}
+   		 });
+
+        function getFormattedProgramList(title, items) {
+            // Helper function to create a list from an array of items
+            if(items.length > 0){
+                return '<b>' + title + ': </b>' + '<ul>' + items.map(item => '<li>' + item + '</li>').join('') + '</ul>';
+            }
+            return '';
+        }
+
+        function populateAdditionalDetails(data, sourceTemplateId) {
+            var additionalDetailsDiv = $('.template-details-row[data-source-template-id="' + sourceTemplateId + '"] .additional-details');
+            additionalDetailsDiv.html('');
+
+            if(data.description){
+                additionalDetailsDiv.append(data.description);
+            }
+
+            let program_details = '<div class="border p-3">';
+            if(data.programType) {
+                program_details += '<p><b>Program Type: </b>' + data.programType + '</p>';
+            }
+            program_details += '';
+            program_details += getFormattedProgramList('Team Roles', data.teamRoles);
+            program_details += getFormattedProgramList('Action Items', data.actionItems);
+            program_details += getFormattedProgramList('Touchpoints', data.touchpoints);
+            program_details += '';
+            program_details += '</div>';
+
+            additionalDetailsDiv.append(program_details);
+            additionalDetailsDiv.addClass('show');
+
+        }
+
+		retainFocus("#regionModal");
+		</script>
+	</body>
+</html>

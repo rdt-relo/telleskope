@@ -1,0 +1,79 @@
+<style>
+    input[name="routable"] {
+        margin: 0px 10px;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+    #routable_group label {
+        display: block;
+        cursor: pointer;
+    }
+</style>
+<div class="container-offset-lr mt-4">
+    <div class="row">              
+        <div class="col-12"> 
+            <div class="widget-simple-chart card p-4">
+                <div class="border-bottom mb-4">
+                    <h4 ><?= htmlspecialchars($pageTitle); ?></h4>
+                </div>
+
+                <form id="emailSetting" action="" method="post" autocomplete="off">
+
+                    <div class="row mb-3">
+                        <label class="col-md-2 col-form-label">Domain <span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            <input 
+                                type="text" 
+                                autocomplete="off" 
+                                class="form-control" 
+                                placeholder="<?= empty($rows) ? 'Comma separated list of domains, e.g. domain1.com, domain2.com, domain3.com' : 'domain.com' ?>" 
+                                name="domain" 
+                                value="<?= !empty($rows) ? htmlspecialchars($rows[0]['domain']) : ''; ?>" 
+                                id="domain" 
+                                required
+                            >
+                            <input type="hidden" name="domain_id" value="<?= !empty($domain_id) ? htmlspecialchars($domain_id) : 0; ?>" id="domain_id">
+                        </div>
+                    </div>
+
+                    <?php
+                        $is_routable_yes = "checked";
+                        $is_routable_no = "";
+
+                        if (!empty($rows) && !$rows[0]['routable']) {
+                            $is_routable_yes = "";
+                            $is_routable_no = "checked";
+                        }
+                    ?>
+
+                    <div class="row mb-4">
+                        <label class="col-md-2 col-form-label">Is Routable</label>
+                        <div class="col-md-6">
+                            <fieldset id="routable_group">
+                                <label>Yes <input type="radio" name="routable" value="1" <?= $is_routable_yes; ?>></label>
+                                <label>No <input type="radio" name="routable" value="0" <?= $is_routable_no; ?>></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn cancel_template btn-secondary" href="manage_domains">Cancel</a> &emsp;
+                        <button class="btn create_template btn-primary" name="submit" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#sidebar-wrapper ul li:nth-child(5)").addClass("myactive");
+    <?php if($successCode){ ?>
+        swal.fire({title: 'Success',text:"Updated successfully"}).then(function(result) {
+            window.location.href = "manage_domains";
+        });
+    <?php } elseif ($errorMessage) { ?>
+        $("#domain").val('<?=$errorDomainList ?? '' ?>');
+        swal.fire({title: 'Error',text: '<?=$errorMessage?>'});
+    <?php } ?>
+    
+</script>

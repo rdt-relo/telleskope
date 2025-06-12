@@ -1,0 +1,73 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="widget-simple-chart card-box">
+				<?php if (isset($error)){ ?>
+						<div id="hidemesage" class="col-sm-12">
+							<div class="alert alert-dismissible alert-danger">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								<?= $error; ?>
+							</div>
+						</div>
+				<?php } ?>
+
+				<div class="col-sm-12 divider"><h6>Add/Edit <?= $_COMPANY->getAppCustomization()['group']["name-short"]; ?> Category</h6></div>
+				
+				<form id="newCategoryForm" class="form-horizontal" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<?php 	if(isset($_GET['edit'])){ ?>
+					<input type="hidden" name="groupCategoryId" value="<?= $_COMPANY->encodeId($groupCategoryId); ?>">
+					<?php } ?>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Category Name<span style="color:red;">*</span></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" pattern="[\S ]{1,20}" type="text" type="text" placeholder="Category Name ... maximum 20 letters or numbers" name="category_name" required value="<?= isset($_GET['edit']) ? $groupCategoryData['category_name'] : (htmlspecialchars($groupCategoryData['category_name']) ?? ''); ?>">
+                        </div>
+                    </div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Category Label</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" placeholder="Category Name" name="category_label" value="<?= isset($_GET['edit']) ? $groupCategoryData['category_label'] : (htmlspecialchars($groupCategoryData['category_label']) ?? ''); ?>">
+                            <div class="dark-gray">If Category Label is provided it will be displayed on the home feed page</div>
+						</div>
+					</div>
+
+                    <div class="form-group">
+						<label class="col-sm-2 control-label">Category Description</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" placeholder="Description for the Category" name="category_description" id="category_description"> <?= isset($_GET['edit']) ? $groupCategoryData['category_description'] : (htmlspecialchars($groupCategoryData['category_description']) ?? ''); ?></textarea>
+                            <div class="dark-gray">If Category Description is provided it will be displayed on the home feed page</div>
+						</div>
+					</div>
+
+                    <div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<a href="group_category.php" class="btn btn-primary">Back</a>&nbsp;	
+							<input type="submit" name="submit" class="btn btn-primary" value="<?= isset($_GET['edit']) ?  'Update' : 'Create'; ?> Category">
+						</div>
+					</div>
+                </form>
+            </div> <!-- Card box -->
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+	$R('#category_description',
+	    {
+            linkValidation: true,
+            styles: true,
+            minHeight: '200px',
+            buttons: ['redo', 'undo', 'bold', 'italic', 'underline', 'link'],
+            formatting: ['p'],
+            pasteImages: false, 
+            pastePlainText: false,
+            pasteBlockTags: [ 'p','blockquote'],
+            pasteInlineTags: ['a', 'br', 'b', 'u', 'i'],
+        });
+    $(".redactor-voice-label").text("<?= gettext('Add Description');?>");
+});
+</script>

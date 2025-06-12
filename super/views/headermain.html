@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Teleskope Super Admin</title>
+		<link rel="stylesheet" href="../css/custom-bootstrap.css">
+	    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/simple-sidebar.css" rel="stylesheet"/>
+        <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
+		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
+		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+		
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+		
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-5.3./dist/js/bootstrap.bundle.min.js"></script>
+		<!-- settings for popconfirm to work with bootstrap 3.4.1+, should be immediately after bootstrap -->
+		<script type="text/javascript">
+			$.fn.tooltip.Constructor.DEFAULTS.whiteList.p = ['style'];
+			$.fn.tooltip.Constructor.DEFAULTS.whiteList.button = [];
+		</script>
+		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+		<script type="text/javascript" src="js/superajax.js"></script>
+		
+		<style>
+			.sidebar-nav {margin: 20px 0 0 8px;}
+            .linkDisabled {color:lightgray !important; cursor: not-allowed;}
+		</style>
+		<script> 
+			$(document).ready(function(){
+				$(".panel-heading .panel-title .collapsed").click(function(){
+					$("li.panel.panel-default").addClass("active");
+				});
+				
+				//initial for blank profile picture
+				$('.initial').initial({
+				charCount: 2,
+				textColor: '#ffffff',
+				seed: 0,
+				height: 50,
+				width: 50,
+				fontSize: 20,
+				fontWeight: 300,
+				fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+				radius: 0
+				});
+				
+				
+				$('.progress .progress-bar').progressbar(); 
+
+			});
+		</script>
+	</head>
+		
+	<div id="wrapper" class="mt-2">
+		<!-- Sidebar -->
+		<div id="sidebar-wrapper" class="bg-white mt-5">
+			<ul class="nav flex-column sidebar-nav ms-0  mt-5">
+				<li class="nav-item">
+					<?php if ($_SESSION['manage_super']) { ?>
+						<a class="nav-link" href="dashboard">Dashboard <span class="visually-hidden">(current)</span></a>
+					<?php } ?>
+				</li>
+				<li class="nav-item">
+					<a href="<?=$_SESSION['manage_accounts'] ? "manage" : ""?>" class="nav-link <?=$_SESSION['manage_accounts']?"": "linkDisabled"?>">Manage Companies</a>
+				</li>
+				<?php if (Auth::HasPermission(Permission::GlobalManageAppFaqs)) { ?>
+				<li class="nav-item">
+					<a href="appfaqs" class="nav-link waves-effect">App FAQs</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageAdminFaqs)) { ?>
+				<li class="nav-item">
+					<a href="companyfaqs" class="nav-link waves-effect">Company Admin FAQs</a>
+				</li>
+				<?php } ?>
+				<li class="nav-item">
+					<a href="changepassword" class="nav-link waves-effect">Change Password</a>
+				</li>
+				<?php if (Auth::HasPermission(Permission::ViewCompanyJobs)) { ?>
+				<li class="nav-item">
+					<a href="<?=$_SESSION['manage_accounts'] ? "jobs?job_companyid=global" : ""?>" class="nav-link waves-effect <?=$_SESSION['manage_accounts'] ? "": "linkDisabled"?>">Global Jobs</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageReleaseNotes)) { ?>
+				<li class="nav-item">
+					<a href="manage_release_notes" class="nav-link waves-effect">Release Notes</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageTrainingVideos)) { ?>
+				<li class="nav-item">
+					<a href="manage_training_videos" class="nav-link waves-effect">Training Videos</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageGuides)) { ?>
+				<li class="nav-item">
+					<a href="guides" class="nav-link waves-effect">Guides</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageAppVersions)) { ?>
+				<li class="nav-item">
+					<a href="app_versions" class="nav-link waves-effect">App Versions</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalSystemMessaging)) { ?>
+				<li class="nav-item">
+					<a href="system_messages" class="nav-link waves-effect">System Messaging</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::HasPermission(Permission::GlobalManageTemplates)) { ?>
+				<li class="nav-item">
+					<a href="template_manager" class="nav-link">Group Templates</a>
+				</li>
+				<?php } ?>
+				<?php if (Auth::IsSuperSuperAdmin()) { ?>
+				<li class="nav-item">
+					<a href="list_super_admins" class="nav-link waves-effect">Super Admins</a>
+				</li>
+				<?php } ?>
+                <li class="nav-item mb-5">
+                    <a class="nav-link" href="docs_list">Docs</a>
+                </li>
+			</ul>
+		</div>
+
+<div class="content-page" id="content-scroll-page">
+			<!-- Start content -->
+	<div class="content content-container">
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+		<div class="container-fluid">
+			<a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+			   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</a>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<div class="sidebar-brand-up">
+					<!-- LOGO -->
+					<div class="text-center">
+						<a href="index.php" class="logo">
+							<img src="../image/logo.png" class="img-fluid" width="200" height="48" />
+						</a>
+					</div>
+				</div>
+
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item d-none d-sm-block">
+						<a href="#menu-toggle" id="menu-toggle" class="nav-link button-menu-mobile open-left waves-effect">
+							<img src="../image/nav-bar.png" alt="Toggle" />
+						</a>
+					</li>
+					<li class="nav-item">
+						<?php if(isset($_SESSION['password_expiry_date']) && $_SESSION['password_expiry_date']['expires_in_days']< 15){ ?>
+						<div class="mt-2">
+							<strong style="color:red; background-color: yellow;padding: 5px 10px;">
+								Your password will expire on <?= $_SESSION['password_expiry_date']['formated_expires_in_days']; ?>.
+								Please <a href="changepassword">change</a> it ASAP to prevent a lockout.
+							</strong>
+						</div>
+						<?php } ?>
+					</li>
+				</ul>
+
+				<ul class="navbar-nav ms-auto logout">
+					<li class="nav-item">
+						<a href="logout" class="nav-link">
+							<img src="../image/logout.png" alt="Logout" />
+							<span>Logout</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+	<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
+
+	<?php if(isset($_SESSION['password_expiry_date']) && $_SESSION['password_expiry_date']['expires_in_days']< 0 && basename($_SERVER['PHP_SELF']) != 'changepassword.php'){ 
+		echo "<style> .swal2-container.swal2-backdrop-show{ background: #000 !important; } </style>";	
+	?>
+	<script>
+		swal.fire({title: 'Error',text:"Your password has expired on <?= $_SESSION['password_expiry_date']['formated_expires_in_days']; ?>. Please set new password to access your account."}).then(function(result) {
+				window.location.href = 'changepassword';
+			});
+	</script>
+	<?php } ?>

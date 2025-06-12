@@ -1,0 +1,166 @@
+<div class="container col-md-offset-2 margin-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-simple-chart card-box">
+
+                <div class="col-md-12 divider">
+                    <h6><?= $pagetitle; ?></h6>
+                </div>
+			<?php if (isset($break)){ ?>
+				<div id="hidemesage" class="col-md-12">
+					<div class="alert alert-dismissible alert-danger">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<?php echo $break; ?>
+					</div>
+				</div>
+			<?php }elseif(isset($error)){ ?>
+				<div id="hidemesage" class="col-md-12">
+					<div class="alert alert-dismissible alert-danger">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<?php echo $error; ?>
+					</div>
+				</div>
+			<?php } ?>
+				<p></p>
+				<form  id="form_check"  class="form-horizontal" method="post" action="">
+					<input type="hidden" name="csrf_token" value="<?=Session::GetInstance()->csrf;?>">
+					<div class="row">
+						<div class="col-md-6 names maargin">
+							<div class="col-md-12">
+								<p><span>Question</span></p>
+								<textarea rows="4" cols="10" style="height:60px" name="question" class="form-control text-box" required><?=  $edit[0]['question']; ?></textarea>
+							</div>
+                            <?php if (0) { ?>
+							<div class="col-md-12">
+								<p><span>Select Category</span></p>
+								<select class="form-control" name="category" id="sel1" required>
+								<?php	foreach($category as  $key => $value ){ ?>								
+                                        if($edit[0]['questioncategory'] == $key){
+                                            $sel = "selected";
+                                        }else{
+                                            $sel = "";
+                                        }											
+									?>
+									<option value="<?= $key; ?>"  <?= $sel;?> > <?= $value; ?> </option>
+							<?php	}	?>
+								</select>
+							</div>
+							<?php } ?>
+							<div class="col-md-12" id="answer_type">
+								<p><span>Options</span>
+								<?php if ($edit[0]['questionstatus']==2) { ?>
+									<i class="fa fa-plus-circle fa-lg add_button pull-right" aria-hidden="true"> Add Option</i></p>
+								<?php } ?>
+								<div class="field_wrapper">
+								<?php foreach($edit[0]['options'] as $option) { ?>
+									<div>
+										<input class="form-control" type="hidden" name="answerids[]" value="<?= $option['optionid']; ?>" />
+									<?php if ($edit[0]['questionstatus']==2) { ?>
+										<i class="fa fa-minus-circle remove_button pull-right" aria-hidden="true"></i>
+									<?php } ?>
+										<input class="form-control" type="text" name="answer[]" value="<?= $option['questionoption']; ?>" required/>
+
+										
+									</div>
+								<?php } ?>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					<div class="col-md-6 names maargin required">
+							<p><span>Answer Type</span></p>
+							<div id="cm1" class="form-group col-md-12 answeroption">
+								<input type="checkbox" id="a1"  onclick="showHideOption(this)"  name="option"  <?= @$edit[0]['answertype']==1 ? 'checked' : ""; ?> value="1" <?= $edit[0]['questionstatus']!=2 ? 'readonly' : ''; ?>  />&nbsp;&nbsp;<label>Single Answer</label>
+							</div>
+							<div id="cm2" class="form-group col-md-12 answeroption">
+								<input type="checkbox" id="a2" onclick="showHideOption(this)"  name="option" <?= @$edit[0]['answertype']==2 ? 'checked' : ""; ?> value="2" <?= $edit[0]['questionstatus']!=2 ? 'readonly' : ''; ?> />&nbsp;&nbsp;<label>Multiple Answers</label>
+							</div>
+							<div id="cm3" class="form-group col-md-12 answeroption">
+								<input type="checkbox" id="a3" onclick="showHideOption(this)"  name="option" <?= @$edit[0]['answertype']==3 ? 'checked' : ""; ?> value="3" <?= $edit[0]['questionstatus']!=2 ? 'readonly' : ''; ?> />&nbsp;&nbsp;<label>Open Ended</label>
+							</div>
+							<div id="cm4" class="form-group col-md-12 answeroption">
+								<input type="checkbox" id="a4" onclick="showHideOption(this)"  <?= @$edit[0]['answertype']==4 ? 'checked' : ""; ?> name="option" value="4" <?= $edit[0]['questionstatus']!=2 ? 'readonly' : ''; ?> />&nbsp;&nbsp;<label>Rating Scale</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 text-center mt-5">
+							<button class="btn btn-info col-md-offset-5" name="submit" type="submit" value="submit">Update Data</button>
+							<a class="btn btn-info" onclick="goBack();">Cancel</a>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script>
+$(document).ready(function(){
+	var maxField = 10; //Input fields increment limitation
+	var addButton = $('.add_button'); //Add button selector
+	var wrapper = $('.field_wrapper'); //Input field wrapper
+	var fieldHTML = '<div><input class="form-control" type="hidden" name="answerids[]" value="0" /><i class="fa fa-minus-circle remove_button pull-right" aria-hidden="true"></i><input class="form-control" type="text" name="answer[]" value="" required /></div>'; //New input field html 
+	var x = 1; //Initial field counter is 1
+	
+	//Once add button is clicked
+	$(addButton).click(function(){
+		//Check maximum number of input fields
+		if(x < maxField){ 
+			x++; //Increment field counter
+			$(wrapper).append(fieldHTML); //Add field html
+		}
+	});
+	
+	//Once remove button is clicked
+	$(wrapper).on('click', '.remove_button', function(e){
+		e.preventDefault();
+		$(this).parent('div').remove(); //Remove field html
+		x--; //Decrement field counter
+	});
+});
+</script>
+
+<script type="text/javascript">
+	$('#form_check').on('submit', function (e) {
+		// var ceck = $("input[type=checkbox]").length / 3;
+		if ($("input[type=checkbox]:checked").length==0) {
+			e.preventDefault();
+			swal.fire({title: 'Error!',text:'Please check an answer type option'});
+			return false;
+		}
+		
+		if ($("input[type=checkbox]:checked").val() != 3){
+			if ($("#answer").val() == ''){
+				e.preventDefault();
+				swal.fire({title: 'Error!',text:'Please input option of this question'});
+				return false;
+			}
+		}
+	});
+
+
+	function showHideOption(e ){
+		
+		if ($('#a'+e.value+':checkbox:checked').length > 0){
+			$('input:checkbox').removeAttr('checked');
+			$('#a'+e.value).prop('checked', true);
+			$(".answeroption").hide();
+			$("#cm"+e.value).show();
+			$("#answer_type").show();
+		} else {
+			$('input:checkbox').removeAttr('checked');
+			$(".answeroption").show();
+			$("#answer_type").show();
+		}
+		if (e.value==3 && $('#a'+e.value+':checkbox:checked').length>0){
+			$("#answer_type").hide();
+		}
+	}
+</script>
+<!--div class="container-fluid col-md-offset-2 margin-top logo-footer">
+	<img src="../image/logo-footer.png">
+</div-->
+</body>
+</html>

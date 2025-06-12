@@ -1,0 +1,41 @@
+
+<div class="container  col-md-offset-2 margin-top">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-simple-chart card-box">
+                    <div class="col-md-12 divider">
+						<h6>Manage Dynamic Lists&nbsp;</h6>
+						<div class="btn-group pull-right">
+							<a href="new_dynamic_list"  class="btn btn-info">+ New Dynamic List</a>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+					<div class="col-md-12">
+						<?php include(__DIR__ . "/../../common/manage_dynamic_list_table.html"); ?>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+		$(document).ready(function() {
+			var dtable = 	$('#manage_dynamic_lists').DataTable( {
+				stateSave: true,
+				bFilter: true,
+				bInfo : false,
+				bDestroy: true,
+				order: [[ 0, "DESC" ]],
+				"columnDefs": [
+                    { targets: [5], orderable: false }
+                ],
+				language: {
+					searchPlaceholder: "...",
+					url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
+				},
+			} );
+		} );
+	</script>
+	</body>
+</html>

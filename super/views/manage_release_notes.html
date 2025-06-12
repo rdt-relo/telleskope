@@ -1,0 +1,79 @@
+<div class="container-offset-lr mt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-md-12">
+            <div class="card p-4 py-3 mt-2">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-12 col-md-6">
+                        <h1 >Manage Release Notes</h1>
+                    </div>
+                    <div class="col-12 col-md-6 text-end">
+                        <a class="btn btn-outline-primary" href="new_release_note">+ New Release Note</a>
+                    </div>
+                </div>
+
+                <?php if ((time() - @$_SESSION['updated']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= UPDATED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } elseif ((time() - @$_SESSION['added']) < 5) { ?>
+                    <div id="hidemesage" class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= ADDED; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+
+                <div class="table-responsive mt-3">
+                    <table class="table table-bordered table-hover display compact" id="releaseNotes">
+                        <thead>
+                            <tr>
+                                <th width="5%">S No.</th>
+                                <th width="20%">Release Name</th>
+                                <th width="55%">Note</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i = 0; $i < count($rows); $i++) { ?>
+                                <tr>
+                                    <td><?= $i + 1; ?></td>
+                                    <td><?= $rows[$i]['releasename']; ?></td>
+                                    <td><?= $rows[$i]['notes']; ?></td>
+                                    <td>
+                                        <?php if($rows[$i]['isactive'] == 1) { ?>
+                                            <a class="btn btn-warning btn-sm confirm" href="action.php?deactivateReleaseNote=<?= base64_encode($rows[$i]['releaseid']); ?>" title="<b>Are you sure to Deactivate!</b>">Deactivate</a>
+                                        <?php } else { ?>
+                                            <a class="btn btn-info btn-sm" href="new_release_note?edit=<?= base64_encode($rows[$i]['releaseid']); ?>">EDIT</a>
+                                            <a class="btn btn-primary btn-sm confirm" href="action.php?activeReleaseNote=<?= base64_encode($rows[$i]['releaseid']); ?>" title="<b>Are you sure to Activate!</b>">Activate</a>
+                                        <?php } ?>
+                                        <a class="btn btn-danger btn-sm confirm" href="action.php?deleteReleaseNote=<?= base64_encode($rows[$i]['releaseid']); ?>" title="<b>Are you sure to delete!</b>">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>	
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#releaseNotes').DataTable({
+            "order": [],
+            "bPaginate": true,
+            "bInfo": false
+        });
+
+        $("#sidebar-wrapper ul li:nth-child(7)").addClass("myactive");
+    });
+
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        jQuery("#wrapper").toggleClass("toggled");
+    });
+</script>
+</body>
+</html>
