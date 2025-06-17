@@ -7,25 +7,25 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Teleskope Super Admin</title>
 		<link rel="stylesheet" href="../css/custom-bootstrap.css">
-	    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/simple-sidebar.css" rel="stylesheet"/>
-        <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
-		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
-		<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
+	    <link href="../vendor/css/simple-sidebar.css" rel="stylesheet"/>
+        <link href="../vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
+		<link href="../vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
+		<link href="../vendor/js/datatables-2.1.8/datatables.min.css" rel="stylesheet" >
 		
-		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+		<script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
 		
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-5.3./dist/js/bootstrap.bundle.min.js"></script>
+		<script src="../vendor/js/bootstrap-5.3./dist/js/bootstrap.bundle.min.js"></script>
 		<!-- settings for popconfirm to work with bootstrap 3.4.1+, should be immediately after bootstrap -->
 		<script type="text/javascript">
 			$.fn.tooltip.Constructor.DEFAULTS.whiteList.p = ['style'];
 			$.fn.tooltip.Constructor.DEFAULTS.whiteList.button = [];
 		</script>
-		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
-		<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="../vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+		<script src="../vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
-		<script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+		<script type="text/javascript" src="../vendor/js/initial-0.2.0/dist/initial.min.js"></script>
 		<script type="text/javascript" src="js/superajax.js"></script>
 		
 		<style>
@@ -179,8 +179,8 @@
 			</div>
 		</div>
 	</nav>
-	<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
-	<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
+	<link href="../vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+	<script src="../vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
 
 	<?php if(isset($_SESSION['password_expiry_date']) && $_SESSION['password_expiry_date']['expires_in_days']< 0 && basename($_SERVER['PHP_SELF']) != 'changepassword.php'){ 
 		echo "<style> .swal2-container.swal2-backdrop-show{ background: #000 !important; } </style>";	

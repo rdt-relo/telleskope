@@ -1,6 +1,6 @@
 <!-- redactor  -->
-<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/css/revolvapp.min.css" />
-<link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.css" />
+<link rel="stylesheet" href="../vendor/js/revolvapp-2-3-10/css/revolvapp.min.css" />
+<link rel="stylesheet" href="../vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.css" />
 <style>
     .redactor-box {
         border: 1px solid #d2d6de;
@@ -87,9 +87,9 @@
     </div>
 </div>
 <!-- revolvapp js -->
-<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/revolvapp-tele-2023-11-15.min.js"></script>
-<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.js"></script>
-<script defer src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/plugins/reorder/reorder.min.js"></script>
+<script src="../vendor/js/revolvapp-2-3-10/revolvapp-tele-2023-11-15.min.js"></script>
+<script src="../vendor/js/revolvapp-2-3-10/plugins/variable/variable.min.js"></script>
+<script defer src="../vendor/js/revolvapp-2-3-10/plugins/reorder/reorder.min.js"></script>
 <script defer src="../vendor/js/revolvapp_config/revolvapp_config.js"></script>
 
 <script>
@@ -160,7 +160,7 @@
             },
             content:   '<?=  $template ?  $template : "<re-html><re-head></re-head></re-html>"; ?>',  
             editor: {
-                path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+                path: '../vendor/js/revolvapp-2-3-10/',
             },
             toolbar: {
                 sticky: true,
@@ -199,7 +199,7 @@
                 items: []
             },
             editor: {
-                path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+                path: '../vendor/js/revolvapp-2-3-10/',
                 template: './templates/'+template[v]
             },
             toolbar: {

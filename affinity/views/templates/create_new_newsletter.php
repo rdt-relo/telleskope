@@ -82,7 +82,7 @@
               editor: {
                   viewOnly: true,
                   font: 'TeleskopeNewsletter, Lato,Helvetica, Arial, sans-serif',
-                  path: '<?= TELESKOPE_CDN_STATIC ?>/vendor/js/revolvapp-2-3-10/',
+                  path: '../vendor/js/revolvapp-2-3-10/',
                   lang: '<?= $_COMPANY->getImperaviLanguage();?>'
               },
               toolbar: {

@@ -172,7 +172,7 @@
 <script>
     $('#sidebar-wrapper ul li:nth-child(8)').addClass('myactive');
 </script>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
 <script>
     function renderDateFields(search_by) {
         $('#relative-time, #start-date, #start-time, #end-date, #end-time')

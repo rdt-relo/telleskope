@@ -370,7 +370,7 @@ $(document).keydown(function(e) {
 
   window.tskp ||= {};
   window.tskp.env_vars = {
-    TELESKOPE_CDN_STATIC: '<?= TELESKOPE_CDN_STATIC ?>'
+    TELESKOPE_CDN_STATIC: '..'
   }
 
   <?php if ($_COMPANY->getAppCustomization()['integrations']['analytics']['adobe']['enabled'] ?? false) { ?>

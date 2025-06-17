@@ -103,8 +103,8 @@
 </div>
 
 <!-- jQuery and Bootstrap JS -->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-3.4.1/dist/js/bootstrap.min.js"></script>
+<script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+<script src="../vendor/js/bootstrap-3.4.1/dist/js/bootstrap.min.js"></script>
 
 <!-- Validation Script -->
 <script>

@@ -11,7 +11,7 @@
     <tbody>
     </tbody>
 </table>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
         var userId = "<?= $_COMPANY->encodeId($searched_userid); ?>";

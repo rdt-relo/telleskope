@@ -469,7 +469,7 @@
 
   if (typeof ejs === 'undefined') {
     $.ajaxSetup({cache: true});
-    $.getScript('<?=TELESKOPE_CDN_STATIC?>/vendor/js/ejs-3.1.10/ejs.min.js', renderTeamBuilderForm);
+    $.getScript('../vendor/js/ejs-3.1.10/ejs.min.js', renderTeamBuilderForm);
   } else {
     renderTeamBuilderForm();
   }

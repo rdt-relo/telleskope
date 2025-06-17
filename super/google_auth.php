@@ -59,8 +59,8 @@ if (isset($_POST["enable_google_auth"]) && !empty($_SESSION['auth_secret']) && !
 ?>
     <html>
     <body>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-qrcode-master/jquery.qrcode.min.js"></script>
+    <script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../vendor/js/jquery-qrcode-master/jquery.qrcode.min.js"></script>
     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="">
 
         <?php if (empty($_SESSION['google_auth_code'])) { ?>

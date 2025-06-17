@@ -57,7 +57,7 @@ if (isset($_GET['state'])) {
 </head>
 <body>
 <p>Getting meeting link for <?= htmlspecialchars($redirect_domain)?> <span id="status1"> ...</span></p>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+<script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
 <script>
 	window.onload = function () {
 

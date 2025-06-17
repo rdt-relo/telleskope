@@ -1,4 +1,4 @@
-<script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
 
 <div class="container-offset-lr mt-5">
   <div class="row">

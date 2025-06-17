@@ -12,39 +12,39 @@
 
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Teleskope | <?= $pagetitle ?? $pageTitle ?? ''; ?></title>
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css"
+    <link href="../vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css"
           rel="stylesheet"/>
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/css/simple-sidebar.css" rel="stylesheet"/>
+    <link href="../vendor/css/simple-sidebar.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
     <link href="./css/hem.css" rel="stylesheet"/>
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-colorpicker-2.5.1/dist/css/bootstrap-colorpicker.min.css"
+    <link href="../vendor/js/bootstrap-colorpicker-2.5.1/dist/css/bootstrap-colorpicker.min.css"
           rel="stylesheet"/>
 
     <link href="../vendor/fonts/fontawesome-free-5.12.0-web/css/all.min.css" rel="stylesheet">
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/datatables-2.1.8/datatables.min.css"
+    <link href="../vendor/js/datatables-2.1.8/datatables.min.css"
           rel="stylesheet">
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/popper-1.16.0.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="../vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+    <script src="../vendor/js/popper-1.16.0.min.js"></script>
+    <script src="../vendor/js/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
     <!-- settings for popconfirm to work with bootstrap 3.4.1+, should be immediately after bootstrap -->
     <script type="text/javascript">
         $.fn.tooltip.Constructor.Default.whiteList.p = ['style'];
         $.fn.tooltip.Constructor.Default.whiteList.button = [];
     </script>
     <script type="text/javascript"
-            src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+            src="../vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
 
     <!--Select Dropdown start---->
     <link rel="stylesheet"
-          href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-multiselect/dist/css/bootstrap-multiselect.css"
+          href="../vendor/js/bootstrap-multiselect/dist/css/bootstrap-multiselect.css"
           type="text/css">
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bxslider-4-4.2.12/jquery.bxslider.min.css">
-    <link href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.css" rel="stylesheet"/>
+    <script src="../vendor/js/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="../vendor/js/bxslider-4-4.2.12/jquery.bxslider.min.css">
+    <link href="../vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.css" rel="stylesheet"/>
     <script type="text/javascript">
         $(function () {
             $("#bars li .bar").each(function (key, bar) {
@@ -57,50 +57,50 @@
         })
     </script>
     <!-- jQuery migrate -->
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/jquery-migrate_3.0.0/dist/jquery-migrate-3.0.0.min.js"></script>
+    <script src="../vendor/js/jquery-migrate_3.0.0/dist/jquery-migrate-3.0.0.min.js"></script>
 
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/tableExport.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+    <script src="../vendor/js/tableExport.js"></script>
+    <script src="../vendor/js/initial-0.2.0/dist/initial.min.js"></script>
 
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-progressbar-0.9.0/bootstrap-progressbar.min.js"></script>
+    <script src="../vendor/js/bootstrap-progressbar-0.9.0/bootstrap-progressbar.min.js"></script>
 
     <!-- Live Search Drop down -->
     <link rel="stylesheet"
-          href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-select-1.13.18/dist/css/bootstrap-select.min.css">
+          href="../vendor/js/bootstrap-select-1.13.18/dist/css/bootstrap-select.min.css">
     <script type="text/javascript"
-            src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/bootstrap-select-1.13.18/dist/js/bootstrap-select.min.js"></script>
+            src="../vendor/js/bootstrap-select-1.13.18/dist/js/bootstrap-select.min.js"></script>
     <!--Select Dropdown end-->
 
     <!-- Chart Js  -->
-    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-2.9.4/dist/Chart.min.css">
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-2.9.4/dist/Chart.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/chartjs-plugin-datalabels-0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <link rel="stylesheet" href="../vendor/js/chartjs-2.9.4/dist/Chart.min.css">
+    <script src="../vendor/js/chartjs-2.9.4/dist/Chart.min.js"></script>
+    <script src="../vendor/js/chartjs-plugin-datalabels-0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <!-- End ChartJs -->
 
     <!-- redactor  -->
-    <link rel="stylesheet" href="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/redactor.min.css"/>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/redactor.tele.min.js?v=1"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/video/video.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/fontcolor/fontcolor.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/counter/counter.min.js"></script>
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/redactor-3-5-2/plugins/table/table.min.js"></script>
+    <link rel="stylesheet" href="../vendor/js/redactor-3-5-2/redactor.min.css"/>
+    <script src="../vendor/js/redactor-3-5-2/redactor.tele.min.js?v=1"></script>
+    <script src="../vendor/js/redactor-3-5-2/plugins/video/video.min.js"></script>
+    <script src="../vendor/js/redactor-3-5-2/plugins/fontcolor/fontcolor.min.js"></script>
+    <script src="../vendor/js/redactor-3-5-2/plugins/counter/counter.min.js"></script>
+    <script src="../vendor/js/redactor-3-5-2/plugins/table/table.min.js"></script>
     <script src="./js/initRedactor.js"></script>
 
-    <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.js"></script>
+    <script src="../vendor/js/sweetalert2-9.14.0/dist/sweetalert2.min.js"></script>
 
        <!-- Survey.js -->
-    <!-- <link type="text/css" rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.9.110/survey.min.css"> -->
-    <link type="text/css" rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css">
-    <link type="text/css" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+    <!-- <link type="text/css" rel="stylesheet" href="../vendor/js/surveyjs-1.9.110/survey.min.css"> -->
+    <link type="text/css" rel="stylesheet" href="../vendor/js/surveyjs-1.11.2/defaultV2.css">
+    <link type="text/css" href="../vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
+    <script src="../vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
     
     <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
     <?php if ($_SESSION['ie11'] === true) { ?>
-        <script src="<?= TELESKOPE_CDN_STATIC ?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
+        <script src="../vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
     <?php } ?>
 
-    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+    <link href="../vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="../vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
     
     <!-- Custom Js -->
     <script type="text/javascript" src="./js/index.js.php?v=<?= REL_HASH ?>"></script>
@@ -137,7 +137,7 @@
     </script>
 
     <!--?php if ($include_datatables_js ?? false) { ?>-->
-      <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+      <script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
     <!--?php } ?>-->
 </head>
 <body>

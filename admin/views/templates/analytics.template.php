@@ -1,15 +1,15 @@
  <!-- Survey.js -->
-<!-- <link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.9.50/survey.min.css"> -->
-<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css">
-<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="../vendor/js/surveyjs-1.9.50/survey.min.css"> -->
+<link rel="stylesheet" href="../vendor/js/surveyjs-1.11.2/defaultV2.css">
+<link href="../vendor/js/surveyjs-1.11.2/modern.min.css" rel="stylesheet">
+<script src="../vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
 <!-- Survey Analytics Stuff-->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/typedarray.js"></script>
+<script src="../vendor/js/surveyjs-1.11.2/vendor/typedarray.js"></script>
 <!--script src="https://polyfill.io/v3/polyfill.min.js"></script-->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/plotly-latest.min.js"></script>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/wordcloud2.js"></script>
-<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.css" rel="stylesheet"/>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.js"></script>
+<script src="../vendor/js/surveyjs-1.11.2/vendor/plotly-latest.min.js"></script>
+<script src="../vendor/js/surveyjs-1.11.2/vendor/wordcloud2.js"></script>
+<link href="../vendor/js/surveyjs-1.11.2/survey.analytics.min.css" rel="stylesheet"/>
+<script src="../vendor/js/surveyjs-1.11.2/survey.analytics.min.js"></script>
 
 <script>
     var teleskopeCsrfToken="<?=Session::GetInstance()->csrf;?>";

@@ -3,7 +3,7 @@
 /* @var Company $_COMPANY */
 ?>
 
-<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
+<link href="../vendor/js/slim-image-cropper/slim/slim.min.css" rel="stylesheet">
 <style>
 
     .delete-account {
@@ -1034,7 +1034,7 @@
 
 </main>
 <!-- Javascript -->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/slim-image-cropper/slim/slim.kickstart.tksp.min.js"></script>
+<script src="../vendor/js/slim-image-cropper/slim/slim.kickstart.tksp.min.js"></script>
 <script>
  
  

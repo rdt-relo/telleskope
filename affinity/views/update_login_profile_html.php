@@ -9,9 +9,9 @@
 
     <!-- Bootstrap -->
     <!--link href="../css/bootstrap.min.css" rel="stylesheet"-->
-    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
-    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <link href="../vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+    <link href="../vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
 
     <!-- Teleskope styles, comes after bootstrap from parent folder -->
     <link href="../css/teleskope.css" rel="stylesheet">
@@ -19,18 +19,18 @@
     <link href="./css/affinity.css?<?=REL_HASH?>" rel="stylesheet">
 
     <!-- Bootstrap ... in the last -->
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script defer type="text/javascript" src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/initial-0.2.0/dist/initial.min.js"></script>
-   <script defer src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
+    <script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="../vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer type="text/javascript" src="../vendor/js/popconfirm-0.4.3/jquery.popconfirm.tele.2023.11.15.js"></script>
+    <script src="../vendor/js/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+    <script src="../vendor/js/initial-0.2.0/dist/initial.min.js"></script>
+   <script defer src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
+    <script src="../vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="../vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
 
     <!-- select2 -->
-    <link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-    <script defer src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+    <link href="../vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <script defer src="../vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
     <!-- end of select 2 -->
 
     <script src="./js/index.js.php?v=<?=REL_HASH?>&lang=<?= Lang::GetSelectedLanguage() ?>"></script>

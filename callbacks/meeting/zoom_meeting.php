@@ -24,7 +24,7 @@ $redirect_domain = $state_parts[0] . '.' . $state_parts[1] . '.io';
 </head>
 <body>
 <p>Getting meeting link for <?= htmlspecialchars($redirect_domain)?> <span id="status1"> ...</span></p>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+<script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
 <script>
 	window.onload = function () {
 	const params = new URLSearchParams(window.location.search);
