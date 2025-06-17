@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+  <script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
   <script>
       $(document).ready(function() {
           

@@ -1,6 +1,6 @@
-<link href='<?=TELESKOPE_.._STATIC?>/vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css' rel='stylesheet'  />
-<script src='<?=TELESKOPE_.._STATIC?>/vendor/js/moment-2.30.1/min/moment.min.js'></script>
-<script src='<?=TELESKOPE_.._STATIC?>/vendor/js/fullcalendar-6.1.15/dist/index.global.min.js'></script>
+<link href='../vendor/js/jquery-ui-1.14.0/themes/ui-lightness/jquery-ui.min.css' rel='stylesheet'  />
+<script src='../vendor/js/moment-2.30.1/min/moment.min.js'></script>
+<script src='../vendor/js/fullcalendar-6.1.15/dist/index.global.min.js'></script>
 
 <script>
     $("#home-h").removeClass("active-1").addClass('home_nav');

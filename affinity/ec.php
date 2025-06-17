@@ -97,20 +97,20 @@ if (($event = Event::GetEventByCompany($urlcompany, $eventid)) === null ||
     <title>Event Check In</title>
 
     <!-- Bootstrap -->
-    <link href="<?=TELESKOPE_.._STATIC?>/vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?=TELESKOPE_.._STATIC?>/vendor/css/animate-3.7.2.min.css" rel="stylesheet">
+    <link href="../vendor/js/bootstrap-4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/css/animate-3.7.2.min.css" rel="stylesheet">
 
     <!-- Teleskope styles, comes after bootstrap from parent folder -->
     <link href="../css/teleskope.css" rel="stylesheet">
     <!-- User Application specific style guides from project folder -->
 
     <!-- Bootstrap ... in the last -->
-    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="../vendor/js/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- SweeetAlert -->
-    <link href="<?=TELESKOPE_.._STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
-    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link href="../vendor/js/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"/>
+    <script src="../vendor/js/sweetalert2/dist/sweetalert2.min.js"></script>
 
     <!-- Google Recaptcha v2 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
