@@ -1,14 +1,14 @@
 
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/knockout-latest.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.core.min.js"></script>  
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/index.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.i18n.min.js"></script>
-    <!--<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.i18n.min.js"></script>-->
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-knockout-ui.min.js"></script>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.min.js"></script>   
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-knockout.min.js"></script>
-    <link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css" />
-    <link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.css" />
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/vendor/knockout-latest.js"></script>
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey.core.min.js"></script>  
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/index.min.js"></script>
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey.i18n.min.js"></script>
+    <!--<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.i18n.min.js"></script>-->
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey-knockout-ui.min.js"></script>
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.min.js"></script>   
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-knockout.min.js"></script>
+    <link rel="stylesheet" href="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/defaultV2.css" />
+    <link rel="stylesheet" href="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey-creator-core.css" />
     
 <style>
     body {

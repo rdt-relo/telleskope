@@ -1,5 +1,5 @@
-<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
+<link href="<?=TELESKOPE_.._STATIC?>/vendor/js/select2-4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/select2-4.0.12/dist/js/select2.min.js"></script>
 <style>
 	.btn-block {
 		background: #418bbb9c;		

@@ -74,7 +74,7 @@ class Config
         if (empty(self::Get('FROM_EMAIL')))  self::Set('FROM_EMAIL', 'hello@teleskope.io');
         if (empty(self::Get('FROM_NAME'))) self::Set('FROM_NAME', 'The Teleskope Team');
         if (empty(self::Get('BASEDIR'))) self::Set('BASEDIR', '/1');
-        if (empty(self::Get('TELESKOPE_CDN_STATIC'))) self::Set('TELESKOPE_CDN_STATIC', '/1');
+        if (empty(self::Get('TELESKOPE_.._STATIC'))) self::Set('TELESKOPE_.._STATIC', '/1');
         if (empty(self::Get('DOCUMENT_ROOT'))) die ('Error 1000: Site Environment not set');
 
         // DB Setting

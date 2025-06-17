@@ -106,7 +106,7 @@ window.tskp.attachments = {
       submit_btn.hide();
 
       $.ajax({
-        url: `<?= TELESKOPE_CDN_STATIC ?>/vendor/js/ejs-3.1.10/ejs.min.js`,
+        url: `<?= TELESKOPE_.._STATIC ?>/vendor/js/ejs-3.1.10/ejs.min.js`,
         dataType: 'script',
         cache: true,
         success: () => {

@@ -916,7 +916,7 @@ elseif (isset($_GET['filterEvents']) && $_SERVER['REQUEST_METHOD'] === 'GET'){
             </tbody>
         </table>
     </div>
-    <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+    <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#table').DataTable({

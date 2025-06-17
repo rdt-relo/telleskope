@@ -277,6 +277,6 @@ class Url
     public static function GetFavIconUrl(?string $app = null): string
     {
         $app = $app ?? (self::GetAppFromServerName() ?: 'default');
-        return TELESKOPE_CDN_STATIC . (self::FAVICON_URLS[$app]);
+        return TELESKOPE_.._STATIC . (self::FAVICON_URLS[$app]);
     }
 }

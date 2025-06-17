@@ -15,9 +15,9 @@
 
 <body style="background: url('<?= empty($_COMPANY) ? '../image/login_background.png' : $_COMPANY->val('loginscreen_background')?>') no-repeat; background-size: cover;">
 
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/promise-polyfill/dist/polyfill.min.js"></script>
 
 <script>
     Swal.fire({

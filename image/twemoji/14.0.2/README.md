@@ -8,21 +8,21 @@ The Twemoji library offers support for all Unicode-defined emoji which are recom
 
 ## Usage
 
-### CDN Support
+### .. Support
 
-The folks over at [MaxCDN](https://www.maxcdn.com) have graciously provided CDN support.
+The folks over at [Max..](https://www.max...com) have graciously provided .. support.
 
 Use the following in the `<head>` tag of your HTML document(s):
 
 ```html
-<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+<script src="https://twemoji.max...com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
 ```
 
 This guarantees that you will always use the latest version of the library.
 
 If, instead, you'd like to include the latest version explicitly, you can add the following tag:
 ```html
-<script src="https://twemoji.maxcdn.com/v/14.0.1/twemoji.min.js" integrity="sha384-9XmaIHs67kvwAL3GE7nu7tddcROD/RBKYbYZcPd8KsVPdrA3U1574EW2PLtdTxDN" crossorigin="anonymous"></script>
+<script src="https://twemoji.max...com/v/14.0.1/twemoji.min.js" integrity="sha384-9XmaIHs67kvwAL3GE7nu7tddcROD/RBKYbYZcPd8KsVPdrA3U1574EW2PLtdTxDN" crossorigin="anonymous"></script>
 ```
 
 ### Download
@@ -59,7 +59,7 @@ var img = div.querySelector('img');
 // note the div is preserved
 img.parentNode === div; // true
 
-img.src;        // https://twemoji.maxcdn.com/v/latest/72x72/2764.png
+img.src;        // https://twemoji.max...com/v/latest/72x72/2764.png
 img.alt;        // \u2764\uFE0F
 img.className;  // emoji
 img.draggable;  // false
@@ -76,7 +76,7 @@ Here's the list of properties accepted by the optional object that can be passed
   {
     callback: Function,   // default the common replacer
     attributes: Function, // default returns {}
-    base: string,         // default MaxCDN
+    base: string,         // default Max..
     ext: string,          // default ".png"
     className: string,    // default "emoji"
     size: string|number,  // default "72x72"
@@ -94,7 +94,7 @@ By default it is a function like the following one:
 ```js
 function imageSourceGenerator(icon, options) {
   return ''.concat(
-    options.base, // by default Twitter Inc. CDN
+    options.base, // by default Twitter Inc. ..
     options.size, // by default "72x72" string
     '/',
     icon,         // the found emoji as code point
@@ -134,7 +134,7 @@ twemoji.parse(genericNode, {
 });
 ```
 
-This will generate urls such `https://twemoji.maxcdn.com/svg/2764.svg` instead of using a specific size based image.
+This will generate urls such `https://twemoji.max...com/svg/2764.svg` instead of using a specific size based image.
 
 ## Utilities
 

@@ -1,10 +1,10 @@
 <!-- Survey Analytics Stuff-->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/typedarray.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/vendor/typedarray.js"></script>
 <!--script src="https://polyfill.io/v3/polyfill.min.js"></script-->
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/plotly-latest.min.js"></script>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/vendor/wordcloud2.js"></script>
-<link href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.css" rel="stylesheet"/>
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/vendor/plotly-latest.min.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/vendor/wordcloud2.js"></script>
+<link href="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.css" rel="stylesheet"/>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey.analytics.min.js"></script>
 
 <script>
     var teleskopeCsrfToken="<?=Session::GetInstance()->csrf;?>";

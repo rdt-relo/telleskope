@@ -36,8 +36,8 @@ if (isset($_GET['timezone']) && isset($_GET['ie11'])) {
 // If timezone or IE11 check not set, then get it from browser.
 if (!isset($_SESSION['tz_b']) || !isset($_SESSION['ie11'])) {
     /* Get User Current Time Zone */
-    echo '<script src="' . TELESKOPE_CDN_STATIC . '/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
-    <script src="' . TELESKOPE_CDN_STATIC . '/vendor/js/jstz-2.1.0/dist/jstz.min.js"></script>
+    echo '<script src="' . TELESKOPE_.._STATIC . '/vendor/js/jquery-3.5.1/dist/jquery.min.js"></script>
+    <script src="' . TELESKOPE_.._STATIC . '/vendor/js/jstz-2.1.0/dist/jstz.min.js"></script>
     <script type="text/javascript">
         function isIE11() {
             return !!window.navigator.userAgent.match(/(MSIE|Trident)/);

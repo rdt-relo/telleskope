@@ -1,8 +1,8 @@
 cd assets/svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44f.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f397.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60d.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a1.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f64f.svg
-wget https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f914.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44f.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f397.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60d.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a1.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f64f.svg
+wget https://...jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f914.svg

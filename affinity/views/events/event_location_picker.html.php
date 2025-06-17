@@ -266,7 +266,7 @@ $col_value = isset($col_12) ? "col-sm-12" : "col-sm-10";
     },
 
     renderGooglePlaceItem: function (item) {
-      // Cached the 'Powered by Google' logo on our own CDN
+      // Cached the 'Powered by Google' logo on our own ..
       // Original: https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png
       // Cached: /1/image/gmaps/powered-by-google-on-white3.png
       return `

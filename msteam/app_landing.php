@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Teams SSO Landing</title>
   <!-- MS Teams JS -->
-  <script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/MicrosoftTeams.min.js"></script>
+  <script src="<?=TELESKOPE_.._STATIC?>/vendor/js/MicrosoftTeams.min.js"></script>
 </head>
 <body>
   <div id="status">Authenticating with Microsoft Teams...</div>

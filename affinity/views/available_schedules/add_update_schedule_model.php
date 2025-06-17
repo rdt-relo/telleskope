@@ -23,7 +23,7 @@
     var scheduleDetails = <?= json_encode($scheduleDetails); ?>;
     var weekDays = <?= json_encode($weekDays); ?>;
     if (typeof ejs === 'undefined') {
-        $.getScript('<?= TELESKOPE_CDN_STATIC ?>/vendor/js/ejs-3.1.10/ejs.min.js', renderSchedulerForm);
+        $.getScript('<?= TELESKOPE_.._STATIC ?>/vendor/js/ejs-3.1.10/ejs.min.js', renderSchedulerForm);
     } else {
         renderSchedulerForm();
     }

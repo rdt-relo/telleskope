@@ -355,7 +355,7 @@ function viewSchedule(jsevent) {
 
   // fullcalendar lib
   if (typeof FullCalendar === 'undefined') {
-    $.getScript("<?=TELESKOPE_CDN_STATIC?>/vendor/js/fullcalendar-6.1.15/dist/index.global.min.js", function () {
+    $.getScript("<?=TELESKOPE_.._STATIC?>/vendor/js/fullcalendar-6.1.15/dist/index.global.min.js", function () {
       viewSchedule(jsevent);
     });
     return;
@@ -368,7 +368,7 @@ function viewSchedule(jsevent) {
    * https://momentjs.com/docs/#/-project-status/
    */
   if (typeof moment === 'undefined') {
-    $.getScript("<?=TELESKOPE_CDN_STATIC?>/vendor/js/moment-2.30.1/min/moment.min.js", function () {
+    $.getScript("<?=TELESKOPE_.._STATIC?>/vendor/js/moment-2.30.1/min/moment.min.js", function () {
       viewSchedule(jsevent);
     });
     return;

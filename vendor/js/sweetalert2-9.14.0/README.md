@@ -48,11 +48,11 @@ Installation
 npm install --save sweetalert2
 ```
 
-Or grab from [jsdelivr CDN](https://www.jsdelivr.com/package/npm/sweetalert2)
+Or grab from [jsdelivr ..](https://www.jsdelivr.com/package/npm/sweetalert2)
 :
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://...jsdelivr.net/npm/sweetalert2@9"></script>
 ```
 
 
@@ -63,7 +63,7 @@ Usage
 <script src="sweetalert2/dist/sweetalert2.all.min.js"></script>
 
 <!-- Include a polyfill for ES6 Promises (optional) for IE11 -->
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill9/dist/polyfill.js"></script>
+<script src="https://...jsdelivr.net/npm/promise-polyfill9/dist/polyfill.js"></script>
 ```
 
 You can also include the stylesheet separately if desired:

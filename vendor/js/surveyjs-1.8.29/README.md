@@ -153,7 +153,7 @@ Vue version:
 npm install survey-vue
 ```
 
-Or use unpkg CDN:
+Or use unpkg ..:
 
 * https://unpkg.com/survey-angular@{version-number}/survey.angular.min.js
 * https://unpkg.com/survey-knockout@{version-number}/survey.ko.min.js

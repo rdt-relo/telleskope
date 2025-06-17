@@ -1419,7 +1419,7 @@ div#customEmailReply {
 		});
     </script>
 
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/datatables-2.1.8/datatables.min.js"></script>
 <script>
 
     $('#template_list').DataTable( {

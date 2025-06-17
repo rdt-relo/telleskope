@@ -111,7 +111,7 @@ class GoogleChatsIntegrationExternalType implements IntegrationExternalType
         $newOrUpdated = $forUpdate == -1 ? "Deleted" :( $forUpdate ? 'Updated' : 'New') ;
         $body = json_encode([
             'subtitle' => $newOrUpdated . ' Event' . ' hosted by ' . $hosted_by,
-            'icon_url' => TELESKOPE_CDN_STATIC .'/static/gchat_icons/calendar.png',
+            'icon_url' => TELESKOPE_.._STATIC .'/static/gchat_icons/calendar.png',
             'section_body' =>
                 "When: {$when}<br/>" .
                 "Where: {$where}<br/>" .
@@ -135,7 +135,7 @@ class GoogleChatsIntegrationExternalType implements IntegrationExternalType
         $newOrUpdated = $forUpdate == -1 ? "Deleted" :( $forUpdate ? 'Updated' : 'New') ;
         $body = json_encode([
             'subtitle' => $newOrUpdated . ' Announcement' . ' posted in ' . $posted_by,
-            'icon_url' => TELESKOPE_CDN_STATIC .'/static/gchat_icons/megaphone.png',
+            'icon_url' => TELESKOPE_.._STATIC .'/static/gchat_icons/megaphone.png',
             'section_body' => $description
         ]);
         return array($body,$title,$url);
@@ -155,7 +155,7 @@ class GoogleChatsIntegrationExternalType implements IntegrationExternalType
         $newOrUpdated = $forUpdate == -1 ? "Deleted " :'' ;
         $body = json_encode([
             'subtitle' => 'Newsletter' . ' posted in ' . $posted_by,
-            'icon_url' => TELESKOPE_CDN_STATIC .'/static/gchat_icons/newsletter.png',
+            'icon_url' => TELESKOPE_.._STATIC .'/static/gchat_icons/newsletter.png',
             'section_body' => $description
         ]);
         return array ($body, $title, $url);

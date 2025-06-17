@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/header.html'; ?>
 <!-- SurveyJs-->
-<link rel="stylesheet" href="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css">
-<script src="<?=TELESKOPE_CDN_STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
+<link rel="stylesheet" href="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/modern.min.css">
+<script src="<?=TELESKOPE_.._STATIC?>/vendor/js/surveyjs-1.11.2/survey.jquery.min.js"></script>
 
 <style>
     .sv-root-modern .sv-completedpage {

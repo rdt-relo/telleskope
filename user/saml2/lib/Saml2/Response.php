@@ -49,7 +49,7 @@ class OneLogin_Saml2_Response
      *
      * @var int
      */
-    private $_validSCDNotOnOrAfter;
+    private $_validS..otOnOrAfter;
 
     /**
      * Constructs the SAML Response object.
@@ -338,7 +338,7 @@ class OneLogin_Saml2_Response
 
                         // Save NotOnOrAfter value
                         if ($scnData->hasAttribute('NotOnOrAfter')) {
-                            $this->_validSCDNotOnOrAfter = $noa;
+                            $this->_validS..otOnOrAfter = $noa;
                         }
                         $anySubjectConfirmation = true;
                         break;
@@ -459,7 +459,7 @@ class OneLogin_Saml2_Response
      */
     public function getAssertionNotOnOrAfter()
     {
-        return $this->_validSCDNotOnOrAfter;
+        return $this->_validS..otOnOrAfter;
     }
 
     /**
