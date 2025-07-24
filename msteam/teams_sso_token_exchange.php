@@ -10,7 +10,7 @@ if (!$teamsToken) {
     echo json_encode(['error' => 'No token provided']);
     exit;
 }
-
+$teamsToken = $_POST['token'] ?? null;
 // CONFIG — will move to secure location and use Constants 
 $clientId     = Config::Get('CLIENT_KEY_MS_TEAMS_APP');
 $clientSecret = Config::Get('CLIENT_SECRET_MS_TEAMS_APP');
@@ -57,7 +57,7 @@ if (!$accessToken) {
 }
 // Step 2: Call Microsoft Graph to get user info
 $userdata = User::GetO365User($accessToken);
-$email = strtolower($userdata['userPrincipalName']);
+$email = strtolower($userdata['mail']);
 $firstname = $userdata['givenName'];
 $lastname = $userdata['surname'];
 $aad_oid = $userdata['id'];

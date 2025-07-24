@@ -43,6 +43,7 @@ class ReportEventRSVP extends Report
             'eventstatus' => 'Event status',
             'eventtype' => 'Event Type',
             'partner_organizations' => 'Partner Organizations',
+            'partner_organizations_taxid' => 'Partner Organizations Tax ID',
             'is_event_reconciled' => 'Is Event Reconciled'
         ),
         'AdminFields' => array(
@@ -327,8 +328,12 @@ class ReportEventRSVP extends Report
             $rows['is_event_reconciled'] = $rows['is_event_reconciled'] ? 'Yes' : 'No';
 
             $rows['partner_organizations'] = '';
+            $rows['partner_organizations_taxid'] = '';
             if (!empty($meta['Fields']['partner_organizations']) && !empty($partners_organizations[$rows['eventid']])) {
                 $rows['partner_organizations'] = implode(",\n", array_column($partners_organizations[$rows['eventid']], 'organization_name'));
+            }
+            if (!empty($meta['Fields']['partner_organizations_taxid']) && !empty($partners_organizations[$rows['eventid']])) {
+                $rows['partner_organizations_taxid'] = implode(",\n", array_column($partners_organizations[$rows['eventid']], 'organization_taxid'));
             }
             $row = array();
             foreach ($meta['Fields'] as $key => $value) {

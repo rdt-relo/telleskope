@@ -2874,6 +2874,10 @@ EOMEOM;
         // Booking setting
         'booking_start_buffer'=>'booking_start_buffer',
         'booking_email_template' =>'booking_email_template',
+        'meeting_email_template' => 'meeting_email_template',
+        'meeting_cancel_email_template' => 'meeting_cancel_email_template',
+        'meeting_reminder_email_template' => 'meeting_reminder_email_template',
+        'meeting_mark_as_done_email_template' => 'meeting_mark_as_done_email_template',
 
         // Recognitions settings
         'recognitions_configuration' => 'recognitions_configuration',
@@ -5604,6 +5608,41 @@ public static function GetChannelsByGroupIdsCsv(string $groupIds)
             'booking_email_subject'=>'',
             'booking_message' => ''
         );
+    }
+
+    public function getMeetingEmailTemplate(string $attribute_key = 'meeting_email_template')
+    {
+        global $_COMPANY;
+        $key = self::GROUP_ATTRIBUTES_KEYS[$attribute_key];
+        $attributes = $this->val('attributes');
+
+        if ($attributes) {
+            $attributes = json_decode($attributes, true) ?? array();
+            if (isset($attributes['booking']) && array_key_exists($key, $attributes['booking'])) {
+                return $attributes['booking'][$key];
+            }
+        }
+        return array(
+            'booking_email_subject'=>'',
+            'booking_message' => ''
+        );
+    }
+
+      public function updateMeetingEmailTemplate(string $booking_email_subject, string $booking_message, string $attribute_key = 'meeting_email_template')
+    {
+        global $_COMPANY, $_ZONE;
+
+        $key = self::GROUP_ATTRIBUTES_KEYS[$attribute_key];
+        $attributes = array();
+        $oldattributes = $this->val('attributes');
+
+        if ($oldattributes) {
+            $attributes = json_decode($oldattributes, true);
+        }
+        $attributes['booking'][$key] = array('booking_email_subject'=>$booking_email_subject,'booking_message' => $booking_message);
+        $attributes = json_encode($attributes);
+
+        return $this->updateGroupAttributes($attributes);
     }
 
     public function updateBookingEmailTemplate(string $booking_email_subject, string $booking_message)

@@ -611,6 +611,62 @@ elseif (isset($_GET['manageBookingEmailsSetting']) && $_SERVER['REQUEST_METHOD']
     exit();
 }
 
+elseif (isset($_GET['addUpdateMeetingEmailTemplate']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    if (
+        ($groupid = $_COMPANY->decodeId($_GET['groupid'])) < 1 ||
+        ($group = Group::GetGroup($groupid)) === null || 
+        ($template_type = $_GET['template_type']) === null ||!array_key_exists($template_type, Group::GROUP_ATTRIBUTES_KEYS)
+    ) {
+        header(HTTP_BAD_REQUEST);
+        exit();
+    }
+    if($template_type == 'meeting_cancel_email_template') {
+        $pageTitle = gettext("Meeting - Canceled Template");
+    }else if($template_type == 'meeting_reschedule_email_template') {
+        $pageTitle = gettext("Meeting - Rescheduled Template");
+    }else if($template_type == 'meeting_reminder_email_template') {
+        $pageTitle = gettext("Meeting - Reminder Template");
+    }else if($template_type == 'meeting_confirmation_email_template') {
+        $pageTitle = gettext("Meeting - Confirmation Template");
+    }else {
+        $pageTitle = gettext("Meeting - Email Template");
+    }
+    $emailTemplate = $group->getMeetingEmailTemplate($template_type);
+    include(__DIR__ . "/views/bookings/booking_email_template_setting.template.php");
+    exit();
+}
+elseif (isset($_GET['saveBookingsEmailTemplate']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (
+        ($groupid = $_COMPANY->decodeId($_GET['groupid'])) < 1 ||
+        ($group = Group::GetGroup($groupid)) === null || 
+        ($template_type = $_GET['template_type']) === null ||!array_key_exists($template_type, Group::GROUP_ATTRIBUTES_KEYS)
+    ) {
+        header(HTTP_BAD_REQUEST);
+        exit();
+    }
+
+    if (!$_USER->canManageContentInScopeCSV($groupid)) {
+        header(HTTP_FORBIDDEN);
+        exit();
+    }
+
+    $template_type = $_POST['template_type'] ?? '';
+    $subject = $_POST['booking_email_subject'] ?? '';
+    $booking_message = ViewHelper::RedactorContentValidateAndCleanup($_POST['booking_message'] ?? '');  
+    // add reminder days logic
+     // Pass reminder_days if present
+    $reminder_days = null;
+    if ($template_type === 'meeting_reminder_email_template') {
+        $reminder_days = isset($_POST['reminder_days']) && is_numeric($_POST['reminder_days']) ? (int)$_POST['reminder_days'] : 1;
+    }
+
+    // Persist changes (if needed, depending on your ORM or DB layer)
+    $group->updateMeetingEmailTemplate($booking_email_subject, $booking_message);
+
+    AjaxResponse::SuccessAndExit_STRING(1, '', gettext("Email Template saved successfully."), gettext('Success'));
+}
 elseif (isset($_GET['saveBookingsBufferSetting'])  && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if (

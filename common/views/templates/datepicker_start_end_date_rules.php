@@ -4,12 +4,16 @@ $start_date_id ??= 'start_date';
 $end_date_id ??= 'end_date';
 $max_month_diff ??= 12;
 $allowStartDateLaterThanNow = false;
+$allowEndDateLaterThanNow = false;
+$initialStartDateIsEmpty = false;
+$initialEndDateIsEmpty = false;
 ?>
 <script>
 // JavaScript / jQuery
 $(function () {
     const maxMonthsDiff = <?= $max_month_diff ?>;
     const dateFormat = 'yy-mm-dd';
+    const allowEndDateLaterThanNow = <?= $allowEndDateLaterThanNow ? 'true' : 'false' ?>;
 
     function getDate(str) {
         try {
@@ -21,7 +25,12 @@ $(function () {
 
     // Set initial end date to today
     const today = new Date();
-    const initialEndDateStr = $.datepicker.formatDate(dateFormat, today);
+    const initialEndDateStr =
+    <?php if($initialEndDateIsEmpty) { ?>
+        '';
+    <?php } else { ?>
+        $.datepicker.formatDate(dateFormat, today);
+    <?php } ?>
     $('#<?=$end_date_id?>').val(initialEndDateStr);
 
     const yesterday = new Date(today).setDate(today.getDate() - 1);
@@ -30,7 +39,12 @@ $(function () {
     const initialStartDate = new Date(today);
     initialStartDate.setMonth(today.getMonth() - maxMonthsDiff);
     initialStartDate.setDate(initialStartDate.getDate() + 1);
-    const initialStartDateStr = $.datepicker.formatDate(dateFormat, initialStartDate);
+
+    const initialStartDateStr = <?php if($initialStartDateIsEmpty) { ?>
+        '';
+    <?php } else { ?>
+        $.datepicker.formatDate(dateFormat, initialStartDate);
+    <?php } ?>
     $('#<?=$start_date_id?>').val(initialStartDateStr);
 
     // Initialize start date picker
@@ -55,7 +69,7 @@ $(function () {
         maxEnd.setDate(maxEnd.getDate() - 1);
 
         $('#<?=$end_date_id?>').datepicker('option', 'minDate', start);
-        $('#<?=$end_date_id?>').datepicker('option', 'maxDate', maxEnd);
+        $('#<?=$end_date_id?>').datepicker('option', 'maxDate',  allowEndDateLaterThanNow ? maxEnd : (maxEnd > today ? today : maxEnd));
 
         const currentEnd = getDate($('#<?=$end_date_id?>').val());
         if (currentEnd && (currentEnd < start || currentEnd > maxEnd)) {

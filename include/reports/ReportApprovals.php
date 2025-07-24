@@ -16,6 +16,7 @@ class ReportApprovals extends Report {
             'event_start' => 'Start Date',
             'event_end' => 'End Date',
             'createdon'=>  'Create Date',
+            'partner_organizations' => 'Partner Organizations',
             'submitter_name' => 'Submitter Name',
             'submitter_email' => 'Submitter Email',
             'submitter_externalid' => 'Submitter Employee Id',
@@ -113,6 +114,11 @@ class ReportApprovals extends Report {
 
         // Ensure $table is not empty to prevent errors in the SELECT query
         $table_select = $table ? ", {$table}.*" : "";
+
+        $partners_organizations = array();
+        if (!empty($meta['Fields']['partner_organizations'])) {
+            $partners_organizations = $this->mapPartnerOrganizations($groupid_condition, $start_date_condition, $end_date_condition);
+        }
 
         // Fixed SQL query to avoid ambiguous column errors for topicid column as we have a topicid varchar column in surveys_v2 table too
         $select = "
@@ -261,6 +267,11 @@ class ReportApprovals extends Report {
                 }
 
                 $approval["stage_approval_date_{$stage}"] =  $_USER->formatUTCDatetimeForDisplayInLocalTimezone($approval_note->val('createdon'), true, true, true);
+            }
+
+            $approval['partner_organizations'] = '';
+            if (!empty($meta['Fields']['partner_organizations']) && !empty($partners_organizations[$approval['eventid']])) {
+                $approval['partner_organizations'] = implode(",\n", array_column($partners_organizations[$approval['eventid']], 'organization_name'));
             }
 
             $csv_row = [];

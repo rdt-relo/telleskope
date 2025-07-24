@@ -96,17 +96,29 @@
                                 continue;
                             }
                             $isStageApprover = in_array( $_USER->id() , $stageRows[$approval['approval_stage']]['approver_userids'] ?? []);
-                            $approver = null;
-                            if ($approval['assigned_to']){
-                                $approver = User::GetUser($approval['assigned_to']);
-                            }
-                            //getting the last approver only if theere is no current approver
-                            $lastApprover = null;
-                            if(!$approver && $approval['approval_stage'] > 1) {
-                                $previous_stage = intval($approval['approval_stage']) - 1;
-                                $approvalObject = $event->getApprovalObject();
-                                $lastApprover = $approvalObject->getLastApproverByStage($previous_stage) ?? '';
-                            }
+$approvalObject = $event->getApprovalObject();
+
+// 1. Try to get the most recent approver for the current stage
+$latestStageApprover = null;
+if ($approvalObject) {
+    $latestLog = $approvalObject->getMostRecentStageApproval((int)$approval['approval_stage']);
+    if ($latestLog) {
+        $latestStageApprover = User::GetUser($latestLog->val('createdby'));
+    }
+}
+
+// 2. If not found, get the assigned user
+$approver = null;
+if (!$latestStageApprover && $approval['assigned_to']) {
+    $approver = User::GetUser($approval['assigned_to']);
+}
+
+// 3. If still not found and stage > 1, get the last stage approver
+$lastApprover = null;
+if (!$latestStageApprover && !$approver && $approval['approval_stage'] > 1) {
+    $previous_stage = intval($approval['approval_stage']) - 1;
+    $lastApprover = $approvalObject->getLastApproverByStage($previous_stage) ?? '';
+}
                             $requestedby = null;
                             if ($approval['createdby']){
                                 $requestedby = User::GetUser($approval['createdby']);

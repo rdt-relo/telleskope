@@ -11,6 +11,19 @@ if ($topicType == Teleskope::TOPIC_TYPES['EVENT']) {
     $appCustomizationTitle = 'event';
     $viewFilename = 'event_approvals.html';
 
+     $tableHeaders = [
+        ['label' => 'ID', 'width' => '5%'],
+        ['label' => 'Name', 'width' => '18%'],
+        ['label' => 'Scope', 'width' => '10%'],
+        ['label' => 'Event Start Date', 'width' => '10%'],
+        ['label' => 'Publish Status', 'width' => '8%'],
+        ['label' => 'Approval Submission Date', 'width' => '10%'],
+        ['label' => 'Assigned To or Last Approver', 'width' => '12%'],
+        ['label' => 'Approval Status', 'width' => '8%'],
+        ['label' => 'Zip', 'width' => '5%'],
+        ['label' => 'Action', 'width' => '5%'],
+    ];
+
 } elseif ($topicType == Teleskope::TOPIC_TYPES['NEWSLETTER']) {
     $authCheck = $_COMPANY->getAppCustomization()['newsletters']['approvals']['enabled'];
     $canManageTopicApprovalConfig = $_USER->canManageZoneNewsletter();
@@ -18,6 +31,17 @@ if ($topicType == Teleskope::TOPIC_TYPES['EVENT']) {
     $topicName = 'Newsletter';
     $appCustomizationTitle = 'newsletters';
     $viewFilename = 'newsletter_approvals.html';
+
+     $tableHeaders = [
+        ['label' => 'ID', 'width' => '5%'],
+        ['label' => 'Name', 'width' => '25%'],
+        ['label' => 'Scope', 'width' => '15%'],
+        ['label' => 'Publish Status', 'width' => '10%'],
+        ['label' => 'Approval Submission Date', 'width' => '10%'],
+        ['label' => 'Assigned To or Last Approver', 'width' => '15%'],
+        ['label' => 'Approval Status', 'width' => '10%'],
+        ['label' => 'Action', 'width' => '10%'],
+    ];
 
 } elseif ($topicType == Teleskope::TOPIC_TYPES['POST']) {
     $authCheck = $_COMPANY->getAppCustomization()['post']['approvals']['enabled'];

@@ -434,3 +434,25 @@
 
     });
 </script>
+<script>
+document.getElementById('connectYammerBtn')?.addEventListener('click', function() {
+    const clientId = 'YOUR_AZURE_CLIENT_ID';
+    const redirectUri = encodeURIComponent('https://yourdomain.com/admin/yammer_oauth_callback.php');
+    const scope = encodeURIComponent('https://api.yammer.com/user_impersonation offline_access User.Read');
+    const state = Math.random().toString(36).substring(2);
+    sessionStorage.setItem('yammer_oauth_state', state);
+
+    const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;
+    window.open(authUrl, 'YammerOAuth', 'width=600,height=700');
+});
+
+window.addEventListener('message', function(event) {
+    if (event.origin !== window.location.origin) return;
+    if (event.data && event.data.yammer_access_token && event.data.yammer_refresh_token) {
+        document.getElementById('yammeraccesstoken').value = event.data.yammer_access_token;
+        document.getElementById('yammerrefreshtoken').value = event.data.yammer_refresh_token;
+        document.getElementById('connectYammerBtn').innerText = 'Connected with Yammer';
+        document.getElementById('connectYammerBtn').disabled = true;
+    }
+}, false);
+</script>
