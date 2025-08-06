@@ -19,11 +19,18 @@
 <div class="row">
     <div class="col-12">
         <h4><?= gettext("Manage Approvals")?></h4>
+        <?php 
+        $collaborationStatus = $_SESSION['collaborationStatus'] ?? 'all';
+        if($collaborationStatus === 'collaboration_only'){ ?>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i> <?= gettext('Showing collaboration requests only. These are requests where other groups/chapters need to approve their participation in events or content.') ?>
+            </div>
+        <?php } ?>
         <hr class="lineb" >
     </div>
     
     <div class="col-md-12">   
-        <div class="col-sm-6 px-0">
+        <div class="col-sm-4 px-0">
             <div class="form-group">
                 <label for="approval_status_filter"><?= gettext('Filter by Approval Status') ?></label>
                 <select aria-label="Show All" id="approval_status_filter" class="form-control" onchange="getMyTopicApprovalsData('<?= $topicType; ?>');">
@@ -35,8 +42,17 @@
             </div>
         </div>
 
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="collaboration_status_filter"><?= gettext('Filter by Request Type') ?></label>
+                <select aria-label="Request Type" id="collaboration_status_filter" class="form-control" onchange="getMyTopicApprovalsData('<?= $topicType; ?>');">
+                    <option value="all" <?= ($_SESSION['collaborationStatus'] ?? 'all') == 'all' ? 'selected' : ''; ?>><?= gettext('All Requests'); ?></option>
+                    <option value="collaboration_only" <?= ($_SESSION['collaborationStatus'] ?? '') == 'collaboration_only' ? 'selected' : ''; ?>><?= gettext('Collaboration Requests Only'); ?></option>
+                </select>
+            </div>
+        </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label for="request_year_filter"><?= gettext('Filter by Request Year') ?></label>
                 <select aria-label="Request year" id="request_year_filter" class="form-control" onchange="getMyTopicApprovalsData('<?= $topicType; ?>');">
@@ -81,6 +97,29 @@
                 }elseif($topicType == TELESKOPE::TOPIC_TYPES['SURVEY']){
                     $topicTypeObj = Survey2::GetSurvey($approval['topicid']);
                     $topicTypelabel = Survey2::GetCustomName(false);
+                }
+                
+                // Apply collaboration filtering
+                $collaborationStatus = $_SESSION['collaborationStatus'] ?? 'all';
+                $hasCollaborationPending = false;
+                $isCollaborationRequest = false;
+                
+                if ($topicTypeObj) {
+                    // Check for collaboration pending in different topic types
+                    if ($topicType == TELESKOPE::TOPIC_TYPES['EVENT']) {
+                        $hasCollaborationPending = !empty($topicTypeObj->val('collaborating_groupids_pending')) || !empty($topicTypeObj->val('collaborating_chapterids_pending'));
+                    }
+                    // Future: Add other topic types when they support collaboration
+                    // elseif ($topicType == TELESKOPE::TOPIC_TYPES['NEWSLETTER']) {
+                    //     $hasCollaborationPending = !empty($topicTypeObj->val('collaborating_groupids_pending'));
+                    // }
+                    
+                    $isCollaborationRequest = $hasCollaborationPending;
+                }
+                
+                // Filter based on collaboration status
+                if ($collaborationStatus === 'collaboration_only' && !$isCollaborationRequest) {
+                    continue; // Skip non-collaboration requests when showing collaboration only
                 }
                 
                 $topicTypeStatus = $topicTypeObj ? intval($topicTypeObj->val('isactive')) : 0;
@@ -165,10 +204,18 @@
                     <td>
                     <?php if($topicType == TELESKOPE::TOPIC_TYPES['SURVEY']){ ?>
                         <a rel="noopener" onclick="previewSurvey('<?= $encGroupId; ?>','<?= $enc_topictype_id; ?>')" href="javascript:void(0)">
-                        <?= $topicTypeObj->getTopicTitle()?><br></a>
+                        <?= $topicTypeObj->getTopicTitle()?>
+                        <?php if($isCollaborationRequest){ ?>
+                            <span class="badge badge-info ml-1" title="<?= gettext('Collaboration Request') ?>"><?= gettext('COLLAB') ?></span>
+                        <?php } ?>
+                        <br></a>
                     <?php }else{ ?>
                         <a target="_blank" rel="noopener" href="<?= $topicType_url ?>">
-                        <?= $eventSeriesLabel . $topicTypeObj->getTopicTitle()?><br></a>
+                        <?= $eventSeriesLabel . $topicTypeObj->getTopicTitle()?>
+                        <?php if($isCollaborationRequest){ ?>
+                            <span class="badge badge-info ml-1" title="<?= gettext('Collaboration Request') ?>"><?= gettext('COLLAB') ?></span>
+                        <?php } ?>
+                        <br></a>
                     <?php } ?>
                     </td>
 

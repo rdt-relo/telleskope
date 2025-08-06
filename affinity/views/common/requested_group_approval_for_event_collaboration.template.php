@@ -42,8 +42,11 @@ if (!empty($groupsWithPendingApprovals)){
                 <p><?= $groupWithPendingApproval->val('groupname'); ?></p>
             </div>
             <div class="col-6 text-center" id="approveBtn<?= $_COMPANY->encodeId($groupWithPendingApproval->id())?>">
-                <button aria-label="<?= sprintf(gettext("Accept collaboration for %s"),$groupWithPendingApproval->val('groupname'))?>" class="btn btn-primary confirm rsvp-approve-btn btn-sm btn-inline" <?= $disabled; ?> onclick="approveEventGroupCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($groupWithPendingApproval->id())?>')" title="<?= gettext("Are you sure you want to accept collaboration?")?>">
+                <button aria-label="<?= sprintf(gettext("Accept collaboration for %s"),$groupWithPendingApproval->val('groupname'))?>" class="btn btn-primary confirm rsvp-approve-btn btn-sm btn-inline mr-2" <?= $disabled; ?> onclick="approveEventGroupCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($groupWithPendingApproval->id())?>')" title="<?= gettext("Are you sure you want to accept collaboration?")?>">
                     <?= gettext("Accept Collaboration")?>
+                </button>
+                <button aria-label="<?= sprintf(gettext("Deny collaboration for %s"),$groupWithPendingApproval->val('groupname'))?>" class="btn btn-danger confirm rsvp-deny-btn btn-sm btn-inline" <?= $disabled; ?> onclick="denyEventGroupCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($groupWithPendingApproval->id())?>')" title="<?= gettext("Are you sure you want to deny collaboration?")?>">
+                    <?= gettext("Deny Collaboration")?>
                 </button>
             </div>
         <?php
@@ -70,8 +73,11 @@ if (!empty($groupsWithPendingApprovals)){
                     <p><i class="fas fa-globe" style="" aria-hidden="true"></i> <?=  $chapter['chaptername']; ?></p>
                 </div>
                 <div class="col-6 text-center chapters_approver_<?= $_COMPANY->encodeId($chapter['groupid'])?>" id="approveBtnChapter<?= $_COMPANY->encodeId($chapter['chapterid'])?>">
-                    <button aria-label="<?= sprintf(gettext("Accept collaboration for %s"),$chapter['chaptername'])?>" class="btn btn-primary rsvp-approve-btn confirm btn-sm btn-inline" <?= $disableAction; ?> onclick="approveEventChapterCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($chapter['groupid'])?>','<?= $_COMPANY->encodeId($chapter['chapterid'])?>')" title="<?= gettext("Are you sure you want to accept collaboration?")?>">
+                    <button aria-label="<?= sprintf(gettext("Accept collaboration for %s"),$chapter['chaptername'])?>" class="btn btn-primary rsvp-approve-btn confirm btn-sm btn-inline mr-2" <?= $disableAction; ?> onclick="approveEventChapterCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($chapter['groupid'])?>','<?= $_COMPANY->encodeId($chapter['chapterid'])?>')" title="<?= gettext("Are you sure you want to accept collaboration?")?>">
                         <?= gettext("Accept Collaboration")?>
+                    </button>
+                    <button aria-label="<?= sprintf(gettext("Deny collaboration for %s"),$chapter['chaptername'])?>" class="btn btn-danger rsvp-deny-btn confirm btn-sm btn-inline" <?= $disableAction; ?> onclick="denyEventChapterCollaboration('<?= $_COMPANY->encodeId($event->id())?>','<?= $_COMPANY->encodeId($chapter['groupid'])?>','<?= $_COMPANY->encodeId($chapter['chapterid'])?>')" title="<?= gettext("Are you sure you want to deny collaboration?")?>">
+                        <?= gettext("Deny Collaboration")?>
                     </button>
                 </div>
                
@@ -125,6 +131,47 @@ if (!empty($groupsWithPendingApprovals)){
                 }
 
                 
+            }
+        });
+    }
+    function denyEventGroupCollaboration(eventid, groupid) {
+        $.ajax({
+            url: 'ajax_events.php?denyEventGroupCollaboration=1',
+            type: 'GET',
+            data: {'eventid':eventid,'groupid':groupid},
+            success: function(data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1){
+                            $("#approveBtn"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                        } else if (jsonData.status == 2) {
+                            $("#approveBtn"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                            $(".chapters_approver_"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                        }
+                    });
+                } catch(e) {
+                    swal.fire({title: 'Error', text: "Unknown error."}); 
+                }
+            }
+        });
+    }
+    function denyEventChapterCollaboration(eventid, groupid, chapterid) {
+        $.ajax({
+            url: 'ajax_events.php?denyEventChapterCollaboration=1',
+            type: 'GET',
+            data: {'eventid':eventid,'groupid':groupid,'chapterid':chapterid},
+            success: function(data) {
+                try {
+                    let jsonData = JSON.parse(data);
+                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1){
+                            $("#approveBtnChapter"+chapterid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                        }
+                    });
+                } catch(e) {
+                    swal.fire({title: 'Error', text: "Unknown error."}); 
+                }
             }
         });
     }

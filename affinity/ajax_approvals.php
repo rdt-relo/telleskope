@@ -147,8 +147,10 @@ elseif (isset($_GET['getMyTopicApprovalsData']) && $_SERVER['REQUEST_METHOD'] ==
     $viewPath='';
     $approvalStatus = !empty($_GET['approvalStatus'])? $_GET['approvalStatus'] :'processing';
     $requestYear =   !empty($_GET['requestYear']) ? $_GET['requestYear'] : date('Y');
+    $collaborationStatus = !empty($_GET['collaborationStatus']) ? $_GET['collaborationStatus'] : 'all';
     $_SESSION['approvalStatus'] = $approvalStatus;
     $_SESSION['approvalRequestYear'] = $requestYear;
+    $_SESSION['collaborationStatus'] = $collaborationStatus;
     $topicTypeLabel = '';
 
     if($topicType == Teleskope::TOPIC_TYPES['EVENT']){

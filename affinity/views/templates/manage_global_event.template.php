@@ -51,9 +51,9 @@
                 <div class="form-group col-md-12 ">
                     <label for="filterByState" style="font-size:small;"><?= sprintf(gettext("Filter by %s State"), 'Event');?></label>
                     <select aria-label="<?= sprintf(gettext("Filter by %s state"), 'Event');?>" class="form-control" onchange="filterEvents('<?= $encGroupId; ?>');" id="filterByState" style="font-size:small;border-radius: 5px;">
-                      <option value="<?= $_COMPANY->encodeId(2)?>" <?= $state_filter == 2 ? 'selected' : '' ?> ><?= gettext("Draft / Not Published");?></option>
-                      <option value="<?= $_COMPANY->encodeId(1)?>" <?= $state_filter == 1 ? 'selected' : '' ?> ><?= gettext("Published");?></option>
-                      <option value="<?= $_COMPANY->encodeId(0)?>" <?= $state_filter == 0 ? 'selected' : '' ?> ><?= gettext("Cancelled");?></option>
+                      <option value="<?= $_COMPANY->encodeId(2)?>" data-state="draft" <?= $state_filter == 2 ? 'selected' : '' ?> ><?= gettext("Draft / Not Published");?></option>
+                      <option value="<?= $_COMPANY->encodeId(1)?>" data-state="published" <?= $state_filter == 1 ? 'selected' : '' ?> ><?= gettext("Published");?></option>
+                      <option value="<?= $_COMPANY->encodeId(0)?>" data-state="cancelled" <?= $state_filter == 0 ? 'selected' : '' ?> ><?= gettext("Cancelled");?></option>
                     </select>
                     <input type="hidden" name="publishedStateEnId" value="<?= $_COMPANY->encodeId(1)?>" id="publishedStateEnId"> <? //  Added a hidden field to serve as a reference for comparison in the filterEvents js method.  ?>
                   </div>
@@ -145,6 +145,14 @@
                 <label class="form-check-label" for="notReconciledEvent"><?= gettext('Not Reconciled Events')?></label>
               </div>
             <?php } ?>
+            </div>
+            
+            <!-- Draft State Filters -->
+            <div class="col-12 px-5" id="filterDraftEventsCheckbox" style="<?=($state_filter == 1)?'display:none':''?>">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="collabEvents" value="collabEvents" onchange="filterEvents('<?= $encGroupId; ?>');">
+                <label class="form-check-label" for="collabEvents"><?= gettext('Collaboration Events Only')?></label>
+              </div>
             </div>       
         </div>
         <div class="clearfix"></div>

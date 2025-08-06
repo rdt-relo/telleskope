@@ -472,6 +472,14 @@ elseif (isset($_GET['getEventsList'])){
         $reconciledCondition = " AND a.`is_event_reconciled` = 0";
     }
 
+    $collabEvents = $_POST['collabEvents']??'false';
+
+    // Add collaboration filter condition
+    $collaborationCondition = "";
+    if ($collabEvents == 'true') {
+        $collaborationCondition = " AND ((a.collaborating_groupids_pending IS NOT NULL AND a.collaborating_groupids_pending != '') OR (a.collaborating_chapterids_pending IS NOT NULL AND a.collaborating_chapterids_pending != ''))";
+    }
+
     $topicType = Teleskope::TOPIC_TYPES['EVENT'];
 
     // Note:
@@ -479,7 +487,7 @@ elseif (isset($_GET['getEventsList'])){
     // we are using zoneid filter to show events hosted only in this zone.
     //$totalrows =  $db->get("SELECT count(1) as totalRows FROM events a LEFT JOIN users b ON b.userid=a.userid LEFT JOIN group_channels ch ON ch.channelid=a.channelid WHERE a.companyid={$_COMPANY->id()} AND (a.zoneid={$_ZONE->id()} AND ( {$collaboratingEventCondition} ) AND (a.event_series_id = 0 OR a.event_series_id = a.eventid) $isactiveCondition  $yearCondition  AND a.`eventclass` NOT IN('holiday','teamevent') $search $groupFilter {$upcomingOrPastCondition} {$reconciledCondition} )")[0]['totalRows']; Teleskope::TOPIC_TYPES['EVENT']
 
-    $events = $db->get("SELECT COUNT(*) OVER () AS total_matches,a.*,b.firstname,b.lastname,b.jobtitle,b.picture,b.email,p.approval_status,p.approval_stage,IFNULL((SELECT GROUP_CONCAT(DISTINCT `chaptername` SEPARATOR '^') FROM `chapters` WHERE FIND_IN_SET(`chapterid`,a.chapterid)),'') as chaptername,IFNULL((SELECT GROUP_CONCAT(`list_name` SEPARATOR '^') FROM `dynamic_lists` WHERE FIND_IN_SET(`listid`,a.listids)),'') as listname,ch.channelname FROM events a LEFT JOIN users b ON b.userid=a.userid LEFT JOIN group_channels ch ON ch.channelid=a.channelid LEFT JOIN `topic_approvals` p on p.topicid=a.eventid and p.companyid={$_COMPANY->id()} AND p.zoneid={$_ZONE->id()} AND p.topictype='{$topicType}'  WHERE a.companyid={$_COMPANY->id()} AND (a.zoneid={$_ZONE->id()} AND ( {$collaboratingEventCondition} ) AND (a.event_series_id = 0 OR a.event_series_id = a.eventid) $isactiveCondition $yearCondition AND a.`eventclass` NOT IN('holiday','teamevent') $search $groupFilter {$upcomingOrPastCondition} {$reconciledCondition}) AND a.schedule_id=0 ORDER BY $orderFields[$orderIndex] $orderDir limit ".$input['start'].",".$input['length']." ");
+    $events = $db->get("SELECT COUNT(*) OVER () AS total_matches,a.*,b.firstname,b.lastname,b.jobtitle,b.picture,b.email,p.approval_status,p.approval_stage,IFNULL((SELECT GROUP_CONCAT(DISTINCT `chaptername` SEPARATOR '^') FROM `chapters` WHERE FIND_IN_SET(`chapterid`,a.chapterid)),'') as chaptername,IFNULL((SELECT GROUP_CONCAT(`list_name` SEPARATOR '^') FROM `dynamic_lists` WHERE FIND_IN_SET(`listid`,a.listids)),'') as listname,ch.channelname FROM events a LEFT JOIN users b ON b.userid=a.userid LEFT JOIN group_channels ch ON ch.channelid=a.channelid LEFT JOIN `topic_approvals` p on p.topicid=a.eventid and p.companyid={$_COMPANY->id()} AND p.zoneid={$_ZONE->id()} AND p.topictype='{$topicType}'  WHERE a.companyid={$_COMPANY->id()} AND (a.zoneid={$_ZONE->id()} AND ( {$collaboratingEventCondition} ) AND (a.event_series_id = 0 OR a.event_series_id = a.eventid) $isactiveCondition $yearCondition AND a.`eventclass` NOT IN('holiday','teamevent') $search $groupFilter {$upcomingOrPastCondition} {$reconciledCondition} {$collaborationCondition}) AND a.schedule_id=0 ORDER BY $orderFields[$orderIndex] $orderDir limit ".$input['start'].",".$input['length']." ");
     $totalrows = $events[0]['total_matches'] ?? 0;
 
     $final = [];
@@ -489,6 +497,7 @@ elseif (isset($_GET['getEventsList'])){
         if (!$ev){
             continue;
         }
+        
         $eventTitle = '';
         $attendees_total = 0;
         $attendees_yes = 0;
@@ -677,6 +686,7 @@ elseif(isset($_GET['filterEvents'])){
     $pastEvents = $_GET['pastEvents']??false;
     $reconciledEvent = $_GET['reconciledEvent']??false;
     $notReconciledEvent = $_GET['notReconciledEvent']??false;
+    $collabEvents = $_GET['collabEvents']??false;
 
   	include(__DIR__ . '/views/templates/group_events_table.template.php');
 }

@@ -5580,6 +5580,157 @@ elseif (isset($_GET['approveEventChapterCollaboration'])  && $_SERVER['REQUEST_M
     AjaxResponse::SuccessAndExit_STRING( $success, '', $message, ($success ? gettext('Success') : gettext('Error')));
 }
 
+elseif (isset($_GET['denyEventGroupCollaboration'])  && $_SERVER['REQUEST_METHOD'] === 'GET'){
+
+    if (
+        ($eventid = $_COMPANY->decodeId($_GET['eventid']))<0 ||
+        ($groupid = $_COMPANY->decodeId($_GET['groupid']))<0 ||
+        ($group = Group::GetGroup($groupid)) === null ||
+        ($event = Event::GetEvent($eventid)) == NULL
+        ) {
+        header(HTTP_FORBIDDEN);
+        exit();
+    }
+    $cgids = $event->val('collaborating_groupids');
+    $cgidsPending = $event->val('collaborating_groupids_pending');
+    $collaboratingGroupIds = empty($cgids) ? array() : explode(',', $cgids);
+    $collaboratingGroupIdsPending = empty($cgidsPending) ? array() : explode(',', $cgidsPending);
+
+    if (!$_USER->isCompanyAdmin() && !$_USER->isZoneAdmin($group->val('zoneid')) && !$_USER->canCreateOrPublishOrManageContentInScopeCSV($groupid)) {
+        $message = gettext("Your role does not have enough permissions to deny this event collaboration");
+        $success = 0;
+    } else {
+        if (($key = array_search($groupid, $collaboratingGroupIdsPending)) === false) {
+            $message = gettext("This collaboration request was already processed. Thank you for your response.");
+            $success = 1;
+        } else{
+            // Check if denying this collaboration would leave less than 2 groups
+            $remainingCollaboratingGroups = array_diff($collaboratingGroupIdsPending, [$groupid]);
+            $totalCollaboratingGroups = count($collaboratingGroupIds) + count($remainingCollaboratingGroups);
+            
+            if ($totalCollaboratingGroups < 2) {
+                $message = sprintf(gettext("Cannot deny this collaboration request. An event must have at least two %s for collaboration. Denying this request would leave the event with insufficient collaborating groups."), $_COMPANY->getAppCustomization()['group']['name-short-plural']);
+                $success = 0;
+            } else {
+                // Check zone requirements - at least one group must be from the current zone
+                $allRemainingGroups = array_merge($collaboratingGroupIds, $remainingCollaboratingGroups);
+                if (!Group::IsGroupInCurrentZone($allRemainingGroups, $event->val('zoneid'))) {
+                    $message = sprintf(gettext("Cannot deny this collaboration request. At least one %s from the current zone must remain in the collaboration."), $_COMPANY->getAppCustomization()['group']['name-short']);
+                    $success = 0;
+                } else {
+                    // Remove from pending list (effectively denying the collaboration)
+                    unset($collaboratingGroupIdsPending[$key]);
+                    
+                    //Chapter Collaboration - also remove any pending chapters for this group
+                    $approvedChapterIds = explode(',',$event->val('chapterid'));
+                    $collaborating_chapterids_pending = explode(',', $event->val('collaborating_chapterids_pending')?:'');
+                    $success = 1;
+                    if (!empty($event->val('collaborating_chapterids_pending'))){
+                        $filterGroupChaptersPendingCollaboration =  Group::GetGroupChaptersFromChapterIdsCSV($groupid,$event->val('collaborating_chapterids_pending'));
+                        if (!empty($filterGroupChaptersPendingCollaboration)) {
+                            $chapterIdsToRemoveFromPending = explode(',', $filterGroupChaptersPendingCollaboration);
+                            $collaborating_chapterids_pending = array_values(array_diff($collaborating_chapterids_pending, $chapterIdsToRemoveFromPending));
+                            sort($collaborating_chapterids_pending);
+                            $success = 2; // Also denied chapter collaborations
+                        }
+                    }
+
+                    if ($event->updateCollaboratingGroupids($collaboratingGroupIds, $collaboratingGroupIdsPending, $approvedChapterIds, $collaborating_chapterids_pending)){
+                        $message = gettext("Collaboration request denied successfully.");
+                    } else {
+                        $message = gettext("We are unable to process your request due to internal system error.");
+                        $success = 0;
+                    }
+                }
+            }
+        }
+    }  
+    AjaxResponse::SuccessAndExit_STRING( $success, '', $message, ($success ? gettext('Success') : gettext('Error')));
+}
+
+elseif (isset($_GET['denyEventChapterCollaboration'])  && $_SERVER['REQUEST_METHOD'] === 'GET'){
+
+    if (
+        ($eventid = $_COMPANY->decodeId($_GET['eventid']))<0 ||
+        ($groupid = $_COMPANY->decodeId($_GET['groupid']))<1 ||
+        ($chapterid = $_COMPANY->decodeId($_GET['chapterid']))<1 ||
+        ($event = Event::GetEvent($eventid)) == NULL
+        ) {
+        header(HTTP_FORBIDDEN);
+        exit();
+    }
+    $chapter = Group::GetChapterName($chapterid,$groupid);
+    $success = 0;
+    $cgids = $event->val('collaborating_groupids');
+    $cgidsPending = $event->val('collaborating_groupids_pending');
+
+    $chaperids = $event->val('chapterid');
+    $chapteridsPending = $event->val('collaborating_chapterids_pending');
+
+    $collaboratingGroupIds = empty($cgids) ? array() : explode(',', $cgids);
+    $collaboratingGroupIdsPending = empty($cgidsPending) ? array() : explode(',', $cgidsPending);
+
+    $chaperids =  empty($chaperids) ? array() : explode(',', $chaperids);;
+    $chapteridsPending =  empty($chapteridsPending) ? array() : explode(',', $chapteridsPending);;
+
+    if (!$_USER->canCreateContentInGroupChapterV2($groupid,$chapter['regionids'], $chapterid)) {
+        $message = gettext("Your role does not have enough permissions to deny this event collaboration");
+    } elseif (($key = array_search($chapterid, $chapteridsPending)) !== false) {
+
+        // Check if denying this chapter would affect collaboration validity
+        $remainingChaptersPending = array_diff($chapteridsPending, [$chapterid]);
+        
+        // Check if this group still has other chapters (approved or pending) after denial
+        $remainingGroupChapters = Group::GetGroupChaptersFromChapterIdsCSV($groupid, implode(',', array_merge($chaperids, $remainingChaptersPending)));
+        
+        // If this was the only chapter for this group, check if denying would leave less than 2 collaborating groups
+        if (empty($remainingGroupChapters)) {
+            // This group would lose all chapters, so check if it would affect minimum collaboration requirements
+            $remainingCollaboratingGroups = array_diff($collaboratingGroupIdsPending, [$groupid]);
+            $totalCollaboratingGroups = count($collaboratingGroupIds) + count($remainingCollaboratingGroups);
+            
+            if ($totalCollaboratingGroups < 2) {
+                $message = sprintf(gettext("Cannot deny this chapter collaboration request. An event must have at least two %s for collaboration. Denying this chapter would remove its parent group from collaboration, leaving insufficient collaborating groups."), $_COMPANY->getAppCustomization()['group']['name-short-plural']);
+                $success = 0;
+            } else {
+                // Safe to deny - remove chapter and update
+                unset($chapteridsPending[$key]);
+                
+                sort($chapteridsPending);
+                sort($collaboratingGroupIdsPending);
+                sort($collaboratingGroupIds);
+
+                if ($event->updateCollaboratingGroupids($collaboratingGroupIds, $collaboratingGroupIdsPending, $chaperids,$chapteridsPending)){
+                    $message = gettext("Chapter collaboration request denied successfully.");
+                    $success = 1;
+                } else {
+                    $message = gettext("We are unable to process your request due to internal system error.");
+                    $success = 0;
+                }
+            }
+        } else {
+            // Group still has other chapters, safe to deny this one
+            unset($chapteridsPending[$key]);
+            
+            sort($chapteridsPending);
+            sort($collaboratingGroupIdsPending);
+            sort($collaboratingGroupIds);
+
+            if ($event->updateCollaboratingGroupids($collaboratingGroupIds, $collaboratingGroupIdsPending, $chaperids,$chapteridsPending)){
+                $message = gettext("Chapter collaboration request denied successfully.");
+                $success = 1;
+            } else {
+                $message = gettext("We are unable to process your request due to internal system error.");
+                $success = 0;
+            }
+        }
+    } else {
+        $message = gettext("This collaboration request was already processed. Thank you for your response.");
+        $success = 1;
+    }  
+    AjaxResponse::SuccessAndExit_STRING( $success, '', $message, ($success ? gettext('Success') : gettext('Error')));
+}
+
 elseif(isset($_GET['validateEventFormInputs']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
     
     $validateData =  ViewHelper::ValidateEventFormInputs();

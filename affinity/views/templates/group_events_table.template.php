@@ -73,7 +73,7 @@
         ],
             ajax:{
                 url :"ajax_groupHome.php?getEventsList=<?= $encGroupId; ?>&isactive="+byState+"&year="+byYear+'&groupStateType='+groupStateType+'&groupState='+groupState, // json datasource
-                data:{upcomingEvents:'<?= $upcomingEvents??false; ?>',pastEvents:'<?= $pastEvents??false; ?>',reconciledEvent:'<?= $reconciledEvent??false; ?>',notReconciledEvent:'<?= $notReconciledEvent??false; ?>'},
+                data:{upcomingEvents:'<?= $upcomingEvents??false; ?>',pastEvents:'<?= $pastEvents??false; ?>',reconciledEvent:'<?= $reconciledEvent??false; ?>',notReconciledEvent:'<?= $notReconciledEvent??false; ?>',collabEvents:'<?= $collabEvents??false; ?>'},
                 type: "POST",  // method  , by default get
                 error: function(data){  // error handling
                     $(".table-grid-error").html("");

@@ -6600,24 +6600,40 @@ function filterAnnouncements(g){
 }
 function filterEvents(g){
     var searchText = $('input[type="search"]').val();
-	filterByStateVal = $("#filterByState").val();
-	publishedStateEnId = $("#publishedStateEnId").val();
-	if(filterByStateVal != publishedStateEnId)
+	
+	// Get the current state using data attribute - much cleaner!
+	let currentState = $("#filterByState option:selected").data('state');
+	
+	if(currentState === 'draft')
 	{
+		// Draft state: Show only filterDraftEventsCheckbox
 		$("#upcomingEvents").prop("checked",false);
 		$("#pastEvents").prop("checked",false);
 		$("#reconciledEvent").prop("checked",false);
 		$("#notReconciledEvent").prop("checked",false);
 		$("#filterEventsCheckbox").hide();
-	}else
+		$("#filterDraftEventsCheckbox").show();
+	}
+	else if(currentState === 'published')
 	{
-		 $("#filterEventsCheckbox").show();
+		// Published state: Show only filterEventsCheckbox
+		$("#filterEventsCheckbox").show();
+		$("#filterDraftEventsCheckbox").hide();
+		$("#collabEvents").prop("checked",false);
+	}
+	else if(currentState === 'cancelled')
+	{
+		// Cancelled state: Hide both filter checkboxes
+		$("#filterEventsCheckbox").hide();
+		$("#filterDraftEventsCheckbox").hide();
+		$("#collabEvents").prop("checked",false);
 	}
 
 	let upcomingEvents = false;
 	let pastEvents = false;
 	let reconciledEvent = false;
 	let notReconciledEvent = false;
+	let collabEvents = false;
 	if($("#upcomingEvents").prop('checked') == true){
 		upcomingEvents = true;
 	}
@@ -6630,10 +6646,13 @@ function filterEvents(g){
 	if($("#notReconciledEvent").prop('checked') == true){
 		notReconciledEvent = true;
 	}
+	if($("#collabEvents").prop('checked') == true){
+		collabEvents = true;
+	}
 	$.ajax({
 		url: 'ajax_groupHome.php?filterEvents='+g,
         type: "GET",
-		data : {upcomingEvents:upcomingEvents,pastEvents:pastEvents,reconciledEvent:reconciledEvent,notReconciledEvent:notReconciledEvent,searchText:searchText},
+		data : {upcomingEvents:upcomingEvents,pastEvents:pastEvents,reconciledEvent:reconciledEvent,notReconciledEvent:notReconciledEvent,collabEvents:collabEvents,searchText:searchText},
         success : function(data) {
 			$('#eventTable').html(data);
 			$("#hidden_div_for_notification").attr({role:"status","aria-live":"polite"}); 
@@ -12801,10 +12820,14 @@ function getMyTopicApprovalsData(topicType){
 	if ($('#request_year_filter').length) {
 		requestYear = $('#request_year_filter').val();
 	}
+	let collaborationStatus = '';
+	if ($('#collaboration_status_filter').length) {
+		collaborationStatus = $('#collaboration_status_filter').val();
+	}
 	$.ajax({
 		type: "GET",
 		url: "ajax_approvals.php?getMyTopicApprovalsData="+topicType,
-		data:{approvalStatus:approvalStatus,requestYear:requestYear},
+		data:{approvalStatus:approvalStatus,requestYear:requestYear,collaborationStatus:collaborationStatus},
 		success: function(data){
 			try {
 				let jsonData = JSON.parse(data);
