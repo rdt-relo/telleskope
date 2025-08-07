@@ -1211,6 +1211,145 @@ EOMEOM;
         return array_unique($emailsSent);
     }
 
+    /**
+     * Validates and processes collaboration denial for an event, ensuring the event remains valid after denial.
+     * This function uses existing collaboration validation patterns to maintain system consistency.
+     * 
+     * @param int $eventid The event ID
+     * @param array $newCollaboratingGroupIds Updated collaborating group IDs after denial
+     * @param array $newPendingGroupIds Updated pending group IDs after denial
+     * @param array $newPendingChapterIds Updated pending chapter IDs after denial
+     * @return array Returns [isValid, updatedEvent, validationMessage, shouldReload]
+     */
+    public static function ValidateCollaborationAfterDenial(int $eventid, array $newCollaboratingGroupIds, array $newPendingGroupIds, array $newPendingChapterIds)
+    {
+        global $_COMPANY, $_ZONE, $_USER;
+        
+        $event = Event::GetEvent($eventid);
+        if (!$event) {
+            return [false, null, gettext("Event not found."), false];
+        }
+
+        // Get current event state
+        $currentApprovedChapterIds = array_filter(explode(',', $event->val('chapterid') ?? ''));
+        $hostGroupId = (int)$event->val('groupid');
+        
+        // Calculate total remaining groups (approved + pending)
+        $totalRemainingGroups = count($newCollaboratingGroupIds) + count($newPendingGroupIds);
+        
+        // Scenario 1: Event converted to single-group event (less than 2 groups remaining)
+        if ($totalRemainingGroups < 2) {
+            if ($hostGroupId > 0) {
+                // Convert to single-group event following existing patterns from ValidateEventFormInputs
+                $updatedEvent = [
+                    'event_scope' => 'group',
+                    'collaborating_groupids' => $hostGroupId,
+                    'collaborating_groupids_pending' => '',
+                    'collaborating_chapterids_pending' => '', // Clear all pending chapters
+                    'listids' => 0,
+                    'invited_groups' => $hostGroupId,
+                    'groupid' => $hostGroupId // Ensure primary group is set
+                ];
+                
+                return [
+                    true, 
+                    $updatedEvent, 
+                    gettext("Collaboration denied. Event has been converted to a single-group event."),
+                    true // Suggest page reload for single-group conversion
+                ];
+            } else {
+                // No valid host group - validate if we can determine a suitable host
+                if (!empty($newCollaboratingGroupIds)) {
+                    // Use first remaining approved group as host
+                    $newHostGroupId = $newCollaboratingGroupIds[0];
+                    $updatedEvent = [
+                        'event_scope' => 'group',
+                        'collaborating_groupids' => $newHostGroupId,
+                        'collaborating_groupids_pending' => '',
+                        'collaborating_chapterids_pending' => '',
+                        'listids' => 0,
+                        'invited_groups' => $newHostGroupId,
+                        'groupid' => $newHostGroupId
+                    ];
+                    
+                    return [
+                        true, 
+                        $updatedEvent, 
+                        gettext("Collaboration denied. Event has been converted to a single-group event."),
+                        true
+                    ];
+                } else {
+                    // Cannot determine valid host group
+                    return [
+                        false, 
+                        null, 
+                        sprintf(gettext("Cannot deny this collaboration request. An event must have at least two %s for collaboration, or have a valid host group to convert to a single-group event."), $_COMPANY->getAppCustomization()['group']['name-short-plural']),
+                        false
+                    ];
+                }
+            }
+        }
+        
+        // Scenario 2: Remains collaboration event - validate collaboration requirements
+        
+        // Zone validation: Ensure at least one group from current zone remains using existing pattern
+        $allRemainingGroups = array_merge($newCollaboratingGroupIds, $newPendingGroupIds);
+        if (!empty($allRemainingGroups) && !Group::IsGroupInCurrentZone($allRemainingGroups, $event->val('zoneid'))) {
+            return [
+                false, 
+                null, 
+                sprintf(gettext("Cannot deny this collaboration request. At least one %s from the current zone must remain in the collaboration."), $_COMPANY->getAppCustomization()['group']['name-short']),
+                false
+            ];
+        }
+        
+        // Validate minimum collaboration requirements following ValidateTopicCollaboration pattern
+        if (count($allRemainingGroups) < 2) {
+            return [
+                false, 
+                null, 
+                sprintf(gettext('An event must have minimum of two %s for collaboration.'), $_COMPANY->getAppCustomization()['group']['name-short']),
+                false
+            ];
+        }
+        
+        // Validate chapter-group relationships following existing patterns
+        $validatedPendingChapterIds = $newPendingChapterIds;
+        
+        // Remove orphaned pending chapters (chapters whose parent groups are not in collaboration)
+        $validPendingChapterIds = [];
+        foreach ($validatedPendingChapterIds as $chapterId) {
+            if ($chapterId) {
+                $chapterDetails = Group::GetChapterNamesByChapteridsCsv($chapterId);
+                if (!empty($chapterDetails)) {
+                    $parentGroupId = $chapterDetails[0]['groupid'];
+                    // Keep chapter only if parent group is still in collaboration (approved or pending)
+                    if (in_array($parentGroupId, $newCollaboratingGroupIds) || in_array($parentGroupId, $newPendingGroupIds)) {
+                        $validPendingChapterIds[] = $chapterId;
+                    }
+                }
+            }
+        }
+        
+        // Build valid collaboration state following existing event collaboration patterns
+        $updatedEvent = [
+            'event_scope' => 'collaborating_groups',
+            'collaborating_groupids' => implode(',', $newCollaboratingGroupIds),
+            'collaborating_groupids_pending' => implode(',', $newPendingGroupIds),
+            'collaborating_chapterids_pending' => implode(',', $validPendingChapterIds),
+            'chapterid' => implode(',', $currentApprovedChapterIds), // Keep existing approved chapters
+            'invited_groups' => implode(',', $newCollaboratingGroupIds), // Only approved groups in invited_groups
+            'listids' => 0 // Collaboration events don't use dynamic lists
+        ];
+        
+        return [
+            true, 
+            $updatedEvent, 
+            gettext("Collaboration request denied successfully."),
+            false
+        ];
+    }
+
     public static function ValidateEventFormInputs()
     {
         global $_COMPANY, $_ZONE, $_USER;

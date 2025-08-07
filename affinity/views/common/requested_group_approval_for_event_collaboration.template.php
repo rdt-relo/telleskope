@@ -138,16 +138,18 @@ if (!empty($groupsWithPendingApprovals)){
         $.ajax({
             url: 'ajax_events.php?denyEventGroupCollaboration=1',
             type: 'GET',
-            data: {'eventid':eventid,'groupid':groupid},
+            data: {'eventid': eventid, 'groupid': groupid},
             success: function(data) {
                 try {
                     let jsonData = JSON.parse(data);
-                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
-                        if (jsonData.status == 1){
+                    swal.fire({title: jsonData.title, text: jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1) {
                             $("#approveBtn"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
                         } else if (jsonData.status == 2) {
                             $("#approveBtn"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
                             $(".chapters_approver_"+groupid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                            // Reload page after conversion to single-group event
+                            setTimeout(function() { location.reload(); }, 2000);
                         }
                     });
                 } catch(e) {
@@ -160,13 +162,17 @@ if (!empty($groupsWithPendingApprovals)){
         $.ajax({
             url: 'ajax_events.php?denyEventChapterCollaboration=1',
             type: 'GET',
-            data: {'eventid':eventid,'groupid':groupid,'chapterid':chapterid},
+            data: {'eventid': eventid, 'groupid': groupid, 'chapterid': chapterid},
             success: function(data) {
                 try {
                     let jsonData = JSON.parse(data);
-                    swal.fire({title: jsonData.title,text:jsonData.message}).then(function(result) {
-                        if (jsonData.status == 1){
+                    swal.fire({title: jsonData.title, text: jsonData.message}).then(function(result) {
+                        if (jsonData.status == 1) {
                             $("#approveBtnChapter"+chapterid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                        } else if (jsonData.status == 2) {
+                            $("#approveBtnChapter"+chapterid).html('<small><i class="fa fa-times text-danger"></i> Denied</small>');
+                            // Reload page after conversion to single-group event
+                            setTimeout(function() { location.reload(); }, 2000);
                         }
                     });
                 } catch(e) {
