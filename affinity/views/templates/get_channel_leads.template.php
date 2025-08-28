@@ -75,7 +75,7 @@
 
                             <?= $channelLeads[$c]['jobtitle'] ? '<br/>'.$channelLeads[$c]['jobtitle']:'' ?>
                             <br>
-                            <?= User::PickEmailForDisplay($channelLeads[$c]['email'], $channelLeads[$c]['external_email'], true)?>
+                            <?= User::PickEmailForDisplay($channelLeads[$c]['email'], $channelLeads[$c]['external_email'], false)?>
                             </td>
                             <td><?= $cName;?> </td>
                             <td> <?= $channelLeads[$c]['rolename'] ?  htmlspecialchars($channelLeads[$c]['rolename']).'<br/>('.$systemLeadType[$types[$channelLeads[$c]['grouplead_typeid']]['sys_leadtype']].')' : '-- '.gettext('Not Defined').' --' ?></td>

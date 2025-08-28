@@ -653,17 +653,30 @@ elseif (isset($_GET['saveBookingsEmailTemplate']) && $_SERVER['REQUEST_METHOD'] 
     }
 
     $template_type = $_POST['template_type'] ?? '';
-    $subject = $_POST['booking_email_subject'] ?? '';
+    $booking_email_subject = $_POST['booking_email_subject'] ?? '';
     $booking_message = ViewHelper::RedactorContentValidateAndCleanup($_POST['booking_message'] ?? '');  
-    // add reminder days logic
-     // Pass reminder_days if present
+    
+    // Pass reminder_days and final_reminder_days if present
     $reminder_days = null;
+    $final_reminder_days = null;
     if ($template_type === 'meeting_reminder_email_template') {
         $reminder_days = isset($_POST['reminder_days']) && is_numeric($_POST['reminder_days']) ? (int)$_POST['reminder_days'] : 1;
+        $final_reminder_days = isset($_POST['final_reminder_days']) && is_numeric($_POST['final_reminder_days']) ? (int)$_POST['final_reminder_days'] : 1;
+        
+        // Enforce min/max on server side
+        if ($reminder_days < 1) $reminder_days = 1;
+        if ($reminder_days > 30) $reminder_days = 30;
+        if ($final_reminder_days < 1) $final_reminder_days = 1;
+        if ($final_reminder_days > 30) $final_reminder_days = 30;
+        
+        // Ensure final_reminder_days is less than reminder_days
+        if ($final_reminder_days >= $reminder_days) {
+            AjaxResponse::SuccessAndExit_STRING(0, '', gettext("Final reminder days must be less than reminder days."), gettext('Error'));
+        }
     }
 
-    // Persist changes (if needed, depending on your ORM or DB layer)
-    $group->updateMeetingEmailTemplate($booking_email_subject, $booking_message);
+    // Persist changes
+    $group->updateMeetingEmailTemplate($booking_email_subject, $booking_message, $template_type, $reminder_days, $final_reminder_days);
 
     AjaxResponse::SuccessAndExit_STRING(1, '', gettext("Email Template saved successfully."), gettext('Success'));
 }

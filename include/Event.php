@@ -5935,6 +5935,21 @@ EOMEOM;
 
     public function publishEventToUsersImmediately (array $joinerUserIds, int $rsvp)
     {
+        $group = Group::GetGroup($this->val('groupid'));
+        $reminderTemplate = $group->getMeetingEmailTemplate('meeting_reminder_email_template');
+        $reminder_days = isset($reminderTemplate['reminder_days']) ? (int)$reminderTemplate['reminder_days'] : null;
+        $final_reminder_days = isset($reminderTemplate['final_reminder_days']) ? (int)$reminderTemplate['final_reminder_days'] : null;
+
+        if ($reminder_days) {
+            $eventStart = new DateTime($this->val('start'));
+            $now = new DateTime();
+            $interval = $now->diff($eventStart);
+            $daysUntilEvent = (int)$interval->format('%a');
+            if ($daysUntilEvent < ($reminder_days + 1)) {
+                return false;
+            }
+        }
+
         $this->updateEventForSchedulePublishing(-1);
         $this->updatePublishToEmail(1);
         $ev = self::GetEventForPublishing($this->id, 1);
@@ -5942,6 +5957,42 @@ EOMEOM;
             foreach ($joinerUserIds as $joinerUserId) {
                 $ev->joinEvent($joinerUserId, $rsvp, 0, 1);
             }
+
+            // --- Schedule batch reminder jobs ---
+            $eventStartTimestamp = strtotime($ev->val('start'));
+            
+            // Cancel any existing reminder jobs before scheduling new ones
+            if ($reminder_days || $final_reminder_days) {
+                $cancelJob = new EventJob($group->id(), $ev->id());
+                $cancelJob->cancelAsRemindType();
+            }
+            
+            // Schedule regular reminder job if reminder_days is configured
+            if ($reminder_days) {
+                $job = new EventJob($group->id(), $ev->id());
+                $job->scheduleBookingReminderBatchJob(
+                    $reminderTemplate['subject'] ?? '',
+                    $reminderTemplate['message'] ?? '',
+                    $joinerUserIds,
+                    $reminder_days,
+                    $eventStartTimestamp,
+                    $ev->val('web_conference_link')
+                );
+            }
+
+            // Schedule final reminder job if final_reminder_days is configured
+            if ($final_reminder_days) {
+                $finalReminderJob = new EventJob($group->id(), $ev->id());
+                $finalReminderJob->scheduleBookingReminderBatchJob(
+                    $reminderTemplate['subject'] ?? '',
+                    $reminderTemplate['message'] ?? '',
+                    $joinerUserIds,
+                    $final_reminder_days,
+                    $eventStartTimestamp,
+                    $ev->val('web_conference_link')
+                );
+            }
+
             return true;
         }
         return false;

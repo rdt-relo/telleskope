@@ -19,6 +19,11 @@
                 <input type="number" id="reminder_days" name="reminder_days" min="1" max="30" value="<?= htmlspecialchars($email_template['reminder_days'] ?? 1) ?>">
                 <small class="form-text text-muted"><?= gettext("Number of days before the meeting to send the reminder."); ?></small>
             </div>
+            <div class="form-group">
+                <label for="final_reminder_days"><?= gettext("Final Reminder Days Before Meeting:"); ?></label>
+                <input type="number" id="final_reminder_days" name="final_reminder_days" min="1" max="30" value="<?= htmlspecialchars($email_template['final_reminder_days'] ?? 1) ?>">
+                <small class="form-text text-muted"><?= gettext("Number of days before the meeting to send the final reminder."); ?></small>
+            </div>
             <?php endif; ?>
             <div class="form-group text-center">
                 <button class="btn btn-affinity" onclick="saveBookingsEmailTemplate('<?= $_COMPANY->encodeId($groupid) ?>', '<?= $template_type ?>')"><?= gettext('Save Template'); ?></button>
@@ -39,7 +44,34 @@ function saveBookingsEmailTemplate(groupid, template_type) {
     };
     // Add reminder_days if template_type is meeting_reminder_email_template
     if (template_type === 'meeting_reminder_email_template') {
-        data.reminder_days = $('#reminder_days').val();
+        let reminder_days = parseInt($('#reminder_days').val(), 10) || 1;
+        let final_reminder_days = parseInt($('#final_reminder_days').val(), 10) || 1;
+        if (reminder_days < 1 || reminder_days > 30) {
+            swal.fire({
+                title: "Invalid Value",
+                text: "Reminder days must be between 1 and 30.",
+                icon: "warning"
+            });
+            return;
+        }
+        if (final_reminder_days < 1 || final_reminder_days > 30) {
+            swal.fire({
+                title: "Invalid Value", 
+                text: "Final reminder days must be between 1 and 30.",
+                icon: "warning"
+            });
+            return;
+        }
+        if (final_reminder_days >= reminder_days) {
+            swal.fire({
+                title: "Invalid Value",
+                text: "Final reminder days must be less than reminder days.",
+                icon: "warning"
+            });
+            return;
+        }
+        data.reminder_days = reminder_days;
+        data.final_reminder_days = final_reminder_days;
     }
     $.ajax({
         url: 'ajax_bookings.php?saveBookingsEmailTemplate=1',

@@ -4881,7 +4881,7 @@ elseif (isset($_GET['getUnmatchedUsersJoinRequests'])){
     $activeStatus = array(0=>gettext('Deactivate'),1=>gettext('Active'), 2=>gettext('Paused'));
     foreach($rows as $row){
         if ($row['external_email']) {
-            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], true);
+            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], false);
         }
         $dataRow = array();
         $dataRow[] = '<span class="col-md-2 m-0 p-0">'.

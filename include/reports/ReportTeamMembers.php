@@ -139,7 +139,7 @@ class ReportTeamMembers extends Report
                 $teamMembersData = array_merge($teams, $members);
 
                 if ($teamMembersData['external_email']) {
-                    $teamMembersData['email'] = User::PickEmailForDisplay($teamMembersData['email'], $teamMembersData['external_email'], true);
+                    $teamMembersData['email'] = User::PickEmailForDisplay($teamMembersData['email'], $teamMembersData['external_email'], false);
                 }
 
                 $teamMembersData['enc_teamid'] = $_COMPANY->encodeIdForReport($teamMembersData['teamid']);

@@ -77,7 +77,7 @@
         </strong>
         <?= $chapterLeads[$c]['jobtitle'] ? '<br/>'.$chapterLeads[$c]['jobtitle']:'' ?>
         <br>
-        <?= User::PickEmailForDisplay($chapterLeads[$c]['email'], $chapterLeads[$c]['external_email'], true)?>
+        <?= User::PickEmailForDisplay($chapterLeads[$c]['email'], $chapterLeads[$c]['external_email'], false)?>
         </td>
         <td><?= $cName;?> </td>        
         <td> <?= $chapterLeads[$c]['rolename'] ? htmlspecialchars($chapterLeads[$c]['rolename']).'<br/>('.$systemLeadType[$types[$chapterLeads[$c]['grouplead_typeid']]['sys_leadtype']].')' : '-- '.gettext('Not Defined').' --'?></td>

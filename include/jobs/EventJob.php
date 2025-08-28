@@ -1638,8 +1638,8 @@ class EventJob extends Job
         $description = $event->val('event_description');
         $formated_when = $creator_start->format('F j, Y @g:i a T');
         $eventtitle = $event->val('eventtitle');
-        $max_inperson = ($event->val('max_inperson')) ? $event->val('max_inperson') . ' In-Person' : '';
-        $max_online = ($event->val('max_online')) ? $event->val('max_online') . ' Online' : '';
+        $max_inperson = $event->val('max_inperson') ? (($event->val('max_inperson') == Event::MAX_PARTICIPATION_LIMIT) ? 'unlimited In-Person' : $event->val('max_inperson') . ' In-Person') : '';
+        $max_online = $event->val('max_online') ? (($event->val('max_online') == Event::MAX_PARTICIPATION_LIMIT) ? 'unlimited Online' : $event->val('max_online') . ' Online') : '';
         $max_participant = ($max_inperson && $max_online) ? $max_inperson . ' / ' . $max_online : $max_inperson . $max_online;
         $send_ical = $event->sendIcal();
         $eventattendencetype = (int)$event->val('event_attendence_type');
@@ -1880,5 +1880,51 @@ class EventJob extends Job
         }
 
         return $this->saveAsFollowupType(); // Save a new job as there are no other duplicates
+    }
+
+    /**
+     * Schedules a batch reminder job for booking events.
+     *
+     * @param string $subjectTemplate
+     * @param string $bodyTemplate
+     * @param array $userIds Array of user IDs to remind.
+     * @param int $reminder_days
+     * @param int $eventStartTimestamp
+     * @param string $meetingLink
+     * @return void
+     */
+    public function scheduleBookingReminderBatchJob(
+        string $subjectTemplate,
+        string $bodyTemplate,
+        array $userIds,
+        int $reminder_days,
+        int $eventStartTimestamp,
+        string $meetingLink
+    ): void {
+        // Calculate delay in seconds
+        $reminderTimestamp = $eventStartTimestamp - ($reminder_days * 86400);
+        $delay = $reminderTimestamp - time();
+        if ($delay < 0) $delay = 0;
+        $this->delay = $delay;
+
+        // Prepare template with placeholders for batch
+        $meetingDate = date('Y-m-d', $eventStartTimestamp);
+        $meetingTime = date('H:i', $eventStartTimestamp);
+
+        $template = EmailHelper::getBookingReminderEmailTemplate(
+            $subjectTemplate,
+            $bodyTemplate,
+            $meetingDate,
+            $meetingTime,
+            $meetingLink
+        );
+
+        $this->saveAsBatchRemindType(
+            $template['subject'],
+            $template['body'],
+            0, // includeEventDetails
+            $userIds, // batch of user IDs
+            0  // futureEventsOnly
+        );
     }
 }

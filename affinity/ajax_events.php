@@ -5618,29 +5618,25 @@ elseif (isset($_GET['denyEventGroupCollaboration']) && $_SERVER['REQUEST_METHOD'
             $cgids = $event->val('collaborating_groupids');
             $collaboratingGroupIds = empty($cgids) ? array() : explode(',', $cgids);
 
-            // Validate collaboration state after denial using ViewHelper
-            [$isValid, $updatedEventData, $validationMessage, $shouldReload] = ViewHelper::ValidateCollaborationAfterDenial(
-                $eventid, 
-                $collaboratingGroupIds, 
-                $collaboratingGroupIdsPending, 
-                $chapteridsPending
-            );
-
-            if (!$isValid) {
-                $message = $validationMessage;
+            // Check if denying this would result in less than 2 groups
+            $totalRemainingGroups = count($collaboratingGroupIds) + count($collaboratingGroupIdsPending);
+            if ($totalRemainingGroups <= 2) {
+                $message = gettext("Cannot deny this collaboration request. Collaboration events cannot have less than 2 groups. Please contact the event creator.");
                 $success = 0;
             } else {
-                // Apply validated updates to event
-                $approvedChapterIds = array_filter(explode(',', $event->val('chapterid') ?? ''));
-                
+                // Proceed with denial - update collaboration state
                 sort($collaboratingGroupIds);
                 sort($collaboratingGroupIdsPending);
+                $approvedChapterIds = array_filter(explode(',', $event->val('chapterid') ?? ''));
                 sort($approvedChapterIds);
                 sort($chapteridsPending);
 
                 if ($event->updateCollaboratingGroupids($collaboratingGroupIds, $collaboratingGroupIdsPending, $approvedChapterIds, $chapteridsPending)) {
-                    $message = $validationMessage;
-                    $success = $shouldReload ? 2 : 1; // Use status 2 for single-group conversion to trigger reload
+                    // Send email notification to event creator
+                    $group->notifyCollaborationDenial($eventid, $_USER->id());
+                    
+                    $message = gettext("Collaboration request denied successfully.");
+                    $success = 1;
                 } else {
                     $message = gettext("We are unable to process your request due to internal system error.");
                     $success = 0;
@@ -5695,19 +5691,13 @@ elseif (isset($_GET['denyEventChapterCollaboration']) && $_SERVER['REQUEST_METHO
             }
         }
 
-        // Validate collaboration state after denial using ViewHelper
-        [$isValid, $updatedEventData, $validationMessage, $shouldReload] = ViewHelper::ValidateCollaborationAfterDenial(
-            $eventid, 
-            $collaboratingGroupIds, 
-            $collaboratingGroupIdsPending, 
-            $chapteridsPending
-        );
-
-        if (!$isValid) {
-            $message = $validationMessage;
+        // Check if denying this would result in less than 2 groups
+        $totalRemainingGroups = count($collaboratingGroupIds) + count($collaboratingGroupIdsPending);
+        if ($totalRemainingGroups <= 1) {
+            $message = gettext("Cannot deny this collaboration request. Collaboration events cannot have less than 2 groups. Please contact the event creator.");
             $success = 0;
         } else {
-            // Apply validated updates to event
+            // Proceed with denial - update collaboration state
             $approvedChapterIds = array_filter(explode(',', $event->val('chapterid') ?? ''));
             
             sort($collaboratingGroupIds);
@@ -5716,8 +5706,14 @@ elseif (isset($_GET['denyEventChapterCollaboration']) && $_SERVER['REQUEST_METHO
             sort($chapteridsPending);
 
             if ($event->updateCollaboratingGroupids($collaboratingGroupIds, $collaboratingGroupIdsPending, $approvedChapterIds, $chapteridsPending)) {
-                $message = $validationMessage;
-                $success = $shouldReload ? 2 : 1; // Use status 2 for single-group conversion to trigger reload
+                // Send email notification to event creator
+                $group = Group::GetGroup($parentGroupId);
+                if ($group) {
+                    $group->notifyCollaborationDenial($eventid, $_USER->id());
+                }
+                
+                $message = gettext("Collaboration request denied successfully.");
+                $success = 1;
             } else {
                 $message = gettext("We are unable to process your request due to internal system error.");
                 $success = 0;

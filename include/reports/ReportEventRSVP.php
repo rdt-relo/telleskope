@@ -155,7 +155,7 @@ class ReportEventRSVP extends Report
             $eventJoinMap = ['0'=>'Unknown', '1'=>'From Email', '2'=> 'From Web'];
 
             if ($rows['external_email']) {
-                $rows['email'] = User::PickEmailForDisplay($rows['email'], $rows['external_email'], true);
+                $rows['email'] = User::PickEmailForDisplay($rows['email'], $rows['external_email'], false);
             }
 
             $rows['enc_eventid'] = $_COMPANY->encodeIdForReport($rows['eventid']);

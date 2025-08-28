@@ -2318,6 +2318,58 @@ class Group extends Teleskope {
         }
     }
 
+    public function notifyCollaborationDenial($eventId, $deniedByUserId) {
+        global $_COMPANY, $_USER, $_ZONE;
+        
+        $event = Event::GetEvent($eventId);
+        if (!$event) {
+            return false;
+        }
+        
+        // Get the event creator (the one who sent the collaboration request)
+        $eventCreator = User::GetUser($event->val('userid'));
+        if (!$eventCreator) {
+            return false;
+        }
+        
+        // Get the user who denied the request
+        $deniedByUser = User::GetUser($deniedByUserId);
+        if (!$deniedByUser) {
+            return false;
+        }
+        
+        // Get group information for context
+        $group = Group::GetGroup($this->id);
+        if (!$group) {
+            return false;
+        }
+        
+        // Prepare email content
+        $subject = "Collaboration Request Denied - " . $event->val('eventtitle');
+        
+        $message = "Hello " . $eventCreator->getFullName() . ",\n\n";
+        $message .= "Your collaboration request for the event \"" . $event->val('eventtitle') . "\" has been denied.\n\n";
+        $message .= "Event: " . $event->val('eventtitle') . "\n";
+        $message .= "Group: " . $group->val('groupname') . "\n";
+        $message .= "Denied by: " . $deniedByUser->getFullName() . "\n\n";
+        $message .= "If you have any questions about this decision, please contact the group administrators.\n\n";
+        $message .= "Best regards,\n";
+        $message .= $group->val('groupname') . " Team";
+        
+        // Get email template
+        $emailTemplate = $_COMPANY->getEmailTemplateForNonMemberEmails($subject, $message);
+        
+        // Send email notification
+        $retVal = $_COMPANY->emailSend2(
+            $eventCreator->val('email'),
+            $emailTemplate['subject'],
+            $emailTemplate['message'],
+            $deniedByUser->val('email') // Reply to the user who denied
+        );
+        
+        return $retVal;
+    }
+
     //Get Group Custom Tabs List.
     public function getGroupCustomTabs (bool $fetchActiveOnly = true) {
         global $_COMPANY, $_ZONE, $_USER;
@@ -5619,16 +5671,37 @@ public static function GetChannelsByGroupIdsCsv(string $groupIds)
         if ($attributes) {
             $attributes = json_decode($attributes, true) ?? array();
             if (isset($attributes['booking']) && array_key_exists($key, $attributes['booking'])) {
-                return $attributes['booking'][$key];
+                $template = $attributes['booking'][$key];
+                
+                // Add reminder_days if this is meeting_reminder_email_template
+                if ($attribute_key === 'meeting_reminder_email_template') {
+                    if (!isset($template['reminder_days'])) {
+                        $template['reminder_days'] = 1;
+                    }
+                    if (!isset($template['final_reminder_days'])) {
+                        $template['final_reminder_days'] = 1;
+                    }
+                }
+                
+                return $template;
             }
         }
-        return array(
+        
+        $default = array(
             'booking_email_subject'=>'',
             'booking_message' => ''
         );
+        
+        // Add defaults for reminder template
+        if ($attribute_key === 'meeting_reminder_email_template') {
+            $default['reminder_days'] = 1;
+            $default['final_reminder_days'] = 1;
+        }
+        
+        return $default;
     }
 
-      public function updateMeetingEmailTemplate(string $booking_email_subject, string $booking_message, string $attribute_key = 'meeting_email_template')
+      public function updateMeetingEmailTemplate(string $booking_email_subject, string $booking_message, string $attribute_key = 'meeting_email_template', $reminder_days = null, $final_reminder_days = null)
     {
         global $_COMPANY, $_ZONE;
 
@@ -5639,7 +5712,23 @@ public static function GetChannelsByGroupIdsCsv(string $groupIds)
         if ($oldattributes) {
             $attributes = json_decode($oldattributes, true);
         }
-        $attributes['booking'][$key] = array('booking_email_subject'=>$booking_email_subject,'booking_message' => $booking_message);
+
+        $templateArr = array(
+            'booking_email_subject' => $booking_email_subject,
+            'booking_message' => $booking_message
+        );
+
+        // Add reminder_days and final_reminder_days if this is the reminder template and values are provided
+        if ($attribute_key === 'meeting_reminder_email_template') {
+            if ($reminder_days !== null) {
+                $templateArr['reminder_days'] = (int)$reminder_days;
+            }
+            if ($final_reminder_days !== null) {
+                $templateArr['final_reminder_days'] = (int)$final_reminder_days;
+            }
+        }
+
+        $attributes['booking'][$key] = $templateArr;
         $attributes = json_encode($attributes);
 
         return $this->updateGroupAttributes($attributes);

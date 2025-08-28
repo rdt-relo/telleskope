@@ -1479,5 +1479,40 @@ EOMEOM;
         
         return array('subject'=>$email_subject,'message'=>$message);
     }
+
+    /**
+     * Returns the subject and body template for booking reminder emails.
+     * Placeholders like [[RECIPIENT_FIRST_NAME]] are left for later replacement.
+     *
+     * @param string $subjectTemplate
+     * @param string $bodyTemplate
+     * @param string $meetingDate
+     * @param string $meetingTime
+     * @param string $meetingLink
+     * @return array{subject: string, body: string}
+     */
+    public static function getBookingReminderEmailTemplate(
+        string $subjectTemplate,
+        string $bodyTemplate,
+        string $meetingDate,
+        string $meetingTime,
+        string $meetingLink
+    ): array {
+        $search = [
+            '[[MEETING_DATE]]',
+            '[[MEETING_TIME]]',
+            '[[MEETING_LINK]]'
+        ];
+        $replace = [
+            $meetingDate,
+            $meetingTime,
+            $meetingLink
+        ];
+
+        $subject = str_replace($search, $replace, $subjectTemplate);
+        $body = str_replace($search, $replace, $bodyTemplate);
+
+        return ['subject' => $subject, 'body' => $body];
+    }
 }
 

@@ -152,9 +152,14 @@
 				return result;
 			}
 			let preSelectDate = null;
+			let shouldSetTodayAsDefault = false;
 			<?php if($event_booking_id){ ?>
 				preSelectDate = "<?= $preSelectDate; ?>";
 
+			<?php } else { ?>
+				// Default to today's date for new bookings
+				preSelectDate = new Date();
+				shouldSetTodayAsDefault = true;
 			<?php } ?>
 			// Initialize datepickers
 			$("#start_date").datepicker({
@@ -167,7 +172,21 @@
 				beforeShowDay: enableAllTheseDays,
                 onSelect: processDateSelection,
 				minDate: 0
-			});					
+			});	
+
+			// If this is a new booking, set today's date as selected even if it's disabled
+			if (shouldSetTodayAsDefault) {
+				var today = new Date();
+				var todayFormatted = $.datepicker.formatDate('yy-mm-dd', today);
+				console.log('Setting today as default:', todayFormatted, today);
+				
+				// For inline datepicker, we need to use setDate and trigger change
+				setTimeout(function() {
+					$("#start_date").datepicker('setDate', today);
+					// Force trigger the processDateSelection after setting the date
+					processDateSelection();
+				}, 100);
+			}				
 			
 		});
 
@@ -184,7 +203,16 @@
     });
 	
     function processDateSelection () {
-        let dateVal = $('#start_date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        // For inline datepicker, use getDate() method instead of val()
+        let selectedDate = $('#start_date').datepicker('getDate');
+        let dateVal = '';
+        
+        if (selectedDate) {
+            dateVal = $.datepicker.formatDate('yy-mm-dd', selectedDate);
+        }
+        
+        console.log('processDateSelection - selectedDate:', selectedDate, 'formatted:', dateVal);
+        
 		let support_users = $('#support_users').val();
 
 		getAvailableBookingSlots('<?= $_COMPANY->encodeId($groupid); ?>',dateVal,support_users.join(),'<?= $section; ?>');

@@ -47,7 +47,7 @@
                        <span class="pt-2 pl-20">
                         <?=  $leads[$i]['jobtitle'] ? '<br/>'.$leads[$i]['jobtitle']: '' ?>
                         <br/>
-                        <?= User::PickEmailForDisplay($leads[$i]['email'], $leads[$i]['external_email'], true)?>
+                        <?= User::PickEmailForDisplay($leads[$i]['email'], $leads[$i]['external_email'], false)?>
                         </span>
                         </td>
                         <td> 

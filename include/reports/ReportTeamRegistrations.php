@@ -212,7 +212,7 @@ class ReportTeamRegistrations extends Report
         while (@$response = mysqli_fetch_assoc($result)) {
 
             if ($response['external_email']) {
-                $response['email'] = User::PickEmailForDisplay($response['email'], $response['external_email'], true);
+                $response['email'] = User::PickEmailForDisplay($response['email'], $response['external_email'], false);
             }
 
             $response['requestStatus'] = self::REQUEST_STATUS_MAP[(int)$response['isactive']];

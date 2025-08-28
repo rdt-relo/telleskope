@@ -173,7 +173,7 @@ elseif (isset($_GET['getGroupMembersList'])){
     foreach($members as $row){
 
         if ($row['external_email']) {
-            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], true);
+            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], false);
         }
         $encMemberUserid = $_COMPANY->encodeId($row['userid']);
         $ch = '';

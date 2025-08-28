@@ -2888,7 +2888,7 @@ elseif (isset($_GET['getUsersList']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
             }
             $connectEmail = "<br><font color='orange'>Connected Email:</font> ".$connectUser->val('external_email').$verificationStatus;
         } elseif ($row['external_email']) {
-            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], true);
+            $row['email'] = User::PickEmailForDisplay($row['email'], $row['external_email'], false);
         }
 
         $final[] = array(
