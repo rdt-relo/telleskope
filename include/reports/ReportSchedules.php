@@ -44,13 +44,14 @@ Class ReportSchedules extends Report {
         }
 
         $start_date_condition = '';
-        if ($meta['Options']['startDate'] && Sanitizer::SanitizeUTCDatetime($meta['Options']['startDate'])) {
-            $start_date_condition = " AND `start_date_in_user_tz` >= '{$meta['Options']['startDate']}'";
-        }
-
         $end_date_condition = '';
-        if ($meta['Options']['endDate'] && Sanitizer::SanitizeUTCDatetime($meta['Options']['endDate'])) {
-            $end_date_condition = " AND `end_date_in_user_tz` <= '{$meta['Options']['endDate']}'";
+        if(!empty($meta['Options']['startDate']) && !empty($meta['Options']['endDate'])) {
+            $start_date_condition = " AND `end_date_in_user_tz` <= '{$meta['Options']['startDate']}'";
+            $end_date_condition = " AND `start_date_in_user_tz` >= '{$meta['Options']['endDate']}'";
+        }elseif(!empty($meta['Options']['startDate'])){
+            $start_date_condition = " AND `end_date_in_user_tz` >= '{$meta['Options']['startDate']}'";
+        }elseif(!empty($meta['Options']['endDate'])){
+            $end_date_condition = " AND `start_date_in_user_tz` <= '{$meta['Options']['endDate']}'";
         }
 
         // Get all groups from current zone for filtering
@@ -106,19 +107,58 @@ Class ReportSchedules extends Report {
                 $rows['support_user_externalid'] = $support_user->getExternalId();
                 $rows['support_user_schedule_name'] = $rows['schedule_name'];
 
-                                 $rows['restricted_groups'] = '';
+              $rows['restricted_groups'] = '';
              // Set restricted_groups field with group names from current zone only
              if($rows['groupids'] != '0' && !empty($rows['groupids'])) {
-
                  // Use the existing method with filtered group IDs
                  $rows['restricted_groups'] = $this->getGroupNamesAsCSV($filtered_groupids);
              }
 
-             $row = array();
-             foreach ($meta['Fields'] as $key => $value) {
-                $row[] = html_entity_decode($rows[$key] ?? '', ENT_QUOTES | ENT_HTML401, 'ISO-8859-15');
+             [$totalSlotsArray, $totalUpcomingSlotsArray, $grossBookedSlotsArray, $upcomingNookedSlotsArray] = UserSchedule::GetAvailableAndBookedScheduleSlots($rows['schedule_id']);
+
+             $slotsByDate = array();
+             $bookedSlotsByDate = array();
+
+            //  process available slots by date
+            foreach ($totalSlotsArray as $slot) {
+                 $slot_date = date('Y-m-d', strtotime($slot['date']));
+                 if (!isset($slotsByDate[$slot_date])) {
+                     $slotsByDate[$slot_date] = 0;
+                 }
+                 $slotsByDate[$slot_date]++;
+             }
+
+            //  process booked slots by date
+            foreach ($grossBookedSlotsArray as $slot) {
+                 $slot_date = date('Y-m-d', strtotime($slot['date']));
+                 if (!isset($bookedSlotsByDate[$slot_date])) {
+                     $bookedSlotsByDate[$slot_date] = 0;
+                 }
+                 $bookedSlotsByDate[$slot_date]++;
             }
-            fputcsv($file_h, $row, $delimiter, $enclosure, $escape_char);
+
+            // Generate one row per day in the filtered date range
+            $dateRange = Date::GetDatesFromRange($rows['start_date'], $rows['end_date'], 'Y-m-d');
+
+            foreach ($dateRange as $date) {
+                 $rows['support_user_schedule_start_time'] = $date . ' ' . $rows['start_time_in_user_tz'];
+                 $rows['support_user_schedule_end_time'] = $date . ' ' . $rows['end_time_in_user_tz'];
+                 $rows['schedule_slot'] = $rows['slot_duration_minutes'] . ' minutes';
+
+                 // Set number_of_slots and number_of_booked_slots based on the processed arrays
+                 $rows['number_of_slots'] = $slotsByDate[$date] ?? 0;
+                 $rows['number_of_booked_slots'] = $bookedSlotsByDate[$date] ?? 0;
+                 $rows['number_of_available_slots'] = $rows['number_of_slots'] - $rows['number_of_booked_slots'];
+
+                 // Only include rows that have at least one slot in the filtered date range
+                 if ($rows['number_of_slots'] > 0) {
+                     $output_row = array();
+                     foreach ($meta['Fields'] as $key => $value) {
+                         $output_row[] = html_entity_decode($rows[$key] ?? '', ENT_QUOTES | ENT_HTML401, 'ISO-8859-15');
+                     }
+                     fputcsv($file_h, $output_row, $delimiter, $enclosure, $escape_char);
+                 }
+             }
          }
     }
 

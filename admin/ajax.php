@@ -378,6 +378,45 @@ elseif (isset($_GET['deleteApprover']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 }
 
 ## OK
+elseif (isset($_GET['updateApproverRoleTitle']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    //Data Validation
+    if (!isset($_POST['approval_config_id']) ||
+        ($approvalConfigId = $_COMPANY->decodeId($_POST['approval_config_id'])) < 1 ||
+        !isset($_POST['approver_userid']) || ($approverUserId = $_COMPANY->decodeId($_POST['approver_userid'])) < 1 ||
+        !isset($_POST['approver_role'])
+    ) {
+        AjaxResponse::SuccessAndExit_STRING(0, '', 'Invalid parameters provided.', 'Error');
+    }
+
+    // Authorization Check
+    if (!$_USER->canManageZoneEvents()) {
+        AjaxResponse::SuccessAndExit_STRING(0, '', 'You do not have permission to perform this action.', 'Permission Denied');
+    }
+
+    $approverRole = Sanitizer::SanitizeRoleName($_POST['approver_role']);
+    
+    // Additional validation
+    if (empty($approverRole)) {
+        AjaxResponse::SuccessAndExit_STRING(0, '', 'Approver role title cannot be empty.', 'Validation Error');
+    }
+    
+    // Length validation - role titles should be reasonable length
+    if (strlen($approverRole) > 100) {
+        AjaxResponse::SuccessAndExit_STRING(0, '', 'Approver role title is too long (maximum 100 characters).', 'Validation Error');
+    }
+
+    // Update the approver role title using the existing method
+    $result = Event::AddApproverToApprovalConfiguration($approvalConfigId, $approverUserId, $approverRole);
+    
+    if($result){
+        AjaxResponse::SuccessAndExit_STRING(1, '', 'Approver role title updated successfully.', 'Success');
+    } else {
+        AjaxResponse::SuccessAndExit_STRING(0, '', 'Failed to update approver role title.', 'Error');
+    }
+}
+
+## OK
 elseif (isset($_GET['updateEventType']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
     // Authorization Check
     if (!$_USER->canManageAffinitiesContent()) {

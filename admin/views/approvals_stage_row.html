@@ -66,12 +66,19 @@
                         continue;
                     }
                     ?>                             
-                    <tr id="<?= $i + 1; ?>">
+                    <tr id="approver-row-<?= $k ?>-<?= $i ?>">
                         <td><strong><?= $approverData->getFullName(); ?></strong></td>
-                        <td><?= $approver['approver_role']; ?></td>
+                        <td>
+                            <span id="role-title-display-<?= $k ?>-<?= $i ?>"><?= htmlspecialchars($approver['approver_role']); ?></span>
+                        </td>
                         <td><?= $approverData->val('jobtitle'); ?></td>
                         <td><?= $approverData->val('email'); ?></td>
                         <td style="text-align: right;">
+                            <button aria-label="edit role" class="btn btn-no-style" 
+                               onclick="editApproverRole(this.closest('tr'), '<?= $_COMPANY->encodeId($approvalStage['approval_config_id']) ?>', '<?= $_COMPANY->encodeId($approverData->id()); ?>', '<?= htmlspecialchars($approver['approver_role']); ?>')"
+                               title="Edit Role Title">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>&nbsp;
                             <button aria-label="delete"  class="btn btn-no-style deluser" id="bdisable1"
                                onclick="deleteApprover(this.closest('tr'),'<?=$_COMPANY->encodeId($approvalStage['approval_config_id'])?>','<?= $_COMPANY->encodeId($approverData->id()); ?>')"
                                title="" data-original-title="<strong>Are you sure you want to delete!</strong>"><i
@@ -86,6 +93,11 @@
 </div>
 
 <script src="../vendor/js/datatables-2.1.8/datatables.min.js"></script>
+<style>
+.btn-no-style:hover {
+    opacity: 0.7;
+}
+</style>
 <script>
     $(document).ready(function() {
         DataTable.ext.errMode = 'none'; // stop datatable warning message for only dynamic approval table in admin side.
@@ -99,12 +111,86 @@
             language: {
             searchPlaceholder: "...",
             url: '../vendor/js/datatables-lang/i18n/<?= $_COMPANY->getDatatableLanguage($_USER->val("language")); ?>.json'
-          },
+          }
+        });
+    });
 
-        } );
+</script>
 
-    } );
+<script>
+    function editApproverRole(trElement, configId, userId, currentRole) {
+        Swal.fire({
+            title: 'Edit Approver Role Title',
+            input: 'text',
+            inputValue: currentRole,
+            inputAttributes: {
+                maxlength: 100
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel',
+            inputValidator: (value) => {
+                if (!value || !value.trim()) {
+                    return 'Role title cannot be empty!'
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var newRole = result.value.trim();
+                
+                // Show loading
+                Swal.fire({
+                    title: 'Updating...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
+                $.ajax({
+                    url: 'ajax.php?updateApproverRoleTitle=1',
+                    type: 'POST',
+                    data: {
+                        approval_config_id: configId,
+                        approver_userid: userId,
+                        approver_role: newRole
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status > 0) {
+                            // Update the display text in the row
+                            var roleSpan = trElement.querySelector('td:nth-child(2) span');
+                            if (roleSpan) {
+                                roleSpan.textContent = newRole;
+                            }
+                            Swal.fire({
+                                title: data.title || 'Success', 
+                                text: data.message, 
+                                icon: 'success',
+                                timer: 2000, 
+                                showConfirmButton: false
+                            });
+                        } else {
+                            Swal.fire({
+                                title: data.title || 'Error', 
+                                text: data.message,
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Error', 
+                            text: 'Could not update role title. Please try again.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+        });
+    }
 </script>
 
 <script>

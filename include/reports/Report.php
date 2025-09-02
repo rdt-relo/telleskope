@@ -48,7 +48,8 @@ class Report extends Teleskope
     const REPORT_TYPE_GROUP_CHAPTER_DETAILS = 42;
     const REPORT_TYPE_GROUP_CHANNEL_DETAILS = 43;
     const REPORT_TYPE_USERS = 44;
-    const REPORT_TYPE_SCHEDULES = 45;    
+    const REPORT_TYPE_SCHEDULES = 45;
+    const REPORT_TYPE_SCHEDULE_SLOTS = 46;    
 
     // Custom Internal temporary use reports
     const REPORT_TYPE_NEWSLETTERS_INTERNAL = 1000;
@@ -1313,3 +1314,4 @@ include_once __DIR__ . '/ReportApprovals.php';
 include_once __DIR__ . '/ReportOrganization.php';
 include_once __DIR__ . '/ReportDelegatedAccessAuditLog.php';
 include_once __DIR__ . '/ReportSchedules.php';
+include_once __DIR__ . '/ReportScheduleSlots.php';

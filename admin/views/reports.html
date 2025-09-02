@@ -25,6 +25,7 @@
                                             <h5 class="mb-3">Users Reports</h5>
                                             <p class="m-1 p-0"><a href="#" onclick="usersReportModal('members')">> Member Reports </a><a onclick="userReportsGraphModal(1)" href="#"><i aria-label="<?=gettext('Member Reports Chart');?>" class="fas fa-chart-bar"></i></a></p>
                                             <p class="m-1 p-0"><a href="ajax.php?downloadAdminsReport=1">> Administrator Reports</a></p>
+                                                <p class="m-1 p-0"><a href="#" onclick="scheduleSlotsReportModal()">> Support User Schedule Slots Report</a></p>
                                             <?php if($_COMPANY->getAppCustomization()['chapter']['enabled'] || $_COMPANY->getAppCustomization()['channel']['enabled']){ $subItemize = 1;?>
                                             <p class="m-1 p-0"><a href="#" onclick="usersReportModal('allleads')">> All Leader Reports</a></p>
                                             <?php } ?>
@@ -217,6 +218,10 @@
             </div>
         </div>
 <script>
+    function scheduleSlotsReportModal() {
+        // Open modal for schedule slots report options
+        $('#scheduleSlotsReportModal').modal('show');
+    }
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
